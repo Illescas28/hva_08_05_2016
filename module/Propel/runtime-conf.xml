@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <propel>
+        <datasources default="hva">
+            <datasource id="hva">
+                <adapter>mysql</adapter> <!-- sqlite, mysql, myssql, oracle, or pgsql -->
+                <connection>
+                    <dsn>mysql:host=hva.com.mx;dbname=hva</dsn>
+                    <user>root</user>
+                    <password>mysql</password>
+                </connection>
+            </datasource>
+        </datasources>
+    </propel>
+</config>

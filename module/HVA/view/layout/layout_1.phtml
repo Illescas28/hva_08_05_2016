@@ -1,0 +1,127 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en" style="height: 100%">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('HVA '. $this->translate('Hospital Valle de Atemajac'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <!--Let browser know website is optimized for mobile-->
+        <?php echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+        <!-- Le styles -->
+        <!--Import materialize.css-->
+        <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                ->prependStylesheet($this->basePath('css/style.css')) 
+                ->prependStylesheet($this->basePath('css/materialize.css'));
+            ?>                                                               
+
+        <!-- Scripts -->
+        <?php echo $this->headScript()
+            ->prependFile($this->basePath('js/materialize.min.js'), 'text/javascript')
+            ->prependFile($this->basePath('js/jquery.min.js'), 'text/javascript');
+            
+        ?>
+
+    </head>
+    <body>
+        <div class="row">
+            <div class="col s12 z-depth-1" id="topmenu-container">
+                <div class="row">
+                    <div class="col s1">
+                        <img id="logo-navbar"class="responsive-img" src="/img/logo_login.jpg">
+                    </div>
+                    <div class="col s9" id="module_list">
+                        <ul>
+                            <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_administracion'>Administración <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                            <li><a id="navbar_caja">Caja</a></li>
+                            <li><a>almacen</a></li>
+                            <li><a>Artículos</a></li>
+                            <li><a>Farmacia</a></li>
+                            <li><a>Admisión</a></li>
+                            <li><a>Compras</a></li>
+                            <li><a>Inventario</a></li>
+                        </ul>   
+                    </div>
+                    <div class="col s2" style="height: 70px">
+                        <a href="javascript:void(0)" id="navbar_profile" data-activates='dropdown_profile'>
+                            <div class="row" style="margin-bottom: 9px;">
+                            <div class="col s4" style="margin-top: 15px;">
+                                <?php if(file_exists($_SERVER["DOCUMENT_ROOT"]."/img/profile/img_profile_".$_SESSION["empleado_session"]["empleado_info"]["idempleado"].".png")) :?>
+                                    <img style="height: 32px;" class="responsive-img circle" src="/img/profile/img_profile_<?php echo $_SESSION["empleado_session"]["empleado_info"]["idempleado"]?>.png">
+                                <?php else :?>
+                                    <img class="responsive-img circle" src="/img/profile/default_user.jpg">
+                                <?php endif;?>
+                            </div>
+                                
+                            <div class="col s8" style="padding-top: 13px;">
+                                <div><?php echo $_SESSION["empleado_session"]["empleado_info"]["empleado_nombre"].' '.$_SESSION["empleado_session"]["empleado_info"]["empleado_apellidopaterno"]?><i class="mdi-hardware-keyboard-arrow-down"></i></div>            
+                            </div>
+                        </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" id="main-container">
+            <div class="col s12">
+                <?php echo $this->content?>
+            </div>
+        </div>    
+        <div class="row z-depth-1" id="footer-container">
+            <div class="col s12" id="footer">
+                <p>Hospital del Valle de Atemajac - &copy Todos los derechos reservados 2015 </p>
+            </div>
+        </div>
+
+    <!-- Dropdown Structures -->
+    <ul id='dropdown_administracion' class='dropdown-content'>
+      <li><a href="#!">Bancos</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Compras</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Cuentas por pagar</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Reportes</a></li>
+      <li class="divider"></li>
+      <li><a href="#!">Modulos</a></li>
+    </ul>
+    
+    <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
+      <li><a href="#!">Ver Perfil</a></li>
+      <li class="divider"></li>
+      <li>
+          <a href="/out">Cerrar sesión</a>
+      </li>
+    </ul>
+
+    </body>
+</html>
+<script type="text/javascript">
+    
+    $('.navbar_dropdown').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: false, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false // Displays dropdown below the button
+    });
+    
+    $('#navbar_profile').dropdown({
+      inDuration: 300,
+      outDuration: 225,
+      constrain_width: true, // Does not change width of dropdown to that of the activator
+      hover: false, // Activate on hover
+      gutter: 0, // Spacing from edge
+      belowOrigin: false // Displays dropdown below the button
+    });
+    
+    
+
+</script>
+
+
+                

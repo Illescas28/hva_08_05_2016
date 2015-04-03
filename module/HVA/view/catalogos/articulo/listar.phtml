@@ -1,0 +1,39 @@
+<?php
+
+$title = 'Mis Artículos';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('articulo', array('action'=>'nuevo'));?>">Nuevo Articulo</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID Tipo</th>
+        <th>ID Unidad de Medida</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Tipo de Precentación</th>
+        <th>Cantidad</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php
+    foreach ($Articulos as $articulo) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($articulo['idtipo']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['idudm']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_nombre']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_descripcion']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_tipopresentacion']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_cantidadpresentacion']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_ciudad']);?></td>
+            <td>
+                <a href="<?php echo $this->url('articulo',
+                    array('action'=>'editar', 'id' => $articulo['idarticulo']));?>">Editar</a>
+                <a href="<?php echo $this->url('articulo',
+                    array('action'=>'eliminar', 'id' => $articulo['idarticulo']));?>">Eliminar</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

@@ -1,0 +1,40 @@
+<?php
+$title = 'Nueva Variante';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+if(!$Error){
+    $ArticulovarianteForm->setAttribute('action', $this->url('articulovariante', array('action' => 'nuevo')));
+    $ArticulovarianteForm->prepare();
+
+    echo $this->form()->openTag($ArticulovarianteForm);
+    echo $this->formHidden($ArticulovarianteForm->get('idarticulovariante'));
+    echo $this->formRow($ArticulovarianteForm->get('idarticulo'));
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_codigobarras'));
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_costo'));
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_precio'));
+    ?>
+    <label>IVA</label>
+    <select class="browser-default">
+    <option value="<?php echo $this->formRow($ArticulovarianteForm->get('articulovariante_iva')) ?></option>
+    </select>
+    <br>
+    <hr class="textarea materialize-textarea">
+    <br>
+    <?php
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_imagen'));
+    echo "<hr class='textarea materialize-textarea'>";
+    echo "<br>";
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_minimo'));
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_maximo'));
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_reorden'));
+    echo $this->formSubmit($ArticulovarianteForm->get('submit'));
+    //echo $this->formCollection($ArticulovarianteForm);
+
+    echo $this->form()->closeTag();
+}else{
+    foreach ($Error as $errorValue){
+        echo $errorValue;
+    }
+}

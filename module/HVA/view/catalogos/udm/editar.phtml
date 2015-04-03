@@ -1,0 +1,28 @@
+<?php
+$title = 'Editar udm';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+if(!$Error){
+
+    $UDMForm = $this->UDMForm;
+    $UDMForm->setAttribute('action', $this->url(
+        'udm',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $UDMForm->prepare();
+
+    echo $this->form()->openTag($UDMForm);
+    echo $this->formHidden($UDMForm->get('idudm'));
+    echo $this->formCollection($UDMForm);
+    echo $this->form()->closeTag();
+}else{
+    foreach ($Error as $errorValue){
+        echo $errorValue;
+    }
+}

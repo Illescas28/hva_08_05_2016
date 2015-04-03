@@ -1,0 +1,94 @@
+body{
+    font-size: 12px;
+}
+
+#logo-login{
+    height: 25.000em;
+}
+
+#login-container{
+    position: relative;
+    border: solid 3px #BDBDBD;
+    border-radius : 25px;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+    -khtml-border-radius: 25px;
+    
+}
+
+/* label color */
+#loginForm .input-field label {
+    color: #020661;
+}
+
+/* label underline focus color */
+#loginForm .input-field input[type=text]:focus, #loginForm .input-field input[type=password]:focus {
+     border-bottom: 1px solid #BDBDBD;
+     box-shadow: 0 1px 0 0 #000000;
+   }
+   
+   /* label focus color */
+#loginForm .input-field input[type=text]:focus + label,#loginForm .input-field input[type=password]:focus + label{
+    color: #020662;
+}
+
+#loginForm button{
+    background: #020662;
+    width: 100%;
+}
+
+.error{
+    background: #B40404;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+#logo-navbar{
+ height: 5.833em;      
+}
+
+#topmenu-container{
+    padding: 0;
+    height: 5.833em;
+    background: #FFF;
+}
+
+#module_list{
+    padding: 0;
+}
+
+
+#topmenu-container ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+#topmenu-container ul li{
+    padding: 3% 2% 3% 2%;
+    float: left;
+    height: 5.833em;
+
+}
+
+#topmenu-container ul li a{ 
+  font-size: 13px;
+}
+
+
+#footer-container{
+    position: absolute; width: 100%; bottom: 0; margin: 0;
+}
+
+#footer p{
+    font-size: 10px;
+}
+
+/* Dropdown menus */
+.dropdown-content li > a, .dropdown-content li > span{
+    color: #03a9f4;
+}
+
+.dropdown-content li{
+    font-size: 1em;
+}

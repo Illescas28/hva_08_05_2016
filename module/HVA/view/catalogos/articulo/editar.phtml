@@ -1,0 +1,41 @@
+<?php
+$title = 'Editar articulo';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+if(!$Error){
+
+    $ArticuloForm = $this->ArticuloForm;
+    $ArticuloForm->setAttribute('action', $this->url(
+        'articulo',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $ArticuloForm->prepare();
+
+    echo $this->form()->openTag($ArticuloForm);
+    echo $this->form()->openTag($ArticuloForm);
+    echo $this->formHidden($ArticuloForm->get('idarticulo'));
+    echo $this->formRow($ArticuloForm->get('idtipo'));
+    echo $this->formRow($ArticuloForm->get('idudm'));
+    echo $this->formRow($ArticuloForm->get('articulo_nombre'));
+    echo $this->formRow($ArticuloForm->get('articulo_descripcion'));
+    echo $this->formRow($ArticuloForm->get('articulo_tipopresentacion'));
+    ?>
+    <select class="browser-default">
+    <option value="<?php echo $this->formRow($ArticuloForm->get('articulo_tipopresentacion')) ?></option>
+    </select>
+    <?php
+    echo $this->formRow($ArticuloForm->get('articulo_cantidadpresentacion'));
+    echo $this->formSubmit($ArticuloForm->get('submit'));
+    //echo $this->formCollection($ArticuloForm);
+    echo $this->form()->closeTag();
+}else{
+    foreach ($Error as $errorValue){
+        echo $errorValue;
+    }
+}
