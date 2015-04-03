@@ -49,12 +49,15 @@ class ArticulovarianteForm extends Form
             'type' => 'Select',
             'name' => 'articulovariante_iva',
             'options' => array(
-                'disable_inarray_validator' => true,
-                'value_options' => array('exento' => 'exento', '0' => '0', '16' => '16'),
-                'label' => 'Tipo de Presentación',
+                'label' => 'IVA',
+                'value_options' => array(
+                    '1' => 'exento',
+                    '2' => '0',
+                    '3' => '16',
+                ),
             ),
             'attributes' => array(
-                '16' => '16' //set selected to '16'
+                'value' => '1' //set selected to '1'
             )
         ));
         $this->add(array(

@@ -48,12 +48,13 @@ class ArticuloForm extends Form
             'type' => 'Select',
             'name' => 'articulo_tipopresentacion',
             'options' => array(
-                'disable_inarray_validator' => true,
-                'value_options' => array('Caja' => 'Caja'),
                 'label' => 'Tipo de Presentación',
+                'value_options' => array(
+                    '1' => 'Caja',
+                ),
             ),
             'attributes' => array(
-                'Caja' => 'Caja' //set selected to 'Caja'
+                'value' => '1' //set selected to '1'
             )
         ));
 

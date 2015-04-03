@@ -84,27 +84,21 @@ class ArticuloFilter implements InputFilterAwareInterface
                     ),
                 ),
             ));
-
             $inputFilter->add(array(
-                'name' => 'articulo_tipopresentacion',
+                'name'     => 'articulo_tipopresentacion',
                 'required' => true,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim')
-                ),
                 'validators' => array(
                     array(
-                        'name' => 'Zend\Validator\InArray',
+                        'name'    => 'InArray',
                         'options' => array(
-                            'haystack' => array('Caja'),
+                            'haystack' => array(1),
                             'messages' => array(
-                                'notInArray' => 'is not a valid input. Valid inputs: Caja '
+                                'notInArray' => 'is not a valid input. Valid inputs: Caja'
                             ),
                         ),
                     ),
                 ),
             ));
-
             $inputFilter->add(array(
                 'name'     => 'articulo_cantidadpresentacion',
                 'required' => false,

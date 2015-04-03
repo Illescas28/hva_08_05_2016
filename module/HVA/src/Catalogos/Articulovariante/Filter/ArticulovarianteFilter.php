@@ -95,17 +95,13 @@ class ArticulovarianteFilter implements InputFilterAwareInterface
             ));
 
             $inputFilter->add(array(
-                'name' => 'articulovariante_iva',
+                'name'     => 'articulovariante_iva',
                 'required' => false,
-                'filters' => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim')
-                ),
                 'validators' => array(
                     array(
-                        'name' => 'Zend\Validator\InArray',
+                        'name'    => 'InArray',
                         'options' => array(
-                            'haystack' => array('exento','0','16'),
+                            'haystack' => array(1,2,3),
                             'messages' => array(
                                 'notInArray' => 'is not a valid input. Valid inputs: exento | 0 | 16 '
                             ),

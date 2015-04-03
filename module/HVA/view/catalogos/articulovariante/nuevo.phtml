@@ -14,10 +14,10 @@ if(!$Error){
     echo $this->formRow($ArticulovarianteForm->get('articulovariante_codigobarras'));
     echo $this->formRow($ArticulovarianteForm->get('articulovariante_costo'));
     echo $this->formRow($ArticulovarianteForm->get('articulovariante_precio'));
+    echo $this->formRow($ArticulovarianteForm->get('articulovariante_iva'));
     ?>
-    <label>IVA</label>
     <select class="browser-default">
-    <option value="<?php echo $this->formRow($ArticulovarianteForm->get('articulovariante_iva')) ?></option>
+        <option value="<?php echo $this->formRow($ArticulovarianteForm->get('articulovariante_iva')) ?></option>
     </select>
     <br>
     <hr class="textarea materialize-textarea">
