@@ -51,13 +51,13 @@ class ArticulovarianteForm extends Form
             'options' => array(
                 'label' => 'IVA',
                 'value_options' => array(
-                    '1' => 'exento',
-                    '2' => '0',
-                    '3' => '16',
+                    'exento' => 'exento',
+                    '0' => '0',
+                    '16' => '16',
                 ),
             ),
             'attributes' => array(
-                'value' => '1' //set selected to '1'
+                'value' => 'exento' //set selected to '1'
             )
         ));
         $this->add(array(

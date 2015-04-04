@@ -101,7 +101,7 @@ class ArticulovarianteFilter implements InputFilterAwareInterface
                     array(
                         'name'    => 'InArray',
                         'options' => array(
-                            'haystack' => array(1,2,3),
+                            'haystack' => array('exento' => 'exento','0' => '0','16' => '16'),
                             'messages' => array(
                                 'notInArray' => 'is not a valid input. Valid inputs: exento | 0 | 16 '
                             ),

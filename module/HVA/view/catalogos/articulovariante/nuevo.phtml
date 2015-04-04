@@ -15,14 +15,6 @@ if(!$Error){
     echo $this->formRow($ArticulovarianteForm->get('articulovariante_costo'));
     echo $this->formRow($ArticulovarianteForm->get('articulovariante_precio'));
     echo $this->formRow($ArticulovarianteForm->get('articulovariante_iva'));
-    ?>
-    <select class="browser-default">
-        <option value="<?php echo $this->formRow($ArticulovarianteForm->get('articulovariante_iva')) ?></option>
-    </select>
-    <br>
-    <hr class="textarea materialize-textarea">
-    <br>
-    <?php
     echo $this->formRow($ArticulovarianteForm->get('articulovariante_imagen'));
     echo "<hr class='textarea materialize-textarea'>";
     echo "<br>";
@@ -38,3 +30,9 @@ if(!$Error){
         echo $errorValue;
     }
 }
+?>
+<script>
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>
