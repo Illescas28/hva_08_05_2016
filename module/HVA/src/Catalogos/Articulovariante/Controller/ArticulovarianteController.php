@@ -70,6 +70,7 @@ class ArticulovarianteController extends AbstractActionController
                     } //seteamos formElementErrors
                     $ArticulovarianteForm->setMessages(array('articulovariante_imagen'=>$error ));
                 } else {
+
                     // dirname(__DIR__) = /Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Articulovariante
                     $adapter->setDestination(dirname(__DIR__).'/images');
                     if ($adapter->receive($File['name'])) {
