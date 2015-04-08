@@ -1,0 +1,157 @@
+<?php
+$title = 'Nuevo Articulo';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?php
+    $ArticuloForm->setAttribute('action', $this->url('articulo', array('action' => 'nuevo')));
+    $ArticuloForm->prepare();
+
+    echo $this->form()->openTag($ArticuloForm);
+    echo $this->formHidden($ArticuloForm->get('idarticulo')); ?>
+
+
+    <div class="input-field col s6">
+        <i class="mdi-action-view-list prefix"></i>
+        <?php  echo $this->formText($ArticuloForm->get('idtipo')); ?>
+        <?php  echo $this->formLabel($ArticuloForm->get('idtipo'));
+        $showError=$this->formElementErrors($ArticuloForm->get('idtipo'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+            <i class="mdi-content-report prefix"></i>
+        </div>
+        <div class="center-align col s11 offset-s1" style="color: #e57373">
+            <?php echo $showError; ?>
+        </div>
+        <?php endif;
+        if(!empty($Error)): ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $Error;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+    <div class="input-field col s6">
+        <i class="mdi-action-view-list prefix"></i>
+        <?php  echo $this->formText($ArticuloForm->get('idudm')); ?>
+        <?php  echo $this->formLabel($ArticuloForm->get('idudm'));
+        $showError=$this->formElementErrors($ArticuloForm->get('idudm'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;
+        if(!empty($Error)): ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $Error;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+    <div class="input-field col s6">
+        <i class="mdi-action-view-list prefix"></i>
+        <?php  echo $this->formText($ArticuloForm->get('idudm')); ?>
+        <?php  echo $this->formLabel($ArticuloForm->get('idudm'));
+        $showError=$this->formElementErrors($ArticuloForm->get('idudm'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;
+        if(!empty($Error)): ?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php
+                echo $Error;
+                ?>
+            </div>
+        <?php  endif;?>
+    </div>
+    <div class="input-field col s6">
+        <i class="mdi-social-person prefix"></i>
+        <?php  echo $this->formText($ArticuloForm->get('articulo_nombre')); ?>
+        <?php  echo $this->formLabel($ArticuloForm->get('articulo_nombre'));
+        $showError=$this->formElementErrors($ArticuloForm->get('articulo_nombre'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="input-field col s6">
+        <i class="mdi-editor-border-color prefix"></i>
+        <?php  echo $this->formText($ArticuloForm->get('articulo_descripcion')); ?>
+        <?php  echo $this->formLabel($ArticuloForm->get('articulo_descripcion'));
+        $showError=$this->formElementErrors($ArticuloForm->get('articulo_descripcion'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="input-field col s6">
+        <i class="mdi-action-view-list prefix"></i>
+        <?php  echo $this->formText($ArticuloForm->get('articulo_tipopresentacion')); ?>
+        <?php  echo $this->formLabel($ArticuloForm->get('articulo_tipopresentacion'));
+        $showError=$this->formElementErrors($ArticuloForm->get('articulo_tipopresentacion'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="input-field col s6">
+        <i class="mdi-action-view-list prefix"></i>
+        <?php  echo $this->formText($ArticuloForm->get('articulo_cantidadpresentacion')); ?>
+        <?php  echo $this->formLabel($ArticuloForm->get('articulo_cantidadpresentacion'));
+        $showError=$this->formElementErrors($ArticuloForm->get('articulo_cantidadpresentacion'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+
+    <div class="right input-field col s2 offset-s10">
+        <?php echo $this->formSubmit($ArticuloForm->get('submit')); ?>
+
+    </div>
+    <?php
+    //echo $this->formCollection($ArticuloForm);
+
+    echo $this->form()->closeTag();
+
+?>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+});
+</script>

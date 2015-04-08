@@ -1,0 +1,28 @@
+<?php
+$title = 'Editar proveedor';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+if(!$Error){
+
+    $ProveedorForm = $this->ProveedorForm;
+    $ProveedorForm->setAttribute('action', $this->url(
+        'proveedor',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $ProveedorForm->prepare();
+
+    echo $this->form()->openTag($ProveedorForm);
+    echo $this->formHidden($ProveedorForm->get('idproveedor'));
+    echo $this->formCollection($ProveedorForm);
+    echo $this->form()->closeTag();
+}else{
+    foreach ($Error as $errorValue){
+        echo $errorValue;
+    }
+}

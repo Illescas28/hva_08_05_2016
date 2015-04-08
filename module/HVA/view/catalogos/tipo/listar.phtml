@@ -1,0 +1,30 @@
+<?php
+
+$title = 'Lista de tipos';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<p>
+    <a href="<?php echo $this->url('tipo', array('action'=>'nuevo'));?>">Nuevo Tipo</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php
+    foreach ($tipos as $tipo) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($tipo['tipo_nombre']);?></td>
+            <td><?php echo $this->escapeHtml($tipo['tipo_descripcion']);?></td>
+            <td>
+                <a href="<?php echo $this->url('tipo',
+                    array('action'=>'editar', 'id' => $tipo['idtipo']));?>">Editar</a>
+                <a href="<?php echo $this->url('tipo',
+                    array('action'=>'eliminar', 'id' => $tipo['idtipo']));?>">Eliminar</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>

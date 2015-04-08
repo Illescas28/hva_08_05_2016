@@ -1,0 +1,65 @@
+<div class="row" id="container">
+    <div class="col s10 ">
+        <?php
+
+        $title = 'Productos';
+        $this->headTitle($title);
+        ?>
+        <h1><?php echo $this->escapeHtml($title); ?></h1>
+
+        <p class="right col s3">
+            <a class="left" href="javascript:history.go(0)"><i class="mdi-notification-sync tiny"></i></a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="mdi-content-add-circle-outline tiny"></i>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="<?php echo $this->url('articulo', array('action'=>'nuevo'));?>">Nuevo producto</a>
+        </p>
+        <table class="table striped">
+            <thead>
+                <tr>
+                    <!-- Columnas artículo -->
+                    <!--<th>ID Tipo <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>-->
+                    <!--<th>ID Unidad de Medida <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>-->
+                    <th>Nombre <a class="right" href="http://hva.com.mx/catalogos/articulo?order=nombre&dir=asc"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>
+                    <th>Descripción <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>
+                    <!--<th>Tipo de Precentación <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>-->
+                    <!--<th>Cantidad <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>-->
+
+                    <!-- Columnas articulivariante -->
+                    <th>Costo <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>
+                    <th>IVA <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>
+                    <th>Precio <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>
+
+                    <th>Opciones <a class="right" href="#"><i class="mdi-hardware-keyboard-arrow-down tiny"></i></a></th>
+
+                </tr>
+            </thead>
+
+            <tbody>
+                <?php
+                foreach ($Articulos as $articulo) : ?>
+
+                    <tr>
+                        <!-- Columnas artículo -->
+                        <!--<td><?php //echo $this->escapeHtml($articulo['idtipo']);?></td>-->
+                        <!--<td><?php //echo $this->escapeHtml($articulo['idudm']);?></td>-->
+                        <td><?php echo $this->escapeHtml($articulo['articulo_nombre']);?></td>
+                        <td><?php echo $this->escapeHtml($articulo['articulo_descripcion']);?></td>
+                        <!--<td><?php //echo $this->escapeHtml($articulo['articulo_tipopresentacion']);?></td>-->
+                        <!--<td><?php //echo $this->escapeHtml($articulo['articulo_cantidadpresentacion']);?></td>-->
+                        <!-- Columnas articulivariante -->
+                        <td><?php echo $this->escapeHtml($Articulovariante['articulovariante_costo']);?></td>
+                        <td><?php echo $this->escapeHtml($Articulovariante['articulovariante_precio']);?></td>
+                        <td><?php echo $this->escapeHtml($Articulovariante['articulovariante_iva']);?></td>
+                        <td>
+                            <a href="<?php echo $this->url('articulo',
+                                array('action'=>'editar', 'id' => $articulo['idarticulo']));?>">Editar</a>
+                            <a href="<?php echo $this->url('articulo',
+                                array('action'=>'eliminar', 'id' => $articulo['idarticulo']));?>">Eliminar</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

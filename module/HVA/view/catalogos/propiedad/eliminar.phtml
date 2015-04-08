@@ -1,0 +1,30 @@
+<?php
+$title = 'Eliminar propiedad';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>Are you sure that you want to delete?</p>
+<table class="table">
+    <tr>
+        <th>ID Articulo</th>
+        <th>Nombre</th>
+    </tr>
+        <tr>
+            <td><?php echo $this->escapeHtml($propiedad['idarticulo']);?></td>
+            <td><?php echo $this->escapeHtml($propiedad['propiedad_nombre']);?></td>
+        </tr>
+</table>
+<?php
+$url = $this->url('propiedad', array(
+    'action' => 'eliminar',
+    'id'     => $this->id,
+));
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo (int) $propiedad['idpropiedad']; ?>" />
+        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

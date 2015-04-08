@@ -1,0 +1,38 @@
+<div class="row" >
+    <div class="col s6 offset-s3 center-align" id="login-container">
+        <?php if($message !=null) :?>
+            <div class="row">
+                <div class="col s12">
+
+                    <div class="card-panel error">
+                        <i class="tiny mdi-alert-error" style="color: white"></i>
+                        <span class="white-text">
+                            <?php echo $message?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        <?php endif;?>
+        <img class="responsive-img" src="/img/logo_login.jpg" id="logo-login">
+        <div class="row">
+            <?php
+                $form->setAttribute('action', $this->url('auth', array('action' => 'login')));
+                $form->prepare();
+            ?>
+            <?php echo $this->form()->openTag($form); ?>
+            <div class="input-field col s12">
+                <?php  echo $this->formText($form->get('empleado_nombreusuario')); ?>
+                <?php  echo $this->formLabel($form->get('empleado_nombreusuario')); ?>
+            </div>
+            <div class="input-field col s12">
+                <?php  echo $this->formPassword($form->get('empleado_password')); ?>
+                <?php  echo $this->formLabel($form->get('empleado_password')); ?>
+            </div>
+            <div class="input-field col s12">
+                <?php  echo $this->formButton($form->get('btn_ingresar')); ?>
+            </div>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
+    </div>
+    
+</div>

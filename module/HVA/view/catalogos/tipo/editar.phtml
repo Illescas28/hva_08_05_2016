@@ -1,0 +1,28 @@
+<?php
+$title = 'Editar tipo';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+if(!$Error){
+
+    $TipoForm = $this->TipoForm;
+    $TipoForm->setAttribute('action', $this->url(
+        'tipo',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $TipoForm->prepare();
+
+    echo $this->form()->openTag($TipoForm);
+    echo $this->formHidden($TipoForm->get('idtipo'));
+    echo $this->formCollection($TipoForm);
+    echo $this->form()->closeTag();
+}else{
+    foreach ($Error as $errorValue){
+        echo $errorValue;
+    }
+}

@@ -1,0 +1,48 @@
+<?php
+$title = 'Editar médico';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+if(!$Error){
+
+    $MedicoForm = $this->MedicoForm;
+    $MedicoForm->setAttribute('action', $this->url(
+        'medico',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $MedicoForm->prepare();
+
+    echo $this->form()->openTag($MedicoForm);
+    echo $this->form()->openTag($MedicoForm);
+    echo $this->formHidden($MedicoForm->get('idmedico'));
+    echo $this->formRow($MedicoForm->get('idespecialidad'));
+    echo $this->formRow($MedicoForm->get('medico_nombre'));
+    echo $this->formRow($MedicoForm->get('medico_apellidopaterno'));
+    echo $this->formRow($MedicoForm->get('medico_apellidomaterno'));
+    echo $this->formRow($MedicoForm->get('medico_calle'));
+    echo $this->formRow($MedicoForm->get('medico_noexterior'));
+    echo $this->formRow($MedicoForm->get('medico_nointerior'));
+    echo $this->formRow($MedicoForm->get('medico_colonia'));
+    echo $this->formRow($MedicoForm->get('medico_codigopostal'));
+    echo $this->formRow($MedicoForm->get('medico_ciudad'));
+    echo $this->formRow($MedicoForm->get('medico_estado'));
+    echo $this->formRow($MedicoForm->get('medico_pais'));
+    echo $this->formRow($MedicoForm->get('medico_telefono'));
+    echo $this->formRow($MedicoForm->get('medico_telefonocelular'));
+    echo $this->formRow($MedicoForm->get('medico_clave'));
+    echo $this->formRow($MedicoForm->get('medico_dgp'));
+    echo $this->formRow($MedicoForm->get('medico_ssa'));
+    echo $this->formRow($MedicoForm->get('medico_ae'));
+    echo $this->formSubmit($MedicoForm->get('submit'));
+    //echo $this->formCollection($MedicoForm);
+    echo $this->form()->closeTag();
+}else{
+    foreach ($Error as $errorValue){
+        echo $errorValue;
+    }
+}
