@@ -59,19 +59,6 @@ class ArticuloController extends AbstractActionController
                 }
                 $Articulo->save();
                 return $this->redirect()->toRoute('articulo');
-            }else{
-                $messageArray = array();
-                foreach ($ArticuloForm->getMessages() as $key => $value){
-                    foreach($value as $val){
-                        //Obtenemos el valor de la columna con error
-                        $message = $key.' '.$val;
-                        array_push($messageArray, $message);
-                    }
-                }
-
-                return new ViewModel(array(
-                    'Error' => $messageArray,
-                ));
             }
         }
         return array('ArticuloForm' => $ArticuloForm);
