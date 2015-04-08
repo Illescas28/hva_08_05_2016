@@ -37,7 +37,7 @@ class ArticuloController extends AbstractActionController
                         // Validamos que exista el idtipo.
                         if(!$tipoExists){
                             return array(
-                                'productoFotoForm' => $ArticuloForm,
+                                'ArticuloForm' => $ArticuloForm,
                                 'Error' => 'Invalid idproduct.'
                             );
                         }
@@ -47,7 +47,7 @@ class ArticuloController extends AbstractActionController
                         // Validamos que exista el idtipo.
                         if(!$udmExists){
                             return array(
-                                'productoFotoForm' => $ArticuloForm,
+                                'ArticuloForm' => $ArticuloForm,
                                 'Error' => 'Invalid idproduct.'
                             );
                         }
