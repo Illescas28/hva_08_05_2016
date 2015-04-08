@@ -25,7 +25,7 @@ class ArticuloFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'idarticulo',
-                'required' => true,
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'Int'),
                 ),

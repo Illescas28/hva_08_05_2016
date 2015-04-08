@@ -75,7 +75,7 @@ class ArticuloForm extends Form
                 'class' => 'btn waves-effect waves-light',
             ),
             'options' => array(
-                'label' => 'Enviar',
+                'label' => 'Guardar',
             ),
         ));
     }

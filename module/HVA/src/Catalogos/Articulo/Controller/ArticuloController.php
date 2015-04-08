@@ -38,7 +38,7 @@ class ArticuloController extends AbstractActionController
                         if(!$tipoExists){
                             return array(
                                 'ArticuloForm' => $ArticuloForm,
-                                'Error' => 'Invalid idproduct.'
+                                'Error' => 'Invalid idtipo.'
                             );
                         }
                     }

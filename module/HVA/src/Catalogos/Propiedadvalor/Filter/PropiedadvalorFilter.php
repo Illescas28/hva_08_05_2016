@@ -1,13 +1,13 @@
 <?php
 
-namespace Catalogos\Tipo\Filter;
+namespace Catalogos\Propiedadvalor\Filter;
 
 // Add these import statements
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-class TipoFilter implements InputFilterAwareInterface
+class PropiedadvalorFilter implements InputFilterAwareInterface
 {
     protected $inputFilter;                       // <-- Add this variable
 
@@ -24,7 +24,7 @@ class TipoFilter implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $inputFilter->add(array(
-                'name'     => 'idtipo',
+                'name'     => 'idpropiedadvalor',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'Int'),
@@ -32,27 +32,24 @@ class TipoFilter implements InputFilterAwareInterface
             ));
 
             $inputFilter->add(array(
-                'name'     => 'tipo_nombre',
+                'name'     => 'idpropiedad',
                 'required' => true,
                 'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name'    => 'StringLength',
-                        'options' => array(
-                            'encoding' => 'UTF-8',
-                            'min'      => 1,
-                            'max'      => 45,
-                        ),
-                    ),
+                    array('name' => 'Int'),
                 ),
             ));
 
             $inputFilter->add(array(
-                'name'     => 'tipo_descripcion',
+                'name'     => 'idarticulo',
                 'required' => true,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            ));
+
+            $inputFilter->add(array(
+                'name'     => 'propiedadvalor_nombre',
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

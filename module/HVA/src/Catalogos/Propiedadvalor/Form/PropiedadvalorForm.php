@@ -1,36 +1,42 @@
 <?php
 
-namespace Catalogos\Tipo\Form;
+namespace Catalogos\Propiedadvalor\Form;
 
 use Zend\Form\Form;
 
-class TipoForm extends Form
+class PropiedadvalorForm extends Form
 {
     public function __construct($name = null)
     {
         // we want to ignore the name passed
-        parent::__construct('TipoForm');
+        parent::__construct('PropiedadvalorForm');
         $this->setAttribute('method', 'post');
 
         $this->add(array(
-            'name' => 'idtipo',
+            'name' => 'idpropiedadvalor',
             'type' => 'Hidden',
         ));
         $this->add(array(
-            'name' => 'tipo_nombre',
+            'name' => 'idpropiedad',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'ID Propiedad',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'idarticulo',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'ID Artículo',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'propiedadvalor_nombre',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Nombre',
             ),
         ));
-        $this->add(array(
-            'name' => 'tipo_descripcion',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Descripción',
-            ),
-        ));
-
         $this->add(array(
             'name' => 'submit',
             'type' => 'submit',

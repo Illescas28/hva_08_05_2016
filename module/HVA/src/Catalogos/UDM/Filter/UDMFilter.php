@@ -25,7 +25,7 @@ class UDMFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'idudm',
-                'required' => true,
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'Int'),
                 ),
@@ -52,7 +52,7 @@ class UDMFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'udm_descripcion',
-                'required' => true,
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

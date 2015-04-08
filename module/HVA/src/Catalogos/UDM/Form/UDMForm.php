@@ -33,10 +33,14 @@ class UDMForm extends Form
 
         $this->add(array(
             'name' => 'submit',
-            'type' => 'Submit',
+            'type' => 'submit',
             'attributes' => array(
-                'value' => 'Go',
+                'value' => 'Guargar',
                 'id' => 'submitbutton',
+                'class' => 'btn waves-effect waves-light',
+            ),
+            'options' => array(
+                'label' => 'Guardar',
             ),
         ));
     }
