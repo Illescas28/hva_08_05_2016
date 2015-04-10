@@ -21,7 +21,6 @@ class ArticuloController extends AbstractActionController
     public function nuevoAction()
     {
         $ArticuloForm = new ArticuloForm();
-
         $request = $this->getRequest();
         if ($request->isPost()) {
             $ArticuloFilter = new ArticuloFilter();
@@ -31,7 +30,6 @@ class ArticuloController extends AbstractActionController
             if ($ArticuloForm->isValid()) {
                 $Articulo = new Articulo();
                 foreach($ArticuloForm->getData() as $ArticuloKey => $ArticuloValue){
-
                     if($ArticuloKey == 'idtipo'){
                         $tipoExists =  \TipoQuery::create()->filterByIdtipo($ArticuloKey)->exists();
                         // Validamos que exista el idtipo.
@@ -42,17 +40,6 @@ class ArticuloController extends AbstractActionController
                             );
                         }
                     }
-                    if($ArticuloKey == 'idudm'){
-                        $udmExists =  \UdmQuery::create()->filterByIdudm($ArticuloKey)->exists();
-                        // Validamos que exista el idtipo.
-                        if(!$udmExists){
-                            return array(
-                                'ArticuloForm' => $ArticuloForm,
-                                'Error' => 'Invalid idproduct.'
-                            );
-                        }
-                    }
-
                     if($ArticuloKey != 'idarticulo' && $ArticuloKey != 'submit'){
                         $Articulo->setByName($ArticuloKey, $ArticuloValue, BasePeer::TYPE_FIELDNAME);
                     }

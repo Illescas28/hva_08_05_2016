@@ -71,21 +71,32 @@ class ArticulovarianteController extends AbstractActionController
                     $ArticulovarianteForm->setMessages(array('articulovariante_imagen'=>$error ));
                 } else {
 
+<<<<<<< HEAD
                     $adapter->setDestination('/Applications/AMPPS/www/Project/HVA/public/img/articulovariante');
                     if ($adapter->receive($File['name'])) {
                         // Guardamos la imagen en /Applications/AMPPS/www/Project/HVA/public/img/articulovariante
+=======
+                    // dirname(__DIR__) = /Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Articulovariante
+                    $adapter->setDestination(dirname(__DIR__).'/images');
+                    if ($adapter->receive($File['name'])) {
+                        // Guardamos la imagen en /Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Articulovariante/images
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
                     }
                 }
 
                 $Articulovariante = new Articulovariante();
                 foreach($ArticulovarianteForm->getData() as $ArticulovarianteKey => $ArticulovarianteValue){
                     if($ArticulovarianteKey != 'idarticulovariante' && $ArticulovarianteKey != 'submit'){
+<<<<<<< HEAD
                         if($ArticulovarianteKey == 'articulovariante_imagen'){
                             $Articulovariante->setArticulovarianteImagen('/img/articulovariante/'.$ArticulovarianteValue);
                         }else{
                             $Articulovariante->setByName($ArticulovarianteKey, $ArticulovarianteValue, BasePeer::TYPE_FIELDNAME);
 
                         }
+=======
+                        $Articulovariante->setByName($ArticulovarianteKey, $ArticulovarianteValue, BasePeer::TYPE_FIELDNAME);
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
                     }
                 }
                 $Articulovariante->save();
@@ -113,6 +124,7 @@ class ArticulovarianteController extends AbstractActionController
 
     public function listarAction()
     {
+<<<<<<< HEAD
         $articulovarianteQuery = new \ArticulovarianteQuery();
 
         $result = $articulovarianteQuery->paginate();
@@ -121,6 +133,37 @@ class ArticulovarianteController extends AbstractActionController
 
         return new ViewModel(array(
             'articulosvariantes' => $dataCollection,
+=======
+        // Instanciamos nuestro formulario articulovarianteForm
+        $articulovarianteForm = new ArticulovarianteForm();
+
+        // Guardamos en un arrglo los campos a los que el usuario va poder tener acceso de acuerdo a su nivel
+        $allowedColumns = array();
+        foreach ($articulovarianteForm->getElements() as $key=>$value){
+            array_push($allowedColumns, $key);
+        }
+        //Verificamos que si nos envian filtros  si no ponemos valores por default
+        $limit = (int) $this->params()->fromQuery('limit') ? (int)$this->params()->fromQuery('limit')  : 10;
+        if($limit > 100) $limit = 100; //Si el limit es mayor a 100 lo establece en 100 como maximo valor permitido
+        $dir = $this->params()->fromQuery('dir') ? $this->params()->fromQuery('dir')  : 'asc';
+        $order = in_array($this->params()->fromQuery('order'), $allowedColumns) ? $this->params()->fromQuery('order')  : 'idarticulovariante';
+        $page = (int) $this->params()->fromQuery('page') ? (int)$this->params()->fromQuery('page')  : 1;
+
+        $articulovarianteQuery = new ArticulovarianteQuery();
+
+        //Order y Dir
+        if($order !=null || $dir !=null){
+            $articulovarianteQuery->orderBy($order, $dir);
+        }
+
+        // Obtenemos el filtrado por medio del idcompany del recurso.
+        $result = $articulovarianteQuery->paginate($page,$limit);
+
+        $data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+
+        return new ViewModel(array(
+            'Articulovariantes' => $data,
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
         ));
     }
 
@@ -146,7 +189,10 @@ class ArticulovarianteController extends AbstractActionController
             $ArticulovarianteForm = new ArticulovarianteForm();
             $ElementsArticulovarianteForm = $ArticulovarianteForm->getElements();
 
+<<<<<<< HEAD
             $ArticulovarianteArray = array();
+=======
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
             if ($request->isPost()){
 
                 // Validamos que el idarticulo
@@ -164,6 +210,10 @@ class ArticulovarianteController extends AbstractActionController
                     }
                 }
 
+<<<<<<< HEAD
+=======
+                $ArticulovarianteArray = array();
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
                 foreach($ElementsArticulovarianteForm as $key=>$value){
                     if($key != 'submit'){
                         $ArticulovarianteArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $articulovarianteQueryArray[$key];
@@ -188,6 +238,7 @@ class ArticulovarianteController extends AbstractActionController
             $ArticulovarianteForm->setData($ArticulovarianteArray);
 
             if ($ArticulovarianteForm->isValid()) {
+<<<<<<< HEAD
                 if ($request->isPost()){
                     foreach($ArticulovarianteForm->getData() as $ArticulovarianteKey => $ArticulovarianteValue){
                         if($ArticulovarianteKey != 'submit'){
@@ -204,6 +255,11 @@ class ArticulovarianteController extends AbstractActionController
                                 $articulovariantePKQuery->setByName($ArticulovarianteKey, $ArticulovarianteValue, BasePeer::TYPE_FIELDNAME);
                             }
                         }
+=======
+                foreach($ArticulovarianteForm->getData() as $ArticulovarianteKey => $ArticulovarianteValue){
+                    if($ArticulovarianteKey != 'submit'){
+                        $articulovariantePKQuery->setByName($ArticulovarianteKey, $ArticulovarianteValue, BasePeer::TYPE_FIELDNAME);
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
                     }
                 }
                 // Si no modifican nada, permanecemos en el formulario.
@@ -224,6 +280,7 @@ class ArticulovarianteController extends AbstractActionController
                             } //seteamos formElementErrors
                             $ArticulovarianteForm->setMessages(array('articulovariante_imagen'=>$error ));
                         } else {
+<<<<<<< HEAD
 
                             // Almacenamos la ruta en donde se encuentra el archivo que eliminaremos.
                             $dirFile = '/Applications/AMPPS/www/Project/HVA/public/img/articulovariante'.$articulovarianteQueryArray['articulovariante_imagen'];
@@ -233,6 +290,20 @@ class ArticulovarianteController extends AbstractActionController
                             $adapter->setDestination('/Applications/AMPPS/www/Project/HVA/public/img/articulovariante');
                             if ($adapter->receive($File['name'])) {
                                 // Guardamos la imagen en /Applications/AMPPS/www/Project/HVA/public/img/articulovariante
+=======
+                            /*
+                             * Si existe otro producto que utilice la misma imagen???
+                             *
+                            // Almacenamos la ruta en donde se encuentra el archivo que remplasaremos.
+                            $dirFile = dirname(__DIR__).'/images/'.$articulovarianteQueryArray['articulovariante_imagen'];
+                            if(unlink($dirFile))//El archivo fue borrado.
+                            */
+
+                            // dirname(__DIR__) = /Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Articulovariante
+                            $adapter->setDestination(dirname(__DIR__).'/images');
+                            if ($adapter->receive($File['name'])) {
+                                // Guardamos la imagen en /Applications/AMPPS/www/Project/HVA/module/HVA/src/Catalogos/Articulovariante/images
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
                             }
                         }
                     }
@@ -275,6 +346,7 @@ class ArticulovarianteController extends AbstractActionController
 
             if ($del == 'Yes') {
                 $id = (int) $request->getPost('id');
+<<<<<<< HEAD
                 $ArticulovarianteQuery = ArticulovarianteQuery::create()->filterByIdarticulovariante($id)->findOne();
                 // Almacenamos la ruta en donde se encuentra el archivo que remplasaremos.
                 $dirFile = '/Applications/AMPPS/www/Project/HVA/public'.$ArticulovarianteQuery->getArticulovarianteImagen();
@@ -283,6 +355,9 @@ class ArticulovarianteController extends AbstractActionController
                 }else{
                     ArticulovarianteQuery::create()->filterByIdarticulovariante($id)->delete();
                 }
+=======
+                ArticulovarianteQuery::create()->filterByIdarticulovariante($id)->delete();
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
             }
 
             // Redireccionamos a los provedores

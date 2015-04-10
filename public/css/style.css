@@ -47,6 +47,7 @@ body{
 #logo-navbar{
  height: 5.833em;      
 }
+<<<<<<< HEAD
 #workspace-container{
     margin: 0;
 }
@@ -60,6 +61,12 @@ body{
 #topmenu-container{
     margin: 0;
     padding: 0;
+=======
+
+#topmenu-container{
+    padding: 0;
+    height: 5.833em;
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
     background: #FFF;
 }
 
@@ -68,19 +75,32 @@ body{
 }
 
 
+<<<<<<< HEAD
 #module_list ul{
+=======
+#topmenu-container ul{
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
     margin: 0px;
     padding: 0px;
 }
 
+<<<<<<< HEAD
 #module_list ul li{
     padding: 4% 2% 2% 2%;
     float: left;
     height: 5.833em;
+=======
+#topmenu-container ul li{
+    padding: 3% 2% 3% 2%;
+    float: left;
+    height: 5.833em;
+
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
 }
 
 #topmenu-container ul li a{ 
   font-size: 13px;
+<<<<<<< HEAD
   color: #E1F5FE;
 }
 
@@ -91,6 +111,13 @@ body{
 
 #footer-container{
     position: relative; width: 100%; bottom: 0; margin: 0; margin-top: 20px;
+=======
+}
+
+
+#footer-container{
+    position: absolute; width: 100%; bottom: 0; margin: 0;
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
 }
 
 #footer p{
@@ -104,6 +131,7 @@ body{
 
 .dropdown-content li{
     font-size: 1em;
+<<<<<<< HEAD
 }
 
 h3{
@@ -202,3 +230,6 @@ table.striped tbody tr:nth-child(2n+1){
     bottom: 15px;
 }
 
+=======
+}
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968

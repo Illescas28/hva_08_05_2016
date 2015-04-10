@@ -881,7 +881,7 @@ DROP TABLE IF EXISTS `propiedad`;
 
 CREATE TABLE `propiedad`
 (
-    `idpropiedad` INTEGER NOT NULL,
+    `idpropiedad` INTEGER NOT NULL AUTO_INCREMENT,
     `idarticulo` INTEGER NOT NULL,
     `propiedad_nombre` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`idpropiedad`),

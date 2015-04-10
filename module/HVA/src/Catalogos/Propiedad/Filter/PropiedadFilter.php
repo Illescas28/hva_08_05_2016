@@ -25,7 +25,11 @@ class PropiedadFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'idpropiedad',
+<<<<<<< HEAD
                 'required' => false,
+=======
+                'required' => true,
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
                 'filters'  => array(
                     array('name' => 'Int'),
                 ),
@@ -41,7 +45,11 @@ class PropiedadFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'propiedad_nombre',
+<<<<<<< HEAD
                 'required' => true,
+=======
+                'required' => false,
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

@@ -1,8 +1,13 @@
 <?php
+<<<<<<< HEAD
+=======
+
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
 $title = 'Variantes';
 $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
+<<<<<<< HEAD
 <div class="row" id="table-header">
     <form class="col s12">
         <div class="row" style="position: relative">
@@ -66,3 +71,43 @@ $this->headTitle($title);
 
     });
 </script>
+=======
+<p>
+    <a href="<?php echo $this->url('articulovariante', array('action'=>'nuevo'));?>">Nuevo Articulovariante</a>
+</p>
+
+<table class="table">
+    <tr>
+        <th>ID Articulovariante</th>
+        <th>Código de Barras</th>
+        <th>Costo</th>
+        <th>Precio</th>
+        <th>IVA</th>
+        <th>Imagen</th>
+        <th>Mínimo</th>
+        <th>Máximo</th>
+        <th>Re-orden</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php
+    foreach ($Articulovariantes as $articulovariante) : ?>
+        <tr>
+            <td><?php echo $this->escapeHtml($articulovariante['idarticulo']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_codigobarras']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_costo']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_precio']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_iva']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_imagen']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_minimo']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_maximo']);?></td>
+            <td><?php echo $this->escapeHtml($articulovariante['articulovariante_reorden']);?></td>
+            <td>
+                <a href="<?php echo $this->url('articulovariante',
+                    array('action'=>'editar', 'id' => $articulovariante['idarticulovariante']));?>">Editar</a>
+                <a href="<?php echo $this->url('articulovariante',
+                    array('action'=>'eliminar', 'id' => $articulovariante['idarticulovariante']));?>">Eliminar</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968

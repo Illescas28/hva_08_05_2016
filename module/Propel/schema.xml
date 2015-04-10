@@ -680,7 +680,7 @@
     </vendor>
   </table>
   <table name="propiedad" phpName="Propiedad" idMethod="native">
-    <column name="idpropiedad" phpName="Idpropiedad" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="idpropiedad" phpName="Idpropiedad" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idarticulo" phpName="Idarticulo" type="INTEGER" required="true"/>
     <column name="propiedad_nombre" phpName="PropiedadNombre" type="VARCHAR" size="100" required="true"/>
     <foreign-key foreignTable="articulo" name="idarticulo_propiedad" onDelete="CASCADE" onUpdate="CASCADE">

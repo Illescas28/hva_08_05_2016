@@ -93,6 +93,7 @@ class ArticulovarianteForm extends Form
 
         $this->add(array(
             'name' => 'submit',
+<<<<<<< HEAD
             'type' => 'submit',
             'attributes' => array(
                 'value' => 'Guargar',
@@ -101,6 +102,12 @@ class ArticulovarianteForm extends Form
             ),
             'options' => array(
                 'label' => 'Guardar',
+=======
+            'type' => 'Submit',
+            'attributes' => array(
+                'value' => 'Go',
+                'id' => 'submitbutton',
+>>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
             ),
         ));
     }
