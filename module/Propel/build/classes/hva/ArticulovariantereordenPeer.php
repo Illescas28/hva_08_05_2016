@@ -3,7 +3,7 @@
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'paquete' table.
+ * Skeleton subclass for performing query and update operations on the 'articulovariantereorden' table.
  *
  *
  *
@@ -13,6 +13,6 @@
  *
  * @package    propel.generator.hva
  */
-class PaqueteQuery extends BasePaqueteQuery
+class ArticulovariantereordenPeer extends BaseArticulovariantereordenPeer
 {
 }

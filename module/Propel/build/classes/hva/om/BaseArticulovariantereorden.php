@@ -2,24 +2,24 @@
 
 
 /**
- * Base class that represents a row from the 'empleadomodulo' table.
+ * Base class that represents a row from the 'articulovariantereorden' table.
  *
  *
  *
  * @package    propel.generator.hva.om
  */
-abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
+abstract class BaseArticulovariantereorden extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'EmpleadomoduloPeer';
+    const PEER = 'ArticulovariantereordenPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        EmpleadomoduloPeer
+     * @var        ArticulovariantereordenPeer
      */
     protected static $peer;
 
@@ -30,32 +30,50 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     protected $startCopy = false;
 
     /**
-     * The value for the idempleadomodulo field.
+     * The value for the idarticulovariantereorden field.
      * @var        int
      */
-    protected $idempleadomodulo;
+    protected $idarticulovariantereorden;
 
     /**
-     * The value for the idempleado field.
+     * The value for the idlugar field.
      * @var        int
      */
-    protected $idempleado;
+    protected $idlugar;
 
     /**
-     * The value for the idmodulo field.
+     * The value for the idarticulovariante field.
      * @var        int
      */
-    protected $idmodulo;
+    protected $idarticulovariante;
 
     /**
-     * @var        Empleado
+     * The value for the minimo field.
+     * @var        string
      */
-    protected $aEmpleado;
+    protected $minimo;
 
     /**
-     * @var        Modulo
+     * The value for the maximo field.
+     * @var        string
      */
-    protected $aModulo;
+    protected $maximo;
+
+    /**
+     * The value for the reorden field.
+     * @var        string
+     */
+    protected $reorden;
+
+    /**
+     * @var        Articulovariante
+     */
+    protected $aArticulovariante;
+
+    /**
+     * @var        Lugar
+     */
+    protected $aLugar;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -78,108 +96,204 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     protected $alreadyInClearAllReferencesDeep = false;
 
     /**
-     * Get the [idempleadomodulo] column value.
+     * Get the [idarticulovariantereorden] column value.
      *
      * @return int
      */
-    public function getIdempleadomodulo()
+    public function getIdarticulovariantereorden()
     {
 
-        return $this->idempleadomodulo;
+        return $this->idarticulovariantereorden;
     }
 
     /**
-     * Get the [idempleado] column value.
+     * Get the [idlugar] column value.
      *
      * @return int
      */
-    public function getIdempleado()
+    public function getIdlugar()
     {
 
-        return $this->idempleado;
+        return $this->idlugar;
     }
 
     /**
-     * Get the [idmodulo] column value.
+     * Get the [idarticulovariante] column value.
      *
      * @return int
      */
-    public function getIdmodulo()
+    public function getIdarticulovariante()
     {
 
-        return $this->idmodulo;
+        return $this->idarticulovariante;
     }
 
     /**
-     * Set the value of [idempleadomodulo] column.
+     * Get the [minimo] column value.
+     *
+     * @return string
+     */
+    public function getMinimo()
+    {
+
+        return $this->minimo;
+    }
+
+    /**
+     * Get the [maximo] column value.
+     *
+     * @return string
+     */
+    public function getMaximo()
+    {
+
+        return $this->maximo;
+    }
+
+    /**
+     * Get the [reorden] column value.
+     *
+     * @return string
+     */
+    public function getReorden()
+    {
+
+        return $this->reorden;
+    }
+
+    /**
+     * Set the value of [idarticulovariantereorden] column.
      *
      * @param  int $v new value
-     * @return Empleadomodulo The current object (for fluent API support)
+     * @return Articulovariantereorden The current object (for fluent API support)
      */
-    public function setIdempleadomodulo($v)
+    public function setIdarticulovariantereorden($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->idempleadomodulo !== $v) {
-            $this->idempleadomodulo = $v;
-            $this->modifiedColumns[] = EmpleadomoduloPeer::IDEMPLEADOMODULO;
+        if ($this->idarticulovariantereorden !== $v) {
+            $this->idarticulovariantereorden = $v;
+            $this->modifiedColumns[] = ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN;
         }
 
 
         return $this;
-    } // setIdempleadomodulo()
+    } // setIdarticulovariantereorden()
 
     /**
-     * Set the value of [idempleado] column.
+     * Set the value of [idlugar] column.
      *
      * @param  int $v new value
-     * @return Empleadomodulo The current object (for fluent API support)
+     * @return Articulovariantereorden The current object (for fluent API support)
      */
-    public function setIdempleado($v)
+    public function setIdlugar($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->idempleado !== $v) {
-            $this->idempleado = $v;
-            $this->modifiedColumns[] = EmpleadomoduloPeer::IDEMPLEADO;
+        if ($this->idlugar !== $v) {
+            $this->idlugar = $v;
+            $this->modifiedColumns[] = ArticulovariantereordenPeer::IDLUGAR;
         }
 
-        if ($this->aEmpleado !== null && $this->aEmpleado->getIdempleado() !== $v) {
-            $this->aEmpleado = null;
+        if ($this->aLugar !== null && $this->aLugar->getIdlugar() !== $v) {
+            $this->aLugar = null;
         }
 
 
         return $this;
-    } // setIdempleado()
+    } // setIdlugar()
 
     /**
-     * Set the value of [idmodulo] column.
+     * Set the value of [idarticulovariante] column.
      *
      * @param  int $v new value
-     * @return Empleadomodulo The current object (for fluent API support)
+     * @return Articulovariantereorden The current object (for fluent API support)
      */
-    public function setIdmodulo($v)
+    public function setIdarticulovariante($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->idmodulo !== $v) {
-            $this->idmodulo = $v;
-            $this->modifiedColumns[] = EmpleadomoduloPeer::IDMODULO;
+        if ($this->idarticulovariante !== $v) {
+            $this->idarticulovariante = $v;
+            $this->modifiedColumns[] = ArticulovariantereordenPeer::IDARTICULOVARIANTE;
         }
 
-        if ($this->aModulo !== null && $this->aModulo->getIdmodulo() !== $v) {
-            $this->aModulo = null;
+        if ($this->aArticulovariante !== null && $this->aArticulovariante->getIdarticulovariante() !== $v) {
+            $this->aArticulovariante = null;
         }
 
 
         return $this;
-    } // setIdmodulo()
+    } // setIdarticulovariante()
+
+    /**
+     * Set the value of [minimo] column.
+     *
+     * @param  string $v new value
+     * @return Articulovariantereorden The current object (for fluent API support)
+     */
+    public function setMinimo($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->minimo !== $v) {
+            $this->minimo = $v;
+            $this->modifiedColumns[] = ArticulovariantereordenPeer::MINIMO;
+        }
+
+
+        return $this;
+    } // setMinimo()
+
+    /**
+     * Set the value of [maximo] column.
+     *
+     * @param  string $v new value
+     * @return Articulovariantereorden The current object (for fluent API support)
+     */
+    public function setMaximo($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->maximo !== $v) {
+            $this->maximo = $v;
+            $this->modifiedColumns[] = ArticulovariantereordenPeer::MAXIMO;
+        }
+
+
+        return $this;
+    } // setMaximo()
+
+    /**
+     * Set the value of [reorden] column.
+     *
+     * @param  string $v new value
+     * @return Articulovariantereorden The current object (for fluent API support)
+     */
+    public function setReorden($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->reorden !== $v) {
+            $this->reorden = $v;
+            $this->modifiedColumns[] = ArticulovariantereordenPeer::REORDEN;
+        }
+
+
+        return $this;
+    } // setReorden()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -213,9 +327,12 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     {
         try {
 
-            $this->idempleadomodulo = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->idempleado = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->idmodulo = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+            $this->idarticulovariantereorden = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
+            $this->idlugar = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->idarticulovariante = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+            $this->minimo = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->maximo = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->reorden = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -225,10 +342,10 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 3; // 3 = EmpleadomoduloPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = ArticulovariantereordenPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Empleadomodulo object", $e);
+            throw new PropelException("Error populating Articulovariantereorden object", $e);
         }
     }
 
@@ -248,11 +365,11 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aEmpleado !== null && $this->idempleado !== $this->aEmpleado->getIdempleado()) {
-            $this->aEmpleado = null;
+        if ($this->aLugar !== null && $this->idlugar !== $this->aLugar->getIdlugar()) {
+            $this->aLugar = null;
         }
-        if ($this->aModulo !== null && $this->idmodulo !== $this->aModulo->getIdmodulo()) {
-            $this->aModulo = null;
+        if ($this->aArticulovariante !== null && $this->idarticulovariante !== $this->aArticulovariante->getIdarticulovariante()) {
+            $this->aArticulovariante = null;
         }
     } // ensureConsistency
 
@@ -277,13 +394,13 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = EmpleadomoduloPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = ArticulovariantereordenPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -293,8 +410,8 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aEmpleado = null;
-            $this->aModulo = null;
+            $this->aArticulovariante = null;
+            $this->aLugar = null;
         } // if (deep)
     }
 
@@ -315,12 +432,12 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = EmpleadomoduloQuery::create()
+            $deleteQuery = ArticulovariantereordenQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -358,7 +475,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -378,7 +495,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                EmpleadomoduloPeer::addInstanceToPool($this);
+                ArticulovariantereordenPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -413,18 +530,18 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aEmpleado !== null) {
-                if ($this->aEmpleado->isModified() || $this->aEmpleado->isNew()) {
-                    $affectedRows += $this->aEmpleado->save($con);
+            if ($this->aArticulovariante !== null) {
+                if ($this->aArticulovariante->isModified() || $this->aArticulovariante->isNew()) {
+                    $affectedRows += $this->aArticulovariante->save($con);
                 }
-                $this->setEmpleado($this->aEmpleado);
+                $this->setArticulovariante($this->aArticulovariante);
             }
 
-            if ($this->aModulo !== null) {
-                if ($this->aModulo->isModified() || $this->aModulo->isNew()) {
-                    $affectedRows += $this->aModulo->save($con);
+            if ($this->aLugar !== null) {
+                if ($this->aLugar->isModified() || $this->aLugar->isNew()) {
+                    $affectedRows += $this->aLugar->save($con);
                 }
-                $this->setModulo($this->aModulo);
+                $this->setLugar($this->aLugar);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -458,24 +575,33 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = EmpleadomoduloPeer::IDEMPLEADOMODULO;
-        if (null !== $this->idempleadomodulo) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . EmpleadomoduloPeer::IDEMPLEADOMODULO . ')');
+        $this->modifiedColumns[] = ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN;
+        if (null !== $this->idarticulovariantereorden) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(EmpleadomoduloPeer::IDEMPLEADOMODULO)) {
-            $modifiedColumns[':p' . $index++]  = '`idempleadomodulo`';
+        if ($this->isColumnModified(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN)) {
+            $modifiedColumns[':p' . $index++]  = '`idarticulovariantereorden`';
         }
-        if ($this->isColumnModified(EmpleadomoduloPeer::IDEMPLEADO)) {
-            $modifiedColumns[':p' . $index++]  = '`idempleado`';
+        if ($this->isColumnModified(ArticulovariantereordenPeer::IDLUGAR)) {
+            $modifiedColumns[':p' . $index++]  = '`idlugar`';
         }
-        if ($this->isColumnModified(EmpleadomoduloPeer::IDMODULO)) {
-            $modifiedColumns[':p' . $index++]  = '`idmodulo`';
+        if ($this->isColumnModified(ArticulovariantereordenPeer::IDARTICULOVARIANTE)) {
+            $modifiedColumns[':p' . $index++]  = '`idarticulovariante`';
+        }
+        if ($this->isColumnModified(ArticulovariantereordenPeer::MINIMO)) {
+            $modifiedColumns[':p' . $index++]  = '`minimo`';
+        }
+        if ($this->isColumnModified(ArticulovariantereordenPeer::MAXIMO)) {
+            $modifiedColumns[':p' . $index++]  = '`maximo`';
+        }
+        if ($this->isColumnModified(ArticulovariantereordenPeer::REORDEN)) {
+            $modifiedColumns[':p' . $index++]  = '`reorden`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `empleadomodulo` (%s) VALUES (%s)',
+            'INSERT INTO `articulovariantereorden` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -484,14 +610,23 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case '`idempleadomodulo`':
-                        $stmt->bindValue($identifier, $this->idempleadomodulo, PDO::PARAM_INT);
+                    case '`idarticulovariantereorden`':
+                        $stmt->bindValue($identifier, $this->idarticulovariantereorden, PDO::PARAM_INT);
                         break;
-                    case '`idempleado`':
-                        $stmt->bindValue($identifier, $this->idempleado, PDO::PARAM_INT);
+                    case '`idlugar`':
+                        $stmt->bindValue($identifier, $this->idlugar, PDO::PARAM_INT);
                         break;
-                    case '`idmodulo`':
-                        $stmt->bindValue($identifier, $this->idmodulo, PDO::PARAM_INT);
+                    case '`idarticulovariante`':
+                        $stmt->bindValue($identifier, $this->idarticulovariante, PDO::PARAM_INT);
+                        break;
+                    case '`minimo`':
+                        $stmt->bindValue($identifier, $this->minimo, PDO::PARAM_STR);
+                        break;
+                    case '`maximo`':
+                        $stmt->bindValue($identifier, $this->maximo, PDO::PARAM_STR);
+                        break;
+                    case '`reorden`':
+                        $stmt->bindValue($identifier, $this->reorden, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -506,7 +641,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
         } catch (Exception $e) {
             throw new PropelException('Unable to get autoincrement id.', $e);
         }
-        $this->setIdempleadomodulo($pk);
+        $this->setIdarticulovariantereorden($pk);
 
         $this->setNew(false);
     }
@@ -592,20 +727,20 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aEmpleado !== null) {
-                if (!$this->aEmpleado->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aEmpleado->getValidationFailures());
+            if ($this->aArticulovariante !== null) {
+                if (!$this->aArticulovariante->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aArticulovariante->getValidationFailures());
                 }
             }
 
-            if ($this->aModulo !== null) {
-                if (!$this->aModulo->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aModulo->getValidationFailures());
+            if ($this->aLugar !== null) {
+                if (!$this->aLugar->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aLugar->getValidationFailures());
                 }
             }
 
 
-            if (($retval = EmpleadomoduloPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = ArticulovariantereordenPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -629,7 +764,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = EmpleadomoduloPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ArticulovariantereordenPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -646,13 +781,22 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                return $this->getIdempleadomodulo();
+                return $this->getIdarticulovariantereorden();
                 break;
             case 1:
-                return $this->getIdempleado();
+                return $this->getIdlugar();
                 break;
             case 2:
-                return $this->getIdmodulo();
+                return $this->getIdarticulovariante();
+                break;
+            case 3:
+                return $this->getMinimo();
+                break;
+            case 4:
+                return $this->getMaximo();
+                break;
+            case 5:
+                return $this->getReorden();
                 break;
             default:
                 return null;
@@ -677,15 +821,18 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
     {
-        if (isset($alreadyDumpedObjects['Empleadomodulo'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Articulovariantereorden'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Empleadomodulo'][$this->getPrimaryKey()] = true;
-        $keys = EmpleadomoduloPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Articulovariantereorden'][$this->getPrimaryKey()] = true;
+        $keys = ArticulovariantereordenPeer::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getIdempleadomodulo(),
-            $keys[1] => $this->getIdempleado(),
-            $keys[2] => $this->getIdmodulo(),
+            $keys[0] => $this->getIdarticulovariantereorden(),
+            $keys[1] => $this->getIdlugar(),
+            $keys[2] => $this->getIdarticulovariante(),
+            $keys[3] => $this->getMinimo(),
+            $keys[4] => $this->getMaximo(),
+            $keys[5] => $this->getReorden(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -693,11 +840,11 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aEmpleado) {
-                $result['Empleado'] = $this->aEmpleado->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aArticulovariante) {
+                $result['Articulovariante'] = $this->aArticulovariante->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->aModulo) {
-                $result['Modulo'] = $this->aModulo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aLugar) {
+                $result['Lugar'] = $this->aLugar->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -717,7 +864,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = EmpleadomoduloPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = ArticulovariantereordenPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -734,13 +881,22 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                $this->setIdempleadomodulo($value);
+                $this->setIdarticulovariantereorden($value);
                 break;
             case 1:
-                $this->setIdempleado($value);
+                $this->setIdlugar($value);
                 break;
             case 2:
-                $this->setIdmodulo($value);
+                $this->setIdarticulovariante($value);
+                break;
+            case 3:
+                $this->setMinimo($value);
+                break;
+            case 4:
+                $this->setMaximo($value);
+                break;
+            case 5:
+                $this->setReorden($value);
                 break;
         } // switch()
     }
@@ -764,11 +920,14 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = EmpleadomoduloPeer::getFieldNames($keyType);
+        $keys = ArticulovariantereordenPeer::getFieldNames($keyType);
 
-        if (array_key_exists($keys[0], $arr)) $this->setIdempleadomodulo($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setIdempleado($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setIdmodulo($arr[$keys[2]]);
+        if (array_key_exists($keys[0], $arr)) $this->setIdarticulovariantereorden($arr[$keys[0]]);
+        if (array_key_exists($keys[1], $arr)) $this->setIdlugar($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setIdarticulovariante($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setMinimo($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setMaximo($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setReorden($arr[$keys[5]]);
     }
 
     /**
@@ -778,11 +937,14 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria = new Criteria(ArticulovariantereordenPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(EmpleadomoduloPeer::IDEMPLEADOMODULO)) $criteria->add(EmpleadomoduloPeer::IDEMPLEADOMODULO, $this->idempleadomodulo);
-        if ($this->isColumnModified(EmpleadomoduloPeer::IDEMPLEADO)) $criteria->add(EmpleadomoduloPeer::IDEMPLEADO, $this->idempleado);
-        if ($this->isColumnModified(EmpleadomoduloPeer::IDMODULO)) $criteria->add(EmpleadomoduloPeer::IDMODULO, $this->idmodulo);
+        if ($this->isColumnModified(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN)) $criteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN, $this->idarticulovariantereorden);
+        if ($this->isColumnModified(ArticulovariantereordenPeer::IDLUGAR)) $criteria->add(ArticulovariantereordenPeer::IDLUGAR, $this->idlugar);
+        if ($this->isColumnModified(ArticulovariantereordenPeer::IDARTICULOVARIANTE)) $criteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTE, $this->idarticulovariante);
+        if ($this->isColumnModified(ArticulovariantereordenPeer::MINIMO)) $criteria->add(ArticulovariantereordenPeer::MINIMO, $this->minimo);
+        if ($this->isColumnModified(ArticulovariantereordenPeer::MAXIMO)) $criteria->add(ArticulovariantereordenPeer::MAXIMO, $this->maximo);
+        if ($this->isColumnModified(ArticulovariantereordenPeer::REORDEN)) $criteria->add(ArticulovariantereordenPeer::REORDEN, $this->reorden);
 
         return $criteria;
     }
@@ -797,8 +959,8 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(EmpleadomoduloPeer::DATABASE_NAME);
-        $criteria->add(EmpleadomoduloPeer::IDEMPLEADOMODULO, $this->idempleadomodulo);
+        $criteria = new Criteria(ArticulovariantereordenPeer::DATABASE_NAME);
+        $criteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN, $this->idarticulovariantereorden);
 
         return $criteria;
     }
@@ -809,18 +971,18 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function getPrimaryKey()
     {
-        return $this->getIdempleadomodulo();
+        return $this->getIdarticulovariantereorden();
     }
 
     /**
-     * Generic method to set the primary key (idempleadomodulo column).
+     * Generic method to set the primary key (idarticulovariantereorden column).
      *
      * @param  int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setIdempleadomodulo($key);
+        $this->setIdarticulovariantereorden($key);
     }
 
     /**
@@ -830,7 +992,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     public function isPrimaryKeyNull()
     {
 
-        return null === $this->getIdempleadomodulo();
+        return null === $this->getIdarticulovariantereorden();
     }
 
     /**
@@ -839,15 +1001,18 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Empleadomodulo (or compatible) type.
+     * @param object $copyObj An object of Articulovariantereorden (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setIdempleado($this->getIdempleado());
-        $copyObj->setIdmodulo($this->getIdmodulo());
+        $copyObj->setIdlugar($this->getIdlugar());
+        $copyObj->setIdarticulovariante($this->getIdarticulovariante());
+        $copyObj->setMinimo($this->getMinimo());
+        $copyObj->setMaximo($this->getMaximo());
+        $copyObj->setReorden($this->getReorden());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -862,7 +1027,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
 
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setIdempleadomodulo(NULL); // this is a auto-increment column, so set to default value
+            $copyObj->setIdarticulovariantereorden(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -875,7 +1040,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Empleadomodulo Clone of current object.
+     * @return Articulovariantereorden Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -895,38 +1060,38 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return EmpleadomoduloPeer
+     * @return ArticulovariantereordenPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new EmpleadomoduloPeer();
+            self::$peer = new ArticulovariantereordenPeer();
         }
 
         return self::$peer;
     }
 
     /**
-     * Declares an association between this object and a Empleado object.
+     * Declares an association between this object and a Articulovariante object.
      *
-     * @param                  Empleado $v
-     * @return Empleadomodulo The current object (for fluent API support)
+     * @param                  Articulovariante $v
+     * @return Articulovariantereorden The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setEmpleado(Empleado $v = null)
+    public function setArticulovariante(Articulovariante $v = null)
     {
         if ($v === null) {
-            $this->setIdempleado(NULL);
+            $this->setIdarticulovariante(NULL);
         } else {
-            $this->setIdempleado($v->getIdempleado());
+            $this->setIdarticulovariante($v->getIdarticulovariante());
         }
 
-        $this->aEmpleado = $v;
+        $this->aArticulovariante = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Empleado object, it will not be re-added.
+        // If this object has already been added to the Articulovariante object, it will not be re-added.
         if ($v !== null) {
-            $v->addEmpleadomodulo($this);
+            $v->addArticulovariantereorden($this);
         }
 
 
@@ -935,50 +1100,50 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
 
 
     /**
-     * Get the associated Empleado object
+     * Get the associated Articulovariante object
      *
      * @param PropelPDO $con Optional Connection object.
      * @param $doQuery Executes a query to get the object if required
-     * @return Empleado The associated Empleado object.
+     * @return Articulovariante The associated Articulovariante object.
      * @throws PropelException
      */
-    public function getEmpleado(PropelPDO $con = null, $doQuery = true)
+    public function getArticulovariante(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aEmpleado === null && ($this->idempleado !== null) && $doQuery) {
-            $this->aEmpleado = EmpleadoQuery::create()->findPk($this->idempleado, $con);
+        if ($this->aArticulovariante === null && ($this->idarticulovariante !== null) && $doQuery) {
+            $this->aArticulovariante = ArticulovarianteQuery::create()->findPk($this->idarticulovariante, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aEmpleado->addEmpleadomodulos($this);
+                $this->aArticulovariante->addArticulovariantereordens($this);
              */
         }
 
-        return $this->aEmpleado;
+        return $this->aArticulovariante;
     }
 
     /**
-     * Declares an association between this object and a Modulo object.
+     * Declares an association between this object and a Lugar object.
      *
-     * @param                  Modulo $v
-     * @return Empleadomodulo The current object (for fluent API support)
+     * @param                  Lugar $v
+     * @return Articulovariantereorden The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setModulo(Modulo $v = null)
+    public function setLugar(Lugar $v = null)
     {
         if ($v === null) {
-            $this->setIdmodulo(NULL);
+            $this->setIdlugar(NULL);
         } else {
-            $this->setIdmodulo($v->getIdmodulo());
+            $this->setIdlugar($v->getIdlugar());
         }
 
-        $this->aModulo = $v;
+        $this->aLugar = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Modulo object, it will not be re-added.
+        // If this object has already been added to the Lugar object, it will not be re-added.
         if ($v !== null) {
-            $v->addEmpleadomodulo($this);
+            $v->addArticulovariantereorden($this);
         }
 
 
@@ -987,27 +1152,27 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
 
 
     /**
-     * Get the associated Modulo object
+     * Get the associated Lugar object
      *
      * @param PropelPDO $con Optional Connection object.
      * @param $doQuery Executes a query to get the object if required
-     * @return Modulo The associated Modulo object.
+     * @return Lugar The associated Lugar object.
      * @throws PropelException
      */
-    public function getModulo(PropelPDO $con = null, $doQuery = true)
+    public function getLugar(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aModulo === null && ($this->idmodulo !== null) && $doQuery) {
-            $this->aModulo = ModuloQuery::create()->findPk($this->idmodulo, $con);
+        if ($this->aLugar === null && ($this->idlugar !== null) && $doQuery) {
+            $this->aLugar = LugarQuery::create()->findPk($this->idlugar, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aModulo->addEmpleadomodulos($this);
+                $this->aLugar->addArticulovariantereordens($this);
              */
         }
 
-        return $this->aModulo;
+        return $this->aLugar;
     }
 
     /**
@@ -1015,9 +1180,12 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function clear()
     {
-        $this->idempleadomodulo = null;
-        $this->idempleado = null;
-        $this->idmodulo = null;
+        $this->idarticulovariantereorden = null;
+        $this->idlugar = null;
+        $this->idarticulovariante = null;
+        $this->minimo = null;
+        $this->maximo = null;
+        $this->reorden = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1040,18 +1208,18 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->aEmpleado instanceof Persistent) {
-              $this->aEmpleado->clearAllReferences($deep);
+            if ($this->aArticulovariante instanceof Persistent) {
+              $this->aArticulovariante->clearAllReferences($deep);
             }
-            if ($this->aModulo instanceof Persistent) {
-              $this->aModulo->clearAllReferences($deep);
+            if ($this->aLugar instanceof Persistent) {
+              $this->aLugar->clearAllReferences($deep);
             }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        $this->aEmpleado = null;
-        $this->aModulo = null;
+        $this->aArticulovariante = null;
+        $this->aLugar = null;
     }
 
     /**
@@ -1061,7 +1229,7 @@ abstract class BaseEmpleadomodulo extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(EmpleadomoduloPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(ArticulovariantereordenPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**

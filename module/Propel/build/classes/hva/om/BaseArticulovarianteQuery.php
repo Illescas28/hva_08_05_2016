@@ -13,9 +13,6 @@
  * @method ArticulovarianteQuery orderByArticulovariantePrecio($order = Criteria::ASC) Order by the articulovariante_precio column
  * @method ArticulovarianteQuery orderByArticulovarianteIva($order = Criteria::ASC) Order by the articulovariante_iva column
  * @method ArticulovarianteQuery orderByArticulovarianteImagen($order = Criteria::ASC) Order by the articulovariante_imagen column
- * @method ArticulovarianteQuery orderByArticulovarianteMinimo($order = Criteria::ASC) Order by the articulovariante_minimo column
- * @method ArticulovarianteQuery orderByArticulovarianteMaximo($order = Criteria::ASC) Order by the articulovariante_maximo column
- * @method ArticulovarianteQuery orderByArticulovarianteReorden($order = Criteria::ASC) Order by the articulovariante_reorden column
  *
  * @method ArticulovarianteQuery groupByIdarticulovariante() Group by the idarticulovariante column
  * @method ArticulovarianteQuery groupByIdarticulo() Group by the idarticulo column
@@ -24,9 +21,6 @@
  * @method ArticulovarianteQuery groupByArticulovariantePrecio() Group by the articulovariante_precio column
  * @method ArticulovarianteQuery groupByArticulovarianteIva() Group by the articulovariante_iva column
  * @method ArticulovarianteQuery groupByArticulovarianteImagen() Group by the articulovariante_imagen column
- * @method ArticulovarianteQuery groupByArticulovarianteMinimo() Group by the articulovariante_minimo column
- * @method ArticulovarianteQuery groupByArticulovarianteMaximo() Group by the articulovariante_maximo column
- * @method ArticulovarianteQuery groupByArticulovarianteReorden() Group by the articulovariante_reorden column
  *
  * @method ArticulovarianteQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ArticulovarianteQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -35,6 +29,10 @@
  * @method ArticulovarianteQuery leftJoinArticulo($relationAlias = null) Adds a LEFT JOIN clause to the query using the Articulo relation
  * @method ArticulovarianteQuery rightJoinArticulo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Articulo relation
  * @method ArticulovarianteQuery innerJoinArticulo($relationAlias = null) Adds a INNER JOIN clause to the query using the Articulo relation
+ *
+ * @method ArticulovarianteQuery leftJoinArticulovariantereorden($relationAlias = null) Adds a LEFT JOIN clause to the query using the Articulovariantereorden relation
+ * @method ArticulovarianteQuery rightJoinArticulovariantereorden($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Articulovariantereorden relation
+ * @method ArticulovarianteQuery innerJoinArticulovariantereorden($relationAlias = null) Adds a INNER JOIN clause to the query using the Articulovariantereorden relation
  *
  * @method ArticulovarianteQuery leftJoinArticulovariantevalor($relationAlias = null) Adds a LEFT JOIN clause to the query using the Articulovariantevalor relation
  * @method ArticulovarianteQuery rightJoinArticulovariantevalor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Articulovariantevalor relation
@@ -53,9 +51,6 @@
  * @method Articulovariante findOneByArticulovariantePrecio(string $articulovariante_precio) Return the first Articulovariante filtered by the articulovariante_precio column
  * @method Articulovariante findOneByArticulovarianteIva(string $articulovariante_iva) Return the first Articulovariante filtered by the articulovariante_iva column
  * @method Articulovariante findOneByArticulovarianteImagen(string $articulovariante_imagen) Return the first Articulovariante filtered by the articulovariante_imagen column
- * @method Articulovariante findOneByArticulovarianteMinimo(string $articulovariante_minimo) Return the first Articulovariante filtered by the articulovariante_minimo column
- * @method Articulovariante findOneByArticulovarianteMaximo(string $articulovariante_maximo) Return the first Articulovariante filtered by the articulovariante_maximo column
- * @method Articulovariante findOneByArticulovarianteReorden(string $articulovariante_reorden) Return the first Articulovariante filtered by the articulovariante_reorden column
  *
  * @method array findByIdarticulovariante(int $idarticulovariante) Return Articulovariante objects filtered by the idarticulovariante column
  * @method array findByIdarticulo(int $idarticulo) Return Articulovariante objects filtered by the idarticulo column
@@ -64,9 +59,6 @@
  * @method array findByArticulovariantePrecio(string $articulovariante_precio) Return Articulovariante objects filtered by the articulovariante_precio column
  * @method array findByArticulovarianteIva(string $articulovariante_iva) Return Articulovariante objects filtered by the articulovariante_iva column
  * @method array findByArticulovarianteImagen(string $articulovariante_imagen) Return Articulovariante objects filtered by the articulovariante_imagen column
- * @method array findByArticulovarianteMinimo(string $articulovariante_minimo) Return Articulovariante objects filtered by the articulovariante_minimo column
- * @method array findByArticulovarianteMaximo(string $articulovariante_maximo) Return Articulovariante objects filtered by the articulovariante_maximo column
- * @method array findByArticulovarianteReorden(string $articulovariante_reorden) Return Articulovariante objects filtered by the articulovariante_reorden column
  *
  * @package    propel.generator.hva.om
  */
@@ -174,7 +166,7 @@ abstract class BaseArticulovarianteQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idarticulovariante`, `idarticulo`, `articulovariante_codigobarras`, `articulovariante_costo`, `articulovariante_precio`, `articulovariante_iva`, `articulovariante_imagen`, `articulovariante_minimo`, `articulovariante_maximo`, `articulovariante_reorden` FROM `articulovariante` WHERE `idarticulovariante` = :p0';
+        $sql = 'SELECT `idarticulovariante`, `idarticulo`, `articulovariante_codigobarras`, `articulovariante_costo`, `articulovariante_precio`, `articulovariante_iva`, `articulovariante_imagen` FROM `articulovariante` WHERE `idarticulovariante` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -521,132 +513,6 @@ abstract class BaseArticulovarianteQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the articulovariante_minimo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByArticulovarianteMinimo(1234); // WHERE articulovariante_minimo = 1234
-     * $query->filterByArticulovarianteMinimo(array(12, 34)); // WHERE articulovariante_minimo IN (12, 34)
-     * $query->filterByArticulovarianteMinimo(array('min' => 12)); // WHERE articulovariante_minimo >= 12
-     * $query->filterByArticulovarianteMinimo(array('max' => 12)); // WHERE articulovariante_minimo <= 12
-     * </code>
-     *
-     * @param     mixed $articulovarianteMinimo The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ArticulovarianteQuery The current query, for fluid interface
-     */
-    public function filterByArticulovarianteMinimo($articulovarianteMinimo = null, $comparison = null)
-    {
-        if (is_array($articulovarianteMinimo)) {
-            $useMinMax = false;
-            if (isset($articulovarianteMinimo['min'])) {
-                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_MINIMO, $articulovarianteMinimo['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($articulovarianteMinimo['max'])) {
-                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_MINIMO, $articulovarianteMinimo['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_MINIMO, $articulovarianteMinimo, $comparison);
-    }
-
-    /**
-     * Filter the query on the articulovariante_maximo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByArticulovarianteMaximo(1234); // WHERE articulovariante_maximo = 1234
-     * $query->filterByArticulovarianteMaximo(array(12, 34)); // WHERE articulovariante_maximo IN (12, 34)
-     * $query->filterByArticulovarianteMaximo(array('min' => 12)); // WHERE articulovariante_maximo >= 12
-     * $query->filterByArticulovarianteMaximo(array('max' => 12)); // WHERE articulovariante_maximo <= 12
-     * </code>
-     *
-     * @param     mixed $articulovarianteMaximo The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ArticulovarianteQuery The current query, for fluid interface
-     */
-    public function filterByArticulovarianteMaximo($articulovarianteMaximo = null, $comparison = null)
-    {
-        if (is_array($articulovarianteMaximo)) {
-            $useMinMax = false;
-            if (isset($articulovarianteMaximo['min'])) {
-                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_MAXIMO, $articulovarianteMaximo['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($articulovarianteMaximo['max'])) {
-                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_MAXIMO, $articulovarianteMaximo['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_MAXIMO, $articulovarianteMaximo, $comparison);
-    }
-
-    /**
-     * Filter the query on the articulovariante_reorden column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByArticulovarianteReorden(1234); // WHERE articulovariante_reorden = 1234
-     * $query->filterByArticulovarianteReorden(array(12, 34)); // WHERE articulovariante_reorden IN (12, 34)
-     * $query->filterByArticulovarianteReorden(array('min' => 12)); // WHERE articulovariante_reorden >= 12
-     * $query->filterByArticulovarianteReorden(array('max' => 12)); // WHERE articulovariante_reorden <= 12
-     * </code>
-     *
-     * @param     mixed $articulovarianteReorden The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ArticulovarianteQuery The current query, for fluid interface
-     */
-    public function filterByArticulovarianteReorden($articulovarianteReorden = null, $comparison = null)
-    {
-        if (is_array($articulovarianteReorden)) {
-            $useMinMax = false;
-            if (isset($articulovarianteReorden['min'])) {
-                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_REORDEN, $articulovarianteReorden['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($articulovarianteReorden['max'])) {
-                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_REORDEN, $articulovarianteReorden['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_REORDEN, $articulovarianteReorden, $comparison);
-    }
-
-    /**
      * Filter the query by a related Articulo object
      *
      * @param   Articulo|PropelObjectCollection $articulo The related object(s) to use as filter
@@ -720,6 +586,80 @@ abstract class BaseArticulovarianteQuery extends ModelCriteria
         return $this
             ->joinArticulo($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Articulo', 'ArticuloQuery');
+    }
+
+    /**
+     * Filter the query by a related Articulovariantereorden object
+     *
+     * @param   Articulovariantereorden|PropelObjectCollection $articulovariantereorden  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 ArticulovarianteQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByArticulovariantereorden($articulovariantereorden, $comparison = null)
+    {
+        if ($articulovariantereorden instanceof Articulovariantereorden) {
+            return $this
+                ->addUsingAlias(ArticulovariantePeer::IDARTICULOVARIANTE, $articulovariantereorden->getIdarticulovariante(), $comparison);
+        } elseif ($articulovariantereorden instanceof PropelObjectCollection) {
+            return $this
+                ->useArticulovariantereordenQuery()
+                ->filterByPrimaryKeys($articulovariantereorden->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByArticulovariantereorden() only accepts arguments of type Articulovariantereorden or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Articulovariantereorden relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ArticulovarianteQuery The current query, for fluid interface
+     */
+    public function joinArticulovariantereorden($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Articulovariantereorden');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Articulovariantereorden');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Articulovariantereorden relation Articulovariantereorden object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   ArticulovariantereordenQuery A secondary query class using the current class as primary query
+     */
+    public function useArticulovariantereordenQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinArticulovariantereorden($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Articulovariantereorden', 'ArticulovariantereordenQuery');
     }
 
     /**

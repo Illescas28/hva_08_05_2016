@@ -48,6 +48,12 @@ abstract class BaseLugar extends BaseObject implements Persistent
     protected $lugar_descripcion;
 
     /**
+     * @var        PropelObjectCollection|Articulovariantereorden[] Collection to store aggregation of Articulovariantereorden objects.
+     */
+    protected $collArticulovariantereordens;
+    protected $collArticulovariantereordensPartial;
+
+    /**
      * @var        PropelObjectCollection|Lugarinventario[] Collection to store aggregation of Lugarinventario objects.
      */
     protected $collLugarinventarios;
@@ -84,6 +90,12 @@ abstract class BaseLugar extends BaseObject implements Persistent
      * @var        boolean
      */
     protected $alreadyInClearAllReferencesDeep = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $articulovariantereordensScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -305,6 +317,8 @@ abstract class BaseLugar extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->collArticulovariantereordens = null;
+
             $this->collLugarinventarios = null;
 
             $this->collTraspasosRelatedByIdlugardestinatario = null;
@@ -433,6 +447,23 @@ abstract class BaseLugar extends BaseObject implements Persistent
                 }
                 $affectedRows += 1;
                 $this->resetModified();
+            }
+
+            if ($this->articulovariantereordensScheduledForDeletion !== null) {
+                if (!$this->articulovariantereordensScheduledForDeletion->isEmpty()) {
+                    ArticulovariantereordenQuery::create()
+                        ->filterByPrimaryKeys($this->articulovariantereordensScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->articulovariantereordensScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collArticulovariantereordens !== null) {
+                foreach ($this->collArticulovariantereordens as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             if ($this->lugarinventariosScheduledForDeletion !== null) {
@@ -640,6 +671,14 @@ abstract class BaseLugar extends BaseObject implements Persistent
             }
 
 
+                if ($this->collArticulovariantereordens !== null) {
+                    foreach ($this->collArticulovariantereordens as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
                 if ($this->collLugarinventarios !== null) {
                     foreach ($this->collLugarinventarios as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -747,6 +786,9 @@ abstract class BaseLugar extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->collArticulovariantereordens) {
+                $result['Articulovariantereordens'] = $this->collArticulovariantereordens->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collLugarinventarios) {
                 $result['Lugarinventarios'] = $this->collLugarinventarios->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -913,6 +955,12 @@ abstract class BaseLugar extends BaseObject implements Persistent
             // store object hash to prevent cycle
             $this->startCopy = true;
 
+            foreach ($this->getArticulovariantereordens() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addArticulovariantereorden($relObj->copy($deepCopy));
+                }
+            }
+
             foreach ($this->getLugarinventarios() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addLugarinventario($relObj->copy($deepCopy));
@@ -992,6 +1040,9 @@ abstract class BaseLugar extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
+        if ('Articulovariantereorden' == $relationName) {
+            $this->initArticulovariantereordens();
+        }
         if ('Lugarinventario' == $relationName) {
             $this->initLugarinventarios();
         }
@@ -1001,6 +1052,256 @@ abstract class BaseLugar extends BaseObject implements Persistent
         if ('TraspasoRelatedByIdlugarremitente' == $relationName) {
             $this->initTraspasosRelatedByIdlugarremitente();
         }
+    }
+
+    /**
+     * Clears out the collArticulovariantereordens collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return Lugar The current object (for fluent API support)
+     * @see        addArticulovariantereordens()
+     */
+    public function clearArticulovariantereordens()
+    {
+        $this->collArticulovariantereordens = null; // important to set this to null since that means it is uninitialized
+        $this->collArticulovariantereordensPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collArticulovariantereordens collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialArticulovariantereordens($v = true)
+    {
+        $this->collArticulovariantereordensPartial = $v;
+    }
+
+    /**
+     * Initializes the collArticulovariantereordens collection.
+     *
+     * By default this just sets the collArticulovariantereordens collection to an empty array (like clearcollArticulovariantereordens());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initArticulovariantereordens($overrideExisting = true)
+    {
+        if (null !== $this->collArticulovariantereordens && !$overrideExisting) {
+            return;
+        }
+        $this->collArticulovariantereordens = new PropelObjectCollection();
+        $this->collArticulovariantereordens->setModel('Articulovariantereorden');
+    }
+
+    /**
+     * Gets an array of Articulovariantereorden objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this Lugar is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|Articulovariantereorden[] List of Articulovariantereorden objects
+     * @throws PropelException
+     */
+    public function getArticulovariantereordens($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collArticulovariantereordensPartial && !$this->isNew();
+        if (null === $this->collArticulovariantereordens || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collArticulovariantereordens) {
+                // return empty collection
+                $this->initArticulovariantereordens();
+            } else {
+                $collArticulovariantereordens = ArticulovariantereordenQuery::create(null, $criteria)
+                    ->filterByLugar($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collArticulovariantereordensPartial && count($collArticulovariantereordens)) {
+                      $this->initArticulovariantereordens(false);
+
+                      foreach ($collArticulovariantereordens as $obj) {
+                        if (false == $this->collArticulovariantereordens->contains($obj)) {
+                          $this->collArticulovariantereordens->append($obj);
+                        }
+                      }
+
+                      $this->collArticulovariantereordensPartial = true;
+                    }
+
+                    $collArticulovariantereordens->getInternalIterator()->rewind();
+
+                    return $collArticulovariantereordens;
+                }
+
+                if ($partial && $this->collArticulovariantereordens) {
+                    foreach ($this->collArticulovariantereordens as $obj) {
+                        if ($obj->isNew()) {
+                            $collArticulovariantereordens[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collArticulovariantereordens = $collArticulovariantereordens;
+                $this->collArticulovariantereordensPartial = false;
+            }
+        }
+
+        return $this->collArticulovariantereordens;
+    }
+
+    /**
+     * Sets a collection of Articulovariantereorden objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $articulovariantereordens A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return Lugar The current object (for fluent API support)
+     */
+    public function setArticulovariantereordens(PropelCollection $articulovariantereordens, PropelPDO $con = null)
+    {
+        $articulovariantereordensToDelete = $this->getArticulovariantereordens(new Criteria(), $con)->diff($articulovariantereordens);
+
+
+        $this->articulovariantereordensScheduledForDeletion = $articulovariantereordensToDelete;
+
+        foreach ($articulovariantereordensToDelete as $articulovariantereordenRemoved) {
+            $articulovariantereordenRemoved->setLugar(null);
+        }
+
+        $this->collArticulovariantereordens = null;
+        foreach ($articulovariantereordens as $articulovariantereorden) {
+            $this->addArticulovariantereorden($articulovariantereorden);
+        }
+
+        $this->collArticulovariantereordens = $articulovariantereordens;
+        $this->collArticulovariantereordensPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Articulovariantereorden objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related Articulovariantereorden objects.
+     * @throws PropelException
+     */
+    public function countArticulovariantereordens(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collArticulovariantereordensPartial && !$this->isNew();
+        if (null === $this->collArticulovariantereordens || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collArticulovariantereordens) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getArticulovariantereordens());
+            }
+            $query = ArticulovariantereordenQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByLugar($this)
+                ->count($con);
+        }
+
+        return count($this->collArticulovariantereordens);
+    }
+
+    /**
+     * Method called to associate a Articulovariantereorden object to this object
+     * through the Articulovariantereorden foreign key attribute.
+     *
+     * @param    Articulovariantereorden $l Articulovariantereorden
+     * @return Lugar The current object (for fluent API support)
+     */
+    public function addArticulovariantereorden(Articulovariantereorden $l)
+    {
+        if ($this->collArticulovariantereordens === null) {
+            $this->initArticulovariantereordens();
+            $this->collArticulovariantereordensPartial = true;
+        }
+
+        if (!in_array($l, $this->collArticulovariantereordens->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddArticulovariantereorden($l);
+
+            if ($this->articulovariantereordensScheduledForDeletion and $this->articulovariantereordensScheduledForDeletion->contains($l)) {
+                $this->articulovariantereordensScheduledForDeletion->remove($this->articulovariantereordensScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	Articulovariantereorden $articulovariantereorden The articulovariantereorden object to add.
+     */
+    protected function doAddArticulovariantereorden($articulovariantereorden)
+    {
+        $this->collArticulovariantereordens[]= $articulovariantereorden;
+        $articulovariantereorden->setLugar($this);
+    }
+
+    /**
+     * @param	Articulovariantereorden $articulovariantereorden The articulovariantereorden object to remove.
+     * @return Lugar The current object (for fluent API support)
+     */
+    public function removeArticulovariantereorden($articulovariantereorden)
+    {
+        if ($this->getArticulovariantereordens()->contains($articulovariantereorden)) {
+            $this->collArticulovariantereordens->remove($this->collArticulovariantereordens->search($articulovariantereorden));
+            if (null === $this->articulovariantereordensScheduledForDeletion) {
+                $this->articulovariantereordensScheduledForDeletion = clone $this->collArticulovariantereordens;
+                $this->articulovariantereordensScheduledForDeletion->clear();
+            }
+            $this->articulovariantereordensScheduledForDeletion[]= clone $articulovariantereorden;
+            $articulovariantereorden->setLugar(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Lugar is new, it will return
+     * an empty collection; or if this Lugar has previously
+     * been saved, it will retrieve related Articulovariantereordens from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Lugar.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|Articulovariantereorden[] List of Articulovariantereorden objects
+     */
+    public function getArticulovariantereordensJoinArticulovariante($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = ArticulovariantereordenQuery::create(null, $criteria);
+        $query->joinWith('Articulovariante', $join_behavior);
+
+        return $this->getArticulovariantereordens($query, $con);
     }
 
     /**
@@ -1739,6 +2040,11 @@ abstract class BaseLugar extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
+            if ($this->collArticulovariantereordens) {
+                foreach ($this->collArticulovariantereordens as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collLugarinventarios) {
                 foreach ($this->collLugarinventarios as $o) {
                     $o->clearAllReferences($deep);
@@ -1758,6 +2064,10 @@ abstract class BaseLugar extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
+        if ($this->collArticulovariantereordens instanceof PropelCollection) {
+            $this->collArticulovariantereordens->clearIterator();
+        }
+        $this->collArticulovariantereordens = null;
         if ($this->collLugarinventarios instanceof PropelCollection) {
             $this->collLugarinventarios->clearIterator();
         }

@@ -134,6 +134,20 @@ return array(
                     ),
                 ),
             ),
+            'producto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/producto[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Producto\Controller\Producto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'medico' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -194,6 +208,7 @@ return array(
             'Catalogos\Articulo\Controller\Articulo'                    => 'Catalogos\Articulo\Controller\ArticuloController',
             'Catalogos\Articulovariante\Controller\Articulovariante'    => 'Catalogos\Articulovariante\Controller\ArticulovarianteController',
             'Catalogos\Propiedad\Controller\Propiedad'                  => 'Catalogos\Propiedad\Controller\PropiedadController',
+            'Catalogos\Producto\Controller\Producto'                    => 'Catalogos\Producto\Controller\ProductoController',
             'Catalogos\Medico\Controller\Medico'                        => 'Catalogos\Medico\Controller\MedicoController',
 
         ),

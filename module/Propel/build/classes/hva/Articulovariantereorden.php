@@ -3,7 +3,7 @@
 
 
 /**
- * Skeleton subclass for performing query and update operations on the 'datosfacturacionmedico' table.
+ * Skeleton subclass for representing a row from the 'articulovariantereorden' table.
  *
  *
  *
@@ -13,6 +13,6 @@
  *
  * @package    propel.generator.hva
  */
-class DatosfacturacionmedicoQuery extends BaseDatosfacturacionmedicoQuery
+class Articulovariantereorden extends BaseArticulovariantereorden
 {
 }

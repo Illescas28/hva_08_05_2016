@@ -365,6 +365,9 @@ abstract class BaseLugarPeer
      */
     public static function clearRelatedInstancePool()
     {
+        // Invalidate objects in ArticulovariantereordenPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        ArticulovariantereordenPeer::clearInstancePool();
         // Invalidate objects in LugarinventarioPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         LugarinventarioPeer::clearInstancePool();
@@ -707,6 +710,12 @@ abstract class BaseLugarPeer
         $objects = LugarPeer::doSelect($criteria, $con);
         foreach ($objects as $obj) {
 
+
+            // delete related Articulovariantereorden objects
+            $criteria = new Criteria(ArticulovariantereordenPeer::DATABASE_NAME);
+
+            $criteria->add(ArticulovariantereordenPeer::IDLUGAR, $obj->getIdlugar());
+            $affectedRows += ArticulovariantereordenPeer::doDelete($criteria, $con);
 
             // delete related Lugarinventario objects
             $criteria = new Criteria(LugarinventarioPeer::DATABASE_NAME);

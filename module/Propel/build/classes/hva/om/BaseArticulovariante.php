@@ -72,27 +72,15 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
     protected $articulovariante_imagen;
 
     /**
-     * The value for the articulovariante_minimo field.
-     * @var        string
-     */
-    protected $articulovariante_minimo;
-
-    /**
-     * The value for the articulovariante_maximo field.
-     * @var        string
-     */
-    protected $articulovariante_maximo;
-
-    /**
-     * The value for the articulovariante_reorden field.
-     * @var        string
-     */
-    protected $articulovariante_reorden;
-
-    /**
      * @var        Articulo
      */
     protected $aArticulo;
+
+    /**
+     * @var        PropelObjectCollection|Articulovariantereorden[] Collection to store aggregation of Articulovariantereorden objects.
+     */
+    protected $collArticulovariantereordens;
+    protected $collArticulovariantereordensPartial;
 
     /**
      * @var        PropelObjectCollection|Articulovariantevalor[] Collection to store aggregation of Articulovariantevalor objects.
@@ -125,6 +113,12 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
      * @var        boolean
      */
     protected $alreadyInClearAllReferencesDeep = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $articulovariantereordensScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -213,39 +207,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
     {
 
         return $this->articulovariante_imagen;
-    }
-
-    /**
-     * Get the [articulovariante_minimo] column value.
-     *
-     * @return string
-     */
-    public function getArticulovarianteMinimo()
-    {
-
-        return $this->articulovariante_minimo;
-    }
-
-    /**
-     * Get the [articulovariante_maximo] column value.
-     *
-     * @return string
-     */
-    public function getArticulovarianteMaximo()
-    {
-
-        return $this->articulovariante_maximo;
-    }
-
-    /**
-     * Get the [articulovariante_reorden] column value.
-     *
-     * @return string
-     */
-    public function getArticulovarianteReorden()
-    {
-
-        return $this->articulovariante_reorden;
     }
 
     /**
@@ -400,69 +361,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
     } // setArticulovarianteImagen()
 
     /**
-     * Set the value of [articulovariante_minimo] column.
-     *
-     * @param  string $v new value
-     * @return Articulovariante The current object (for fluent API support)
-     */
-    public function setArticulovarianteMinimo($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->articulovariante_minimo !== $v) {
-            $this->articulovariante_minimo = $v;
-            $this->modifiedColumns[] = ArticulovariantePeer::ARTICULOVARIANTE_MINIMO;
-        }
-
-
-        return $this;
-    } // setArticulovarianteMinimo()
-
-    /**
-     * Set the value of [articulovariante_maximo] column.
-     *
-     * @param  string $v new value
-     * @return Articulovariante The current object (for fluent API support)
-     */
-    public function setArticulovarianteMaximo($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->articulovariante_maximo !== $v) {
-            $this->articulovariante_maximo = $v;
-            $this->modifiedColumns[] = ArticulovariantePeer::ARTICULOVARIANTE_MAXIMO;
-        }
-
-
-        return $this;
-    } // setArticulovarianteMaximo()
-
-    /**
-     * Set the value of [articulovariante_reorden] column.
-     *
-     * @param  string $v new value
-     * @return Articulovariante The current object (for fluent API support)
-     */
-    public function setArticulovarianteReorden($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->articulovariante_reorden !== $v) {
-            $this->articulovariante_reorden = $v;
-            $this->modifiedColumns[] = ArticulovariantePeer::ARTICULOVARIANTE_REORDEN;
-        }
-
-
-        return $this;
-    } // setArticulovarianteReorden()
-
-    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -501,9 +399,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             $this->articulovariante_precio = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->articulovariante_iva = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->articulovariante_imagen = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->articulovariante_minimo = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->articulovariante_maximo = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->articulovariante_reorden = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -513,7 +408,7 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 10; // 10 = ArticulovariantePeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = ArticulovariantePeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Articulovariante object", $e);
@@ -579,6 +474,8 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if ($deep) {  // also de-associate any related objects?
 
             $this->aArticulo = null;
+            $this->collArticulovariantereordens = null;
+
             $this->collArticulovariantevalors = null;
 
             $this->collOrdencompradetalles = null;
@@ -719,6 +616,23 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
                 $this->resetModified();
             }
 
+            if ($this->articulovariantereordensScheduledForDeletion !== null) {
+                if (!$this->articulovariantereordensScheduledForDeletion->isEmpty()) {
+                    ArticulovariantereordenQuery::create()
+                        ->filterByPrimaryKeys($this->articulovariantereordensScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->articulovariantereordensScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collArticulovariantereordens !== null) {
+                foreach ($this->collArticulovariantereordens as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             if ($this->articulovariantevalorsScheduledForDeletion !== null) {
                 if (!$this->articulovariantevalorsScheduledForDeletion->isEmpty()) {
                     ArticulovariantevalorQuery::create()
@@ -800,15 +714,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN)) {
             $modifiedColumns[':p' . $index++]  = '`articulovariante_imagen`';
         }
-        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_MINIMO)) {
-            $modifiedColumns[':p' . $index++]  = '`articulovariante_minimo`';
-        }
-        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_MAXIMO)) {
-            $modifiedColumns[':p' . $index++]  = '`articulovariante_maximo`';
-        }
-        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_REORDEN)) {
-            $modifiedColumns[':p' . $index++]  = '`articulovariante_reorden`';
-        }
 
         $sql = sprintf(
             'INSERT INTO `articulovariante` (%s) VALUES (%s)',
@@ -840,15 +745,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
                         break;
                     case '`articulovariante_imagen`':
                         $stmt->bindValue($identifier, $this->articulovariante_imagen, PDO::PARAM_STR);
-                        break;
-                    case '`articulovariante_minimo`':
-                        $stmt->bindValue($identifier, $this->articulovariante_minimo, PDO::PARAM_STR);
-                        break;
-                    case '`articulovariante_maximo`':
-                        $stmt->bindValue($identifier, $this->articulovariante_maximo, PDO::PARAM_STR);
-                        break;
-                    case '`articulovariante_reorden`':
-                        $stmt->bindValue($identifier, $this->articulovariante_reorden, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -961,6 +857,14 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             }
 
 
+                if ($this->collArticulovariantereordens !== null) {
+                    foreach ($this->collArticulovariantereordens as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
                 if ($this->collArticulovariantevalors !== null) {
                     foreach ($this->collArticulovariantevalors as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -1033,15 +937,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             case 6:
                 return $this->getArticulovarianteImagen();
                 break;
-            case 7:
-                return $this->getArticulovarianteMinimo();
-                break;
-            case 8:
-                return $this->getArticulovarianteMaximo();
-                break;
-            case 9:
-                return $this->getArticulovarianteReorden();
-                break;
             default:
                 return null;
                 break;
@@ -1078,9 +973,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             $keys[4] => $this->getArticulovariantePrecio(),
             $keys[5] => $this->getArticulovarianteIva(),
             $keys[6] => $this->getArticulovarianteImagen(),
-            $keys[7] => $this->getArticulovarianteMinimo(),
-            $keys[8] => $this->getArticulovarianteMaximo(),
-            $keys[9] => $this->getArticulovarianteReorden(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1090,6 +982,9 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if ($includeForeignObjects) {
             if (null !== $this->aArticulo) {
                 $result['Articulo'] = $this->aArticulo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collArticulovariantereordens) {
+                $result['Articulovariantereordens'] = $this->collArticulovariantereordens->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collArticulovariantevalors) {
                 $result['Articulovariantevalors'] = $this->collArticulovariantevalors->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1152,15 +1047,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             case 6:
                 $this->setArticulovarianteImagen($value);
                 break;
-            case 7:
-                $this->setArticulovarianteMinimo($value);
-                break;
-            case 8:
-                $this->setArticulovarianteMaximo($value);
-                break;
-            case 9:
-                $this->setArticulovarianteReorden($value);
-                break;
         } // switch()
     }
 
@@ -1192,9 +1078,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if (array_key_exists($keys[4], $arr)) $this->setArticulovariantePrecio($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setArticulovarianteIva($arr[$keys[5]]);
         if (array_key_exists($keys[6], $arr)) $this->setArticulovarianteImagen($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setArticulovarianteMinimo($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setArticulovarianteMaximo($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setArticulovarianteReorden($arr[$keys[9]]);
     }
 
     /**
@@ -1213,9 +1096,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_PRECIO)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_PRECIO, $this->articulovariante_precio);
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_IVA)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_IVA, $this->articulovariante_iva);
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN, $this->articulovariante_imagen);
-        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_MINIMO)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_MINIMO, $this->articulovariante_minimo);
-        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_MAXIMO)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_MAXIMO, $this->articulovariante_maximo);
-        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_REORDEN)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_REORDEN, $this->articulovariante_reorden);
 
         return $criteria;
     }
@@ -1285,9 +1165,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         $copyObj->setArticulovariantePrecio($this->getArticulovariantePrecio());
         $copyObj->setArticulovarianteIva($this->getArticulovarianteIva());
         $copyObj->setArticulovarianteImagen($this->getArticulovarianteImagen());
-        $copyObj->setArticulovarianteMinimo($this->getArticulovarianteMinimo());
-        $copyObj->setArticulovarianteMaximo($this->getArticulovarianteMaximo());
-        $copyObj->setArticulovarianteReorden($this->getArticulovarianteReorden());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1295,6 +1172,12 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             $copyObj->setNew(false);
             // store object hash to prevent cycle
             $this->startCopy = true;
+
+            foreach ($this->getArticulovariantereordens() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addArticulovariantereorden($relObj->copy($deepCopy));
+                }
+            }
 
             foreach ($this->getArticulovariantevalors() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
@@ -1421,12 +1304,265 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
+        if ('Articulovariantereorden' == $relationName) {
+            $this->initArticulovariantereordens();
+        }
         if ('Articulovariantevalor' == $relationName) {
             $this->initArticulovariantevalors();
         }
         if ('Ordencompradetalle' == $relationName) {
             $this->initOrdencompradetalles();
         }
+    }
+
+    /**
+     * Clears out the collArticulovariantereordens collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return Articulovariante The current object (for fluent API support)
+     * @see        addArticulovariantereordens()
+     */
+    public function clearArticulovariantereordens()
+    {
+        $this->collArticulovariantereordens = null; // important to set this to null since that means it is uninitialized
+        $this->collArticulovariantereordensPartial = null;
+
+        return $this;
+    }
+
+    /**
+     * reset is the collArticulovariantereordens collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialArticulovariantereordens($v = true)
+    {
+        $this->collArticulovariantereordensPartial = $v;
+    }
+
+    /**
+     * Initializes the collArticulovariantereordens collection.
+     *
+     * By default this just sets the collArticulovariantereordens collection to an empty array (like clearcollArticulovariantereordens());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initArticulovariantereordens($overrideExisting = true)
+    {
+        if (null !== $this->collArticulovariantereordens && !$overrideExisting) {
+            return;
+        }
+        $this->collArticulovariantereordens = new PropelObjectCollection();
+        $this->collArticulovariantereordens->setModel('Articulovariantereorden');
+    }
+
+    /**
+     * Gets an array of Articulovariantereorden objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this Articulovariante is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|Articulovariantereorden[] List of Articulovariantereorden objects
+     * @throws PropelException
+     */
+    public function getArticulovariantereordens($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collArticulovariantereordensPartial && !$this->isNew();
+        if (null === $this->collArticulovariantereordens || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collArticulovariantereordens) {
+                // return empty collection
+                $this->initArticulovariantereordens();
+            } else {
+                $collArticulovariantereordens = ArticulovariantereordenQuery::create(null, $criteria)
+                    ->filterByArticulovariante($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collArticulovariantereordensPartial && count($collArticulovariantereordens)) {
+                      $this->initArticulovariantereordens(false);
+
+                      foreach ($collArticulovariantereordens as $obj) {
+                        if (false == $this->collArticulovariantereordens->contains($obj)) {
+                          $this->collArticulovariantereordens->append($obj);
+                        }
+                      }
+
+                      $this->collArticulovariantereordensPartial = true;
+                    }
+
+                    $collArticulovariantereordens->getInternalIterator()->rewind();
+
+                    return $collArticulovariantereordens;
+                }
+
+                if ($partial && $this->collArticulovariantereordens) {
+                    foreach ($this->collArticulovariantereordens as $obj) {
+                        if ($obj->isNew()) {
+                            $collArticulovariantereordens[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collArticulovariantereordens = $collArticulovariantereordens;
+                $this->collArticulovariantereordensPartial = false;
+            }
+        }
+
+        return $this->collArticulovariantereordens;
+    }
+
+    /**
+     * Sets a collection of Articulovariantereorden objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $articulovariantereordens A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     * @return Articulovariante The current object (for fluent API support)
+     */
+    public function setArticulovariantereordens(PropelCollection $articulovariantereordens, PropelPDO $con = null)
+    {
+        $articulovariantereordensToDelete = $this->getArticulovariantereordens(new Criteria(), $con)->diff($articulovariantereordens);
+
+
+        $this->articulovariantereordensScheduledForDeletion = $articulovariantereordensToDelete;
+
+        foreach ($articulovariantereordensToDelete as $articulovariantereordenRemoved) {
+            $articulovariantereordenRemoved->setArticulovariante(null);
+        }
+
+        $this->collArticulovariantereordens = null;
+        foreach ($articulovariantereordens as $articulovariantereorden) {
+            $this->addArticulovariantereorden($articulovariantereorden);
+        }
+
+        $this->collArticulovariantereordens = $articulovariantereordens;
+        $this->collArticulovariantereordensPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Articulovariantereorden objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related Articulovariantereorden objects.
+     * @throws PropelException
+     */
+    public function countArticulovariantereordens(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collArticulovariantereordensPartial && !$this->isNew();
+        if (null === $this->collArticulovariantereordens || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collArticulovariantereordens) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getArticulovariantereordens());
+            }
+            $query = ArticulovariantereordenQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByArticulovariante($this)
+                ->count($con);
+        }
+
+        return count($this->collArticulovariantereordens);
+    }
+
+    /**
+     * Method called to associate a Articulovariantereorden object to this object
+     * through the Articulovariantereorden foreign key attribute.
+     *
+     * @param    Articulovariantereorden $l Articulovariantereorden
+     * @return Articulovariante The current object (for fluent API support)
+     */
+    public function addArticulovariantereorden(Articulovariantereorden $l)
+    {
+        if ($this->collArticulovariantereordens === null) {
+            $this->initArticulovariantereordens();
+            $this->collArticulovariantereordensPartial = true;
+        }
+
+        if (!in_array($l, $this->collArticulovariantereordens->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddArticulovariantereorden($l);
+
+            if ($this->articulovariantereordensScheduledForDeletion and $this->articulovariantereordensScheduledForDeletion->contains($l)) {
+                $this->articulovariantereordensScheduledForDeletion->remove($this->articulovariantereordensScheduledForDeletion->search($l));
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	Articulovariantereorden $articulovariantereorden The articulovariantereorden object to add.
+     */
+    protected function doAddArticulovariantereorden($articulovariantereorden)
+    {
+        $this->collArticulovariantereordens[]= $articulovariantereorden;
+        $articulovariantereorden->setArticulovariante($this);
+    }
+
+    /**
+     * @param	Articulovariantereorden $articulovariantereorden The articulovariantereorden object to remove.
+     * @return Articulovariante The current object (for fluent API support)
+     */
+    public function removeArticulovariantereorden($articulovariantereorden)
+    {
+        if ($this->getArticulovariantereordens()->contains($articulovariantereorden)) {
+            $this->collArticulovariantereordens->remove($this->collArticulovariantereordens->search($articulovariantereorden));
+            if (null === $this->articulovariantereordensScheduledForDeletion) {
+                $this->articulovariantereordensScheduledForDeletion = clone $this->collArticulovariantereordens;
+                $this->articulovariantereordensScheduledForDeletion->clear();
+            }
+            $this->articulovariantereordensScheduledForDeletion[]= clone $articulovariantereorden;
+            $articulovariantereorden->setArticulovariante(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Articulovariante is new, it will return
+     * an empty collection; or if this Articulovariante has previously
+     * been saved, it will retrieve related Articulovariantereordens from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Articulovariante.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return PropelObjectCollection|Articulovariantereorden[] List of Articulovariantereorden objects
+     */
+    public function getArticulovariantereordensJoinLugar($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $query = ArticulovariantereordenQuery::create(null, $criteria);
+        $query->joinWith('Lugar', $join_behavior);
+
+        return $this->getArticulovariantereordens($query, $con);
     }
 
     /**
@@ -1991,9 +2127,6 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         $this->articulovariante_precio = null;
         $this->articulovariante_iva = null;
         $this->articulovariante_imagen = null;
-        $this->articulovariante_minimo = null;
-        $this->articulovariante_maximo = null;
-        $this->articulovariante_reorden = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -2016,6 +2149,11 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
+            if ($this->collArticulovariantereordens) {
+                foreach ($this->collArticulovariantereordens as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collArticulovariantevalors) {
                 foreach ($this->collArticulovariantevalors as $o) {
                     $o->clearAllReferences($deep);
@@ -2033,6 +2171,10 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
+        if ($this->collArticulovariantereordens instanceof PropelCollection) {
+            $this->collArticulovariantereordens->clearIterator();
+        }
+        $this->collArticulovariantereordens = null;
         if ($this->collArticulovariantevalors instanceof PropelCollection) {
             $this->collArticulovariantevalors->clearIterator();
         }

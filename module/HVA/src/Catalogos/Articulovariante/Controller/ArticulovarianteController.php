@@ -113,35 +113,14 @@ class ArticulovarianteController extends AbstractActionController
 
     public function listarAction()
     {
-        // Instanciamos nuestro formulario articulovarianteForm
-        $articulovarianteForm = new ArticulovarianteForm();
+        $articulovarianteQuery = new \ArticulovarianteQuery();
 
-        // Guardamos en un arrglo los campos a los que el usuario va poder tener acceso de acuerdo a su nivel
-        $allowedColumns = array();
-        foreach ($articulovarianteForm->getElements() as $key=>$value){
-            array_push($allowedColumns, $key);
-        }
-        //Verificamos que si nos envian filtros  si no ponemos valores por default
-        $limit = (int) $this->params()->fromQuery('limit') ? (int)$this->params()->fromQuery('limit')  : 10;
-        if($limit > 100) $limit = 100; //Si el limit es mayor a 100 lo establece en 100 como maximo valor permitido
-        $dir = $this->params()->fromQuery('dir') ? $this->params()->fromQuery('dir')  : 'asc';
-        $order = in_array($this->params()->fromQuery('order'), $allowedColumns) ? $this->params()->fromQuery('order')  : 'idarticulovariante';
-        $page = (int) $this->params()->fromQuery('page') ? (int)$this->params()->fromQuery('page')  : 1;
+        $result = $articulovarianteQuery->paginate();
 
-        $articulovarianteQuery = new ArticulovarianteQuery();
-
-        //Order y Dir
-        if($order !=null || $dir !=null){
-            $articulovarianteQuery->orderBy($order, $dir);
-        }
-
-        // Obtenemos el filtrado por medio del idcompany del recurso.
-        $result = $articulovarianteQuery->paginate($page,$limit);
-
-        $data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+        $dataCollection = $result->getResults();
 
         return new ViewModel(array(
-            'Articulovariantes' => $data,
+            'articulosvariantes' => $dataCollection,
         ));
     }
 

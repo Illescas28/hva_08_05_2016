@@ -18,6 +18,10 @@
  * @method LugarQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method LugarQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method LugarQuery leftJoinArticulovariantereorden($relationAlias = null) Adds a LEFT JOIN clause to the query using the Articulovariantereorden relation
+ * @method LugarQuery rightJoinArticulovariantereorden($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Articulovariantereorden relation
+ * @method LugarQuery innerJoinArticulovariantereorden($relationAlias = null) Adds a INNER JOIN clause to the query using the Articulovariantereorden relation
+ *
  * @method LugarQuery leftJoinLugarinventario($relationAlias = null) Adds a LEFT JOIN clause to the query using the Lugarinventario relation
  * @method LugarQuery rightJoinLugarinventario($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Lugarinventario relation
  * @method LugarQuery innerJoinLugarinventario($relationAlias = null) Adds a INNER JOIN clause to the query using the Lugarinventario relation
@@ -333,6 +337,80 @@ abstract class BaseLugarQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(LugarPeer::LUGAR_DESCRIPCION, $lugarDescripcion, $comparison);
+    }
+
+    /**
+     * Filter the query by a related Articulovariantereorden object
+     *
+     * @param   Articulovariantereorden|PropelObjectCollection $articulovariantereorden  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 LugarQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByArticulovariantereorden($articulovariantereorden, $comparison = null)
+    {
+        if ($articulovariantereorden instanceof Articulovariantereorden) {
+            return $this
+                ->addUsingAlias(LugarPeer::IDLUGAR, $articulovariantereorden->getIdlugar(), $comparison);
+        } elseif ($articulovariantereorden instanceof PropelObjectCollection) {
+            return $this
+                ->useArticulovariantereordenQuery()
+                ->filterByPrimaryKeys($articulovariantereorden->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByArticulovariantereorden() only accepts arguments of type Articulovariantereorden or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Articulovariantereorden relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return LugarQuery The current query, for fluid interface
+     */
+    public function joinArticulovariantereorden($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Articulovariantereorden');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Articulovariantereorden');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Articulovariantereorden relation Articulovariantereorden object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   ArticulovariantereordenQuery A secondary query class using the current class as primary query
+     */
+    public function useArticulovariantereordenQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinArticulovariantereorden($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Articulovariantereorden', 'ArticulovariantereordenQuery');
     }
 
     /**

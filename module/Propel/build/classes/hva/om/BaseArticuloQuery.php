@@ -8,18 +8,14 @@
  *
  * @method ArticuloQuery orderByIdarticulo($order = Criteria::ASC) Order by the idarticulo column
  * @method ArticuloQuery orderByIdtipo($order = Criteria::ASC) Order by the idtipo column
- * @method ArticuloQuery orderByIdudm($order = Criteria::ASC) Order by the idudm column
  * @method ArticuloQuery orderByArticuloNombre($order = Criteria::ASC) Order by the articulo_nombre column
  * @method ArticuloQuery orderByArticuloDescripcion($order = Criteria::ASC) Order by the articulo_descripcion column
- * @method ArticuloQuery orderByArticuloTipopresentacion($order = Criteria::ASC) Order by the articulo_tipopresentacion column
  * @method ArticuloQuery orderByArticuloCantidadpresentacion($order = Criteria::ASC) Order by the articulo_cantidadpresentacion column
  *
  * @method ArticuloQuery groupByIdarticulo() Group by the idarticulo column
  * @method ArticuloQuery groupByIdtipo() Group by the idtipo column
- * @method ArticuloQuery groupByIdudm() Group by the idudm column
  * @method ArticuloQuery groupByArticuloNombre() Group by the articulo_nombre column
  * @method ArticuloQuery groupByArticuloDescripcion() Group by the articulo_descripcion column
- * @method ArticuloQuery groupByArticuloTipopresentacion() Group by the articulo_tipopresentacion column
  * @method ArticuloQuery groupByArticuloCantidadpresentacion() Group by the articulo_cantidadpresentacion column
  *
  * @method ArticuloQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
@@ -29,10 +25,6 @@
  * @method ArticuloQuery leftJoinTipo($relationAlias = null) Adds a LEFT JOIN clause to the query using the Tipo relation
  * @method ArticuloQuery rightJoinTipo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Tipo relation
  * @method ArticuloQuery innerJoinTipo($relationAlias = null) Adds a INNER JOIN clause to the query using the Tipo relation
- *
- * @method ArticuloQuery leftJoinUdm($relationAlias = null) Adds a LEFT JOIN clause to the query using the Udm relation
- * @method ArticuloQuery rightJoinUdm($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Udm relation
- * @method ArticuloQuery innerJoinUdm($relationAlias = null) Adds a INNER JOIN clause to the query using the Udm relation
  *
  * @method ArticuloQuery leftJoinArticulovariante($relationAlias = null) Adds a LEFT JOIN clause to the query using the Articulovariante relation
  * @method ArticuloQuery rightJoinArticulovariante($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Articulovariante relation
@@ -54,18 +46,14 @@
  * @method Articulo findOneOrCreate(PropelPDO $con = null) Return the first Articulo matching the query, or a new Articulo object populated from the query conditions when no match is found
  *
  * @method Articulo findOneByIdtipo(int $idtipo) Return the first Articulo filtered by the idtipo column
- * @method Articulo findOneByIdudm(int $idudm) Return the first Articulo filtered by the idudm column
  * @method Articulo findOneByArticuloNombre(string $articulo_nombre) Return the first Articulo filtered by the articulo_nombre column
  * @method Articulo findOneByArticuloDescripcion(string $articulo_descripcion) Return the first Articulo filtered by the articulo_descripcion column
- * @method Articulo findOneByArticuloTipopresentacion(string $articulo_tipopresentacion) Return the first Articulo filtered by the articulo_tipopresentacion column
  * @method Articulo findOneByArticuloCantidadpresentacion(int $articulo_cantidadpresentacion) Return the first Articulo filtered by the articulo_cantidadpresentacion column
  *
  * @method array findByIdarticulo(int $idarticulo) Return Articulo objects filtered by the idarticulo column
  * @method array findByIdtipo(int $idtipo) Return Articulo objects filtered by the idtipo column
- * @method array findByIdudm(int $idudm) Return Articulo objects filtered by the idudm column
  * @method array findByArticuloNombre(string $articulo_nombre) Return Articulo objects filtered by the articulo_nombre column
  * @method array findByArticuloDescripcion(string $articulo_descripcion) Return Articulo objects filtered by the articulo_descripcion column
- * @method array findByArticuloTipopresentacion(string $articulo_tipopresentacion) Return Articulo objects filtered by the articulo_tipopresentacion column
  * @method array findByArticuloCantidadpresentacion(int $articulo_cantidadpresentacion) Return Articulo objects filtered by the articulo_cantidadpresentacion column
  *
  * @package    propel.generator.hva.om
@@ -174,7 +162,7 @@ abstract class BaseArticuloQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idarticulo`, `idtipo`, `idudm`, `articulo_nombre`, `articulo_descripcion`, `articulo_tipopresentacion`, `articulo_cantidadpresentacion` FROM `articulo` WHERE `idarticulo` = :p0';
+        $sql = 'SELECT `idarticulo`, `idtipo`, `articulo_nombre`, `articulo_descripcion`, `articulo_cantidadpresentacion` FROM `articulo` WHERE `idarticulo` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -350,50 +338,6 @@ abstract class BaseArticuloQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the idudm column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIdudm(1234); // WHERE idudm = 1234
-     * $query->filterByIdudm(array(12, 34)); // WHERE idudm IN (12, 34)
-     * $query->filterByIdudm(array('min' => 12)); // WHERE idudm >= 12
-     * $query->filterByIdudm(array('max' => 12)); // WHERE idudm <= 12
-     * </code>
-     *
-     * @see       filterByUdm()
-     *
-     * @param     mixed $idudm The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ArticuloQuery The current query, for fluid interface
-     */
-    public function filterByIdudm($idudm = null, $comparison = null)
-    {
-        if (is_array($idudm)) {
-            $useMinMax = false;
-            if (isset($idudm['min'])) {
-                $this->addUsingAlias(ArticuloPeer::IDUDM, $idudm['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idudm['max'])) {
-                $this->addUsingAlias(ArticuloPeer::IDUDM, $idudm['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ArticuloPeer::IDUDM, $idudm, $comparison);
-    }
-
-    /**
      * Filter the query on the articulo_nombre column
      *
      * Example usage:
@@ -449,35 +393,6 @@ abstract class BaseArticuloQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ArticuloPeer::ARTICULO_DESCRIPCION, $articuloDescripcion, $comparison);
-    }
-
-    /**
-     * Filter the query on the articulo_tipopresentacion column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByArticuloTipopresentacion('fooValue');   // WHERE articulo_tipopresentacion = 'fooValue'
-     * $query->filterByArticuloTipopresentacion('%fooValue%'); // WHERE articulo_tipopresentacion LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $articuloTipopresentacion The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ArticuloQuery The current query, for fluid interface
-     */
-    public function filterByArticuloTipopresentacion($articuloTipopresentacion = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($articuloTipopresentacion)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $articuloTipopresentacion)) {
-                $articuloTipopresentacion = str_replace('*', '%', $articuloTipopresentacion);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(ArticuloPeer::ARTICULO_TIPOPRESENTACION, $articuloTipopresentacion, $comparison);
     }
 
     /**
@@ -596,82 +511,6 @@ abstract class BaseArticuloQuery extends ModelCriteria
         return $this
             ->joinTipo($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Tipo', 'TipoQuery');
-    }
-
-    /**
-     * Filter the query by a related Udm object
-     *
-     * @param   Udm|PropelObjectCollection $udm The related object(s) to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return                 ArticuloQuery The current query, for fluid interface
-     * @throws PropelException - if the provided filter is invalid.
-     */
-    public function filterByUdm($udm, $comparison = null)
-    {
-        if ($udm instanceof Udm) {
-            return $this
-                ->addUsingAlias(ArticuloPeer::IDUDM, $udm->getIdudm(), $comparison);
-        } elseif ($udm instanceof PropelObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(ArticuloPeer::IDUDM, $udm->toKeyValue('PrimaryKey', 'Idudm'), $comparison);
-        } else {
-            throw new PropelException('filterByUdm() only accepts arguments of type Udm or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Udm relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return ArticuloQuery The current query, for fluid interface
-     */
-    public function joinUdm($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Udm');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Udm');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the Udm relation Udm object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   UdmQuery A secondary query class using the current class as primary query
-     */
-    public function useUdmQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinUdm($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Udm', 'UdmQuery');
     }
 
     /**

@@ -54,22 +54,14 @@
   <table name="articulo" phpName="Articulo" idMethod="native">
     <column name="idarticulo" phpName="Idarticulo" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idtipo" phpName="Idtipo" type="INTEGER" required="true"/>
-    <column name="idudm" phpName="Idudm" type="INTEGER" required="true"/>
     <column name="articulo_nombre" phpName="ArticuloNombre" type="VARCHAR" size="300" required="false"/>
     <column name="articulo_descripcion" phpName="ArticuloDescripcion" type="LONGVARCHAR" required="false"/>
-    <column name="articulo_tipopresentacion" phpName="ArticuloTipopresentacion" type="CHAR" sqlType="enum('Caja')" required="true"/>
     <column name="articulo_cantidadpresentacion" phpName="ArticuloCantidadpresentacion" type="INTEGER" required="false"/>
     <foreign-key foreignTable="tipo" name="idtipo_articulo" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idtipo" foreign="idtipo"/>
     </foreign-key>
-    <foreign-key foreignTable="udm" name="idudm_articulo" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference local="idudm" foreign="idudm"/>
-    </foreign-key>
     <index name="idtipo">
       <index-column name="idtipo"/>
-    </index>
-    <index name="idudm">
-      <index-column name="idudm"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -83,14 +75,34 @@
     <column name="articulovariante_precio" phpName="ArticulovariantePrecio" type="DECIMAL" size="10" scale="2" required="false"/>
     <column name="articulovariante_iva" phpName="ArticulovarianteIva" type="CHAR" sqlType="enum('exento','0','16')" required="false"/>
     <column name="articulovariante_imagen" phpName="ArticulovarianteImagen" type="LONGVARCHAR" required="false"/>
-    <column name="articulovariante_minimo" phpName="ArticulovarianteMinimo" type="DECIMAL" size="10" scale="2" required="false"/>
-    <column name="articulovariante_maximo" phpName="ArticulovarianteMaximo" type="DECIMAL" size="10" scale="2" required="false"/>
-    <column name="articulovariante_reorden" phpName="ArticulovarianteReorden" type="DECIMAL" size="10" scale="2" required="false"/>
     <foreign-key foreignTable="articulo" name="idproducto_articulovariante" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idarticulo" foreign="idarticulo"/>
     </foreign-key>
     <index name="idproducto">
       <index-column name="idarticulo"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="articulovariantereorden" phpName="Articulovariantereorden" idMethod="native">
+    <column name="idarticulovariantereorden" phpName="Idarticulovariantereorden" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="idlugar" phpName="Idlugar" type="INTEGER" required="true"/>
+    <column name="idarticulovariante" phpName="Idarticulovariante" type="INTEGER" required="true"/>
+    <column name="minimo" phpName="Minimo" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="maximo" phpName="Maximo" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="reorden" phpName="Reorden" type="DECIMAL" size="10" scale="2" required="true"/>
+    <foreign-key foreignTable="articulovariante" name="idarticulovariante_articulovariantereorden" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idarticulovariante" foreign="idarticulovariante"/>
+    </foreign-key>
+    <foreign-key foreignTable="lugar" name="idlugar_articulovariantereorden" onDelete="CASCADE" onUpdate="CASCADE">
+      <reference local="idlugar" foreign="idlugar"/>
+    </foreign-key>
+    <index name="idlugar">
+      <index-column name="idlugar"/>
+    </index>
+    <index name="idarticulovariante">
+      <index-column name="idarticulovariante"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -807,14 +819,6 @@
     <index name="idlugarinventario">
       <index-column name="idlugarinventario"/>
     </index>
-    <vendor type="mysql">
-      <parameter name="Engine" value="InnoDB"/>
-    </vendor>
-  </table>
-  <table name="udm" phpName="Udm" idMethod="native">
-    <column name="idudm" phpName="Idudm" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="udm_nombre" phpName="UdmNombre" type="VARCHAR" size="45" required="true"/>
-    <column name="udm_descripcion" phpName="UdmDescripcion" type="VARCHAR" size="45" required="false"/>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

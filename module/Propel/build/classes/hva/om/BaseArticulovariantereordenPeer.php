@@ -2,53 +2,62 @@
 
 
 /**
- * Base static class for performing query and update operations on the 'empleadomodulo' table.
+ * Base static class for performing query and update operations on the 'articulovariantereorden' table.
  *
  *
  *
  * @package propel.generator.hva.om
  */
-abstract class BaseEmpleadomoduloPeer
+abstract class BaseArticulovariantereordenPeer
 {
 
     /** the default database name for this class */
     const DATABASE_NAME = 'hva';
 
     /** the table name for this class */
-    const TABLE_NAME = 'empleadomodulo';
+    const TABLE_NAME = 'articulovariantereorden';
 
     /** the related Propel class for this table */
-    const OM_CLASS = 'Empleadomodulo';
+    const OM_CLASS = 'Articulovariantereorden';
 
     /** the related TableMap class for this table */
-    const TM_CLASS = 'EmpleadomoduloTableMap';
+    const TM_CLASS = 'ArticulovariantereordenTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 3;
+    const NUM_COLUMNS = 6;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 3;
+    const NUM_HYDRATE_COLUMNS = 6;
 
-    /** the column name for the idempleadomodulo field */
-    const IDEMPLEADOMODULO = 'empleadomodulo.idempleadomodulo';
+    /** the column name for the idarticulovariantereorden field */
+    const IDARTICULOVARIANTEREORDEN = 'articulovariantereorden.idarticulovariantereorden';
 
-    /** the column name for the idempleado field */
-    const IDEMPLEADO = 'empleadomodulo.idempleado';
+    /** the column name for the idlugar field */
+    const IDLUGAR = 'articulovariantereorden.idlugar';
 
-    /** the column name for the idmodulo field */
-    const IDMODULO = 'empleadomodulo.idmodulo';
+    /** the column name for the idarticulovariante field */
+    const IDARTICULOVARIANTE = 'articulovariantereorden.idarticulovariante';
+
+    /** the column name for the minimo field */
+    const MINIMO = 'articulovariantereorden.minimo';
+
+    /** the column name for the maximo field */
+    const MAXIMO = 'articulovariantereorden.maximo';
+
+    /** the column name for the reorden field */
+    const REORDEN = 'articulovariantereorden.reorden';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
     /**
-     * An identity map to hold any loaded instances of Empleadomodulo objects.
+     * An identity map to hold any loaded instances of Articulovariantereorden objects.
      * This must be public so that other peer classes can access this when hydrating from JOIN
      * queries.
-     * @var        array Empleadomodulo[]
+     * @var        array Articulovariantereorden[]
      */
     public static $instances = array();
 
@@ -57,30 +66,30 @@ abstract class BaseEmpleadomoduloPeer
      * holds an array of fieldnames
      *
      * first dimension keys are the type constants
-     * e.g. EmpleadomoduloPeer::$fieldNames[EmpleadomoduloPeer::TYPE_PHPNAME][0] = 'Id'
+     * e.g. ArticulovariantereordenPeer::$fieldNames[ArticulovariantereordenPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idempleadomodulo', 'Idempleado', 'Idmodulo', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idempleadomodulo', 'idempleado', 'idmodulo', ),
-        BasePeer::TYPE_COLNAME => array (EmpleadomoduloPeer::IDEMPLEADOMODULO, EmpleadomoduloPeer::IDEMPLEADO, EmpleadomoduloPeer::IDMODULO, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDEMPLEADOMODULO', 'IDEMPLEADO', 'IDMODULO', ),
-        BasePeer::TYPE_FIELDNAME => array ('idempleadomodulo', 'idempleado', 'idmodulo', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, )
+        BasePeer::TYPE_PHPNAME => array ('Idarticulovariantereorden', 'Idlugar', 'Idarticulovariante', 'Minimo', 'Maximo', 'Reorden', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulovariantereorden', 'idlugar', 'idarticulovariante', 'minimo', 'maximo', 'reorden', ),
+        BasePeer::TYPE_COLNAME => array (ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN, ArticulovariantereordenPeer::IDLUGAR, ArticulovariantereordenPeer::IDARTICULOVARIANTE, ArticulovariantereordenPeer::MINIMO, ArticulovariantereordenPeer::MAXIMO, ArticulovariantereordenPeer::REORDEN, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULOVARIANTEREORDEN', 'IDLUGAR', 'IDARTICULOVARIANTE', 'MINIMO', 'MAXIMO', 'REORDEN', ),
+        BasePeer::TYPE_FIELDNAME => array ('idarticulovariantereorden', 'idlugar', 'idarticulovariante', 'minimo', 'maximo', 'reorden', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
      * holds an array of keys for quick access to the fieldnames array
      *
      * first dimension keys are the type constants
-     * e.g. EmpleadomoduloPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
+     * e.g. ArticulovariantereordenPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idempleadomodulo' => 0, 'Idempleado' => 1, 'Idmodulo' => 2, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idempleadomodulo' => 0, 'idempleado' => 1, 'idmodulo' => 2, ),
-        BasePeer::TYPE_COLNAME => array (EmpleadomoduloPeer::IDEMPLEADOMODULO => 0, EmpleadomoduloPeer::IDEMPLEADO => 1, EmpleadomoduloPeer::IDMODULO => 2, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDEMPLEADOMODULO' => 0, 'IDEMPLEADO' => 1, 'IDMODULO' => 2, ),
-        BasePeer::TYPE_FIELDNAME => array ('idempleadomodulo' => 0, 'idempleado' => 1, 'idmodulo' => 2, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, )
+        BasePeer::TYPE_PHPNAME => array ('Idarticulovariantereorden' => 0, 'Idlugar' => 1, 'Idarticulovariante' => 2, 'Minimo' => 3, 'Maximo' => 4, 'Reorden' => 5, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulovariantereorden' => 0, 'idlugar' => 1, 'idarticulovariante' => 2, 'minimo' => 3, 'maximo' => 4, 'reorden' => 5, ),
+        BasePeer::TYPE_COLNAME => array (ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN => 0, ArticulovariantereordenPeer::IDLUGAR => 1, ArticulovariantereordenPeer::IDARTICULOVARIANTE => 2, ArticulovariantereordenPeer::MINIMO => 3, ArticulovariantereordenPeer::MAXIMO => 4, ArticulovariantereordenPeer::REORDEN => 5, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULOVARIANTEREORDEN' => 0, 'IDLUGAR' => 1, 'IDARTICULOVARIANTE' => 2, 'MINIMO' => 3, 'MAXIMO' => 4, 'REORDEN' => 5, ),
+        BasePeer::TYPE_FIELDNAME => array ('idarticulovariantereorden' => 0, 'idlugar' => 1, 'idarticulovariante' => 2, 'minimo' => 3, 'maximo' => 4, 'reorden' => 5, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -95,10 +104,10 @@ abstract class BaseEmpleadomoduloPeer
      */
     public static function translateFieldName($name, $fromType, $toType)
     {
-        $toNames = EmpleadomoduloPeer::getFieldNames($toType);
-        $key = isset(EmpleadomoduloPeer::$fieldKeys[$fromType][$name]) ? EmpleadomoduloPeer::$fieldKeys[$fromType][$name] : null;
+        $toNames = ArticulovariantereordenPeer::getFieldNames($toType);
+        $key = isset(ArticulovariantereordenPeer::$fieldKeys[$fromType][$name]) ? ArticulovariantereordenPeer::$fieldKeys[$fromType][$name] : null;
         if ($key === null) {
-            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(EmpleadomoduloPeer::$fieldKeys[$fromType], true));
+            throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(ArticulovariantereordenPeer::$fieldKeys[$fromType], true));
         }
 
         return $toNames[$key];
@@ -115,11 +124,11 @@ abstract class BaseEmpleadomoduloPeer
      */
     public static function getFieldNames($type = BasePeer::TYPE_PHPNAME)
     {
-        if (!array_key_exists($type, EmpleadomoduloPeer::$fieldNames)) {
+        if (!array_key_exists($type, ArticulovariantereordenPeer::$fieldNames)) {
             throw new PropelException('Method getFieldNames() expects the parameter $type to be one of the class constants BasePeer::TYPE_PHPNAME, BasePeer::TYPE_STUDLYPHPNAME, BasePeer::TYPE_COLNAME, BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_NUM. ' . $type . ' was given.');
         }
 
-        return EmpleadomoduloPeer::$fieldNames[$type];
+        return ArticulovariantereordenPeer::$fieldNames[$type];
     }
 
     /**
@@ -131,12 +140,12 @@ abstract class BaseEmpleadomoduloPeer
      *		$c->addJoin(TablePeer::alias("alias1", TablePeer::PRIMARY_KEY_COLUMN), TablePeer::PRIMARY_KEY_COLUMN);
      * </code>
      * @param      string $alias The alias for the current table.
-     * @param      string $column The column name for current table. (i.e. EmpleadomoduloPeer::COLUMN_NAME).
+     * @param      string $column The column name for current table. (i.e. ArticulovariantereordenPeer::COLUMN_NAME).
      * @return string
      */
     public static function alias($alias, $column)
     {
-        return str_replace(EmpleadomoduloPeer::TABLE_NAME.'.', $alias.'.', $column);
+        return str_replace(ArticulovariantereordenPeer::TABLE_NAME.'.', $alias.'.', $column);
     }
 
     /**
@@ -154,13 +163,19 @@ abstract class BaseEmpleadomoduloPeer
     public static function addSelectColumns(Criteria $criteria, $alias = null)
     {
         if (null === $alias) {
-            $criteria->addSelectColumn(EmpleadomoduloPeer::IDEMPLEADOMODULO);
-            $criteria->addSelectColumn(EmpleadomoduloPeer::IDEMPLEADO);
-            $criteria->addSelectColumn(EmpleadomoduloPeer::IDMODULO);
+            $criteria->addSelectColumn(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN);
+            $criteria->addSelectColumn(ArticulovariantereordenPeer::IDLUGAR);
+            $criteria->addSelectColumn(ArticulovariantereordenPeer::IDARTICULOVARIANTE);
+            $criteria->addSelectColumn(ArticulovariantereordenPeer::MINIMO);
+            $criteria->addSelectColumn(ArticulovariantereordenPeer::MAXIMO);
+            $criteria->addSelectColumn(ArticulovariantereordenPeer::REORDEN);
         } else {
-            $criteria->addSelectColumn($alias . '.idempleadomodulo');
-            $criteria->addSelectColumn($alias . '.idempleado');
-            $criteria->addSelectColumn($alias . '.idmodulo');
+            $criteria->addSelectColumn($alias . '.idarticulovariantereorden');
+            $criteria->addSelectColumn($alias . '.idlugar');
+            $criteria->addSelectColumn($alias . '.idarticulovariante');
+            $criteria->addSelectColumn($alias . '.minimo');
+            $criteria->addSelectColumn($alias . '.maximo');
+            $criteria->addSelectColumn($alias . '.reorden');
         }
     }
 
@@ -180,21 +195,21 @@ abstract class BaseEmpleadomoduloPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(EmpleadomoduloPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(ArticulovariantereordenPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            EmpleadomoduloPeer::addSelectColumns($criteria);
+            ArticulovariantereordenPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME); // Set the correct dbName
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME); // Set the correct dbName
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
         // BasePeer returns a PDOStatement
         $stmt = BasePeer::doCount($criteria, $con);
@@ -213,7 +228,7 @@ abstract class BaseEmpleadomoduloPeer
      *
      * @param      Criteria $criteria object used to create the SELECT statement.
      * @param      PropelPDO $con
-     * @return Empleadomodulo
+     * @return Articulovariantereorden
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
@@ -221,7 +236,7 @@ abstract class BaseEmpleadomoduloPeer
     {
         $critcopy = clone $criteria;
         $critcopy->setLimit(1);
-        $objects = EmpleadomoduloPeer::doSelect($critcopy, $con);
+        $objects = ArticulovariantereordenPeer::doSelect($critcopy, $con);
         if ($objects) {
             return $objects[0];
         }
@@ -239,7 +254,7 @@ abstract class BaseEmpleadomoduloPeer
      */
     public static function doSelect(Criteria $criteria, PropelPDO $con = null)
     {
-        return EmpleadomoduloPeer::populateObjects(EmpleadomoduloPeer::doSelectStmt($criteria, $con));
+        return ArticulovariantereordenPeer::populateObjects(ArticulovariantereordenPeer::doSelectStmt($criteria, $con));
     }
     /**
      * Prepares the Criteria object and uses the parent doSelect() method to execute a PDOStatement.
@@ -257,16 +272,16 @@ abstract class BaseEmpleadomoduloPeer
     public static function doSelectStmt(Criteria $criteria, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         if (!$criteria->hasSelectClause()) {
             $criteria = clone $criteria;
-            EmpleadomoduloPeer::addSelectColumns($criteria);
+            ArticulovariantereordenPeer::addSelectColumns($criteria);
         }
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         // BasePeer returns a PDOStatement
         return BasePeer::doSelect($criteria, $con);
@@ -280,16 +295,16 @@ abstract class BaseEmpleadomoduloPeer
      * to the cache in order to ensure that the same objects are always returned by doSelect*()
      * and retrieveByPK*() calls.
      *
-     * @param Empleadomodulo $obj A Empleadomodulo object.
+     * @param Articulovariantereorden $obj A Articulovariantereorden object.
      * @param      string $key (optional) key to use for instance map (for performance boost if key was already calculated externally).
      */
     public static function addInstanceToPool($obj, $key = null)
     {
         if (Propel::isInstancePoolingEnabled()) {
             if ($key === null) {
-                $key = (string) $obj->getIdempleadomodulo();
+                $key = (string) $obj->getIdarticulovariantereorden();
             } // if key === null
-            EmpleadomoduloPeer::$instances[$key] = $obj;
+            ArticulovariantereordenPeer::$instances[$key] = $obj;
         }
     }
 
@@ -301,7 +316,7 @@ abstract class BaseEmpleadomoduloPeer
      * methods in your stub classes -- you may need to explicitly remove objects
      * from the cache in order to prevent returning objects that no longer exist.
      *
-     * @param      mixed $value A Empleadomodulo object or a primary key value.
+     * @param      mixed $value A Articulovariantereorden object or a primary key value.
      *
      * @return void
      * @throws PropelException - if the value is invalid.
@@ -309,17 +324,17 @@ abstract class BaseEmpleadomoduloPeer
     public static function removeInstanceFromPool($value)
     {
         if (Propel::isInstancePoolingEnabled() && $value !== null) {
-            if (is_object($value) && $value instanceof Empleadomodulo) {
-                $key = (string) $value->getIdempleadomodulo();
+            if (is_object($value) && $value instanceof Articulovariantereorden) {
+                $key = (string) $value->getIdarticulovariantereorden();
             } elseif (is_scalar($value)) {
                 // assume we've been passed a primary key
                 $key = (string) $value;
             } else {
-                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Empleadomodulo object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
+                $e = new PropelException("Invalid value passed to removeInstanceFromPool().  Expected primary key or Articulovariantereorden object; got " . (is_object($value) ? get_class($value) . ' object.' : var_export($value,true)));
                 throw $e;
             }
 
-            unset(EmpleadomoduloPeer::$instances[$key]);
+            unset(ArticulovariantereordenPeer::$instances[$key]);
         }
     } // removeInstanceFromPool()
 
@@ -330,14 +345,14 @@ abstract class BaseEmpleadomoduloPeer
      * a multi-column primary key, a serialize()d version of the primary key will be returned.
      *
      * @param      string $key The key (@see getPrimaryKeyHash()) for this instance.
-     * @return Empleadomodulo Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
+     * @return Articulovariantereorden Found object or null if 1) no instance exists for specified key or 2) instance pooling has been disabled.
      * @see        getPrimaryKeyHash()
      */
     public static function getInstanceFromPool($key)
     {
         if (Propel::isInstancePoolingEnabled()) {
-            if (isset(EmpleadomoduloPeer::$instances[$key])) {
-                return EmpleadomoduloPeer::$instances[$key];
+            if (isset(ArticulovariantereordenPeer::$instances[$key])) {
+                return ArticulovariantereordenPeer::$instances[$key];
             }
         }
 
@@ -352,15 +367,15 @@ abstract class BaseEmpleadomoduloPeer
     public static function clearInstancePool($and_clear_all_references = false)
     {
       if ($and_clear_all_references) {
-        foreach (EmpleadomoduloPeer::$instances as $instance) {
+        foreach (ArticulovariantereordenPeer::$instances as $instance) {
           $instance->clearAllReferences(true);
         }
       }
-        EmpleadomoduloPeer::$instances = array();
+        ArticulovariantereordenPeer::$instances = array();
     }
 
     /**
-     * Method to invalidate the instance pool of all tables related to empleadomodulo
+     * Method to invalidate the instance pool of all tables related to articulovariantereorden
      * by a foreign key with ON DELETE CASCADE
      */
     public static function clearRelatedInstancePool()
@@ -414,11 +429,11 @@ abstract class BaseEmpleadomoduloPeer
         $results = array();
 
         // set the class once to avoid overhead in the loop
-        $cls = EmpleadomoduloPeer::getOMClass();
+        $cls = ArticulovariantereordenPeer::getOMClass();
         // populate the object(s)
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key = EmpleadomoduloPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj = EmpleadomoduloPeer::getInstanceFromPool($key))) {
+            $key = ArticulovariantereordenPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj = ArticulovariantereordenPeer::getInstanceFromPool($key))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj->hydrate($row, 0, true); // rehydrate
@@ -427,7 +442,7 @@ abstract class BaseEmpleadomoduloPeer
                 $obj = new $cls();
                 $obj->hydrate($row);
                 $results[] = $obj;
-                EmpleadomoduloPeer::addInstanceToPool($obj, $key);
+                ArticulovariantereordenPeer::addInstanceToPool($obj, $key);
             } // if key exists
         }
         $stmt->closeCursor();
@@ -441,21 +456,21 @@ abstract class BaseEmpleadomoduloPeer
      * @param      int $startcol The 0-based offset for reading from the resultset row.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
-     * @return array (Empleadomodulo object, last column rank)
+     * @return array (Articulovariantereorden object, last column rank)
      */
     public static function populateObject($row, $startcol = 0)
     {
-        $key = EmpleadomoduloPeer::getPrimaryKeyHashFromRow($row, $startcol);
-        if (null !== ($obj = EmpleadomoduloPeer::getInstanceFromPool($key))) {
+        $key = ArticulovariantereordenPeer::getPrimaryKeyHashFromRow($row, $startcol);
+        if (null !== ($obj = ArticulovariantereordenPeer::getInstanceFromPool($key))) {
             // We no longer rehydrate the object, since this can cause data loss.
             // See http://www.propelorm.org/ticket/509
             // $obj->hydrate($row, $startcol, true); // rehydrate
-            $col = $startcol + EmpleadomoduloPeer::NUM_HYDRATE_COLUMNS;
+            $col = $startcol + ArticulovariantereordenPeer::NUM_HYDRATE_COLUMNS;
         } else {
-            $cls = EmpleadomoduloPeer::OM_CLASS;
+            $cls = ArticulovariantereordenPeer::OM_CLASS;
             $obj = new $cls();
             $col = $obj->hydrate($row, $startcol);
-            EmpleadomoduloPeer::addInstanceToPool($obj, $key);
+            ArticulovariantereordenPeer::addInstanceToPool($obj, $key);
         }
 
         return array($obj, $col);
@@ -463,7 +478,7 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Empleado table
+     * Returns the number of rows matching criteria, joining the related Articulovariante table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -471,7 +486,7 @@ abstract class BaseEmpleadomoduloPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinEmpleado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinArticulovariante(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -479,26 +494,26 @@ abstract class BaseEmpleadomoduloPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(EmpleadomoduloPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(ArticulovariantereordenPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            EmpleadomoduloPeer::addSelectColumns($criteria);
+            ArticulovariantereordenPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDEMPLEADO, EmpleadoPeer::IDEMPLEADO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULOVARIANTE, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -514,7 +529,7 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Modulo table
+     * Returns the number of rows matching criteria, joining the related Lugar table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -522,7 +537,7 @@ abstract class BaseEmpleadomoduloPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinModulo(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinLugar(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -530,26 +545,26 @@ abstract class BaseEmpleadomoduloPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(EmpleadomoduloPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(ArticulovariantereordenPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            EmpleadomoduloPeer::addSelectColumns($criteria);
+            ArticulovariantereordenPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDMODULO, ModuloPeer::IDMODULO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDLUGAR, LugarPeer::IDLUGAR, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -565,61 +580,61 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Selects a collection of Empleadomodulo objects pre-filled with their Empleado objects.
+     * Selects a collection of Articulovariantereorden objects pre-filled with their Articulovariante objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Empleadomodulo objects.
+     * @return array           Array of Articulovariantereorden objects.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinEmpleado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinArticulovariante(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
         // Set the correct dbName if it has not been overridden
         if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+            $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
         }
 
-        EmpleadomoduloPeer::addSelectColumns($criteria);
-        $startcol = EmpleadomoduloPeer::NUM_HYDRATE_COLUMNS;
-        EmpleadoPeer::addSelectColumns($criteria);
+        ArticulovariantereordenPeer::addSelectColumns($criteria);
+        $startcol = ArticulovariantereordenPeer::NUM_HYDRATE_COLUMNS;
+        ArticulovariantePeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDEMPLEADO, EmpleadoPeer::IDEMPLEADO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULOVARIANTE, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = EmpleadomoduloPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = EmpleadomoduloPeer::getInstanceFromPool($key1))) {
+            $key1 = ArticulovariantereordenPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = ArticulovariantereordenPeer::getInstanceFromPool($key1))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj1->hydrate($row, 0, true); // rehydrate
             } else {
 
-                $cls = EmpleadomoduloPeer::getOMClass();
+                $cls = ArticulovariantereordenPeer::getOMClass();
 
                 $obj1 = new $cls();
                 $obj1->hydrate($row);
-                EmpleadomoduloPeer::addInstanceToPool($obj1, $key1);
+                ArticulovariantereordenPeer::addInstanceToPool($obj1, $key1);
             } // if $obj1 already loaded
 
-            $key2 = EmpleadoPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            $key2 = ArticulovariantePeer::getPrimaryKeyHashFromRow($row, $startcol);
             if ($key2 !== null) {
-                $obj2 = EmpleadoPeer::getInstanceFromPool($key2);
+                $obj2 = ArticulovariantePeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = EmpleadoPeer::getOMClass();
+                    $cls = ArticulovariantePeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol);
-                    EmpleadoPeer::addInstanceToPool($obj2, $key2);
+                    ArticulovariantePeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 already loaded
 
-                // Add the $obj1 (Empleadomodulo) to $obj2 (Empleado)
-                $obj2->addEmpleadomodulo($obj1);
+                // Add the $obj1 (Articulovariantereorden) to $obj2 (Articulovariante)
+                $obj2->addArticulovariantereorden($obj1);
 
             } // if joined row was not null
 
@@ -632,61 +647,61 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Selects a collection of Empleadomodulo objects pre-filled with their Modulo objects.
+     * Selects a collection of Articulovariantereorden objects pre-filled with their Lugar objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Empleadomodulo objects.
+     * @return array           Array of Articulovariantereorden objects.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinModulo(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinLugar(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
         // Set the correct dbName if it has not been overridden
         if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+            $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
         }
 
-        EmpleadomoduloPeer::addSelectColumns($criteria);
-        $startcol = EmpleadomoduloPeer::NUM_HYDRATE_COLUMNS;
-        ModuloPeer::addSelectColumns($criteria);
+        ArticulovariantereordenPeer::addSelectColumns($criteria);
+        $startcol = ArticulovariantereordenPeer::NUM_HYDRATE_COLUMNS;
+        LugarPeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDMODULO, ModuloPeer::IDMODULO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDLUGAR, LugarPeer::IDLUGAR, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = EmpleadomoduloPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = EmpleadomoduloPeer::getInstanceFromPool($key1))) {
+            $key1 = ArticulovariantereordenPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = ArticulovariantereordenPeer::getInstanceFromPool($key1))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj1->hydrate($row, 0, true); // rehydrate
             } else {
 
-                $cls = EmpleadomoduloPeer::getOMClass();
+                $cls = ArticulovariantereordenPeer::getOMClass();
 
                 $obj1 = new $cls();
                 $obj1->hydrate($row);
-                EmpleadomoduloPeer::addInstanceToPool($obj1, $key1);
+                ArticulovariantereordenPeer::addInstanceToPool($obj1, $key1);
             } // if $obj1 already loaded
 
-            $key2 = ModuloPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            $key2 = LugarPeer::getPrimaryKeyHashFromRow($row, $startcol);
             if ($key2 !== null) {
-                $obj2 = ModuloPeer::getInstanceFromPool($key2);
+                $obj2 = LugarPeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = ModuloPeer::getOMClass();
+                    $cls = LugarPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol);
-                    ModuloPeer::addInstanceToPool($obj2, $key2);
+                    LugarPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 already loaded
 
-                // Add the $obj1 (Empleadomodulo) to $obj2 (Modulo)
-                $obj2->addEmpleadomodulo($obj1);
+                // Add the $obj1 (Articulovariantereorden) to $obj2 (Lugar)
+                $obj2->addArticulovariantereorden($obj1);
 
             } // if joined row was not null
 
@@ -715,28 +730,28 @@ abstract class BaseEmpleadomoduloPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(EmpleadomoduloPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(ArticulovariantereordenPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            EmpleadomoduloPeer::addSelectColumns($criteria);
+            ArticulovariantereordenPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDEMPLEADO, EmpleadoPeer::IDEMPLEADO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULOVARIANTE, $join_behavior);
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDMODULO, ModuloPeer::IDMODULO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDLUGAR, LugarPeer::IDLUGAR, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -751,12 +766,12 @@ abstract class BaseEmpleadomoduloPeer
     }
 
     /**
-     * Selects a collection of Empleadomodulo objects pre-filled with all related objects.
+     * Selects a collection of Articulovariantereorden objects pre-filled with all related objects.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Empleadomodulo objects.
+     * @return array           Array of Articulovariantereorden objects.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
@@ -766,73 +781,73 @@ abstract class BaseEmpleadomoduloPeer
 
         // Set the correct dbName if it has not been overridden
         if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+            $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
         }
 
-        EmpleadomoduloPeer::addSelectColumns($criteria);
-        $startcol2 = EmpleadomoduloPeer::NUM_HYDRATE_COLUMNS;
+        ArticulovariantereordenPeer::addSelectColumns($criteria);
+        $startcol2 = ArticulovariantereordenPeer::NUM_HYDRATE_COLUMNS;
 
-        EmpleadoPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + EmpleadoPeer::NUM_HYDRATE_COLUMNS;
+        ArticulovariantePeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ArticulovariantePeer::NUM_HYDRATE_COLUMNS;
 
-        ModuloPeer::addSelectColumns($criteria);
-        $startcol4 = $startcol3 + ModuloPeer::NUM_HYDRATE_COLUMNS;
+        LugarPeer::addSelectColumns($criteria);
+        $startcol4 = $startcol3 + LugarPeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDEMPLEADO, EmpleadoPeer::IDEMPLEADO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULOVARIANTE, $join_behavior);
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDMODULO, ModuloPeer::IDMODULO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDLUGAR, LugarPeer::IDLUGAR, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = EmpleadomoduloPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = EmpleadomoduloPeer::getInstanceFromPool($key1))) {
+            $key1 = ArticulovariantereordenPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = ArticulovariantereordenPeer::getInstanceFromPool($key1))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj1->hydrate($row, 0, true); // rehydrate
             } else {
-                $cls = EmpleadomoduloPeer::getOMClass();
+                $cls = ArticulovariantereordenPeer::getOMClass();
 
                 $obj1 = new $cls();
                 $obj1->hydrate($row);
-                EmpleadomoduloPeer::addInstanceToPool($obj1, $key1);
+                ArticulovariantereordenPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-            // Add objects for joined Empleado rows
+            // Add objects for joined Articulovariante rows
 
-            $key2 = EmpleadoPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            $key2 = ArticulovariantePeer::getPrimaryKeyHashFromRow($row, $startcol2);
             if ($key2 !== null) {
-                $obj2 = EmpleadoPeer::getInstanceFromPool($key2);
+                $obj2 = ArticulovariantePeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = EmpleadoPeer::getOMClass();
+                    $cls = ArticulovariantePeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
-                    EmpleadoPeer::addInstanceToPool($obj2, $key2);
+                    ArticulovariantePeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 loaded
 
-                // Add the $obj1 (Empleadomodulo) to the collection in $obj2 (Empleado)
-                $obj2->addEmpleadomodulo($obj1);
+                // Add the $obj1 (Articulovariantereorden) to the collection in $obj2 (Articulovariante)
+                $obj2->addArticulovariantereorden($obj1);
             } // if joined row not null
 
-            // Add objects for joined Modulo rows
+            // Add objects for joined Lugar rows
 
-            $key3 = ModuloPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+            $key3 = LugarPeer::getPrimaryKeyHashFromRow($row, $startcol3);
             if ($key3 !== null) {
-                $obj3 = ModuloPeer::getInstanceFromPool($key3);
+                $obj3 = LugarPeer::getInstanceFromPool($key3);
                 if (!$obj3) {
 
-                    $cls = ModuloPeer::getOMClass();
+                    $cls = LugarPeer::getOMClass();
 
                     $obj3 = new $cls();
                     $obj3->hydrate($row, $startcol3);
-                    ModuloPeer::addInstanceToPool($obj3, $key3);
+                    LugarPeer::addInstanceToPool($obj3, $key3);
                 } // if obj3 loaded
 
-                // Add the $obj1 (Empleadomodulo) to the collection in $obj3 (Modulo)
-                $obj3->addEmpleadomodulo($obj1);
+                // Add the $obj1 (Articulovariantereorden) to the collection in $obj3 (Lugar)
+                $obj3->addArticulovariantereorden($obj1);
             } // if joined row not null
 
             $results[] = $obj1;
@@ -844,7 +859,7 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Empleado table
+     * Returns the number of rows matching criteria, joining the related Articulovariante table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -852,7 +867,7 @@ abstract class BaseEmpleadomoduloPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinAllExceptEmpleado(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinAllExceptArticulovariante(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -860,26 +875,26 @@ abstract class BaseEmpleadomoduloPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(EmpleadomoduloPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(ArticulovariantereordenPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            EmpleadomoduloPeer::addSelectColumns($criteria);
+            ArticulovariantereordenPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY should not affect count
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDMODULO, ModuloPeer::IDMODULO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDLUGAR, LugarPeer::IDLUGAR, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -895,7 +910,7 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Modulo table
+     * Returns the number of rows matching criteria, joining the related Lugar table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -903,7 +918,7 @@ abstract class BaseEmpleadomoduloPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinAllExceptModulo(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinAllExceptLugar(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -911,26 +926,26 @@ abstract class BaseEmpleadomoduloPeer
         // We need to set the primary table name, since in the case that there are no WHERE columns
         // it will be impossible for the BasePeer::createSelectSql() method to determine which
         // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(EmpleadomoduloPeer::TABLE_NAME);
+        $criteria->setPrimaryTableName(ArticulovariantereordenPeer::TABLE_NAME);
 
         if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
             $criteria->setDistinct();
         }
 
         if (!$criteria->hasSelectClause()) {
-            EmpleadomoduloPeer::addSelectColumns($criteria);
+            ArticulovariantereordenPeer::addSelectColumns($criteria);
         }
 
         $criteria->clearOrderByColumns(); // ORDER BY should not affect count
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDEMPLEADO, EmpleadoPeer::IDEMPLEADO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULOVARIANTE, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -946,16 +961,16 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Selects a collection of Empleadomodulo objects pre-filled with all related objects except Empleado.
+     * Selects a collection of Articulovariantereorden objects pre-filled with all related objects except Articulovariante.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Empleadomodulo objects.
+     * @return array           Array of Articulovariantereorden objects.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinAllExceptEmpleado(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinAllExceptArticulovariante(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -963,51 +978,51 @@ abstract class BaseEmpleadomoduloPeer
         // $criteria->getDbName() will return the same object if not set to another value
         // so == check is okay and faster
         if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+            $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
         }
 
-        EmpleadomoduloPeer::addSelectColumns($criteria);
-        $startcol2 = EmpleadomoduloPeer::NUM_HYDRATE_COLUMNS;
+        ArticulovariantereordenPeer::addSelectColumns($criteria);
+        $startcol2 = ArticulovariantereordenPeer::NUM_HYDRATE_COLUMNS;
 
-        ModuloPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + ModuloPeer::NUM_HYDRATE_COLUMNS;
+        LugarPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + LugarPeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDMODULO, ModuloPeer::IDMODULO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDLUGAR, LugarPeer::IDLUGAR, $join_behavior);
 
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = EmpleadomoduloPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = EmpleadomoduloPeer::getInstanceFromPool($key1))) {
+            $key1 = ArticulovariantereordenPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = ArticulovariantereordenPeer::getInstanceFromPool($key1))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj1->hydrate($row, 0, true); // rehydrate
             } else {
-                $cls = EmpleadomoduloPeer::getOMClass();
+                $cls = ArticulovariantereordenPeer::getOMClass();
 
                 $obj1 = new $cls();
                 $obj1->hydrate($row);
-                EmpleadomoduloPeer::addInstanceToPool($obj1, $key1);
+                ArticulovariantereordenPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-                // Add objects for joined Modulo rows
+                // Add objects for joined Lugar rows
 
-                $key2 = ModuloPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                $key2 = LugarPeer::getPrimaryKeyHashFromRow($row, $startcol2);
                 if ($key2 !== null) {
-                    $obj2 = ModuloPeer::getInstanceFromPool($key2);
+                    $obj2 = LugarPeer::getInstanceFromPool($key2);
                     if (!$obj2) {
 
-                        $cls = ModuloPeer::getOMClass();
+                        $cls = LugarPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
-                    ModuloPeer::addInstanceToPool($obj2, $key2);
+                    LugarPeer::addInstanceToPool($obj2, $key2);
                 } // if $obj2 already loaded
 
-                // Add the $obj1 (Empleadomodulo) to the collection in $obj2 (Modulo)
-                $obj2->addEmpleadomodulo($obj1);
+                // Add the $obj1 (Articulovariantereorden) to the collection in $obj2 (Lugar)
+                $obj2->addArticulovariantereorden($obj1);
 
             } // if joined row is not null
 
@@ -1020,16 +1035,16 @@ abstract class BaseEmpleadomoduloPeer
 
 
     /**
-     * Selects a collection of Empleadomodulo objects pre-filled with all related objects except Modulo.
+     * Selects a collection of Articulovariantereorden objects pre-filled with all related objects except Lugar.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of Empleadomodulo objects.
+     * @return array           Array of Articulovariantereorden objects.
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinAllExceptModulo(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinAllExceptLugar(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -1037,51 +1052,51 @@ abstract class BaseEmpleadomoduloPeer
         // $criteria->getDbName() will return the same object if not set to another value
         // so == check is okay and faster
         if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+            $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
         }
 
-        EmpleadomoduloPeer::addSelectColumns($criteria);
-        $startcol2 = EmpleadomoduloPeer::NUM_HYDRATE_COLUMNS;
+        ArticulovariantereordenPeer::addSelectColumns($criteria);
+        $startcol2 = ArticulovariantereordenPeer::NUM_HYDRATE_COLUMNS;
 
-        EmpleadoPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + EmpleadoPeer::NUM_HYDRATE_COLUMNS;
+        ArticulovariantePeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ArticulovariantePeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(EmpleadomoduloPeer::IDEMPLEADO, EmpleadoPeer::IDEMPLEADO, $join_behavior);
+        $criteria->addJoin(ArticulovariantereordenPeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULOVARIANTE, $join_behavior);
 
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
 
         while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = EmpleadomoduloPeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = EmpleadomoduloPeer::getInstanceFromPool($key1))) {
+            $key1 = ArticulovariantereordenPeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = ArticulovariantereordenPeer::getInstanceFromPool($key1))) {
                 // We no longer rehydrate the object, since this can cause data loss.
                 // See http://www.propelorm.org/ticket/509
                 // $obj1->hydrate($row, 0, true); // rehydrate
             } else {
-                $cls = EmpleadomoduloPeer::getOMClass();
+                $cls = ArticulovariantereordenPeer::getOMClass();
 
                 $obj1 = new $cls();
                 $obj1->hydrate($row);
-                EmpleadomoduloPeer::addInstanceToPool($obj1, $key1);
+                ArticulovariantereordenPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-                // Add objects for joined Empleado rows
+                // Add objects for joined Articulovariante rows
 
-                $key2 = EmpleadoPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                $key2 = ArticulovariantePeer::getPrimaryKeyHashFromRow($row, $startcol2);
                 if ($key2 !== null) {
-                    $obj2 = EmpleadoPeer::getInstanceFromPool($key2);
+                    $obj2 = ArticulovariantePeer::getInstanceFromPool($key2);
                     if (!$obj2) {
 
-                        $cls = EmpleadoPeer::getOMClass();
+                        $cls = ArticulovariantePeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
-                    EmpleadoPeer::addInstanceToPool($obj2, $key2);
+                    ArticulovariantePeer::addInstanceToPool($obj2, $key2);
                 } // if $obj2 already loaded
 
-                // Add the $obj1 (Empleadomodulo) to the collection in $obj2 (Empleado)
-                $obj2->addEmpleadomodulo($obj1);
+                // Add the $obj1 (Articulovariantereorden) to the collection in $obj2 (Articulovariante)
+                $obj2->addArticulovariantereorden($obj1);
 
             } // if joined row is not null
 
@@ -1101,7 +1116,7 @@ abstract class BaseEmpleadomoduloPeer
      */
     public static function getTableMap()
     {
-        return Propel::getDatabaseMap(EmpleadomoduloPeer::DATABASE_NAME)->getTable(EmpleadomoduloPeer::TABLE_NAME);
+        return Propel::getDatabaseMap(ArticulovariantereordenPeer::DATABASE_NAME)->getTable(ArticulovariantereordenPeer::TABLE_NAME);
     }
 
     /**
@@ -1109,9 +1124,9 @@ abstract class BaseEmpleadomoduloPeer
      */
     public static function buildTableMap()
     {
-      $dbMap = Propel::getDatabaseMap(BaseEmpleadomoduloPeer::DATABASE_NAME);
-      if (!$dbMap->hasTable(BaseEmpleadomoduloPeer::TABLE_NAME)) {
-        $dbMap->addTableObject(new \EmpleadomoduloTableMap());
+      $dbMap = Propel::getDatabaseMap(BaseArticulovariantereordenPeer::DATABASE_NAME);
+      if (!$dbMap->hasTable(BaseArticulovariantereordenPeer::TABLE_NAME)) {
+        $dbMap->addTableObject(new \ArticulovariantereordenTableMap());
       }
     }
 
@@ -1123,13 +1138,13 @@ abstract class BaseEmpleadomoduloPeer
      */
     public static function getOMClass($row = 0, $colnum = 0)
     {
-        return EmpleadomoduloPeer::OM_CLASS;
+        return ArticulovariantereordenPeer::OM_CLASS;
     }
 
     /**
-     * Performs an INSERT on the database, given a Empleadomodulo or Criteria object.
+     * Performs an INSERT on the database, given a Articulovariantereorden or Criteria object.
      *
-     * @param      mixed $values Criteria or Empleadomodulo object containing data that is used to create the INSERT statement.
+     * @param      mixed $values Criteria or Articulovariantereorden object containing data that is used to create the INSERT statement.
      * @param      PropelPDO $con the PropelPDO connection to use
      * @return mixed           The new primary key.
      * @throws PropelException Any exceptions caught during processing will be
@@ -1138,22 +1153,22 @@ abstract class BaseEmpleadomoduloPeer
     public static function doInsert($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
         } else {
-            $criteria = $values->buildCriteria(); // build Criteria from Empleadomodulo object
+            $criteria = $values->buildCriteria(); // build Criteria from Articulovariantereorden object
         }
 
-        if ($criteria->containsKey(EmpleadomoduloPeer::IDEMPLEADOMODULO) && $criteria->keyContainsValue(EmpleadomoduloPeer::IDEMPLEADOMODULO) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.EmpleadomoduloPeer::IDEMPLEADOMODULO.')');
+        if ($criteria->containsKey(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN) && $criteria->keyContainsValue(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN.')');
         }
 
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         try {
             // use transaction because $criteria could contain info
@@ -1170,9 +1185,9 @@ abstract class BaseEmpleadomoduloPeer
     }
 
     /**
-     * Performs an UPDATE on the database, given a Empleadomodulo or Criteria object.
+     * Performs an UPDATE on the database, given a Articulovariantereorden or Criteria object.
      *
-     * @param      mixed $values Criteria or Empleadomodulo object containing data that is used to create the UPDATE statement.
+     * @param      mixed $values Criteria or Articulovariantereorden object containing data that is used to create the UPDATE statement.
      * @param      PropelPDO $con The connection to use (specify PropelPDO connection object to exert more control over transactions).
      * @return int             The number of affected rows (if supported by underlying database driver).
      * @throws PropelException Any exceptions caught during processing will be
@@ -1181,35 +1196,35 @@ abstract class BaseEmpleadomoduloPeer
     public static function doUpdate($values, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
-        $selectCriteria = new Criteria(EmpleadomoduloPeer::DATABASE_NAME);
+        $selectCriteria = new Criteria(ArticulovariantereordenPeer::DATABASE_NAME);
 
         if ($values instanceof Criteria) {
             $criteria = clone $values; // rename for clarity
 
-            $comparison = $criteria->getComparison(EmpleadomoduloPeer::IDEMPLEADOMODULO);
-            $value = $criteria->remove(EmpleadomoduloPeer::IDEMPLEADOMODULO);
+            $comparison = $criteria->getComparison(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN);
+            $value = $criteria->remove(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN);
             if ($value) {
-                $selectCriteria->add(EmpleadomoduloPeer::IDEMPLEADOMODULO, $value, $comparison);
+                $selectCriteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN, $value, $comparison);
             } else {
-                $selectCriteria->setPrimaryTableName(EmpleadomoduloPeer::TABLE_NAME);
+                $selectCriteria->setPrimaryTableName(ArticulovariantereordenPeer::TABLE_NAME);
             }
 
-        } else { // $values is Empleadomodulo object
+        } else { // $values is Articulovariantereorden object
             $criteria = $values->buildCriteria(); // gets full criteria
             $selectCriteria = $values->buildPkeyCriteria(); // gets criteria w/ primary key(s)
         }
 
         // set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         return BasePeer::doUpdate($selectCriteria, $criteria, $con);
     }
 
     /**
-     * Deletes all rows from the empleadomodulo table.
+     * Deletes all rows from the articulovariantereorden table.
      *
      * @param      PropelPDO $con the connection to use
      * @return int             The number of affected rows (if supported by underlying database driver).
@@ -1218,19 +1233,19 @@ abstract class BaseEmpleadomoduloPeer
     public static function doDeleteAll(PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
         $affectedRows = 0; // initialize var to track total num of affected rows
         try {
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            $affectedRows += BasePeer::doDeleteAll(EmpleadomoduloPeer::TABLE_NAME, $con, EmpleadomoduloPeer::DATABASE_NAME);
+            $affectedRows += BasePeer::doDeleteAll(ArticulovariantereordenPeer::TABLE_NAME, $con, ArticulovariantereordenPeer::DATABASE_NAME);
             // Because this db requires some delete cascade/set null emulation, we have to
             // clear the cached instance *after* the emulation has happened (since
             // instances get re-added by the select statement contained therein).
-            EmpleadomoduloPeer::clearInstancePool();
-            EmpleadomoduloPeer::clearRelatedInstancePool();
+            ArticulovariantereordenPeer::clearInstancePool();
+            ArticulovariantereordenPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -1241,9 +1256,9 @@ abstract class BaseEmpleadomoduloPeer
     }
 
     /**
-     * Performs a DELETE on the database, given a Empleadomodulo or Criteria object OR a primary key value.
+     * Performs a DELETE on the database, given a Articulovariantereorden or Criteria object OR a primary key value.
      *
-     * @param      mixed $values Criteria or Empleadomodulo object or primary key or array of primary keys
+     * @param      mixed $values Criteria or Articulovariantereorden object or primary key or array of primary keys
      *              which is used to create the DELETE statement
      * @param      PropelPDO $con the connection to use
      * @return int The number of affected rows (if supported by underlying database driver).  This includes CASCADE-related rows
@@ -1254,32 +1269,32 @@ abstract class BaseEmpleadomoduloPeer
      public static function doDelete($values, PropelPDO $con = null)
      {
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         if ($values instanceof Criteria) {
             // invalidate the cache for all objects of this type, since we have no
             // way of knowing (without running a query) what objects should be invalidated
             // from the cache based on this Criteria.
-            EmpleadomoduloPeer::clearInstancePool();
+            ArticulovariantereordenPeer::clearInstancePool();
             // rename for clarity
             $criteria = clone $values;
-        } elseif ($values instanceof Empleadomodulo) { // it's a model object
+        } elseif ($values instanceof Articulovariantereorden) { // it's a model object
             // invalidate the cache for this single object
-            EmpleadomoduloPeer::removeInstanceFromPool($values);
+            ArticulovariantereordenPeer::removeInstanceFromPool($values);
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks
-            $criteria = new Criteria(EmpleadomoduloPeer::DATABASE_NAME);
-            $criteria->add(EmpleadomoduloPeer::IDEMPLEADOMODULO, (array) $values, Criteria::IN);
+            $criteria = new Criteria(ArticulovariantereordenPeer::DATABASE_NAME);
+            $criteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN, (array) $values, Criteria::IN);
             // invalidate the cache for this object(s)
             foreach ((array) $values as $singleval) {
-                EmpleadomoduloPeer::removeInstanceFromPool($singleval);
+                ArticulovariantereordenPeer::removeInstanceFromPool($singleval);
             }
         }
 
         // Set the correct dbName
-        $criteria->setDbName(EmpleadomoduloPeer::DATABASE_NAME);
+        $criteria->setDbName(ArticulovariantereordenPeer::DATABASE_NAME);
 
         $affectedRows = 0; // initialize var to track total num of affected rows
 
@@ -1289,7 +1304,7 @@ abstract class BaseEmpleadomoduloPeer
             $con->beginTransaction();
 
             $affectedRows += BasePeer::doDelete($criteria, $con);
-            EmpleadomoduloPeer::clearRelatedInstancePool();
+            ArticulovariantereordenPeer::clearRelatedInstancePool();
             $con->commit();
 
             return $affectedRows;
@@ -1300,13 +1315,13 @@ abstract class BaseEmpleadomoduloPeer
     }
 
     /**
-     * Validates all modified columns of given Empleadomodulo object.
+     * Validates all modified columns of given Articulovariantereorden object.
      * If parameter $columns is either a single column name or an array of column names
      * than only those columns are validated.
      *
      * NOTICE: This does not apply to primary or foreign keys for now.
      *
-     * @param Empleadomodulo $obj The object to validate.
+     * @param Articulovariantereorden $obj The object to validate.
      * @param      mixed $cols Column name or array of column names.
      *
      * @return mixed TRUE if all columns are valid or the error message of the first invalid column.
@@ -1316,8 +1331,8 @@ abstract class BaseEmpleadomoduloPeer
         $columns = array();
 
         if ($cols) {
-            $dbMap = Propel::getDatabaseMap(EmpleadomoduloPeer::DATABASE_NAME);
-            $tableMap = $dbMap->getTable(EmpleadomoduloPeer::TABLE_NAME);
+            $dbMap = Propel::getDatabaseMap(ArticulovariantereordenPeer::DATABASE_NAME);
+            $tableMap = $dbMap->getTable(ArticulovariantereordenPeer::TABLE_NAME);
 
             if (! is_array($cols)) {
                 $cols = array($cols);
@@ -1333,7 +1348,7 @@ abstract class BaseEmpleadomoduloPeer
 
         }
 
-        return BasePeer::doValidate(EmpleadomoduloPeer::DATABASE_NAME, EmpleadomoduloPeer::TABLE_NAME, $columns);
+        return BasePeer::doValidate(ArticulovariantereordenPeer::DATABASE_NAME, ArticulovariantereordenPeer::TABLE_NAME, $columns);
     }
 
     /**
@@ -1341,23 +1356,23 @@ abstract class BaseEmpleadomoduloPeer
      *
      * @param int $pk the primary key.
      * @param      PropelPDO $con the connection to use
-     * @return Empleadomodulo
+     * @return Articulovariantereorden
      */
     public static function retrieveByPK($pk, PropelPDO $con = null)
     {
 
-        if (null !== ($obj = EmpleadomoduloPeer::getInstanceFromPool((string) $pk))) {
+        if (null !== ($obj = ArticulovariantereordenPeer::getInstanceFromPool((string) $pk))) {
             return $obj;
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria = new Criteria(EmpleadomoduloPeer::DATABASE_NAME);
-        $criteria->add(EmpleadomoduloPeer::IDEMPLEADOMODULO, $pk);
+        $criteria = new Criteria(ArticulovariantereordenPeer::DATABASE_NAME);
+        $criteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN, $pk);
 
-        $v = EmpleadomoduloPeer::doSelect($criteria, $con);
+        $v = ArticulovariantereordenPeer::doSelect($criteria, $con);
 
         return !empty($v) > 0 ? $v[0] : null;
     }
@@ -1367,31 +1382,31 @@ abstract class BaseEmpleadomoduloPeer
      *
      * @param      array $pks List of primary keys
      * @param      PropelPDO $con the connection to use
-     * @return Empleadomodulo[]
+     * @return Articulovariantereorden[]
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
     public static function retrieveByPKs($pks, PropelPDO $con = null)
     {
         if ($con === null) {
-            $con = Propel::getConnection(EmpleadomoduloPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(ArticulovariantereordenPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         $objs = null;
         if (empty($pks)) {
             $objs = array();
         } else {
-            $criteria = new Criteria(EmpleadomoduloPeer::DATABASE_NAME);
-            $criteria->add(EmpleadomoduloPeer::IDEMPLEADOMODULO, $pks, Criteria::IN);
-            $objs = EmpleadomoduloPeer::doSelect($criteria, $con);
+            $criteria = new Criteria(ArticulovariantereordenPeer::DATABASE_NAME);
+            $criteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTEREORDEN, $pks, Criteria::IN);
+            $objs = ArticulovariantereordenPeer::doSelect($criteria, $con);
         }
 
         return $objs;
     }
 
-} // BaseEmpleadomoduloPeer
+} // BaseArticulovariantereordenPeer
 
 // This is the static code needed to register the TableMap for this table with the main Propel class.
 //
-BaseEmpleadomoduloPeer::buildTableMap();
+BaseArticulovariantereordenPeer::buildTableMap();
 

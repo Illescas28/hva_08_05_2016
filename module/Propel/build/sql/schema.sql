@@ -75,22 +75,14 @@ CREATE TABLE `articulo`
 (
     `idarticulo` INTEGER NOT NULL AUTO_INCREMENT,
     `idtipo` INTEGER NOT NULL,
-    `idudm` INTEGER NOT NULL,
     `articulo_nombre` VARCHAR(300),
     `articulo_descripcion` TEXT,
-    `articulo_tipopresentacion` enum('Caja') NOT NULL,
     `articulo_cantidadpresentacion` INTEGER,
     PRIMARY KEY (`idarticulo`),
     INDEX `idtipo` (`idtipo`),
-    INDEX `idudm` (`idudm`),
     CONSTRAINT `idtipo_articulo`
         FOREIGN KEY (`idtipo`)
         REFERENCES `tipo` (`idtipo`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    CONSTRAINT `idudm_articulo`
-        FOREIGN KEY (`idudm`)
-        REFERENCES `udm` (`idudm`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -110,14 +102,40 @@ CREATE TABLE `articulovariante`
     `articulovariante_precio` DECIMAL(10,2),
     `articulovariante_iva` enum('exento','0','16'),
     `articulovariante_imagen` TEXT,
-    `articulovariante_minimo` DECIMAL(10,2),
-    `articulovariante_maximo` DECIMAL(10,2),
-    `articulovariante_reorden` DECIMAL(10,2),
     PRIMARY KEY (`idarticulovariante`),
     INDEX `idproducto` (`idarticulo`),
     CONSTRAINT `idproducto_articulovariante`
         FOREIGN KEY (`idarticulo`)
         REFERENCES `articulo` (`idarticulo`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- articulovariantereorden
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `articulovariantereorden`;
+
+CREATE TABLE `articulovariantereorden`
+(
+    `idarticulovariantereorden` INTEGER NOT NULL AUTO_INCREMENT,
+    `idlugar` INTEGER NOT NULL,
+    `idarticulovariante` INTEGER NOT NULL,
+    `minimo` DECIMAL(10,2) NOT NULL,
+    `maximo` DECIMAL(10,2) NOT NULL,
+    `reorden` DECIMAL(10,2) NOT NULL,
+    PRIMARY KEY (`idarticulovariantereorden`),
+    INDEX `idlugar` (`idlugar`),
+    INDEX `idarticulovariante` (`idarticulovariante`),
+    CONSTRAINT `idarticulovariante_articulovariantereorden`
+        FOREIGN KEY (`idarticulovariante`)
+        REFERENCES `articulovariante` (`idarticulovariante`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT `idlugar_articulovariantereorden`
+        FOREIGN KEY (`idlugar`)
+        REFERENCES `lugar` (`idlugar`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -1051,20 +1069,6 @@ CREATE TABLE `traspasodetalles`
         REFERENCES `traspaso` (`idinventariolugar`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
-) ENGINE=InnoDB;
-
--- ---------------------------------------------------------------------
--- udm
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `udm`;
-
-CREATE TABLE `udm`
-(
-    `idudm` INTEGER NOT NULL AUTO_INCREMENT,
-    `udm_nombre` VARCHAR(45) NOT NULL,
-    `udm_descripcion` VARCHAR(45),
-    PRIMARY KEY (`idudm`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

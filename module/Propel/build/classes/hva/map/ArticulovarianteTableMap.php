@@ -50,9 +50,6 @@ class ArticulovarianteTableMap extends TableMap
   2 => '16',
 ));
         $this->addColumn('articulovariante_imagen', 'ArticulovarianteImagen', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('articulovariante_minimo', 'ArticulovarianteMinimo', 'DECIMAL', false, 10, null);
-        $this->addColumn('articulovariante_maximo', 'ArticulovarianteMaximo', 'DECIMAL', false, 10, null);
-        $this->addColumn('articulovariante_reorden', 'ArticulovarianteReorden', 'DECIMAL', false, 10, null);
         // validators
     } // initialize()
 
@@ -62,6 +59,7 @@ class ArticulovarianteTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Articulo', 'Articulo', RelationMap::MANY_TO_ONE, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE');
+        $this->addRelation('Articulovariantereorden', 'Articulovariantereorden', RelationMap::ONE_TO_MANY, array('idarticulovariante' => 'idarticulovariante', ), 'CASCADE', 'CASCADE', 'Articulovariantereordens');
         $this->addRelation('Articulovariantevalor', 'Articulovariantevalor', RelationMap::ONE_TO_MANY, array('idarticulovariante' => 'idarticulovariante', ), 'CASCADE', 'CASCADE', 'Articulovariantevalors');
         $this->addRelation('Ordencompradetalle', 'Ordencompradetalle', RelationMap::ONE_TO_MANY, array('idarticulovariante' => 'idarticulovariante', ), 'CASCADE', 'CASCADE', 'Ordencompradetalles');
     } // buildRelations()

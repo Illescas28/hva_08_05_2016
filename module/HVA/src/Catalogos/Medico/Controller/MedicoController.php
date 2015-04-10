@@ -77,7 +77,7 @@ class MedicoController extends AbstractActionController
 
         $medicoQuery = new MedicoQuery();
 
-        $result = $medicoQuery->paginate($page,$limit);
+        $result = $medicoQuery->paginate();
 
         $dataCollection = $result->getResults();
         

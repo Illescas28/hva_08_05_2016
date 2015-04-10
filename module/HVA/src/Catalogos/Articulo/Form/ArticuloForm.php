@@ -24,13 +24,6 @@ class ArticuloForm extends Form
             ),
         ));
         $this->add(array(
-            'name' => 'idudm',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'ID Unidad de Medida',
-            ),
-        ));
-        $this->add(array(
             'name' => 'articulo_nombre',
             'type' => 'Text',
             'options' => array(
@@ -44,20 +37,6 @@ class ArticuloForm extends Form
                 'label' => 'Descripción',
             ),
         ));
-        $this->add(array(
-            'type' => 'Select',
-            'name' => 'articulo_tipopresentacion',
-            'options' => array(
-                'label' => 'Tipo de Presentación',
-                'value_options' => array(
-                    '1' => 'Caja',
-                ),
-            ),
-            'attributes' => array(
-                'value' => '1' //set selected to '1'
-            )
-        ));
-
         $this->add(array(
             'name' => 'articulo_cantidadpresentacion',
             'type' => 'Text',

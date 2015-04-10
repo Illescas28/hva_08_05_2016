@@ -49,6 +49,7 @@ class LugarTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Articulovariantereorden', 'Articulovariantereorden', RelationMap::ONE_TO_MANY, array('idlugar' => 'idlugar', ), 'CASCADE', 'CASCADE', 'Articulovariantereordens');
         $this->addRelation('Lugarinventario', 'Lugarinventario', RelationMap::ONE_TO_MANY, array('idlugar' => 'idlugar', ), 'CASCADE', 'CASCADE', 'Lugarinventarios');
         $this->addRelation('TraspasoRelatedByIdlugardestinatario', 'Traspaso', RelationMap::ONE_TO_MANY, array('idlugar' => 'idlugardestinatario', ), 'CASCADE', 'CASCADE', 'TraspasosRelatedByIdlugardestinatario');
         $this->addRelation('TraspasoRelatedByIdlugarremitente', 'Traspaso', RelationMap::ONE_TO_MANY, array('idlugar' => 'idlugarremitente', ), 'CASCADE', 'CASCADE', 'TraspasosRelatedByIdlugarremitente');

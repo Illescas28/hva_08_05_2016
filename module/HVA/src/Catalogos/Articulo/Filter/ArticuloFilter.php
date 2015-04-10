@@ -30,7 +30,6 @@ class ArticuloFilter implements InputFilterAwareInterface
                     array('name' => 'Int'),
                 ),
             ));
-
             $inputFilter->add(array(
                 'name'     => 'idtipo',
                 'required' => true,
@@ -38,15 +37,6 @@ class ArticuloFilter implements InputFilterAwareInterface
                     array('name' => 'Int'),
                 ),
             ));
-
-            $inputFilter->add(array(
-                'name'     => 'idudm',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
-
             $inputFilter->add(array(
                 'name'     => 'articulo_nombre',
                 'required' => false,
@@ -80,21 +70,6 @@ class ArticuloFilter implements InputFilterAwareInterface
                             'encoding' => 'UTF-8',
                             'min'      => 1,
                             'max'      => 255,
-                        ),
-                    ),
-                ),
-            ));
-            $inputFilter->add(array(
-                'name'     => 'articulo_tipopresentacion',
-                'required' => true,
-                'validators' => array(
-                    array(
-                        'name'    => 'InArray',
-                        'options' => array(
-                            'haystack' => array(1),
-                            'messages' => array(
-                                'notInArray' => 'is not a valid input. Valid inputs: Caja'
-                            ),
                         ),
                     ),
                 ),

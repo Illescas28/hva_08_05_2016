@@ -42,12 +42,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     protected $idtipo;
 
     /**
-     * The value for the idudm field.
-     * @var        int
-     */
-    protected $idudm;
-
-    /**
      * The value for the articulo_nombre field.
      * @var        string
      */
@@ -60,12 +54,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     protected $articulo_descripcion;
 
     /**
-     * The value for the articulo_tipopresentacion field.
-     * @var        string
-     */
-    protected $articulo_tipopresentacion;
-
-    /**
      * The value for the articulo_cantidadpresentacion field.
      * @var        int
      */
@@ -75,11 +63,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
      * @var        Tipo
      */
     protected $aTipo;
-
-    /**
-     * @var        Udm
-     */
-    protected $aUdm;
 
     /**
      * @var        PropelObjectCollection|Articulovariante[] Collection to store aggregation of Articulovariante objects.
@@ -172,17 +155,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [idudm] column value.
-     *
-     * @return int
-     */
-    public function getIdudm()
-    {
-
-        return $this->idudm;
-    }
-
-    /**
      * Get the [articulo_nombre] column value.
      *
      * @return string
@@ -202,17 +174,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     {
 
         return $this->articulo_descripcion;
-    }
-
-    /**
-     * Get the [articulo_tipopresentacion] column value.
-     *
-     * @return string
-     */
-    public function getArticuloTipopresentacion()
-    {
-
-        return $this->articulo_tipopresentacion;
     }
 
     /**
@@ -273,31 +234,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     } // setIdtipo()
 
     /**
-     * Set the value of [idudm] column.
-     *
-     * @param  int $v new value
-     * @return Articulo The current object (for fluent API support)
-     */
-    public function setIdudm($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->idudm !== $v) {
-            $this->idudm = $v;
-            $this->modifiedColumns[] = ArticuloPeer::IDUDM;
-        }
-
-        if ($this->aUdm !== null && $this->aUdm->getIdudm() !== $v) {
-            $this->aUdm = null;
-        }
-
-
-        return $this;
-    } // setIdudm()
-
-    /**
      * Set the value of [articulo_nombre] column.
      *
      * @param  string $v new value
@@ -338,27 +274,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
         return $this;
     } // setArticuloDescripcion()
-
-    /**
-     * Set the value of [articulo_tipopresentacion] column.
-     *
-     * @param  string $v new value
-     * @return Articulo The current object (for fluent API support)
-     */
-    public function setArticuloTipopresentacion($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->articulo_tipopresentacion !== $v) {
-            $this->articulo_tipopresentacion = $v;
-            $this->modifiedColumns[] = ArticuloPeer::ARTICULO_TIPOPRESENTACION;
-        }
-
-
-        return $this;
-    } // setArticuloTipopresentacion()
 
     /**
      * Set the value of [articulo_cantidadpresentacion] column.
@@ -415,11 +330,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
             $this->idarticulo = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->idtipo = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->idudm = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-            $this->articulo_nombre = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->articulo_descripcion = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->articulo_tipopresentacion = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->articulo_cantidadpresentacion = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
+            $this->articulo_nombre = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->articulo_descripcion = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->articulo_cantidadpresentacion = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -429,7 +342,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 7; // 7 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Articulo object", $e);
@@ -454,9 +367,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
         if ($this->aTipo !== null && $this->idtipo !== $this->aTipo->getIdtipo()) {
             $this->aTipo = null;
-        }
-        if ($this->aUdm !== null && $this->idudm !== $this->aUdm->getIdudm()) {
-            $this->aUdm = null;
         }
     } // ensureConsistency
 
@@ -498,7 +408,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($deep) {  // also de-associate any related objects?
 
             $this->aTipo = null;
-            $this->aUdm = null;
             $this->collArticulovariantes = null;
 
             $this->collArticulovariantevalors = null;
@@ -632,13 +541,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                 $this->setTipo($this->aTipo);
             }
 
-            if ($this->aUdm !== null) {
-                if ($this->aUdm->isModified() || $this->aUdm->isNew()) {
-                    $affectedRows += $this->aUdm->save($con);
-                }
-                $this->setUdm($this->aUdm);
-            }
-
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -750,17 +652,11 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticuloPeer::IDTIPO)) {
             $modifiedColumns[':p' . $index++]  = '`idtipo`';
         }
-        if ($this->isColumnModified(ArticuloPeer::IDUDM)) {
-            $modifiedColumns[':p' . $index++]  = '`idudm`';
-        }
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_NOMBRE)) {
             $modifiedColumns[':p' . $index++]  = '`articulo_nombre`';
         }
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) {
             $modifiedColumns[':p' . $index++]  = '`articulo_descripcion`';
-        }
-        if ($this->isColumnModified(ArticuloPeer::ARTICULO_TIPOPRESENTACION)) {
-            $modifiedColumns[':p' . $index++]  = '`articulo_tipopresentacion`';
         }
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION)) {
             $modifiedColumns[':p' . $index++]  = '`articulo_cantidadpresentacion`';
@@ -782,17 +678,11 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                     case '`idtipo`':
                         $stmt->bindValue($identifier, $this->idtipo, PDO::PARAM_INT);
                         break;
-                    case '`idudm`':
-                        $stmt->bindValue($identifier, $this->idudm, PDO::PARAM_INT);
-                        break;
                     case '`articulo_nombre`':
                         $stmt->bindValue($identifier, $this->articulo_nombre, PDO::PARAM_STR);
                         break;
                     case '`articulo_descripcion`':
                         $stmt->bindValue($identifier, $this->articulo_descripcion, PDO::PARAM_STR);
-                        break;
-                    case '`articulo_tipopresentacion`':
-                        $stmt->bindValue($identifier, $this->articulo_tipopresentacion, PDO::PARAM_STR);
                         break;
                     case '`articulo_cantidadpresentacion`':
                         $stmt->bindValue($identifier, $this->articulo_cantidadpresentacion, PDO::PARAM_INT);
@@ -902,12 +792,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                 }
             }
 
-            if ($this->aUdm !== null) {
-                if (!$this->aUdm->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aUdm->getValidationFailures());
-                }
-            }
-
 
             if (($retval = ArticuloPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
@@ -988,18 +872,12 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                 return $this->getIdtipo();
                 break;
             case 2:
-                return $this->getIdudm();
-                break;
-            case 3:
                 return $this->getArticuloNombre();
                 break;
-            case 4:
+            case 3:
                 return $this->getArticuloDescripcion();
                 break;
-            case 5:
-                return $this->getArticuloTipopresentacion();
-                break;
-            case 6:
+            case 4:
                 return $this->getArticuloCantidadpresentacion();
                 break;
             default:
@@ -1033,11 +911,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         $result = array(
             $keys[0] => $this->getIdarticulo(),
             $keys[1] => $this->getIdtipo(),
-            $keys[2] => $this->getIdudm(),
-            $keys[3] => $this->getArticuloNombre(),
-            $keys[4] => $this->getArticuloDescripcion(),
-            $keys[5] => $this->getArticuloTipopresentacion(),
-            $keys[6] => $this->getArticuloCantidadpresentacion(),
+            $keys[2] => $this->getArticuloNombre(),
+            $keys[3] => $this->getArticuloDescripcion(),
+            $keys[4] => $this->getArticuloCantidadpresentacion(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1047,9 +923,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($includeForeignObjects) {
             if (null !== $this->aTipo) {
                 $result['Tipo'] = $this->aTipo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
-            if (null !== $this->aUdm) {
-                $result['Udm'] = $this->aUdm->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->collArticulovariantes) {
                 $result['Articulovariantes'] = $this->collArticulovariantes->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1104,18 +977,12 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                 $this->setIdtipo($value);
                 break;
             case 2:
-                $this->setIdudm($value);
-                break;
-            case 3:
                 $this->setArticuloNombre($value);
                 break;
-            case 4:
+            case 3:
                 $this->setArticuloDescripcion($value);
                 break;
-            case 5:
-                $this->setArticuloTipopresentacion($value);
-                break;
-            case 6:
+            case 4:
                 $this->setArticuloCantidadpresentacion($value);
                 break;
         } // switch()
@@ -1144,11 +1011,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
         if (array_key_exists($keys[0], $arr)) $this->setIdarticulo($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setIdtipo($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setIdudm($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setArticuloNombre($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setArticuloDescripcion($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setArticuloTipopresentacion($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setArticuloCantidadpresentacion($arr[$keys[6]]);
+        if (array_key_exists($keys[2], $arr)) $this->setArticuloNombre($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setArticuloDescripcion($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setArticuloCantidadpresentacion($arr[$keys[4]]);
     }
 
     /**
@@ -1162,10 +1027,8 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
         if ($this->isColumnModified(ArticuloPeer::IDARTICULO)) $criteria->add(ArticuloPeer::IDARTICULO, $this->idarticulo);
         if ($this->isColumnModified(ArticuloPeer::IDTIPO)) $criteria->add(ArticuloPeer::IDTIPO, $this->idtipo);
-        if ($this->isColumnModified(ArticuloPeer::IDUDM)) $criteria->add(ArticuloPeer::IDUDM, $this->idudm);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_NOMBRE)) $criteria->add(ArticuloPeer::ARTICULO_NOMBRE, $this->articulo_nombre);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) $criteria->add(ArticuloPeer::ARTICULO_DESCRIPCION, $this->articulo_descripcion);
-        if ($this->isColumnModified(ArticuloPeer::ARTICULO_TIPOPRESENTACION)) $criteria->add(ArticuloPeer::ARTICULO_TIPOPRESENTACION, $this->articulo_tipopresentacion);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION)) $criteria->add(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION, $this->articulo_cantidadpresentacion);
 
         return $criteria;
@@ -1231,10 +1094,8 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setIdtipo($this->getIdtipo());
-        $copyObj->setIdudm($this->getIdudm());
         $copyObj->setArticuloNombre($this->getArticuloNombre());
         $copyObj->setArticuloDescripcion($this->getArticuloDescripcion());
-        $copyObj->setArticuloTipopresentacion($this->getArticuloTipopresentacion());
         $copyObj->setArticuloCantidadpresentacion($this->getArticuloCantidadpresentacion());
 
         if ($deepCopy && !$this->startCopy) {
@@ -1368,58 +1229,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         }
 
         return $this->aTipo;
-    }
-
-    /**
-     * Declares an association between this object and a Udm object.
-     *
-     * @param                  Udm $v
-     * @return Articulo The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setUdm(Udm $v = null)
-    {
-        if ($v === null) {
-            $this->setIdudm(NULL);
-        } else {
-            $this->setIdudm($v->getIdudm());
-        }
-
-        $this->aUdm = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Udm object, it will not be re-added.
-        if ($v !== null) {
-            $v->addArticulo($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated Udm object
-     *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return Udm The associated Udm object.
-     * @throws PropelException
-     */
-    public function getUdm(PropelPDO $con = null, $doQuery = true)
-    {
-        if ($this->aUdm === null && ($this->idudm !== null) && $doQuery) {
-            $this->aUdm = UdmQuery::create()->findPk($this->idudm, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aUdm->addArticulos($this);
-             */
-        }
-
-        return $this->aUdm;
     }
 
 
@@ -2454,10 +2263,8 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     {
         $this->idarticulo = null;
         $this->idtipo = null;
-        $this->idudm = null;
         $this->articulo_nombre = null;
         $this->articulo_descripcion = null;
-        $this->articulo_tipopresentacion = null;
         $this->articulo_cantidadpresentacion = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
@@ -2504,9 +2311,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             if ($this->aTipo instanceof Persistent) {
               $this->aTipo->clearAllReferences($deep);
             }
-            if ($this->aUdm instanceof Persistent) {
-              $this->aUdm->clearAllReferences($deep);
-            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
@@ -2528,7 +2332,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         }
         $this->collPropiedadvalors = null;
         $this->aTipo = null;
-        $this->aUdm = null;
     }
 
     /**
