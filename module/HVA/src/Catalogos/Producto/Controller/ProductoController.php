@@ -100,7 +100,7 @@ class ProductoController extends AbstractActionController
 
     public function listarAction()
     {
-        $productoQuery = new \ArticuloQuery();
+        $productoQuery = new \ArticulovarianteQuery();
 
         $result = $productoQuery->paginate();
 

@@ -22,7 +22,6 @@ $this->headTitle($title);
     <tr>
         <th>Nombre</th>
         <th>Descripción</th>
-        <th>Tipo de Presentación</th>
         <th>Cantidad</th>
         <th>Opciones</th>
     </tr>
@@ -33,7 +32,6 @@ $this->headTitle($title);
         <tr>
             <td><?php echo $articulo->getArticuloNombre() ?></td>
             <td><?php echo $articulo->getArticuloDescripcion() ?></td>
-            <td><?php echo $articulo->getArticuloTipopresentacion() ?></td>
             <td><?php echo $articulo->getArticuloCantidadpresentacion() ?></td>
             <td>
                 <a class="tooltipped" data-position="left" data-tooltip="Visualizar" href='<?php echo "/catalogos/medico/ver/".$articulo->getIdArticulo()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
