@@ -4,16 +4,10 @@ $this->headTitle($title);
 ?>
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 <?php
-<<<<<<< HEAD
-
-=======
-if(!$Error){
->>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
     $ArticuloForm->setAttribute('action', $this->url('articulo', array('action' => 'nuevo')));
     $ArticuloForm->prepare();
 
     echo $this->form()->openTag($ArticuloForm);
-<<<<<<< HEAD
     echo $this->formHidden($ArticuloForm->get('idarticulo')); ?>
 
 
@@ -131,24 +125,6 @@ if(!$Error){
 
     echo $this->form()->closeTag();
 
-=======
-    echo $this->formHidden($ArticuloForm->get('idarticulo'));
-    echo $this->formRow($ArticuloForm->get('idtipo'));
-    echo $this->formRow($ArticuloForm->get('idudm'));
-    echo $this->formRow($ArticuloForm->get('articulo_nombre'));
-    echo $this->formRow($ArticuloForm->get('articulo_descripcion'));
-    echo $this->formRow($ArticuloForm->get('articulo_tipopresentacion'));
-    echo $this->formRow($ArticuloForm->get('articulo_cantidadpresentacion'));
-    echo $this->formSubmit($ArticuloForm->get('submit'));
-    //echo $this->formCollection($ArticuloForm);
-
-    echo $this->form()->closeTag();
-}else{
-    foreach ($Error as $errorValue){
-        echo $errorValue;
-    }
-}
->>>>>>> bb88dc96898b60d3f134e6ecdaa843cb26ca8968
 ?>
 <script>
 $(document).ready(function() {
