@@ -1,0 +1,28 @@
+<?php
+$title = 'Editar lugar';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<?php
+
+    $LugarForm = $this->LugarForm;
+    $LugarForm->setAttribute('action', $this->url(
+        'lugar',
+        array(
+            'action' => 'editar',
+            'id'     => $this->id,
+        )
+    ));
+    $LugarForm->prepare();
+
+    echo $this->form()->openTag($LugarForm);
+    echo $this->form()->openTag($LugarForm);
+    echo $this->formHidden($LugarForm->get('idlugar'));
+    echo $this->formRow($LugarForm->get('lugar_nombre'));
+    echo $this->formRow($LugarForm->get('lugar_descripcion'));
+    echo $this->formSubmit($LugarForm->get('submit'));
+    //echo $this->formCollection($LugarForm);
+    echo $this->form()->closeTag();
+
+?>

@@ -78,20 +78,6 @@ return array(
                     ),
                 ),
             ),
-            'udm' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/udm[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\UDM\Controller\UDM',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
             'articulo' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -102,6 +88,20 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Articulo\Controller\Articulo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'lugar' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/lugar[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'ver|nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Lugar\Controller\Lugar',
                         'action'     => 'listar',
                     ),
                 ),
@@ -210,7 +210,7 @@ return array(
             'Catalogos\Propiedad\Controller\Propiedad'                  => 'Catalogos\Propiedad\Controller\PropiedadController',
             'Catalogos\Producto\Controller\Producto'                    => 'Catalogos\Producto\Controller\ProductoController',
             'Catalogos\Medico\Controller\Medico'                        => 'Catalogos\Medico\Controller\MedicoController',
-
+            'Catalogos\Lugar\Controller\Lugar'                          => 'Catalogos\Lugar\Controller\LugarController',
         ),
     ),
     'view_manager' => array(

@@ -1,0 +1,35 @@
+<?php
+$title = 'Ver lugar';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<table id="tabla-productos" class="striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><?php echo $lugar->getLugarNombre() ?></td>
+            <td><?php echo $lugar->getLugarDescripcion() ?></td>
+            <td>
+                &nbsp;&nbsp;
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/lugar/editar/".$lugar->getIdLugar()?>'><i class="tiny mdi-action-assignment"></i></a>
+                &nbsp;&nbsp;
+                <a class="tooltipped" data-position="right" data-tooltip="Eliminar" href='<?php echo "/catalogos/lugar/eliminar/".$lugar->getIdLugar()?>'><i class="tiny mdi-action-delete"></i></a>
+            </td>
+        </tr>
+    <tbody>
+
+</table>
+<script>
+    $(document).ready(function(){
+
+        $("#tabla-productos").tablesorter({headers:{5:{sorter:false}}});
+
+    });
+</script>
