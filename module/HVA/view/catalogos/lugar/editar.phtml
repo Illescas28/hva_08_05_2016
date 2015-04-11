@@ -2,27 +2,36 @@
 $title = 'Editar lugar';
 $this->headTitle($title);
 ?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
-
-<?php
-
-    $LugarForm = $this->LugarForm;
-    $LugarForm->setAttribute('action', $this->url(
-        'lugar',
-        array(
-            'action' => 'editar',
-            'id'     => $this->id,
-        )
-    ));
-    $LugarForm->prepare();
-
-    echo $this->form()->openTag($LugarForm);
-    echo $this->form()->openTag($LugarForm);
-    echo $this->formHidden($LugarForm->get('idlugar'));
-    echo $this->formRow($LugarForm->get('lugar_nombre'));
-    echo $this->formRow($LugarForm->get('lugar_descripcion'));
-    echo $this->formSubmit($LugarForm->get('submit'));
-    //echo $this->formCollection($LugarForm);
-    echo $this->form()->closeTag();
-
-?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<?php $lugarForm->setAttribute('action', '/catalogos/lugar/editar/'.$id);?>
+<?php $lugarForm->setAttribute('class', 'hva-form');?>
+<?php $lugarForm->prepare();?>
+<?php echo $this->form()->openTag($lugarForm); ?>
+<div class="row">
+    <fieldset>
+        <legend>Datos Generales</legend>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($lugarForm->get('lugar_nombre')); ?>
+                <?php echo $this->formLabel($lugarForm->get('lugar_nombre')); ?>
+            </div>
+           <div class="input-field">
+                <?php echo $this->formText($lugarForm->get('lugar_descripcion')); ?>
+                <?php echo $this->formLabel($lugarForm->get('lugar_descripcion')); ?>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div class="row">
+    <div class="col s4 offset-s4">
+        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+    });
+</script>

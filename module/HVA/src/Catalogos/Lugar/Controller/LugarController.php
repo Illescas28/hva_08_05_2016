@@ -135,7 +135,7 @@ class LugarController extends AbstractActionController
 
         return array(
             'id' => $id,
-            'LugarForm' => $LugarForm,
+            'lugarForm' => $LugarForm,
         );
     }
 
