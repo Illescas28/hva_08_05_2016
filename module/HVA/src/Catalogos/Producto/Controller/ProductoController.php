@@ -20,6 +20,80 @@ class ProductoController extends AbstractActionController
 {
     public function nuevoAction()
     {
+        /*
+        $tipoQuery = \TipoQuery::create()->find();
+
+        $tipoArray = array();
+        foreach($tipoQuery as $tipo){
+            $tipoArray[$tipo->getIdtipo()] = $tipo->getTipoNombre();
+        }
+        $productoForm = new ProductoForm($tipoArray);
+
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+
+            $productoFilter = new ProductoFilter();
+            $productoForm->setInputFilter($productoFilter->getInputFilter());
+
+            $productoForm->setData($request->getPost());
+
+            if ($productoForm->isValid()) {
+                if(\ArticuloQuery::create()->filterByArticuloNombre($request->getPost()->articulo_nombre)->exists()){
+                    $ProductoQuery = \ArticuloQuery::create()->filterByArticuloNombre($request->getPost()->articulo_nombre)->findOne();
+
+                    if(\PropiedadQuery::create()->filterByPropiedadNombre($request->getPost()->propiedad_nombre)->exists()){
+                        $PropiedadQuery = \PropiedadQuery::create()->filterByPropiedadNombre($request->getPost()->propiedad_nombre)->findOne();
+
+                        $Propiedadvalor = new \Propiedadvalor();
+                        $Propiedadvalor->setIdarticulo($ProductoQuery->getIdarticulo());
+                        $Propiedadvalor->setIdpropiedad($PropiedadQuery->getIdpropiedad());
+                        $Propiedadvalor->setPropiedadvalorNombre($request->getPost()->propiedadvalor_nombre);
+                        $Propiedadvalor->save();
+                    }
+                }
+                $Producto = new \Articulo();
+                foreach($productoForm->getData() as $ProductoKey => $ProductoValue){
+                    if($ProductoKey != 'idarticulo' && $ProductoKey != 'propiedad_nombre' && $ProductoKey != 'idpropiedad' && $ProductoKey != 'propiedadvalor_nombre' && $ProductoKey != 'submit'){
+                        $Producto->setByName($ProductoKey, $ProductoValue, BasePeer::TYPE_FIELDNAME);
+                    }
+                }
+                $Producto->save();
+
+                $Propiedad = new \Propiedad();
+                $Propiedad->setIdarticulo($Producto->getIdarticulo());
+                $Propiedad->setPropiedadNombre($request->getPost()->propiedad_nombre);
+                $Propiedad->save();
+
+                $Propiedadvalor = new \Propiedadvalor();
+                $Propiedadvalor->setIdarticulo($Producto->getIdarticulo());
+                $Propiedadvalor->setIdpropiedad($Propiedad->getIdpropiedad());
+                $Propiedadvalor->setPropiedadvalorNombre($request->getPost()->propiedadvalor_nombre);
+                $Propiedadvalor->save();
+
+                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByPropiedadvalorNombre($Propiedadvalor->getPropiedadvalorNombre())->find();
+                $propiedadvalorArray = array();
+                foreach($propiedadvalorQuery as $propiedadvalorEntity){
+                    $propiedadvalorArray[$propiedadvalorEntity->getIdpropiedadvalor()] = $propiedadvalorEntity->getPropiedadvalorNombre();
+                }
+
+
+                return array(
+                    'productoForm' => $productoForm,
+                    'propiedadvalor' => $propiedadvalorArray,
+                );
+
+
+                //if($error =! null){
+                //    return $this->redirect()->toRoute('producto');
+                //}
+
+            }
+        }
+        return array(
+            'productoForm' => $productoForm,
+        );
+        */
+
         $tipoQuery = \TipoQuery::create()->find();
 
         $tipoArray = array();
@@ -49,11 +123,17 @@ class ProductoController extends AbstractActionController
                         $Propiedadvalor->setPropiedadvalorNombre($request->getPost()->propiedadvalor_nombre);
                         $Propiedadvalor->save();
 
+                        $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdarticulo($ProductoQuery->getIdarticulo())->filterByIdpropiedad($PropiedadQuery->getIdpropiedad())->find();
+
+                        return array(
+                            'productoForm' => $productoForm,
+                            'propiedadvalor' => $propiedadvalorQuery,
+                        );
                     }
                 }
                 $Producto = new \Articulo();
                 foreach($productoForm->getData() as $ProductoKey => $ProductoValue){
-                    if($ProductoKey != 'idarticulo' && $ProductoKey != 'propiedad_nombre' && $ProductoKey != 'idpropiedad' && $ProductoKey != 'propiedadvalor_nombre' && $ProductoKey != 'submit'){
+                    if($ProductoKey != 'idarticulo' && $ProductoKey != 'propiedad_nombre' && $ProductoKey != 'propiedadvalor_nombre' && $ProductoKey != 'idpropiedad'&& $ProductoKey != 'submit'){
                         $Producto->setByName($ProductoKey, $ProductoValue, BasePeer::TYPE_FIELDNAME);
                     }
                 }
@@ -70,22 +150,11 @@ class ProductoController extends AbstractActionController
                 $Propiedadvalor->setPropiedadvalorNombre($request->getPost()->propiedadvalor_nombre);
                 $Propiedadvalor->save();
 
-                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByPropiedadvalorNombre($Propiedadvalor->getPropiedadvalorNombre())->find();
-                $propiedadvalorArray = array();
-                foreach($propiedadvalorQuery as $propiedadvalorEntity){
-                    $propiedadvalorArray[$propiedadvalorEntity->getIdpropiedadvalor()] = $propiedadvalorEntity->getPropiedadvalorNombre();
-                }
-
-                /*
-                return array(
-                    'productoForm' => $productoForm,
-                    'propiedadvalor' => $propiedadvalorArray,
-                );
-                */
 
                 if($error =! null){
                     return $this->redirect()->toRoute('producto');
                 }
+
             }
         }
         return array(
