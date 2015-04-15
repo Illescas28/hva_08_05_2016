@@ -24,14 +24,14 @@ $this->headTitle($title);
         </tr>
 </table>
 <?php
-$url = $this->url('articulo', array(
+$url = $this->url('productovariante', array(
     'action' => 'eliminar',
     'id'     => $this->id,
 ));
 ?>
 <form action="<?php echo $url; ?>" method="post">
     <div>
-        <input type="hidden" name="id" value="<?php echo (int) $articulo['idarticulo']; ?>" />
+        <input type="hidden" name="id" value="<?php echo (int) $articulo['idarticulovariante']; ?>" />
         <input type="submit" name="del" value="Yes" />
         <input type="submit" name="del" value="No" />
     </div>

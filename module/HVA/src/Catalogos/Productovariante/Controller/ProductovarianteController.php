@@ -1,22 +1,22 @@
 <?php
 
-namespace Catalogos\Producto\Controller;
+namespace Catalogos\Productovariante\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
 //// Form ////
-use Catalogos\Producto\Form\ProductoForm;
+use Catalogos\Productovariante\Form\ProductovarianteForm;
 
 //// Filter ////
-use Catalogos\Producto\Filter\ProductoFilter;
+use Catalogos\Productovariante\Filter\ProductovarianteFilter;
 
 //// Propel ////
 use Articulo;
 use ArticuloQuery;
 use BasePeer;
 
-class ProductoController extends AbstractActionController
+class ProductovarianteController extends AbstractActionController
 {
     public function nuevoAction()
     {
@@ -26,13 +26,13 @@ class ProductoController extends AbstractActionController
         foreach($tipoQuery as $tipo){
             $tipoArray[$tipo->getIdtipo()] = $tipo->getTipoNombre();
         }
-        $productoForm = new ProductoForm($tipoArray);
+        $productovarianteForm = new ProductovarianteForm($tipoArray);
 
         $request = $this->getRequest();
         if ($request->isPost()) {
 
-            $productoFilter = new ProductoFilter();
-            $productoForm->setInputFilter($productoFilter->getInputFilter());
+            $productovarianteFilter = new ProductovarianteFilter();
+            $productovarianteForm->setInputFilter($productovarianteFilter->getInputFilter());
 
             // Almacenamos en una variable de tipo array los datos que nos mandan por post (no almacena archivos)
             $nonFile = $request->getPost()->toArray();
@@ -44,46 +44,44 @@ class ProductoController extends AbstractActionController
                 array('articulovariante_imagen'=> $File['name']) //FILE...
             );
 
-            $productoForm->setData($data);
+            $productovarianteForm->setData($data);
 
-            if ($productoForm->isValid()) {
-                /*
+            if ($productovarianteForm->isValid()) {
                 if(\ArticuloQuery::create()->filterByArticuloNombre($request->getPost()->articulo_nombre)->exists()){
-                    $ProductoQuery = \ArticuloQuery::create()->filterByArticuloNombre($request->getPost()->articulo_nombre)->findOne();
+                    $ProductovarianteQuery = \ArticuloQuery::create()->filterByArticuloNombre($request->getPost()->articulo_nombre)->findOne();
 
                     if(\PropiedadQuery::create()->filterByPropiedadNombre($request->getPost()->propiedad_nombre)->exists()){
                         $PropiedadQuery = \PropiedadQuery::create()->filterByPropiedadNombre($request->getPost()->propiedad_nombre)->findOne();
 
                         $Propiedadvalor = new \Propiedadvalor();
-                        $Propiedadvalor->setIdarticulo($ProductoQuery->getIdarticulo());
+                        $Propiedadvalor->setIdarticulo($ProductovarianteQuery->getIdarticulo());
                         $Propiedadvalor->setIdpropiedad($PropiedadQuery->getIdpropiedad());
                         $Propiedadvalor->setPropiedadvalorNombre($request->getPost()->propiedadvalor_nombre);
                         $Propiedadvalor->save();
 
-                        $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdarticulo($ProductoQuery->getIdarticulo())->filterByIdpropiedad($PropiedadQuery->getIdpropiedad())->find();
+                        $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdarticulo($ProductovarianteQuery->getIdarticulo())->filterByIdpropiedad($PropiedadQuery->getIdpropiedad())->find();
 
                         return array(
-                            'productoForm' => $productoForm,
+                            'productovarianteForm' => $productovarianteForm,
                             'propiedadvalor' => $propiedadvalorQuery,
                         );
                     }
                 }
-                */
-                $Producto = new \Articulo();
-                foreach($productoForm->getData() as $ProductoKey => $ProductoValue){
-                    if($ProductoKey != 'idarticulo' && $ProductoKey != 'propiedad_nombre' && $ProductoKey != 'propiedadvalor_nombre' && $ProductoKey != 'articulovariante_codigobarras' && $ProductoKey != 'articulovariante_costo' && $ProductoKey != 'articulovariante_precio' && $ProductoKey != 'articulovariante_iva' && $ProductoKey != 'articulovariante_imagen' && $ProductoKey != 'minimo' && $ProductoKey != 'maximo' && $ProductoKey != 'reorden' && $ProductoKey != 'submit'){
-                        $Producto->setByName($ProductoKey, $ProductoValue, BasePeer::TYPE_FIELDNAME);
+                $Productovariante = new \Articulo();
+                foreach($productovarianteForm->getData() as $ProductovarianteKey => $ProductovarianteValue){
+                    if($ProductovarianteKey != 'idarticulo' && $ProductovarianteKey != 'propiedad_nombre' && $ProductovarianteKey != 'propiedadvalor_nombre' && $ProductovarianteKey != 'articulovariante_codigobarras' && $ProductovarianteKey != 'articulovariante_costo' && $ProductovarianteKey != 'articulovariante_precio' && $ProductovarianteKey != 'articulovariante_iva' && $ProductovarianteKey != 'articulovariante_imagen' && $ProductovarianteKey != 'minimo' && $ProductovarianteKey != 'maximo' && $ProductovarianteKey != 'reorden' && $ProductovarianteKey != 'submit'){
+                        $Productovariante->setByName($ProductovarianteKey, $ProductovarianteValue, BasePeer::TYPE_FIELDNAME);
                     }
                 }
-                $Producto->save();
+                $Productovariante->save();
 
                 $Propiedad = new \Propiedad();
-                $Propiedad->setIdarticulo($Producto->getIdarticulo());
+                $Propiedad->setIdarticulo($Productovariante->getIdarticulo());
                 $Propiedad->setPropiedadNombre($data['propiedad_nombre']);
                 $Propiedad->save();
 
                 $Propiedadvalor = new \Propiedadvalor();
-                $Propiedadvalor->setIdarticulo($Producto->getIdarticulo());
+                $Propiedadvalor->setIdarticulo($Productovariante->getIdarticulo());
                 $Propiedadvalor->setIdpropiedad($Propiedad->getIdpropiedad());
                 $Propiedadvalor->setPropiedadvalorNombre($data['propiedadvalor_nombre']);
                 $Propiedadvalor->save();
@@ -99,7 +97,7 @@ class ProductoController extends AbstractActionController
                     {
                         $error[] = $row;
                     } //seteamos formElementErrors
-                    $productoForm->setMessages(array('articulovariante_imagen'=>$error ));
+                    $productovarianteForm->setMessages(array('articulovariante_imagen'=>$error ));
                 } else {
                     $adapter->setDestination('/Applications/AMPPS/www/Project/HVA/public/img/articulovariante');
                     if ($adapter->receive($File['name'])) {
@@ -108,7 +106,7 @@ class ProductoController extends AbstractActionController
                 }
 
                 $Articulovariante = new \Articulovariante();
-                $Articulovariante->setIdarticulo($Producto->getIdarticulo());
+                $Articulovariante->setIdarticulo($Productovariante->getIdarticulo());
                 $Articulovariante->setArticulovarianteCodigobarras($data['articulovariante_codigobarras']);
                 $Articulovariante->setArticulovarianteCosto($data['articulovariante_costo']);
                 $Articulovariante->setArticulovariantePrecio($data['articulovariante_precio']);
@@ -132,34 +130,34 @@ class ProductoController extends AbstractActionController
                 foreach($propiedadvalorQuery as $propiedadvalorEntity){
                     $propiedadvalorArray[$propiedadvalorEntity->getIdpropiedadvalor()] = $propiedadvalorEntity->getPropiedadvalorNombre();
                 }
-                /*
                 return array(
-                    'productoForm' => $productoForm,
+                    'productovarianteForm' => $productovarianteForm,
                     'propiedadvalor' => $propiedadvalorArray,
                 );
-                */
 
+                /*
                 if($error =! null){
-                    return $this->redirect()->toRoute('producto');
+                    return $this->redirect()->toRoute('productovariante');
                 }
+                */
 
             }
         }
         return array(
-            'productoForm' => $productoForm,
+            'productovarianteForm' => $productovarianteForm,
         );
     }
 
     public function listarAction()
     {
-        $productoQuery = new \ArticulovarianteQuery();
+        $productovarianteQuery = new \ArticulovarianteQuery();
 
-        $result = $productoQuery->paginate();
+        $result = $productovarianteQuery->paginate();
 
         $dataCollection = $result->getResults();
 
         return new ViewModel(array(
-            'productos' => $dataCollection,
+            'productovariante' => $dataCollection,
         ));
     }
 
@@ -167,86 +165,86 @@ class ProductoController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('producto', array(
+            return $this->redirect()->toRoute('productovariante', array(
                 'action' => 'nuevo'
             ));
         }
 
-        //Instanciamos nuestra productoQuery
-        $productoQuery = ArticuloQuery::create();
+        //Instanciamos nuestra productovarianteQuery
+        $productovarianteQuery = ArticuloQuery::create();
 
-        //Verificamos que el Id producto que se quiere modificar exista
-        if($productoQuery->create()->filterByIdproducto($id)->exists()){
+        //Verificamos que el Id productovariante que se quiere modificar exista
+        if($productovarianteQuery->create()->filterByIdproductovariante($id)->exists()){
 
             $request = $this->getRequest();
-            //Instanciamos nuestra productoQuery
-            $productoPKQuery = $productoQuery->findPk($id);
-            $productoQueryArray = $productoPKQuery->toArray(BasePeer::TYPE_FIELDNAME);
-            $ProductoForm = new ProductoForm();
-            $ElementsProductoForm = $ProductoForm->getElements();
+            //Instanciamos nuestra productovarianteQuery
+            $productovariantePKQuery = $productovarianteQuery->findPk($id);
+            $productovarianteQueryArray = $productovariantePKQuery->toArray(BasePeer::TYPE_FIELDNAME);
+            $ProductovarianteForm = new ProductovarianteForm();
+            $ElementsProductovarianteForm = $ProductovarianteForm->getElements();
 
-            $ProductoArray = array();
+            $ProductovarianteArray = array();
             if ($request->isPost()){
 
-                // Validamos que el idproducto
+                // Validamos que el idproductovariante
                 foreach($request->getPost() as $key => $value){
-                    if($key == 'idproducto'){
-                        $productoQuery = \ArticuloQuery::create()->filterByIdproducto($value)->findOne();
-                        // Validamos que exista el idproducto.
-                        if(!$productoQuery){
+                    if($key == 'idproductovariante'){
+                        $productovarianteQuery = \ArticuloQuery::create()->filterByIdproductovariante($value)->findOne();
+                        // Validamos que exista el idproductovariante.
+                        if(!$productovarianteQuery){
                             return new ViewModel(array(
                                 'Error' => array(
-                                    'Invalid idproducto.' => 'Invalid idproducto.'
+                                    'Invalid idproductovariante.' => 'Invalid idproductovariante.'
                                 ),
                             ));
                         }
                     }
                 }
 
-                foreach($ElementsProductoForm as $key=>$value){
+                foreach($ElementsProductovarianteForm as $key=>$value){
                     if($key != 'submit'){
-                        $ProductoArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $productoQueryArray[$key];
+                        $ProductovarianteArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $productovarianteQueryArray[$key];
                     }
                 }
                 // Obtenemos los detalles del archivo
-                $File = $this->params()->fromFiles('producto_imagen');
+                $File = $this->params()->fromFiles('productovariante_imagen');
                 if($File != null){
-                    $ProductoArray['producto_imagen'] = $File['name'];
+                    $ProductovarianteArray['productovariante_imagen'] = $File['name'];
                 }else{
-                    $ProductoArray['producto_imagen'] = $productoQueryArray['producto_imagen'];
+                    $ProductovarianteArray['productovariante_imagen'] = $productovarianteQueryArray['productovariante_imagen'];
                 }
             }else{
-                foreach($productoQueryArray as $productoQueryKey => $productoQueryValue){
-                    $ProductoArray[$productoQueryKey] = $productoQueryArray[$productoQueryKey];
+                foreach($productovarianteQueryArray as $productovarianteQueryKey => $productovarianteQueryValue){
+                    $ProductovarianteArray[$productovarianteQueryKey] = $productovarianteQueryArray[$productovarianteQueryKey];
 
                 }
             }
 
-            $ProductoFilter = new ProductoFilter();
-            $ProductoForm->setInputFilter($ProductoFilter->getInputFilter());
-            $ProductoForm->setData($ProductoArray);
+            $ProductovarianteFilter = new ProductovarianteFilter();
+            $ProductovarianteForm->setInputFilter($ProductovarianteFilter->getInputFilter());
+            $ProductovarianteForm->setData($ProductovarianteArray);
 
-            if ($ProductoForm->isValid()) {
+            if ($ProductovarianteForm->isValid()) {
                 if ($request->isPost()){
-                    foreach($ProductoForm->getData() as $ProductoKey => $ProductoValue){
-                        if($ProductoKey != 'submit'){
-                            if($ProductoKey == 'producto_imagen'){
-                                if($ProductoValue){
-                                    $productoPKQuery->setProductoImagen('/img/producto/'.$ProductoValue);
+                    foreach($ProductovarianteForm->getData() as $ProductovarianteKey => $ProductovarianteValue){
+                        if($ProductovarianteKey != 'submit'){
+                            if($ProductovarianteKey == 'productovariante_imagen'){
+                                if($ProductovarianteValue){
+                                    $productovariantePKQuery->setProductovarianteImagen('/img/productovariante/'.$ProductovarianteValue);
                                 }else{
                                     // Almacenamos la ruta en donde se encuentra el archivo que eliminaremos.
-                                    $dirFile = '/Applications/AMPPS/www/Project/HVA/public'.$productoQueryArray['producto_imagen'];
+                                    $dirFile = '/Applications/AMPPS/www/Project/HVA/public'.$productovarianteQueryArray['productovariante_imagen'];
                                     if(unlink($dirFile))//El archivo fue borrado.
-                                    $productoPKQuery->setProductoImagen($ProductoValue);
+                                    $productovariantePKQuery->setProductovarianteImagen($ProductovarianteValue);
                                 }
                             }else{
-                                $productoPKQuery->setByName($ProductoKey, $ProductoValue, BasePeer::TYPE_FIELDNAME);
+                                $productovariantePKQuery->setByName($ProductovarianteKey, $ProductovarianteValue, BasePeer::TYPE_FIELDNAME);
                             }
                         }
                     }
                 }
                 // Si no modifican nada, permanecemos en el formulario.
-                if($productoPKQuery->isModified()){
+                if($productovariantePKQuery->isModified()){
 
                     if($File != null){
 
@@ -261,27 +259,27 @@ class ProductoController extends AbstractActionController
                             {
                                 $error[] = $row;
                             } //seteamos formElementErrors
-                            $ProductoForm->setMessages(array('producto_imagen'=>$error ));
+                            $ProductovarianteForm->setMessages(array('productovariante_imagen'=>$error ));
                         } else {
 
                             // Almacenamos la ruta en donde se encuentra el archivo que eliminaremos.
-                            $dirFile = '/Applications/AMPPS/www/Project/HVA/public/img/producto'.$productoQueryArray['producto_imagen'];
+                            $dirFile = '/Applications/AMPPS/www/Project/HVA/public/img/productovariante'.$productovarianteQueryArray['productovariante_imagen'];
                             if(unlink($dirFile))//El archivo fue borrado.
 
                             // Seteamos la ruta en donde deseamos almacenar la imagen
-                            $adapter->setDestination('/Applications/AMPPS/www/Project/HVA/public/img/producto');
+                            $adapter->setDestination('/Applications/AMPPS/www/Project/HVA/public/img/productovariante');
                             if ($adapter->receive($File['name'])) {
-                                // Guardamos la imagen en /Applications/AMPPS/www/Project/HVA/public/img/producto
+                                // Guardamos la imagen en /Applications/AMPPS/www/Project/HVA/public/img/productovariante
                             }
                         }
                     }
 
-                    $productoPKQuery->save();
-                    return $this->redirect()->toRoute('producto');
+                    $productovariantePKQuery->save();
+                    return $this->redirect()->toRoute('productovariante');
                 }
             }else{
                 $messageArray = array();
-                foreach ($ProductoForm->getMessages() as $key => $value){
+                foreach ($ProductovarianteForm->getMessages() as $key => $value){
                     foreach($value as $val){
                         //Obtenemos el valor de la columna con error
                         $message = $key.' '.$val;
@@ -297,7 +295,7 @@ class ProductoController extends AbstractActionController
 
         return array(
             'id' => $id,
-            'ProductoForm' => $ProductoForm,
+            'ProductovarianteForm' => $ProductovarianteForm,
         );
     }
 
@@ -305,7 +303,7 @@ class ProductoController extends AbstractActionController
     {
         $id = (int) $this->params()->fromRoute('id', 0);
         if (!$id) {
-            return $this->redirect()->toRoute('producto');
+            return $this->redirect()->toRoute('productovariante');
         }
 
         $request = $this->getRequest();
@@ -314,24 +312,24 @@ class ProductoController extends AbstractActionController
 
             if ($del == 'Yes') {
                 $id = (int) $request->getPost('id');
-                $ProductoQuery = ProductoQuery::create()->filterByIdproducto($id)->findOne();
+                $ProductovarianteQuery = ProductovarianteQuery::create()->filterByIdproductovariante($id)->findOne();
                 // Almacenamos la ruta en donde se encuentra el archivo que remplasaremos.
-                $dirFile = '/Applications/AMPPS/www/Project/HVA/public'.$ProductoQuery->getProductoImagen();
+                $dirFile = '/Applications/AMPPS/www/Project/HVA/public'.$ProductovarianteQuery->getProductovarianteImagen();
                 if(unlink($dirFile)){//El archivo fue borrado.
-                    ProductoQuery::create()->filterByIdproducto($id)->delete();
+                    ProductovarianteQuery::create()->filterByIdproductovariante($id)->delete();
                 }else{
-                    ProductoQuery::create()->filterByIdproducto($id)->delete();
+                    ProductovarianteQuery::create()->filterByIdproductovariante($id)->delete();
                 }
             }
 
             // Redireccionamos a los provedores
-            return $this->redirect()->toRoute('producto');
+            return $this->redirect()->toRoute('productovariante');
         }
 
-        $provedorEntity = ProductoQuery::create()->filterByIdproducto($id)->findOne();
+        $provedorEntity = ProductovarianteQuery::create()->filterByIdproductovariante($id)->findOne();
         return array(
             'id'    => $id,
-            'producto' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
+            'productovariante' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
         );
     }
 }

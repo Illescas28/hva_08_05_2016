@@ -1,15 +1,15 @@
 <?php
 
-namespace Catalogos\Producto\Form;
+namespace Catalogos\Productovariante\Form;
 
 use Zend\Form\Form;
 
-class ProductoForm extends Form
+class ProductovarianteForm extends Form
 {
     public function __construct(array $tipos = null)
     {
         // we want to ignore the name passed
-        parent::__construct('ProductoForm');
+        parent::__construct('ProductovarianteForm');
         $this->setAttribute('method', 'post');
         $this->setAttribute('enctype','multipart/form-data');
 

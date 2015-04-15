@@ -1,13 +1,13 @@
 <?php
 
-namespace Catalogos\Producto\Filter;
+namespace Catalogos\Productovariante\Filter;
 
 // Add these import statements
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-class ProductoFilter implements InputFilterAwareInterface
+class ProductovarianteFilter implements InputFilterAwareInterface
 {
     protected $inputFilter;                       // <-- Add this variable
 

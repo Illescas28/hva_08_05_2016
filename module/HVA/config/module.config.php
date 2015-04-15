@@ -148,6 +148,20 @@ return array(
                     ),
                 ),
             ),
+            'productovariante' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/productovariante[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Productovariante\Controller\Productovariante',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'medico' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -209,6 +223,7 @@ return array(
             'Catalogos\Articulovariante\Controller\Articulovariante'    => 'Catalogos\Articulovariante\Controller\ArticulovarianteController',
             'Catalogos\Propiedad\Controller\Propiedad'                  => 'Catalogos\Propiedad\Controller\PropiedadController',
             'Catalogos\Producto\Controller\Producto'                    => 'Catalogos\Producto\Controller\ProductoController',
+            'Catalogos\Productovariante\Controller\Productovariante'    => 'Catalogos\Productovariante\Controller\ProductovarianteController',
             'Catalogos\Medico\Controller\Medico'                        => 'Catalogos\Medico\Controller\MedicoController',
             'Catalogos\Lugar\Controller\Lugar'                          => 'Catalogos\Lugar\Controller\LugarController',
         ),
