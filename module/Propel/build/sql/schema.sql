@@ -77,7 +77,6 @@ CREATE TABLE `articulo`
     `idtipo` INTEGER NOT NULL,
     `articulo_nombre` VARCHAR(300),
     `articulo_descripcion` TEXT,
-    `articulo_cantidadpresentacion` INTEGER,
     PRIMARY KEY (`idarticulo`),
     INDEX `idtipo` (`idtipo`),
     CONSTRAINT `idtipo_articulo`
@@ -136,46 +135,6 @@ CREATE TABLE `articulovariantereorden`
     CONSTRAINT `idlugar_articulovariantereorden`
         FOREIGN KEY (`idlugar`)
         REFERENCES `lugar` (`idlugar`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-) ENGINE=InnoDB;
-
--- ---------------------------------------------------------------------
--- articulovariantevalor
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `articulovariantevalor`;
-
-CREATE TABLE `articulovariantevalor`
-(
-    `idarticulovariantevalor` INTEGER NOT NULL AUTO_INCREMENT,
-    `idarticulo` INTEGER NOT NULL,
-    `idpropiedad` INTEGER NOT NULL,
-    `idpropiedadvalor` INTEGER NOT NULL,
-    `idarticulovariante` INTEGER NOT NULL,
-    PRIMARY KEY (`idarticulovariantevalor`),
-    INDEX `idarticulo` (`idarticulo`),
-    INDEX `idpropiedad` (`idpropiedad`),
-    INDEX `idpropiedadvalor` (`idpropiedadvalor`),
-    INDEX `idarticulovariante` (`idarticulovariante`),
-    CONSTRAINT `idarticulo_articulovariantevalor`
-        FOREIGN KEY (`idarticulo`)
-        REFERENCES `articulo` (`idarticulo`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    CONSTRAINT `idarticulovariante_articulovariantevalor`
-        FOREIGN KEY (`idarticulovariante`)
-        REFERENCES `articulovariante` (`idarticulovariante`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    CONSTRAINT `idpropiedad_articulovariantevalor`
-        FOREIGN KEY (`idpropiedad`)
-        REFERENCES `propiedad` (`idpropiedad`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    CONSTRAINT `idpropiedadvalor_articulovariantevalor`
-        FOREIGN KEY (`idpropiedadvalor`)
-        REFERENCES `propiedadvalor` (`idpropiedadvalor`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -830,7 +789,7 @@ CREATE TABLE `paciente`
     `paciente_pais` VARCHAR(45),
     `paciente_telefono` VARCHAR(45),
     `paciente_telefonocelular` VARCHAR(45),
-    `paciente_edad` VARCHAR(45),
+    `paciente_fechanacimiento` DATE,
     `paciente_sexo` enum('Masculino','Femenino') NOT NULL,
     `paciente_estadocivil` enum('Soltero(a)','Casado(a)','Divorciado(a)','Viudo(a)'),
     `paciente_ocupacion` VARCHAR(45),
@@ -1069,6 +1028,20 @@ CREATE TABLE `traspasodetalles`
         REFERENCES `traspaso` (`idinventariolugar`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- udm
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `udm`;
+
+CREATE TABLE `udm`
+(
+    `idudm` INTEGER NOT NULL AUTO_INCREMENT,
+    `udm_nombre` VARCHAR(45) NOT NULL,
+    `udm_descripcion` VARCHAR(45),
+    PRIMARY KEY (`idudm`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

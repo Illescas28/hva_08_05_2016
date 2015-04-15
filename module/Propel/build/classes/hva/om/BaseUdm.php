@@ -2,24 +2,24 @@
 
 
 /**
- * Base class that represents a row from the 'propiedadvalor' table.
+ * Base class that represents a row from the 'udm' table.
  *
  *
  *
  * @package    propel.generator.hva.om
  */
-abstract class BasePropiedadvalor extends BaseObject implements Persistent
+abstract class BaseUdm extends BaseObject implements Persistent
 {
     /**
      * Peer class name
      */
-    const PEER = 'PropiedadvalorPeer';
+    const PEER = 'UdmPeer';
 
     /**
      * The Peer class.
      * Instance provides a convenient way of calling static methods on a class
      * that calling code may not be able to identify.
-     * @var        PropiedadvalorPeer
+     * @var        UdmPeer
      */
     protected static $peer;
 
@@ -30,38 +30,22 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     protected $startCopy = false;
 
     /**
-     * The value for the idpropiedadvalor field.
+     * The value for the idudm field.
      * @var        int
      */
-    protected $idpropiedadvalor;
+    protected $idudm;
 
     /**
-     * The value for the idpropiedad field.
-     * @var        int
-     */
-    protected $idpropiedad;
-
-    /**
-     * The value for the idarticulo field.
-     * @var        int
-     */
-    protected $idarticulo;
-
-    /**
-     * The value for the propiedadvalor_nombre field.
+     * The value for the udm_nombre field.
      * @var        string
      */
-    protected $propiedadvalor_nombre;
+    protected $udm_nombre;
 
     /**
-     * @var        Articulo
+     * The value for the udm_descripcion field.
+     * @var        string
      */
-    protected $aArticulo;
-
-    /**
-     * @var        Propiedad
-     */
-    protected $aPropiedad;
+    protected $udm_descripcion;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -84,140 +68,100 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     protected $alreadyInClearAllReferencesDeep = false;
 
     /**
-     * Get the [idpropiedadvalor] column value.
+     * Get the [idudm] column value.
      *
      * @return int
      */
-    public function getIdpropiedadvalor()
+    public function getIdudm()
     {
 
-        return $this->idpropiedadvalor;
+        return $this->idudm;
     }
 
     /**
-     * Get the [idpropiedad] column value.
-     *
-     * @return int
-     */
-    public function getIdpropiedad()
-    {
-
-        return $this->idpropiedad;
-    }
-
-    /**
-     * Get the [idarticulo] column value.
-     *
-     * @return int
-     */
-    public function getIdarticulo()
-    {
-
-        return $this->idarticulo;
-    }
-
-    /**
-     * Get the [propiedadvalor_nombre] column value.
+     * Get the [udm_nombre] column value.
      *
      * @return string
      */
-    public function getPropiedadvalorNombre()
+    public function getUdmNombre()
     {
 
-        return $this->propiedadvalor_nombre;
+        return $this->udm_nombre;
     }
 
     /**
-     * Set the value of [idpropiedadvalor] column.
+     * Get the [udm_descripcion] column value.
+     *
+     * @return string
+     */
+    public function getUdmDescripcion()
+    {
+
+        return $this->udm_descripcion;
+    }
+
+    /**
+     * Set the value of [idudm] column.
      *
      * @param  int $v new value
-     * @return Propiedadvalor The current object (for fluent API support)
+     * @return Udm The current object (for fluent API support)
      */
-    public function setIdpropiedadvalor($v)
+    public function setIdudm($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->idpropiedadvalor !== $v) {
-            $this->idpropiedadvalor = $v;
-            $this->modifiedColumns[] = PropiedadvalorPeer::IDPROPIEDADVALOR;
+        if ($this->idudm !== $v) {
+            $this->idudm = $v;
+            $this->modifiedColumns[] = UdmPeer::IDUDM;
         }
 
 
         return $this;
-    } // setIdpropiedadvalor()
+    } // setIdudm()
 
     /**
-     * Set the value of [idpropiedad] column.
-     *
-     * @param  int $v new value
-     * @return Propiedadvalor The current object (for fluent API support)
-     */
-    public function setIdpropiedad($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->idpropiedad !== $v) {
-            $this->idpropiedad = $v;
-            $this->modifiedColumns[] = PropiedadvalorPeer::IDPROPIEDAD;
-        }
-
-        if ($this->aPropiedad !== null && $this->aPropiedad->getIdpropiedad() !== $v) {
-            $this->aPropiedad = null;
-        }
-
-
-        return $this;
-    } // setIdpropiedad()
-
-    /**
-     * Set the value of [idarticulo] column.
-     *
-     * @param  int $v new value
-     * @return Propiedadvalor The current object (for fluent API support)
-     */
-    public function setIdarticulo($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->idarticulo !== $v) {
-            $this->idarticulo = $v;
-            $this->modifiedColumns[] = PropiedadvalorPeer::IDARTICULO;
-        }
-
-        if ($this->aArticulo !== null && $this->aArticulo->getIdarticulo() !== $v) {
-            $this->aArticulo = null;
-        }
-
-
-        return $this;
-    } // setIdarticulo()
-
-    /**
-     * Set the value of [propiedadvalor_nombre] column.
+     * Set the value of [udm_nombre] column.
      *
      * @param  string $v new value
-     * @return Propiedadvalor The current object (for fluent API support)
+     * @return Udm The current object (for fluent API support)
      */
-    public function setPropiedadvalorNombre($v)
+    public function setUdmNombre($v)
     {
         if ($v !== null) {
             $v = (string) $v;
         }
 
-        if ($this->propiedadvalor_nombre !== $v) {
-            $this->propiedadvalor_nombre = $v;
-            $this->modifiedColumns[] = PropiedadvalorPeer::PROPIEDADVALOR_NOMBRE;
+        if ($this->udm_nombre !== $v) {
+            $this->udm_nombre = $v;
+            $this->modifiedColumns[] = UdmPeer::UDM_NOMBRE;
         }
 
 
         return $this;
-    } // setPropiedadvalorNombre()
+    } // setUdmNombre()
+
+    /**
+     * Set the value of [udm_descripcion] column.
+     *
+     * @param  string $v new value
+     * @return Udm The current object (for fluent API support)
+     */
+    public function setUdmDescripcion($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->udm_descripcion !== $v) {
+            $this->udm_descripcion = $v;
+            $this->modifiedColumns[] = UdmPeer::UDM_DESCRIPCION;
+        }
+
+
+        return $this;
+    } // setUdmDescripcion()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -251,10 +195,9 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     {
         try {
 
-            $this->idpropiedadvalor = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->idpropiedad = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->idarticulo = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-            $this->propiedadvalor_nombre = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->idudm = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
+            $this->udm_nombre = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
+            $this->udm_descripcion = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -264,10 +207,10 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 4; // 4 = PropiedadvalorPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 3; // 3 = UdmPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating Propiedadvalor object", $e);
+            throw new PropelException("Error populating Udm object", $e);
         }
     }
 
@@ -287,12 +230,6 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     public function ensureConsistency()
     {
 
-        if ($this->aPropiedad !== null && $this->idpropiedad !== $this->aPropiedad->getIdpropiedad()) {
-            $this->aPropiedad = null;
-        }
-        if ($this->aArticulo !== null && $this->idarticulo !== $this->aArticulo->getIdarticulo()) {
-            $this->aArticulo = null;
-        }
     } // ensureConsistency
 
     /**
@@ -316,13 +253,13 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PropiedadvalorPeer::DATABASE_NAME, Propel::CONNECTION_READ);
+            $con = Propel::getConnection(UdmPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
         // We don't need to alter the object instance pool; we're just modifying this instance
         // already in the pool.
 
-        $stmt = PropiedadvalorPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
+        $stmt = UdmPeer::doSelectStmt($this->buildPkeyCriteria(), $con);
         $row = $stmt->fetch(PDO::FETCH_NUM);
         $stmt->closeCursor();
         if (!$row) {
@@ -332,8 +269,6 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aArticulo = null;
-            $this->aPropiedad = null;
         } // if (deep)
     }
 
@@ -354,12 +289,12 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PropiedadvalorPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(UdmPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
         try {
-            $deleteQuery = PropiedadvalorQuery::create()
+            $deleteQuery = UdmQuery::create()
                 ->filterByPrimaryKey($this->getPrimaryKey());
             $ret = $this->preDelete($con);
             if ($ret) {
@@ -397,7 +332,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
         }
 
         if ($con === null) {
-            $con = Propel::getConnection(PropiedadvalorPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
+            $con = Propel::getConnection(UdmPeer::DATABASE_NAME, Propel::CONNECTION_WRITE);
         }
 
         $con->beginTransaction();
@@ -417,7 +352,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
                     $this->postUpdate($con);
                 }
                 $this->postSave($con);
-                PropiedadvalorPeer::addInstanceToPool($this);
+                UdmPeer::addInstanceToPool($this);
             } else {
                 $affectedRows = 0;
             }
@@ -446,25 +381,6 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
         $affectedRows = 0; // initialize var to track total num of affected rows
         if (!$this->alreadyInSave) {
             $this->alreadyInSave = true;
-
-            // We call the save method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aArticulo !== null) {
-                if ($this->aArticulo->isModified() || $this->aArticulo->isNew()) {
-                    $affectedRows += $this->aArticulo->save($con);
-                }
-                $this->setArticulo($this->aArticulo);
-            }
-
-            if ($this->aPropiedad !== null) {
-                if ($this->aPropiedad->isModified() || $this->aPropiedad->isNew()) {
-                    $affectedRows += $this->aPropiedad->save($con);
-                }
-                $this->setPropiedad($this->aPropiedad);
-            }
 
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
@@ -497,27 +413,24 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = PropiedadvalorPeer::IDPROPIEDADVALOR;
-        if (null !== $this->idpropiedadvalor) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . PropiedadvalorPeer::IDPROPIEDADVALOR . ')');
+        $this->modifiedColumns[] = UdmPeer::IDUDM;
+        if (null !== $this->idudm) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . UdmPeer::IDUDM . ')');
         }
 
          // check the columns in natural order for more readable SQL queries
-        if ($this->isColumnModified(PropiedadvalorPeer::IDPROPIEDADVALOR)) {
-            $modifiedColumns[':p' . $index++]  = '`idpropiedadvalor`';
+        if ($this->isColumnModified(UdmPeer::IDUDM)) {
+            $modifiedColumns[':p' . $index++]  = '`idudm`';
         }
-        if ($this->isColumnModified(PropiedadvalorPeer::IDPROPIEDAD)) {
-            $modifiedColumns[':p' . $index++]  = '`idpropiedad`';
+        if ($this->isColumnModified(UdmPeer::UDM_NOMBRE)) {
+            $modifiedColumns[':p' . $index++]  = '`udm_nombre`';
         }
-        if ($this->isColumnModified(PropiedadvalorPeer::IDARTICULO)) {
-            $modifiedColumns[':p' . $index++]  = '`idarticulo`';
-        }
-        if ($this->isColumnModified(PropiedadvalorPeer::PROPIEDADVALOR_NOMBRE)) {
-            $modifiedColumns[':p' . $index++]  = '`propiedadvalor_nombre`';
+        if ($this->isColumnModified(UdmPeer::UDM_DESCRIPCION)) {
+            $modifiedColumns[':p' . $index++]  = '`udm_descripcion`';
         }
 
         $sql = sprintf(
-            'INSERT INTO `propiedadvalor` (%s) VALUES (%s)',
+            'INSERT INTO `udm` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -526,17 +439,14 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case '`idpropiedadvalor`':
-                        $stmt->bindValue($identifier, $this->idpropiedadvalor, PDO::PARAM_INT);
+                    case '`idudm`':
+                        $stmt->bindValue($identifier, $this->idudm, PDO::PARAM_INT);
                         break;
-                    case '`idpropiedad`':
-                        $stmt->bindValue($identifier, $this->idpropiedad, PDO::PARAM_INT);
+                    case '`udm_nombre`':
+                        $stmt->bindValue($identifier, $this->udm_nombre, PDO::PARAM_STR);
                         break;
-                    case '`idarticulo`':
-                        $stmt->bindValue($identifier, $this->idarticulo, PDO::PARAM_INT);
-                        break;
-                    case '`propiedadvalor_nombre`':
-                        $stmt->bindValue($identifier, $this->propiedadvalor_nombre, PDO::PARAM_STR);
+                    case '`udm_descripcion`':
+                        $stmt->bindValue($identifier, $this->udm_descripcion, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -551,7 +461,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
         } catch (Exception $e) {
             throw new PropelException('Unable to get autoincrement id.', $e);
         }
-        $this->setIdpropiedadvalor($pk);
+        $this->setIdudm($pk);
 
         $this->setNew(false);
     }
@@ -632,25 +542,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
             $failureMap = array();
 
 
-            // We call the validate method on the following object(s) if they
-            // were passed to this object by their corresponding set
-            // method.  This object relates to these object(s) by a
-            // foreign key reference.
-
-            if ($this->aArticulo !== null) {
-                if (!$this->aArticulo->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aArticulo->getValidationFailures());
-                }
-            }
-
-            if ($this->aPropiedad !== null) {
-                if (!$this->aPropiedad->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aPropiedad->getValidationFailures());
-                }
-            }
-
-
-            if (($retval = PropiedadvalorPeer::doValidate($this, $columns)) !== true) {
+            if (($retval = UdmPeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
             }
 
@@ -674,7 +566,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function getByName($name, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = PropiedadvalorPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = UdmPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -691,16 +583,13 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                return $this->getIdpropiedadvalor();
+                return $this->getIdudm();
                 break;
             case 1:
-                return $this->getIdpropiedad();
+                return $this->getUdmNombre();
                 break;
             case 2:
-                return $this->getIdarticulo();
-                break;
-            case 3:
-                return $this->getPropiedadvalorNombre();
+                return $this->getUdmDescripcion();
                 break;
             default:
                 return null;
@@ -719,36 +608,26 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      *                    Defaults to BasePeer::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to true.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
+    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
-        if (isset($alreadyDumpedObjects['Propiedadvalor'][$this->getPrimaryKey()])) {
+        if (isset($alreadyDumpedObjects['Udm'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
         }
-        $alreadyDumpedObjects['Propiedadvalor'][$this->getPrimaryKey()] = true;
-        $keys = PropiedadvalorPeer::getFieldNames($keyType);
+        $alreadyDumpedObjects['Udm'][$this->getPrimaryKey()] = true;
+        $keys = UdmPeer::getFieldNames($keyType);
         $result = array(
-            $keys[0] => $this->getIdpropiedadvalor(),
-            $keys[1] => $this->getIdpropiedad(),
-            $keys[2] => $this->getIdarticulo(),
-            $keys[3] => $this->getPropiedadvalorNombre(),
+            $keys[0] => $this->getIdudm(),
+            $keys[1] => $this->getUdmNombre(),
+            $keys[2] => $this->getUdmDescripcion(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
 
-        if ($includeForeignObjects) {
-            if (null !== $this->aArticulo) {
-                $result['Articulo'] = $this->aArticulo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
-            if (null !== $this->aPropiedad) {
-                $result['Propiedad'] = $this->aPropiedad->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
-        }
 
         return $result;
     }
@@ -766,7 +645,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function setByName($name, $value, $type = BasePeer::TYPE_PHPNAME)
     {
-        $pos = PropiedadvalorPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
+        $pos = UdmPeer::translateFieldName($name, $type, BasePeer::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
     }
@@ -783,16 +662,13 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     {
         switch ($pos) {
             case 0:
-                $this->setIdpropiedadvalor($value);
+                $this->setIdudm($value);
                 break;
             case 1:
-                $this->setIdpropiedad($value);
+                $this->setUdmNombre($value);
                 break;
             case 2:
-                $this->setIdarticulo($value);
-                break;
-            case 3:
-                $this->setPropiedadvalorNombre($value);
+                $this->setUdmDescripcion($value);
                 break;
         } // switch()
     }
@@ -816,12 +692,11 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function fromArray($arr, $keyType = BasePeer::TYPE_PHPNAME)
     {
-        $keys = PropiedadvalorPeer::getFieldNames($keyType);
+        $keys = UdmPeer::getFieldNames($keyType);
 
-        if (array_key_exists($keys[0], $arr)) $this->setIdpropiedadvalor($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setIdpropiedad($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setIdarticulo($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setPropiedadvalorNombre($arr[$keys[3]]);
+        if (array_key_exists($keys[0], $arr)) $this->setIdudm($arr[$keys[0]]);
+        if (array_key_exists($keys[1], $arr)) $this->setUdmNombre($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setUdmDescripcion($arr[$keys[2]]);
     }
 
     /**
@@ -831,12 +706,11 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function buildCriteria()
     {
-        $criteria = new Criteria(PropiedadvalorPeer::DATABASE_NAME);
+        $criteria = new Criteria(UdmPeer::DATABASE_NAME);
 
-        if ($this->isColumnModified(PropiedadvalorPeer::IDPROPIEDADVALOR)) $criteria->add(PropiedadvalorPeer::IDPROPIEDADVALOR, $this->idpropiedadvalor);
-        if ($this->isColumnModified(PropiedadvalorPeer::IDPROPIEDAD)) $criteria->add(PropiedadvalorPeer::IDPROPIEDAD, $this->idpropiedad);
-        if ($this->isColumnModified(PropiedadvalorPeer::IDARTICULO)) $criteria->add(PropiedadvalorPeer::IDARTICULO, $this->idarticulo);
-        if ($this->isColumnModified(PropiedadvalorPeer::PROPIEDADVALOR_NOMBRE)) $criteria->add(PropiedadvalorPeer::PROPIEDADVALOR_NOMBRE, $this->propiedadvalor_nombre);
+        if ($this->isColumnModified(UdmPeer::IDUDM)) $criteria->add(UdmPeer::IDUDM, $this->idudm);
+        if ($this->isColumnModified(UdmPeer::UDM_NOMBRE)) $criteria->add(UdmPeer::UDM_NOMBRE, $this->udm_nombre);
+        if ($this->isColumnModified(UdmPeer::UDM_DESCRIPCION)) $criteria->add(UdmPeer::UDM_DESCRIPCION, $this->udm_descripcion);
 
         return $criteria;
     }
@@ -851,8 +725,8 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function buildPkeyCriteria()
     {
-        $criteria = new Criteria(PropiedadvalorPeer::DATABASE_NAME);
-        $criteria->add(PropiedadvalorPeer::IDPROPIEDADVALOR, $this->idpropiedadvalor);
+        $criteria = new Criteria(UdmPeer::DATABASE_NAME);
+        $criteria->add(UdmPeer::IDUDM, $this->idudm);
 
         return $criteria;
     }
@@ -863,18 +737,18 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function getPrimaryKey()
     {
-        return $this->getIdpropiedadvalor();
+        return $this->getIdudm();
     }
 
     /**
-     * Generic method to set the primary key (idpropiedadvalor column).
+     * Generic method to set the primary key (idudm column).
      *
      * @param  int $key Primary key.
      * @return void
      */
     public function setPrimaryKey($key)
     {
-        $this->setIdpropiedadvalor($key);
+        $this->setIdudm($key);
     }
 
     /**
@@ -884,7 +758,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     public function isPrimaryKeyNull()
     {
 
-        return null === $this->getIdpropiedadvalor();
+        return null === $this->getIdudm();
     }
 
     /**
@@ -893,31 +767,18 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param object $copyObj An object of Propiedadvalor (or compatible) type.
+     * @param object $copyObj An object of Udm (or compatible) type.
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setIdpropiedad($this->getIdpropiedad());
-        $copyObj->setIdarticulo($this->getIdarticulo());
-        $copyObj->setPropiedadvalorNombre($this->getPropiedadvalorNombre());
-
-        if ($deepCopy && !$this->startCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-            // store object hash to prevent cycle
-            $this->startCopy = true;
-
-            //unflag object copy
-            $this->startCopy = false;
-        } // if ($deepCopy)
-
+        $copyObj->setUdmNombre($this->getUdmNombre());
+        $copyObj->setUdmDescripcion($this->getUdmDescripcion());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setIdpropiedadvalor(NULL); // this is a auto-increment column, so set to default value
+            $copyObj->setIdudm(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -930,7 +791,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      * objects.
      *
      * @param boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return Propiedadvalor Clone of current object.
+     * @return Udm Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -950,119 +811,15 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      * same instance for all member of this class. The method could therefore
      * be static, but this would prevent one from overriding the behavior.
      *
-     * @return PropiedadvalorPeer
+     * @return UdmPeer
      */
     public function getPeer()
     {
         if (self::$peer === null) {
-            self::$peer = new PropiedadvalorPeer();
+            self::$peer = new UdmPeer();
         }
 
         return self::$peer;
-    }
-
-    /**
-     * Declares an association between this object and a Articulo object.
-     *
-     * @param                  Articulo $v
-     * @return Propiedadvalor The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setArticulo(Articulo $v = null)
-    {
-        if ($v === null) {
-            $this->setIdarticulo(NULL);
-        } else {
-            $this->setIdarticulo($v->getIdarticulo());
-        }
-
-        $this->aArticulo = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Articulo object, it will not be re-added.
-        if ($v !== null) {
-            $v->addPropiedadvalor($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated Articulo object
-     *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return Articulo The associated Articulo object.
-     * @throws PropelException
-     */
-    public function getArticulo(PropelPDO $con = null, $doQuery = true)
-    {
-        if ($this->aArticulo === null && ($this->idarticulo !== null) && $doQuery) {
-            $this->aArticulo = ArticuloQuery::create()->findPk($this->idarticulo, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aArticulo->addPropiedadvalors($this);
-             */
-        }
-
-        return $this->aArticulo;
-    }
-
-    /**
-     * Declares an association between this object and a Propiedad object.
-     *
-     * @param                  Propiedad $v
-     * @return Propiedadvalor The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setPropiedad(Propiedad $v = null)
-    {
-        if ($v === null) {
-            $this->setIdpropiedad(NULL);
-        } else {
-            $this->setIdpropiedad($v->getIdpropiedad());
-        }
-
-        $this->aPropiedad = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Propiedad object, it will not be re-added.
-        if ($v !== null) {
-            $v->addPropiedadvalor($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated Propiedad object
-     *
-     * @param PropelPDO $con Optional Connection object.
-     * @param $doQuery Executes a query to get the object if required
-     * @return Propiedad The associated Propiedad object.
-     * @throws PropelException
-     */
-    public function getPropiedad(PropelPDO $con = null, $doQuery = true)
-    {
-        if ($this->aPropiedad === null && ($this->idpropiedad !== null) && $doQuery) {
-            $this->aPropiedad = PropiedadQuery::create()->findPk($this->idpropiedad, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aPropiedad->addPropiedadvalors($this);
-             */
-        }
-
-        return $this->aPropiedad;
     }
 
     /**
@@ -1070,10 +827,9 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function clear()
     {
-        $this->idpropiedadvalor = null;
-        $this->idpropiedad = null;
-        $this->idarticulo = null;
-        $this->propiedadvalor_nombre = null;
+        $this->idudm = null;
+        $this->udm_nombre = null;
+        $this->udm_descripcion = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -1096,18 +852,10 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->aArticulo instanceof Persistent) {
-              $this->aArticulo->clearAllReferences($deep);
-            }
-            if ($this->aPropiedad instanceof Persistent) {
-              $this->aPropiedad->clearAllReferences($deep);
-            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        $this->aArticulo = null;
-        $this->aPropiedad = null;
     }
 
     /**
@@ -1117,7 +865,7 @@ abstract class BasePropiedadvalor extends BaseObject implements Persistent
      */
     public function __toString()
     {
-        return (string) $this->exportTo(PropiedadvalorPeer::DEFAULT_STRING_FORMAT);
+        return (string) $this->exportTo(UdmPeer::DEFAULT_STRING_FORMAT);
     }
 
     /**

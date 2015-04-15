@@ -108,10 +108,10 @@ abstract class BasePaciente extends BaseObject implements Persistent
     protected $paciente_telefonocelular;
 
     /**
-     * The value for the paciente_edad field.
+     * The value for the paciente_fechanacimiento field.
      * @var        string
      */
-    protected $paciente_edad;
+    protected $paciente_fechanacimiento;
 
     /**
      * The value for the paciente_sexo field.
@@ -385,14 +385,43 @@ abstract class BasePaciente extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [paciente_edad] column value.
+     * Get the [optionally formatted] temporal [paciente_fechanacimiento] column value.
      *
-     * @return string
+     *
+     * @param string $format The date/time format string (either date()-style or strftime()-style).
+     *				 If format is null, then the raw DateTime object will be returned.
+     * @return mixed Formatted date/time value as string or DateTime object (if format is null), null if column is null, and 0 if column value is 0000-00-00
+     * @throws PropelException - if unable to parse/validate the date/time value.
      */
-    public function getPacienteEdad()
+    public function getPacienteFechanacimiento($format = '%x')
     {
+        if ($this->paciente_fechanacimiento === null) {
+            return null;
+        }
 
-        return $this->paciente_edad;
+        if ($this->paciente_fechanacimiento === '0000-00-00') {
+            // while technically this is not a default value of null,
+            // this seems to be closest in meaning.
+            return null;
+        }
+
+        try {
+            $dt = new DateTime($this->paciente_fechanacimiento);
+        } catch (Exception $x) {
+            throw new PropelException("Internally stored date/time/timestamp value could not be converted to DateTime: " . var_export($this->paciente_fechanacimiento, true), $x);
+        }
+
+        if ($format === null) {
+            // Because propel.useDateTimeClass is true, we return a DateTime object.
+            return $dt;
+        }
+
+        if (strpos($format, '%') !== false) {
+            return strftime($format, $dt->format('U'));
+        }
+
+        return $dt->format($format);
+
     }
 
     /**
@@ -757,25 +786,27 @@ abstract class BasePaciente extends BaseObject implements Persistent
     } // setPacienteTelefonocelular()
 
     /**
-     * Set the value of [paciente_edad] column.
+     * Sets the value of [paciente_fechanacimiento] column to a normalized version of the date/time value specified.
      *
-     * @param  string $v new value
+     * @param mixed $v string, integer (timestamp), or DateTime value.
+     *               Empty strings are treated as null.
      * @return Paciente The current object (for fluent API support)
      */
-    public function setPacienteEdad($v)
+    public function setPacienteFechanacimiento($v)
     {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->paciente_edad !== $v) {
-            $this->paciente_edad = $v;
-            $this->modifiedColumns[] = PacientePeer::PACIENTE_EDAD;
-        }
+        $dt = PropelDateTime::newInstance($v, null, 'DateTime');
+        if ($this->paciente_fechanacimiento !== null || $dt !== null) {
+            $currentDateAsString = ($this->paciente_fechanacimiento !== null && $tmpDt = new DateTime($this->paciente_fechanacimiento)) ? $tmpDt->format('Y-m-d') : null;
+            $newDateAsString = $dt ? $dt->format('Y-m-d') : null;
+            if ($currentDateAsString !== $newDateAsString) {
+                $this->paciente_fechanacimiento = $newDateAsString;
+                $this->modifiedColumns[] = PacientePeer::PACIENTE_FECHANACIMIENTO;
+            }
+        } // if either are not null
 
 
         return $this;
-    } // setPacienteEdad()
+    } // setPacienteFechanacimiento()
 
     /**
      * Set the value of [paciente_sexo] column.
@@ -990,7 +1021,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
             $this->paciente_pais = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
             $this->paciente_telefono = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
             $this->paciente_telefonocelular = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
-            $this->paciente_edad = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
+            $this->paciente_fechanacimiento = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
             $this->paciente_sexo = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
             $this->paciente_estadocivil = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
             $this->paciente_ocupacion = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
@@ -1354,8 +1385,8 @@ abstract class BasePaciente extends BaseObject implements Persistent
         if ($this->isColumnModified(PacientePeer::PACIENTE_TELEFONOCELULAR)) {
             $modifiedColumns[':p' . $index++]  = '`paciente_telefonocelular`';
         }
-        if ($this->isColumnModified(PacientePeer::PACIENTE_EDAD)) {
-            $modifiedColumns[':p' . $index++]  = '`paciente_edad`';
+        if ($this->isColumnModified(PacientePeer::PACIENTE_FECHANACIMIENTO)) {
+            $modifiedColumns[':p' . $index++]  = '`paciente_fechanacimiento`';
         }
         if ($this->isColumnModified(PacientePeer::PACIENTE_SEXO)) {
             $modifiedColumns[':p' . $index++]  = '`paciente_sexo`';
@@ -1431,8 +1462,8 @@ abstract class BasePaciente extends BaseObject implements Persistent
                     case '`paciente_telefonocelular`':
                         $stmt->bindValue($identifier, $this->paciente_telefonocelular, PDO::PARAM_STR);
                         break;
-                    case '`paciente_edad`':
-                        $stmt->bindValue($identifier, $this->paciente_edad, PDO::PARAM_STR);
+                    case '`paciente_fechanacimiento`':
+                        $stmt->bindValue($identifier, $this->paciente_fechanacimiento, PDO::PARAM_STR);
                         break;
                     case '`paciente_sexo`':
                         $stmt->bindValue($identifier, $this->paciente_sexo, PDO::PARAM_STR);
@@ -1672,7 +1703,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
                 return $this->getPacienteTelefonocelular();
                 break;
             case 13:
-                return $this->getPacienteEdad();
+                return $this->getPacienteFechanacimiento();
                 break;
             case 14:
                 return $this->getPacienteSexo();
@@ -1740,7 +1771,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
             $keys[10] => $this->getPacientePais(),
             $keys[11] => $this->getPacienteTelefono(),
             $keys[12] => $this->getPacienteTelefonocelular(),
-            $keys[13] => $this->getPacienteEdad(),
+            $keys[13] => $this->getPacienteFechanacimiento(),
             $keys[14] => $this->getPacienteSexo(),
             $keys[15] => $this->getPacienteEstadocivil(),
             $keys[16] => $this->getPacienteOcupacion(),
@@ -1845,7 +1876,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
                 $this->setPacienteTelefonocelular($value);
                 break;
             case 13:
-                $this->setPacienteEdad($value);
+                $this->setPacienteFechanacimiento($value);
                 break;
             case 14:
                 $this->setPacienteSexo($value);
@@ -1908,7 +1939,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
         if (array_key_exists($keys[10], $arr)) $this->setPacientePais($arr[$keys[10]]);
         if (array_key_exists($keys[11], $arr)) $this->setPacienteTelefono($arr[$keys[11]]);
         if (array_key_exists($keys[12], $arr)) $this->setPacienteTelefonocelular($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setPacienteEdad($arr[$keys[13]]);
+        if (array_key_exists($keys[13], $arr)) $this->setPacienteFechanacimiento($arr[$keys[13]]);
         if (array_key_exists($keys[14], $arr)) $this->setPacienteSexo($arr[$keys[14]]);
         if (array_key_exists($keys[15], $arr)) $this->setPacienteEstadocivil($arr[$keys[15]]);
         if (array_key_exists($keys[16], $arr)) $this->setPacienteOcupacion($arr[$keys[16]]);
@@ -1941,7 +1972,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
         if ($this->isColumnModified(PacientePeer::PACIENTE_PAIS)) $criteria->add(PacientePeer::PACIENTE_PAIS, $this->paciente_pais);
         if ($this->isColumnModified(PacientePeer::PACIENTE_TELEFONO)) $criteria->add(PacientePeer::PACIENTE_TELEFONO, $this->paciente_telefono);
         if ($this->isColumnModified(PacientePeer::PACIENTE_TELEFONOCELULAR)) $criteria->add(PacientePeer::PACIENTE_TELEFONOCELULAR, $this->paciente_telefonocelular);
-        if ($this->isColumnModified(PacientePeer::PACIENTE_EDAD)) $criteria->add(PacientePeer::PACIENTE_EDAD, $this->paciente_edad);
+        if ($this->isColumnModified(PacientePeer::PACIENTE_FECHANACIMIENTO)) $criteria->add(PacientePeer::PACIENTE_FECHANACIMIENTO, $this->paciente_fechanacimiento);
         if ($this->isColumnModified(PacientePeer::PACIENTE_SEXO)) $criteria->add(PacientePeer::PACIENTE_SEXO, $this->paciente_sexo);
         if ($this->isColumnModified(PacientePeer::PACIENTE_ESTADOCIVIL)) $criteria->add(PacientePeer::PACIENTE_ESTADOCIVIL, $this->paciente_estadocivil);
         if ($this->isColumnModified(PacientePeer::PACIENTE_OCUPACION)) $criteria->add(PacientePeer::PACIENTE_OCUPACION, $this->paciente_ocupacion);
@@ -2025,7 +2056,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
         $copyObj->setPacientePais($this->getPacientePais());
         $copyObj->setPacienteTelefono($this->getPacienteTelefono());
         $copyObj->setPacienteTelefonocelular($this->getPacienteTelefonocelular());
-        $copyObj->setPacienteEdad($this->getPacienteEdad());
+        $copyObj->setPacienteFechanacimiento($this->getPacienteFechanacimiento());
         $copyObj->setPacienteSexo($this->getPacienteSexo());
         $copyObj->setPacienteEstadocivil($this->getPacienteEstadocivil());
         $copyObj->setPacienteOcupacion($this->getPacienteOcupacion());
@@ -3443,7 +3474,7 @@ abstract class BasePaciente extends BaseObject implements Persistent
         $this->paciente_pais = null;
         $this->paciente_telefono = null;
         $this->paciente_telefonocelular = null;
-        $this->paciente_edad = null;
+        $this->paciente_fechanacimiento = null;
         $this->paciente_sexo = null;
         $this->paciente_estadocivil = null;
         $this->paciente_ocupacion = null;

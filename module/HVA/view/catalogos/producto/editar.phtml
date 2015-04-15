@@ -5,35 +5,130 @@ $this->headTitle($title);
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
 <?php
-if(!$Error){
 
-    $ArticuloForm = $this->ArticuloForm;
-    $ArticuloForm->setAttribute('action', $this->url(
-        'articulo',
+    $form = $this->ProductoForm;
+
+    $form->setAttribute('action', $this->url(
+        'producto',
         array(
             'action' => 'editar',
             'id'     => $this->id,
         )
     ));
-    $ArticuloForm->prepare();
+    $form->prepare();
 
-    echo $this->form()->openTag($ArticuloForm);
-    echo $this->form()->openTag($ArticuloForm);
-    echo $this->formHidden($ArticuloForm->get('idarticulo'));
-    echo $this->formRow($ArticuloForm->get('idtipo'));
-    echo $this->formRow($ArticuloForm->get('idudm'));
-    echo $this->formRow($ArticuloForm->get('articulo_nombre'));
-    echo $this->formRow($ArticuloForm->get('articulo_descripcion'));
-    echo $this->formRow($ArticuloForm->get('articulo_tipopresentacion'));
-    echo $this->formRow($ArticuloForm->get('articulo_cantidadpresentacion'));
-    echo $this->formSubmit($ArticuloForm->get('submit'));
-    //echo $this->formCollection($ArticuloForm);
-    echo $this->form()->closeTag();
-}else{
-    foreach ($Error as $errorValue){
-        echo $errorValue;
-    }
-}
+echo $this->form()->openTag($form);?>
+<fieldset>
+    <legend>Datos Generales</legend>
+    <div class="input-field col s8">
+        <?php  echo $this->formText($form->get('articulo_nombre')); ?>
+        <?php  echo $this->formLabel($form->get('articulo_nombre'));
+        $showError=$this->formElementErrors($form->get('articulo_nombre'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="input-field col s4">
+        <?php echo $this->formSelect($form->get('idtipo'));
+        $showError=$this->formElementErrors($form->get('idtipo'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="input-field col s6">
+        <?php  echo $this->formText($form->get('articulo_descripcion')); ?>
+        <?php  echo $this->formLabel($form->get('articulo_descripcion'));
+        $showError=$this->formElementErrors($form->get('articulo_descripcion'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+</fieldset>
+<br>
+<fieldset>
+    <legend>Propiedades</legend>
+    <div class="input-field col s6">
+        <?php  echo $this->formText($form->get('propiedad_nombre')); ?>
+        <?php  echo $this->formLabel($form->get('propiedad_nombre'));
+        $showError=$this->formElementErrors($form->get('propiedad_nombre'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="input-field col s6">
+        <?php  echo $this->formText($form->get('propiedadvalor_nombre')); ?>
+        <?php  echo $this->formLabel($form->get('propiedadvalor_nombre'));
+        if(isset($propiedadvalor) && $propiedadvalor != null){
+            if(count($propiedadvalor) == 1){?>
+                <div>
+                    <div class="input-field col s11" style="border: solid 1px #CCC">
+                        <?php echo $propiedadvalor[1];?>
+                    </div>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Eliminar" href="<?php echo '#delete-modal-propiedadvalor-'.$propiedadvalor[1]?>"><i class="small mdi-action-delete" style="color: red"></i></a>
+                </div>
+            <?php
+            }else{
+                foreach($propiedadvalor as $propiedadvalorEntity){
+                    ?>
+                    <div>
+                        <div class="input-field col s11" style="border: solid 1px #CCC">
+                            <?php echo is_object($propiedadvalorEntity) ? $propiedadvalorEntity->getPropiedadvalorNombre() : $propiedadvalorEntity;?>
+                        </div>
+                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Eliminar" href="<?php echo '#delete-modal-propiedadvalor-'.$propiedadvalorEntity->getIdPropiedadvalor()?>"><i class="small mdi-action-delete" style="color: red"></i></a>
+                    </div>
+                <?php
+                }
+            }
+        }
+        $showError=$this->formElementErrors($form->get('propiedadvalor_nombre'));
+        if(!empty($showError)):?>
+            <div class="center-align col" style="color: #e57373">
+                <i class="mdi-content-report prefix"></i>
+            </div>
+            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                <?php echo $showError; ?>
+            </div>
+        <?php endif;?>
+    </div>
+    <div class="row">
+        <div class="col s3 offset-s10">
+            <button style="width: 70%; height: 35px;"class="btn waves-effect waves-light" name="nueva_propiedad">Nueva propiedad
+            </button>
+        </div>
+    </div>
+</fieldset>
+<br>
+<br>
+<div class="row">
+    <div class="col s4 offset-s4">
+        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+</div>
+
+<?php echo $this->form()->closeTag();
+
 ?>
 <script>
 $(document).ready(function() {

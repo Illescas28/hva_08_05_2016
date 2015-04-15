@@ -447,9 +447,6 @@ abstract class BaseArticulovariantePeer
         // Invalidate objects in ArticulovariantereordenPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         ArticulovariantereordenPeer::clearInstancePool();
-        // Invalidate objects in ArticulovariantevalorPeer instance pool,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        ArticulovariantevalorPeer::clearInstancePool();
         // Invalidate objects in OrdencompradetallePeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         OrdencompradetallePeer::clearInstancePool();
@@ -1030,12 +1027,6 @@ abstract class BaseArticulovariantePeer
 
             $criteria->add(ArticulovariantereordenPeer::IDARTICULOVARIANTE, $obj->getIdarticulovariante());
             $affectedRows += ArticulovariantereordenPeer::doDelete($criteria, $con);
-
-            // delete related Articulovariantevalor objects
-            $criteria = new Criteria(ArticulovariantevalorPeer::DATABASE_NAME);
-
-            $criteria->add(ArticulovariantevalorPeer::IDARTICULOVARIANTE, $obj->getIdarticulovariante());
-            $affectedRows += ArticulovariantevalorPeer::doDelete($criteria, $con);
 
             // delete related Ordencompradetalle objects
             $criteria = new Criteria(OrdencompradetallePeer::DATABASE_NAME);

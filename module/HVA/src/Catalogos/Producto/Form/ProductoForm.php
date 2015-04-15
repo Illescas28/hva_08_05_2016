@@ -11,6 +11,8 @@ class ProductoForm extends Form
         // we want to ignore the name passed
         parent::__construct('ProductoForm');
         $this->setAttribute('method', 'post');
+        //$this->setAttribute('onsubmit', 'return nuevapropiedad()');
+
         $this->add(array(
             'name' => 'idarticulo',
             'type' => 'Hidden',
@@ -39,19 +41,16 @@ class ProductoForm extends Form
             ),
         ));
         $this->add(array(
-            'name' => 'articulo_cantidadpresentacion',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Cantidad',
-            ),
-        ));
-
-        $this->add(array(
             'name' => 'propiedad_nombre',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Propiedad',
             ),
+        ));
+
+        $this->add(array(
+            'name' => 'idpropiedad',
+            'type' => 'text',
         ));
         $this->add(array(
             'name' => 'propiedadvalor_nombre',
@@ -59,55 +58,6 @@ class ProductoForm extends Form
             'options' => array(
                 'label' => 'Valor',
             ),
-        ));
-
-        $this->add(array(
-            'name' => 'minimo',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Float',
-                    'options' => array(
-                        'min' => 0,
-                        'locale' => 'es_MX',
-                    ),
-                ),
-            ),
-            'options' => array(
-                'label' => 'Cantidad mínima'
-            )
-        ));
-        $this->add(array(
-            'name' => 'maximo',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Float',
-                    'options' => array(
-                        'min' => 0,
-                        'locale' => 'es_MX',
-                    ),
-                ),
-            ),
-            'options' => array(
-                'label' => 'Cantidad máxima'
-            )
-        ));
-        $this->add(array(
-            'name' => 'reorden',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Float',
-                    'options' => array(
-                        'min' => 0,
-                        'locale' => 'es_MX',
-                    ),
-                ),
-            ),
-            'options' => array(
-                'label' => 'Punto de orden'
-            )
         ));
 
         $this->add(array(

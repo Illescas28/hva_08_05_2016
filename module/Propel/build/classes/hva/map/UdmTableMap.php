@@ -3,7 +3,7 @@
 
 
 /**
- * This class defines the structure of the 'propiedad' table.
+ * This class defines the structure of the 'udm' table.
  *
  *
  *
@@ -14,13 +14,13 @@
  *
  * @package    propel.generator.hva.map
  */
-class PropiedadTableMap extends TableMap
+class UdmTableMap extends TableMap
 {
 
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'hva.map.PropiedadTableMap';
+    const CLASS_NAME = 'hva.map.UdmTableMap';
 
     /**
      * Initialize the table attributes, columns and validators
@@ -32,15 +32,15 @@ class PropiedadTableMap extends TableMap
     public function initialize()
     {
         // attributes
-        $this->setName('propiedad');
-        $this->setPhpName('Propiedad');
-        $this->setClassname('Propiedad');
+        $this->setName('udm');
+        $this->setPhpName('Udm');
+        $this->setClassname('Udm');
         $this->setPackage('hva');
         $this->setUseIdGenerator(true);
         // columns
-        $this->addPrimaryKey('idpropiedad', 'Idpropiedad', 'INTEGER', true, null, null);
-        $this->addForeignKey('idarticulo', 'Idarticulo', 'INTEGER', 'articulo', 'idarticulo', true, null, null);
-        $this->addColumn('propiedad_nombre', 'PropiedadNombre', 'VARCHAR', true, 100, null);
+        $this->addPrimaryKey('idudm', 'Idudm', 'INTEGER', true, null, null);
+        $this->addColumn('udm_nombre', 'UdmNombre', 'VARCHAR', true, 45, null);
+        $this->addColumn('udm_descripcion', 'UdmDescripcion', 'VARCHAR', false, 45, null);
         // validators
     } // initialize()
 
@@ -49,8 +49,6 @@ class PropiedadTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Articulo', 'Articulo', RelationMap::MANY_TO_ONE, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE');
-        $this->addRelation('Propiedadvalor', 'Propiedadvalor', RelationMap::ONE_TO_MANY, array('idpropiedad' => 'idpropiedad', ), 'CASCADE', 'CASCADE', 'Propiedadvalors');
     } // buildRelations()
 
-} // PropiedadTableMap
+} // UdmTableMap

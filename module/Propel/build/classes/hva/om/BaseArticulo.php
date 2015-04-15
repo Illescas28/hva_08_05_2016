@@ -54,12 +54,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     protected $articulo_descripcion;
 
     /**
-     * The value for the articulo_cantidadpresentacion field.
-     * @var        int
-     */
-    protected $articulo_cantidadpresentacion;
-
-    /**
      * @var        Tipo
      */
     protected $aTipo;
@@ -69,12 +63,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
      */
     protected $collArticulovariantes;
     protected $collArticulovariantesPartial;
-
-    /**
-     * @var        PropelObjectCollection|Articulovariantevalor[] Collection to store aggregation of Articulovariantevalor objects.
-     */
-    protected $collArticulovariantevalors;
-    protected $collArticulovariantevalorsPartial;
 
     /**
      * @var        PropelObjectCollection|Propiedad[] Collection to store aggregation of Propiedad objects.
@@ -113,12 +101,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $articulovariantesScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var		PropelObjectCollection
-     */
-    protected $articulovariantevalorsScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -174,17 +156,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     {
 
         return $this->articulo_descripcion;
-    }
-
-    /**
-     * Get the [articulo_cantidadpresentacion] column value.
-     *
-     * @return int
-     */
-    public function getArticuloCantidadpresentacion()
-    {
-
-        return $this->articulo_cantidadpresentacion;
     }
 
     /**
@@ -276,27 +247,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     } // setArticuloDescripcion()
 
     /**
-     * Set the value of [articulo_cantidadpresentacion] column.
-     *
-     * @param  int $v new value
-     * @return Articulo The current object (for fluent API support)
-     */
-    public function setArticuloCantidadpresentacion($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->articulo_cantidadpresentacion !== $v) {
-            $this->articulo_cantidadpresentacion = $v;
-            $this->modifiedColumns[] = ArticuloPeer::ARTICULO_CANTIDADPRESENTACION;
-        }
-
-
-        return $this;
-    } // setArticuloCantidadpresentacion()
-
-    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -332,7 +282,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $this->idtipo = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->articulo_nombre = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->articulo_descripcion = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->articulo_cantidadpresentacion = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -342,7 +291,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Articulo object", $e);
@@ -409,8 +358,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
             $this->aTipo = null;
             $this->collArticulovariantes = null;
-
-            $this->collArticulovariantevalors = null;
 
             $this->collPropiedads = null;
 
@@ -569,23 +516,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                 }
             }
 
-            if ($this->articulovariantevalorsScheduledForDeletion !== null) {
-                if (!$this->articulovariantevalorsScheduledForDeletion->isEmpty()) {
-                    ArticulovariantevalorQuery::create()
-                        ->filterByPrimaryKeys($this->articulovariantevalorsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->articulovariantevalorsScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collArticulovariantevalors !== null) {
-                foreach ($this->collArticulovariantevalors as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
             if ($this->propiedadsScheduledForDeletion !== null) {
                 if (!$this->propiedadsScheduledForDeletion->isEmpty()) {
                     PropiedadQuery::create()
@@ -658,9 +588,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) {
             $modifiedColumns[':p' . $index++]  = '`articulo_descripcion`';
         }
-        if ($this->isColumnModified(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION)) {
-            $modifiedColumns[':p' . $index++]  = '`articulo_cantidadpresentacion`';
-        }
 
         $sql = sprintf(
             'INSERT INTO `articulo` (%s) VALUES (%s)',
@@ -683,9 +610,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                         break;
                     case '`articulo_descripcion`':
                         $stmt->bindValue($identifier, $this->articulo_descripcion, PDO::PARAM_STR);
-                        break;
-                    case '`articulo_cantidadpresentacion`':
-                        $stmt->bindValue($identifier, $this->articulo_cantidadpresentacion, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -806,14 +730,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                     }
                 }
 
-                if ($this->collArticulovariantevalors !== null) {
-                    foreach ($this->collArticulovariantevalors as $referrerFK) {
-                        if (!$referrerFK->validate($columns)) {
-                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-                        }
-                    }
-                }
-
                 if ($this->collPropiedads !== null) {
                     foreach ($this->collPropiedads as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -877,9 +793,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             case 3:
                 return $this->getArticuloDescripcion();
                 break;
-            case 4:
-                return $this->getArticuloCantidadpresentacion();
-                break;
             default:
                 return null;
                 break;
@@ -913,7 +826,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $keys[1] => $this->getIdtipo(),
             $keys[2] => $this->getArticuloNombre(),
             $keys[3] => $this->getArticuloDescripcion(),
-            $keys[4] => $this->getArticuloCantidadpresentacion(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -926,9 +838,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             }
             if (null !== $this->collArticulovariantes) {
                 $result['Articulovariantes'] = $this->collArticulovariantes->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-            if (null !== $this->collArticulovariantevalors) {
-                $result['Articulovariantevalors'] = $this->collArticulovariantevalors->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
             if (null !== $this->collPropiedads) {
                 $result['Propiedads'] = $this->collPropiedads->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -982,9 +891,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             case 3:
                 $this->setArticuloDescripcion($value);
                 break;
-            case 4:
-                $this->setArticuloCantidadpresentacion($value);
-                break;
         } // switch()
     }
 
@@ -1013,7 +919,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setIdtipo($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setArticuloNombre($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setArticuloDescripcion($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setArticuloCantidadpresentacion($arr[$keys[4]]);
     }
 
     /**
@@ -1029,7 +934,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticuloPeer::IDTIPO)) $criteria->add(ArticuloPeer::IDTIPO, $this->idtipo);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_NOMBRE)) $criteria->add(ArticuloPeer::ARTICULO_NOMBRE, $this->articulo_nombre);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) $criteria->add(ArticuloPeer::ARTICULO_DESCRIPCION, $this->articulo_descripcion);
-        if ($this->isColumnModified(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION)) $criteria->add(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION, $this->articulo_cantidadpresentacion);
 
         return $criteria;
     }
@@ -1096,7 +1000,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         $copyObj->setIdtipo($this->getIdtipo());
         $copyObj->setArticuloNombre($this->getArticuloNombre());
         $copyObj->setArticuloDescripcion($this->getArticuloDescripcion());
-        $copyObj->setArticuloCantidadpresentacion($this->getArticuloCantidadpresentacion());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1108,12 +1011,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             foreach ($this->getArticulovariantes() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addArticulovariante($relObj->copy($deepCopy));
-                }
-            }
-
-            foreach ($this->getArticulovariantevalors() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addArticulovariantevalor($relObj->copy($deepCopy));
                 }
             }
 
@@ -1244,9 +1141,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     {
         if ('Articulovariante' == $relationName) {
             $this->initArticulovariantes();
-        }
-        if ('Articulovariantevalor' == $relationName) {
-            $this->initArticulovariantevalors();
         }
         if ('Propiedad' == $relationName) {
             $this->initPropiedads();
@@ -1479,306 +1373,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         }
 
         return $this;
-    }
-
-    /**
-     * Clears out the collArticulovariantevalors collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return Articulo The current object (for fluent API support)
-     * @see        addArticulovariantevalors()
-     */
-    public function clearArticulovariantevalors()
-    {
-        $this->collArticulovariantevalors = null; // important to set this to null since that means it is uninitialized
-        $this->collArticulovariantevalorsPartial = null;
-
-        return $this;
-    }
-
-    /**
-     * reset is the collArticulovariantevalors collection loaded partially
-     *
-     * @return void
-     */
-    public function resetPartialArticulovariantevalors($v = true)
-    {
-        $this->collArticulovariantevalorsPartial = $v;
-    }
-
-    /**
-     * Initializes the collArticulovariantevalors collection.
-     *
-     * By default this just sets the collArticulovariantevalors collection to an empty array (like clearcollArticulovariantevalors());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initArticulovariantevalors($overrideExisting = true)
-    {
-        if (null !== $this->collArticulovariantevalors && !$overrideExisting) {
-            return;
-        }
-        $this->collArticulovariantevalors = new PropelObjectCollection();
-        $this->collArticulovariantevalors->setModel('Articulovariantevalor');
-    }
-
-    /**
-     * Gets an array of Articulovariantevalor objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this Articulo is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|Articulovariantevalor[] List of Articulovariantevalor objects
-     * @throws PropelException
-     */
-    public function getArticulovariantevalors($criteria = null, PropelPDO $con = null)
-    {
-        $partial = $this->collArticulovariantevalorsPartial && !$this->isNew();
-        if (null === $this->collArticulovariantevalors || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collArticulovariantevalors) {
-                // return empty collection
-                $this->initArticulovariantevalors();
-            } else {
-                $collArticulovariantevalors = ArticulovariantevalorQuery::create(null, $criteria)
-                    ->filterByArticulo($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    if (false !== $this->collArticulovariantevalorsPartial && count($collArticulovariantevalors)) {
-                      $this->initArticulovariantevalors(false);
-
-                      foreach ($collArticulovariantevalors as $obj) {
-                        if (false == $this->collArticulovariantevalors->contains($obj)) {
-                          $this->collArticulovariantevalors->append($obj);
-                        }
-                      }
-
-                      $this->collArticulovariantevalorsPartial = true;
-                    }
-
-                    $collArticulovariantevalors->getInternalIterator()->rewind();
-
-                    return $collArticulovariantevalors;
-                }
-
-                if ($partial && $this->collArticulovariantevalors) {
-                    foreach ($this->collArticulovariantevalors as $obj) {
-                        if ($obj->isNew()) {
-                            $collArticulovariantevalors[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collArticulovariantevalors = $collArticulovariantevalors;
-                $this->collArticulovariantevalorsPartial = false;
-            }
-        }
-
-        return $this->collArticulovariantevalors;
-    }
-
-    /**
-     * Sets a collection of Articulovariantevalor objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param PropelCollection $articulovariantevalors A Propel collection.
-     * @param PropelPDO $con Optional connection object
-     * @return Articulo The current object (for fluent API support)
-     */
-    public function setArticulovariantevalors(PropelCollection $articulovariantevalors, PropelPDO $con = null)
-    {
-        $articulovariantevalorsToDelete = $this->getArticulovariantevalors(new Criteria(), $con)->diff($articulovariantevalors);
-
-
-        $this->articulovariantevalorsScheduledForDeletion = $articulovariantevalorsToDelete;
-
-        foreach ($articulovariantevalorsToDelete as $articulovariantevalorRemoved) {
-            $articulovariantevalorRemoved->setArticulo(null);
-        }
-
-        $this->collArticulovariantevalors = null;
-        foreach ($articulovariantevalors as $articulovariantevalor) {
-            $this->addArticulovariantevalor($articulovariantevalor);
-        }
-
-        $this->collArticulovariantevalors = $articulovariantevalors;
-        $this->collArticulovariantevalorsPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related Articulovariantevalor objects.
-     *
-     * @param Criteria $criteria
-     * @param boolean $distinct
-     * @param PropelPDO $con
-     * @return int             Count of related Articulovariantevalor objects.
-     * @throws PropelException
-     */
-    public function countArticulovariantevalors(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-    {
-        $partial = $this->collArticulovariantevalorsPartial && !$this->isNew();
-        if (null === $this->collArticulovariantevalors || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collArticulovariantevalors) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getArticulovariantevalors());
-            }
-            $query = ArticulovariantevalorQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByArticulo($this)
-                ->count($con);
-        }
-
-        return count($this->collArticulovariantevalors);
-    }
-
-    /**
-     * Method called to associate a Articulovariantevalor object to this object
-     * through the Articulovariantevalor foreign key attribute.
-     *
-     * @param    Articulovariantevalor $l Articulovariantevalor
-     * @return Articulo The current object (for fluent API support)
-     */
-    public function addArticulovariantevalor(Articulovariantevalor $l)
-    {
-        if ($this->collArticulovariantevalors === null) {
-            $this->initArticulovariantevalors();
-            $this->collArticulovariantevalorsPartial = true;
-        }
-
-        if (!in_array($l, $this->collArticulovariantevalors->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddArticulovariantevalor($l);
-
-            if ($this->articulovariantevalorsScheduledForDeletion and $this->articulovariantevalorsScheduledForDeletion->contains($l)) {
-                $this->articulovariantevalorsScheduledForDeletion->remove($this->articulovariantevalorsScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param	Articulovariantevalor $articulovariantevalor The articulovariantevalor object to add.
-     */
-    protected function doAddArticulovariantevalor($articulovariantevalor)
-    {
-        $this->collArticulovariantevalors[]= $articulovariantevalor;
-        $articulovariantevalor->setArticulo($this);
-    }
-
-    /**
-     * @param	Articulovariantevalor $articulovariantevalor The articulovariantevalor object to remove.
-     * @return Articulo The current object (for fluent API support)
-     */
-    public function removeArticulovariantevalor($articulovariantevalor)
-    {
-        if ($this->getArticulovariantevalors()->contains($articulovariantevalor)) {
-            $this->collArticulovariantevalors->remove($this->collArticulovariantevalors->search($articulovariantevalor));
-            if (null === $this->articulovariantevalorsScheduledForDeletion) {
-                $this->articulovariantevalorsScheduledForDeletion = clone $this->collArticulovariantevalors;
-                $this->articulovariantevalorsScheduledForDeletion->clear();
-            }
-            $this->articulovariantevalorsScheduledForDeletion[]= clone $articulovariantevalor;
-            $articulovariantevalor->setArticulo(null);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Articulo is new, it will return
-     * an empty collection; or if this Articulo has previously
-     * been saved, it will retrieve related Articulovariantevalors from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Articulo.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return PropelObjectCollection|Articulovariantevalor[] List of Articulovariantevalor objects
-     */
-    public function getArticulovariantevalorsJoinArticulovariante($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $query = ArticulovariantevalorQuery::create(null, $criteria);
-        $query->joinWith('Articulovariante', $join_behavior);
-
-        return $this->getArticulovariantevalors($query, $con);
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Articulo is new, it will return
-     * an empty collection; or if this Articulo has previously
-     * been saved, it will retrieve related Articulovariantevalors from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Articulo.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return PropelObjectCollection|Articulovariantevalor[] List of Articulovariantevalor objects
-     */
-    public function getArticulovariantevalorsJoinPropiedad($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $query = ArticulovariantevalorQuery::create(null, $criteria);
-        $query->joinWith('Propiedad', $join_behavior);
-
-        return $this->getArticulovariantevalors($query, $con);
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Articulo is new, it will return
-     * an empty collection; or if this Articulo has previously
-     * been saved, it will retrieve related Articulovariantevalors from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Articulo.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return PropelObjectCollection|Articulovariantevalor[] List of Articulovariantevalor objects
-     */
-    public function getArticulovariantevalorsJoinPropiedadvalor($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $query = ArticulovariantevalorQuery::create(null, $criteria);
-        $query->joinWith('Propiedadvalor', $join_behavior);
-
-        return $this->getArticulovariantevalors($query, $con);
     }
 
     /**
@@ -2265,7 +1859,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         $this->idtipo = null;
         $this->articulo_nombre = null;
         $this->articulo_descripcion = null;
-        $this->articulo_cantidadpresentacion = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -2293,11 +1886,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collArticulovariantevalors) {
-                foreach ($this->collArticulovariantevalors as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
             if ($this->collPropiedads) {
                 foreach ($this->collPropiedads as $o) {
                     $o->clearAllReferences($deep);
@@ -2319,10 +1907,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $this->collArticulovariantes->clearIterator();
         }
         $this->collArticulovariantes = null;
-        if ($this->collArticulovariantevalors instanceof PropelCollection) {
-            $this->collArticulovariantevalors->clearIterator();
-        }
-        $this->collArticulovariantevalors = null;
         if ($this->collPropiedads instanceof PropelCollection) {
             $this->collPropiedads->clearIterator();
         }

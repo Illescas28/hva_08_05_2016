@@ -69,27 +69,6 @@ class ArticulovarianteForm extends Form
                 'label' => 'Imagen',
             ),
         ));
-        $this->add(array(
-            'name' => 'articulovariante_minimo',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Mínimo',
-            ),
-        ));
-        $this->add(array(
-            'name' => 'articulovariante_maximo',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Máximo',
-            ),
-        ));
-        $this->add(array(
-            'name' => 'articulovariante_reorden',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Ordenar más',
-            ),
-        ));
 
         $this->add(array(
             'name' => 'submit',

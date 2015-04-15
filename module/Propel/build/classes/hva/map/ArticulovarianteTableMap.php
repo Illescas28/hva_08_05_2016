@@ -60,7 +60,6 @@ class ArticulovarianteTableMap extends TableMap
     {
         $this->addRelation('Articulo', 'Articulo', RelationMap::MANY_TO_ONE, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Articulovariantereorden', 'Articulovariantereorden', RelationMap::ONE_TO_MANY, array('idarticulovariante' => 'idarticulovariante', ), 'CASCADE', 'CASCADE', 'Articulovariantereordens');
-        $this->addRelation('Articulovariantevalor', 'Articulovariantevalor', RelationMap::ONE_TO_MANY, array('idarticulovariante' => 'idarticulovariante', ), 'CASCADE', 'CASCADE', 'Articulovariantevalors');
         $this->addRelation('Ordencompradetalle', 'Ordencompradetalle', RelationMap::ONE_TO_MANY, array('idarticulovariante' => 'idarticulovariante', ), 'CASCADE', 'CASCADE', 'Ordencompradetalles');
     } // buildRelations()
 

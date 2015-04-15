@@ -27,9 +27,6 @@ $this->headTitle($title);
             <th>Precio</th>
             <th>IVA</th>
             <th>Imagen</th>
-            <th>Mínimo</th>
-            <th>Máximo</th>
-            <th>Re-orden</th>
             <th>Opciones</th>
         </tr>
     </thead>
@@ -44,9 +41,6 @@ $this->headTitle($title);
             <td><?php echo $articulovariante->getArticulovariantePrecio() ?></td>
             <td><?php echo $articulovariante->getArticulovarianteIva() ?></td>
             <td><?php echo $articulovariante->getArticulovarianteImagen() ?></td>
-            <td><?php echo $articulovariante->getArticulovarianteMinimo() ?></td>
-            <td><?php echo $articulovariante->getArticulovarianteMaximo() ?></td>
-            <td><?php echo $articulovariante->getArticulovarianteReorden() ?></td>
             <td>
                 <a class="tooltipped" data-position="left" data-tooltip="Visualizar" href='<?php echo "/catalogos/articulovariante/ver/".$articulovariante->getIdArticulovariante()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                 &nbsp;&nbsp;

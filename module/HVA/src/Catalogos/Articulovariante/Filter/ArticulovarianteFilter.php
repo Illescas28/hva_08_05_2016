@@ -115,60 +115,6 @@ class ArticulovarianteFilter implements InputFilterAwareInterface
                 'required' => false,
             ));
 
-            $inputFilter->add(array(
-                'name'     => 'articulovariante_minimo',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Float',
-                        'options' => array(
-                            'min' => 0,
-                            'locale' => 'es-MX'
-                        ),
-                    ),
-                ),
-            ));
-
-            $inputFilter->add(array(
-                'name'     => 'articulovariante_maximo',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Float',
-                        'options' => array(
-                            'min' => 0,
-                            'locale' => 'es-MX'
-                        ),
-                    ),
-                ),
-            ));
-
-            $inputFilter->add(array(
-                'name'     => 'articulovariante_reorden',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-                'validators' => array(
-                    array(
-                        'name' => 'Float',
-                        'options' => array(
-                            'min' => 0,
-                            'locale' => 'es-MX'
-                        ),
-                    ),
-                ),
-            ));
-
             $this->inputFilter = $inputFilter;
         }
 

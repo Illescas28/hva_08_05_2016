@@ -13,9 +13,6 @@ $this->headTitle($title);
         <th>Precio</th>
         <th>IVA</th>
         <th>Imagen</th>
-        <th>Mínimo</th>
-        <th>Máximo</th>
-        <th>Re-orden</th>
     </tr>
     <tr>
         <td><?php echo $this->escapeHtml($articulovariante['idarticulo']);?></td>
@@ -24,9 +21,6 @@ $this->headTitle($title);
         <td><?php echo $this->escapeHtml($articulovariante['articulovariante_precio']);?></td>
         <td><?php echo $this->escapeHtml($articulovariante['articulovariante_iva']);?></td>
         <td><?php echo $this->escapeHtml($articulovariante['articulovariante_imagen']);?></td>
-        <td><?php echo $this->escapeHtml($articulovariante['articulovariante_minimo']);?></td>
-        <td><?php echo $this->escapeHtml($articulovariante['articulovariante_maximo']);?></td>
-        <td><?php echo $this->escapeHtml($articulovariante['articulovariante_reorden']);?></td>
     </tr>
 </table>
 <?php

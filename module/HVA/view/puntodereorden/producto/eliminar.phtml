@@ -1,0 +1,38 @@
+<?php
+$title = 'Eliminar articulo';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>Are you sure that you want to delete?</p>
+<table class="table">
+    <tr>
+        <th>ID Tipo</th>
+        <th>ID Unidad de Medida</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Tipo de Precentación</th>
+        <th>Cantidad</th>
+    </tr>
+        <tr>
+            <td><?php echo $this->escapeHtml($articulo['idtipo']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['idudm']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_nombre']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_descripcion']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_tipopresentacion']);?></td>
+            <td><?php echo $this->escapeHtml($articulo['articulo_cantidadpresentacion']);?></td>
+        </tr>
+</table>
+<?php
+$url = $this->url('articulo', array(
+    'action' => 'eliminar',
+    'id'     => $this->id,
+));
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo (int) $articulo['idarticulo']; ?>" />
+        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>
