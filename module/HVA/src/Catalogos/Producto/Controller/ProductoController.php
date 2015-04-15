@@ -177,6 +177,31 @@ class ProductoController extends AbstractActionController
 
             if ($request->isPost()) { //Si hicieron POST
 
+                //Instanciamos nuestro filtro
+                $productoFilter = new ProductoFilter();
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $productoForm->setInputFilter($productoFilter->getInputFilter());
+                //Le ponemos los datos a nuestro formulario
+                $productoForm->setData($request->getPost());
+
+                //Validamos nuestro formulario
+                if($productoForm->isValid()){
+
+
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Medico
+                    foreach ($productoForm->getData() as $productoKey => $productoValue){
+                        $articulo->setByName($productoKey, $productoValue, \BasePeer::TYPE_FIELDNAME);
+                    }
+
+                    //Guardamos en nuestra base de datos
+                    $articulo->save();
+                    //Agregamos un mensaje
+                    $this->flashMessenger()->addMessage('Medico guardado exitosamente!');
+                    //Redireccionamos a nuestro list
+                    return $this->redirect()->toRoute('producto');
+                }else{
+
+                }
             }
 
             return new ViewModel(array(
@@ -195,12 +220,25 @@ class ProductoController extends AbstractActionController
 
         $request = $this->getRequest();
         if ($request->isPost()) {
+            $del = $request->getPost('del', 'No');
+
+            if ($del == 'Yes') {
+                $id = (int) $request->getPost('id');
+                $ProductoQuery = ProductoQuery::create()->filterByIdproducto($id)->findOne();
+                // Almacenamos la ruta en donde se encuentra el archivo que remplasaremos.
+                $dirFile = '/Applications/AMPPS/www/Project/HVA/public'.$ProductoQuery->getProductoImagen();
+                if(unlink($dirFile)){//El archivo fue borrado.
+                    ProductoQuery::create()->filterByIdproducto($id)->delete();
+                }else{
+                    ProductoQuery::create()->filterByIdproducto($id)->delete();
+                }
+            }
 
             // Redireccionamos a los provedores
             return $this->redirect()->toRoute('producto');
         }
 
-        $provedorEntity = ArticuloQuery::create()->filterByIdproducto($id)->findOne();
+        $provedorEntity = ProductoQuery::create()->filterByIdproducto($id)->findOne();
         return array(
             'id'    => $id,
             'producto' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
