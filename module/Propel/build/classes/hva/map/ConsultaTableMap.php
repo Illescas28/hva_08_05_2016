@@ -36,7 +36,7 @@ class ConsultaTableMap extends TableMap
         $this->setPhpName('Consulta');
         $this->setClassname('Consulta');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idconsulta', 'Idconsulta', 'INTEGER', true, null, null);
         $this->addForeignKey('idpaciente', 'Idpaciente', 'INTEGER', 'paciente', 'idpaciente', true, null, null);

@@ -42,6 +42,7 @@ class ArticuloTableMap extends TableMap
         $this->addForeignKey('idtipo', 'Idtipo', 'INTEGER', 'tipo', 'idtipo', true, null, null);
         $this->addColumn('articulo_nombre', 'ArticuloNombre', 'VARCHAR', false, 300, null);
         $this->addColumn('articulo_descripcion', 'ArticuloDescripcion', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('articulo_cantidadpresentacion', 'ArticuloCantidadpresentacion', 'INTEGER', false, null, null);
         // validators
     } // initialize()
 
@@ -52,6 +53,7 @@ class ArticuloTableMap extends TableMap
     {
         $this->addRelation('Tipo', 'Tipo', RelationMap::MANY_TO_ONE, array('idtipo' => 'idtipo', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Articulovariante', 'Articulovariante', RelationMap::ONE_TO_MANY, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE', 'Articulovariantes');
+        $this->addRelation('Articulovariantevalor', 'Articulovariantevalor', RelationMap::ONE_TO_MANY, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE', 'Articulovariantevalors');
         $this->addRelation('Propiedad', 'Propiedad', RelationMap::ONE_TO_MANY, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE', 'Propiedads');
         $this->addRelation('Propiedadvalor', 'Propiedadvalor', RelationMap::ONE_TO_MANY, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE', 'Propiedadvalors');
     } // buildRelations()

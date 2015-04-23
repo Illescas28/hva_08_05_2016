@@ -24,13 +24,13 @@ abstract class BasePacientePeer
     const TM_CLASS = 'PacienteTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 22;
+    const NUM_COLUMNS = 23;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 22;
+    const NUM_HYDRATE_COLUMNS = 23;
 
     /** the column name for the idpaciente field */
     const IDPACIENTE = 'paciente.idpaciente';
@@ -56,6 +56,9 @@ abstract class BasePacientePeer
     /** the column name for the paciente_colonia field */
     const PACIENTE_COLONIA = 'paciente.paciente_colonia';
 
+    /** the column name for the paciente_codigopostal field */
+    const PACIENTE_CODIGOPOSTAL = 'paciente.paciente_codigopostal';
+
     /** the column name for the paciente_ciudad field */
     const PACIENTE_CIUDAD = 'paciente.paciente_ciudad';
 
@@ -71,8 +74,8 @@ abstract class BasePacientePeer
     /** the column name for the paciente_telefonocelular field */
     const PACIENTE_TELEFONOCELULAR = 'paciente.paciente_telefonocelular';
 
-    /** the column name for the paciente_fechanacimiento field */
-    const PACIENTE_FECHANACIMIENTO = 'paciente.paciente_fechanacimiento';
+    /** the column name for the paciente_edad field */
+    const PACIENTE_EDAD = 'paciente.paciente_edad';
 
     /** the column name for the paciente_sexo field */
     const PACIENTE_SEXO = 'paciente.paciente_sexo';
@@ -124,12 +127,12 @@ abstract class BasePacientePeer
      * e.g. PacientePeer::$fieldNames[PacientePeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idpaciente', 'PacienteNombre', 'PacienteAp', 'PacienteAm', 'PacienteCalle', 'PacienteNoexterior', 'PacienteNointerior', 'PacienteColonia', 'PacienteCiudad', 'PacienteEstado', 'PacientePais', 'PacienteTelefono', 'PacienteTelefonocelular', 'PacienteFechanacimiento', 'PacienteSexo', 'PacienteEstadocivil', 'PacienteOcupacion', 'PacienteConyuge', 'PacientePadre', 'PacienteMadre', 'PacienteResponsable', 'PacienteTelefonoresponsable', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idpaciente', 'pacienteNombre', 'pacienteAp', 'pacienteAm', 'pacienteCalle', 'pacienteNoexterior', 'pacienteNointerior', 'pacienteColonia', 'pacienteCiudad', 'pacienteEstado', 'pacientePais', 'pacienteTelefono', 'pacienteTelefonocelular', 'pacienteFechanacimiento', 'pacienteSexo', 'pacienteEstadocivil', 'pacienteOcupacion', 'pacienteConyuge', 'pacientePadre', 'pacienteMadre', 'pacienteResponsable', 'pacienteTelefonoresponsable', ),
-        BasePeer::TYPE_COLNAME => array (PacientePeer::IDPACIENTE, PacientePeer::PACIENTE_NOMBRE, PacientePeer::PACIENTE_AP, PacientePeer::PACIENTE_AM, PacientePeer::PACIENTE_CALLE, PacientePeer::PACIENTE_NOEXTERIOR, PacientePeer::PACIENTE_NOINTERIOR, PacientePeer::PACIENTE_COLONIA, PacientePeer::PACIENTE_CIUDAD, PacientePeer::PACIENTE_ESTADO, PacientePeer::PACIENTE_PAIS, PacientePeer::PACIENTE_TELEFONO, PacientePeer::PACIENTE_TELEFONOCELULAR, PacientePeer::PACIENTE_FECHANACIMIENTO, PacientePeer::PACIENTE_SEXO, PacientePeer::PACIENTE_ESTADOCIVIL, PacientePeer::PACIENTE_OCUPACION, PacientePeer::PACIENTE_CONYUGE, PacientePeer::PACIENTE_PADRE, PacientePeer::PACIENTE_MADRE, PacientePeer::PACIENTE_RESPONSABLE, PacientePeer::PACIENTE_TELEFONORESPONSABLE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDPACIENTE', 'PACIENTE_NOMBRE', 'PACIENTE_AP', 'PACIENTE_AM', 'PACIENTE_CALLE', 'PACIENTE_NOEXTERIOR', 'PACIENTE_NOINTERIOR', 'PACIENTE_COLONIA', 'PACIENTE_CIUDAD', 'PACIENTE_ESTADO', 'PACIENTE_PAIS', 'PACIENTE_TELEFONO', 'PACIENTE_TELEFONOCELULAR', 'PACIENTE_FECHANACIMIENTO', 'PACIENTE_SEXO', 'PACIENTE_ESTADOCIVIL', 'PACIENTE_OCUPACION', 'PACIENTE_CONYUGE', 'PACIENTE_PADRE', 'PACIENTE_MADRE', 'PACIENTE_RESPONSABLE', 'PACIENTE_TELEFONORESPONSABLE', ),
-        BasePeer::TYPE_FIELDNAME => array ('idpaciente', 'paciente_nombre', 'paciente_ap', 'paciente_am', 'paciente_calle', 'paciente_noexterior', 'paciente_nointerior', 'paciente_colonia', 'paciente_ciudad', 'paciente_estado', 'paciente_pais', 'paciente_telefono', 'paciente_telefonocelular', 'paciente_fechanacimiento', 'paciente_sexo', 'paciente_estadocivil', 'paciente_ocupacion', 'paciente_conyuge', 'paciente_padre', 'paciente_madre', 'paciente_responsable', 'paciente_telefonoresponsable', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
+        BasePeer::TYPE_PHPNAME => array ('Idpaciente', 'PacienteNombre', 'PacienteAp', 'PacienteAm', 'PacienteCalle', 'PacienteNoexterior', 'PacienteNointerior', 'PacienteColonia', 'PacienteCodigopostal', 'PacienteCiudad', 'PacienteEstado', 'PacientePais', 'PacienteTelefono', 'PacienteTelefonocelular', 'PacienteEdad', 'PacienteSexo', 'PacienteEstadocivil', 'PacienteOcupacion', 'PacienteConyuge', 'PacientePadre', 'PacienteMadre', 'PacienteResponsable', 'PacienteTelefonoresponsable', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idpaciente', 'pacienteNombre', 'pacienteAp', 'pacienteAm', 'pacienteCalle', 'pacienteNoexterior', 'pacienteNointerior', 'pacienteColonia', 'pacienteCodigopostal', 'pacienteCiudad', 'pacienteEstado', 'pacientePais', 'pacienteTelefono', 'pacienteTelefonocelular', 'pacienteEdad', 'pacienteSexo', 'pacienteEstadocivil', 'pacienteOcupacion', 'pacienteConyuge', 'pacientePadre', 'pacienteMadre', 'pacienteResponsable', 'pacienteTelefonoresponsable', ),
+        BasePeer::TYPE_COLNAME => array (PacientePeer::IDPACIENTE, PacientePeer::PACIENTE_NOMBRE, PacientePeer::PACIENTE_AP, PacientePeer::PACIENTE_AM, PacientePeer::PACIENTE_CALLE, PacientePeer::PACIENTE_NOEXTERIOR, PacientePeer::PACIENTE_NOINTERIOR, PacientePeer::PACIENTE_COLONIA, PacientePeer::PACIENTE_CODIGOPOSTAL, PacientePeer::PACIENTE_CIUDAD, PacientePeer::PACIENTE_ESTADO, PacientePeer::PACIENTE_PAIS, PacientePeer::PACIENTE_TELEFONO, PacientePeer::PACIENTE_TELEFONOCELULAR, PacientePeer::PACIENTE_EDAD, PacientePeer::PACIENTE_SEXO, PacientePeer::PACIENTE_ESTADOCIVIL, PacientePeer::PACIENTE_OCUPACION, PacientePeer::PACIENTE_CONYUGE, PacientePeer::PACIENTE_PADRE, PacientePeer::PACIENTE_MADRE, PacientePeer::PACIENTE_RESPONSABLE, PacientePeer::PACIENTE_TELEFONORESPONSABLE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDPACIENTE', 'PACIENTE_NOMBRE', 'PACIENTE_AP', 'PACIENTE_AM', 'PACIENTE_CALLE', 'PACIENTE_NOEXTERIOR', 'PACIENTE_NOINTERIOR', 'PACIENTE_COLONIA', 'PACIENTE_CODIGOPOSTAL', 'PACIENTE_CIUDAD', 'PACIENTE_ESTADO', 'PACIENTE_PAIS', 'PACIENTE_TELEFONO', 'PACIENTE_TELEFONOCELULAR', 'PACIENTE_EDAD', 'PACIENTE_SEXO', 'PACIENTE_ESTADOCIVIL', 'PACIENTE_OCUPACION', 'PACIENTE_CONYUGE', 'PACIENTE_PADRE', 'PACIENTE_MADRE', 'PACIENTE_RESPONSABLE', 'PACIENTE_TELEFONORESPONSABLE', ),
+        BasePeer::TYPE_FIELDNAME => array ('idpaciente', 'paciente_nombre', 'paciente_ap', 'paciente_am', 'paciente_calle', 'paciente_noexterior', 'paciente_nointerior', 'paciente_colonia', 'paciente_codigopostal', 'paciente_ciudad', 'paciente_estado', 'paciente_pais', 'paciente_telefono', 'paciente_telefonocelular', 'paciente_edad', 'paciente_sexo', 'paciente_estadocivil', 'paciente_ocupacion', 'paciente_conyuge', 'paciente_padre', 'paciente_madre', 'paciente_responsable', 'paciente_telefonoresponsable', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, )
     );
 
     /**
@@ -139,12 +142,12 @@ abstract class BasePacientePeer
      * e.g. PacientePeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idpaciente' => 0, 'PacienteNombre' => 1, 'PacienteAp' => 2, 'PacienteAm' => 3, 'PacienteCalle' => 4, 'PacienteNoexterior' => 5, 'PacienteNointerior' => 6, 'PacienteColonia' => 7, 'PacienteCiudad' => 8, 'PacienteEstado' => 9, 'PacientePais' => 10, 'PacienteTelefono' => 11, 'PacienteTelefonocelular' => 12, 'PacienteFechanacimiento' => 13, 'PacienteSexo' => 14, 'PacienteEstadocivil' => 15, 'PacienteOcupacion' => 16, 'PacienteConyuge' => 17, 'PacientePadre' => 18, 'PacienteMadre' => 19, 'PacienteResponsable' => 20, 'PacienteTelefonoresponsable' => 21, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idpaciente' => 0, 'pacienteNombre' => 1, 'pacienteAp' => 2, 'pacienteAm' => 3, 'pacienteCalle' => 4, 'pacienteNoexterior' => 5, 'pacienteNointerior' => 6, 'pacienteColonia' => 7, 'pacienteCiudad' => 8, 'pacienteEstado' => 9, 'pacientePais' => 10, 'pacienteTelefono' => 11, 'pacienteTelefonocelular' => 12, 'pacienteFechanacimiento' => 13, 'pacienteSexo' => 14, 'pacienteEstadocivil' => 15, 'pacienteOcupacion' => 16, 'pacienteConyuge' => 17, 'pacientePadre' => 18, 'pacienteMadre' => 19, 'pacienteResponsable' => 20, 'pacienteTelefonoresponsable' => 21, ),
-        BasePeer::TYPE_COLNAME => array (PacientePeer::IDPACIENTE => 0, PacientePeer::PACIENTE_NOMBRE => 1, PacientePeer::PACIENTE_AP => 2, PacientePeer::PACIENTE_AM => 3, PacientePeer::PACIENTE_CALLE => 4, PacientePeer::PACIENTE_NOEXTERIOR => 5, PacientePeer::PACIENTE_NOINTERIOR => 6, PacientePeer::PACIENTE_COLONIA => 7, PacientePeer::PACIENTE_CIUDAD => 8, PacientePeer::PACIENTE_ESTADO => 9, PacientePeer::PACIENTE_PAIS => 10, PacientePeer::PACIENTE_TELEFONO => 11, PacientePeer::PACIENTE_TELEFONOCELULAR => 12, PacientePeer::PACIENTE_FECHANACIMIENTO => 13, PacientePeer::PACIENTE_SEXO => 14, PacientePeer::PACIENTE_ESTADOCIVIL => 15, PacientePeer::PACIENTE_OCUPACION => 16, PacientePeer::PACIENTE_CONYUGE => 17, PacientePeer::PACIENTE_PADRE => 18, PacientePeer::PACIENTE_MADRE => 19, PacientePeer::PACIENTE_RESPONSABLE => 20, PacientePeer::PACIENTE_TELEFONORESPONSABLE => 21, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDPACIENTE' => 0, 'PACIENTE_NOMBRE' => 1, 'PACIENTE_AP' => 2, 'PACIENTE_AM' => 3, 'PACIENTE_CALLE' => 4, 'PACIENTE_NOEXTERIOR' => 5, 'PACIENTE_NOINTERIOR' => 6, 'PACIENTE_COLONIA' => 7, 'PACIENTE_CIUDAD' => 8, 'PACIENTE_ESTADO' => 9, 'PACIENTE_PAIS' => 10, 'PACIENTE_TELEFONO' => 11, 'PACIENTE_TELEFONOCELULAR' => 12, 'PACIENTE_FECHANACIMIENTO' => 13, 'PACIENTE_SEXO' => 14, 'PACIENTE_ESTADOCIVIL' => 15, 'PACIENTE_OCUPACION' => 16, 'PACIENTE_CONYUGE' => 17, 'PACIENTE_PADRE' => 18, 'PACIENTE_MADRE' => 19, 'PACIENTE_RESPONSABLE' => 20, 'PACIENTE_TELEFONORESPONSABLE' => 21, ),
-        BasePeer::TYPE_FIELDNAME => array ('idpaciente' => 0, 'paciente_nombre' => 1, 'paciente_ap' => 2, 'paciente_am' => 3, 'paciente_calle' => 4, 'paciente_noexterior' => 5, 'paciente_nointerior' => 6, 'paciente_colonia' => 7, 'paciente_ciudad' => 8, 'paciente_estado' => 9, 'paciente_pais' => 10, 'paciente_telefono' => 11, 'paciente_telefonocelular' => 12, 'paciente_fechanacimiento' => 13, 'paciente_sexo' => 14, 'paciente_estadocivil' => 15, 'paciente_ocupacion' => 16, 'paciente_conyuge' => 17, 'paciente_padre' => 18, 'paciente_madre' => 19, 'paciente_responsable' => 20, 'paciente_telefonoresponsable' => 21, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
+        BasePeer::TYPE_PHPNAME => array ('Idpaciente' => 0, 'PacienteNombre' => 1, 'PacienteAp' => 2, 'PacienteAm' => 3, 'PacienteCalle' => 4, 'PacienteNoexterior' => 5, 'PacienteNointerior' => 6, 'PacienteColonia' => 7, 'PacienteCodigopostal' => 8, 'PacienteCiudad' => 9, 'PacienteEstado' => 10, 'PacientePais' => 11, 'PacienteTelefono' => 12, 'PacienteTelefonocelular' => 13, 'PacienteEdad' => 14, 'PacienteSexo' => 15, 'PacienteEstadocivil' => 16, 'PacienteOcupacion' => 17, 'PacienteConyuge' => 18, 'PacientePadre' => 19, 'PacienteMadre' => 20, 'PacienteResponsable' => 21, 'PacienteTelefonoresponsable' => 22, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idpaciente' => 0, 'pacienteNombre' => 1, 'pacienteAp' => 2, 'pacienteAm' => 3, 'pacienteCalle' => 4, 'pacienteNoexterior' => 5, 'pacienteNointerior' => 6, 'pacienteColonia' => 7, 'pacienteCodigopostal' => 8, 'pacienteCiudad' => 9, 'pacienteEstado' => 10, 'pacientePais' => 11, 'pacienteTelefono' => 12, 'pacienteTelefonocelular' => 13, 'pacienteEdad' => 14, 'pacienteSexo' => 15, 'pacienteEstadocivil' => 16, 'pacienteOcupacion' => 17, 'pacienteConyuge' => 18, 'pacientePadre' => 19, 'pacienteMadre' => 20, 'pacienteResponsable' => 21, 'pacienteTelefonoresponsable' => 22, ),
+        BasePeer::TYPE_COLNAME => array (PacientePeer::IDPACIENTE => 0, PacientePeer::PACIENTE_NOMBRE => 1, PacientePeer::PACIENTE_AP => 2, PacientePeer::PACIENTE_AM => 3, PacientePeer::PACIENTE_CALLE => 4, PacientePeer::PACIENTE_NOEXTERIOR => 5, PacientePeer::PACIENTE_NOINTERIOR => 6, PacientePeer::PACIENTE_COLONIA => 7, PacientePeer::PACIENTE_CODIGOPOSTAL => 8, PacientePeer::PACIENTE_CIUDAD => 9, PacientePeer::PACIENTE_ESTADO => 10, PacientePeer::PACIENTE_PAIS => 11, PacientePeer::PACIENTE_TELEFONO => 12, PacientePeer::PACIENTE_TELEFONOCELULAR => 13, PacientePeer::PACIENTE_EDAD => 14, PacientePeer::PACIENTE_SEXO => 15, PacientePeer::PACIENTE_ESTADOCIVIL => 16, PacientePeer::PACIENTE_OCUPACION => 17, PacientePeer::PACIENTE_CONYUGE => 18, PacientePeer::PACIENTE_PADRE => 19, PacientePeer::PACIENTE_MADRE => 20, PacientePeer::PACIENTE_RESPONSABLE => 21, PacientePeer::PACIENTE_TELEFONORESPONSABLE => 22, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDPACIENTE' => 0, 'PACIENTE_NOMBRE' => 1, 'PACIENTE_AP' => 2, 'PACIENTE_AM' => 3, 'PACIENTE_CALLE' => 4, 'PACIENTE_NOEXTERIOR' => 5, 'PACIENTE_NOINTERIOR' => 6, 'PACIENTE_COLONIA' => 7, 'PACIENTE_CODIGOPOSTAL' => 8, 'PACIENTE_CIUDAD' => 9, 'PACIENTE_ESTADO' => 10, 'PACIENTE_PAIS' => 11, 'PACIENTE_TELEFONO' => 12, 'PACIENTE_TELEFONOCELULAR' => 13, 'PACIENTE_EDAD' => 14, 'PACIENTE_SEXO' => 15, 'PACIENTE_ESTADOCIVIL' => 16, 'PACIENTE_OCUPACION' => 17, 'PACIENTE_CONYUGE' => 18, 'PACIENTE_PADRE' => 19, 'PACIENTE_MADRE' => 20, 'PACIENTE_RESPONSABLE' => 21, 'PACIENTE_TELEFONORESPONSABLE' => 22, ),
+        BasePeer::TYPE_FIELDNAME => array ('idpaciente' => 0, 'paciente_nombre' => 1, 'paciente_ap' => 2, 'paciente_am' => 3, 'paciente_calle' => 4, 'paciente_noexterior' => 5, 'paciente_nointerior' => 6, 'paciente_colonia' => 7, 'paciente_codigopostal' => 8, 'paciente_ciudad' => 9, 'paciente_estado' => 10, 'paciente_pais' => 11, 'paciente_telefono' => 12, 'paciente_telefonocelular' => 13, 'paciente_edad' => 14, 'paciente_sexo' => 15, 'paciente_estadocivil' => 16, 'paciente_ocupacion' => 17, 'paciente_conyuge' => 18, 'paciente_padre' => 19, 'paciente_madre' => 20, 'paciente_responsable' => 21, 'paciente_telefonoresponsable' => 22, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, )
     );
 
     /** The enumerated values for this table */
@@ -282,12 +285,13 @@ abstract class BasePacientePeer
             $criteria->addSelectColumn(PacientePeer::PACIENTE_NOEXTERIOR);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_NOINTERIOR);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_COLONIA);
+            $criteria->addSelectColumn(PacientePeer::PACIENTE_CODIGOPOSTAL);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_CIUDAD);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_ESTADO);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_PAIS);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_TELEFONO);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_TELEFONOCELULAR);
-            $criteria->addSelectColumn(PacientePeer::PACIENTE_FECHANACIMIENTO);
+            $criteria->addSelectColumn(PacientePeer::PACIENTE_EDAD);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_SEXO);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_ESTADOCIVIL);
             $criteria->addSelectColumn(PacientePeer::PACIENTE_OCUPACION);
@@ -305,12 +309,13 @@ abstract class BasePacientePeer
             $criteria->addSelectColumn($alias . '.paciente_noexterior');
             $criteria->addSelectColumn($alias . '.paciente_nointerior');
             $criteria->addSelectColumn($alias . '.paciente_colonia');
+            $criteria->addSelectColumn($alias . '.paciente_codigopostal');
             $criteria->addSelectColumn($alias . '.paciente_ciudad');
             $criteria->addSelectColumn($alias . '.paciente_estado');
             $criteria->addSelectColumn($alias . '.paciente_pais');
             $criteria->addSelectColumn($alias . '.paciente_telefono');
             $criteria->addSelectColumn($alias . '.paciente_telefonocelular');
-            $criteria->addSelectColumn($alias . '.paciente_fechanacimiento');
+            $criteria->addSelectColumn($alias . '.paciente_edad');
             $criteria->addSelectColumn($alias . '.paciente_sexo');
             $criteria->addSelectColumn($alias . '.paciente_estadocivil');
             $criteria->addSelectColumn($alias . '.paciente_ocupacion');

@@ -50,6 +50,7 @@ class PropiedadTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Articulo', 'Articulo', RelationMap::MANY_TO_ONE, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE');
+        $this->addRelation('Articulovariantevalor', 'Articulovariantevalor', RelationMap::ONE_TO_MANY, array('idpropiedad' => 'idpropiedad', ), 'CASCADE', 'CASCADE', 'Articulovariantevalors');
         $this->addRelation('Propiedadvalor', 'Propiedadvalor', RelationMap::ONE_TO_MANY, array('idpropiedad' => 'idpropiedad', ), 'CASCADE', 'CASCADE', 'Propiedadvalors');
     } // buildRelations()
 

@@ -34,6 +34,10 @@
  * @method ArticulovarianteQuery rightJoinArticulovariantereorden($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Articulovariantereorden relation
  * @method ArticulovarianteQuery innerJoinArticulovariantereorden($relationAlias = null) Adds a INNER JOIN clause to the query using the Articulovariantereorden relation
  *
+ * @method ArticulovarianteQuery leftJoinArticulovariantevalor($relationAlias = null) Adds a LEFT JOIN clause to the query using the Articulovariantevalor relation
+ * @method ArticulovarianteQuery rightJoinArticulovariantevalor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Articulovariantevalor relation
+ * @method ArticulovarianteQuery innerJoinArticulovariantevalor($relationAlias = null) Adds a INNER JOIN clause to the query using the Articulovariantevalor relation
+ *
  * @method ArticulovarianteQuery leftJoinOrdencompradetalle($relationAlias = null) Adds a LEFT JOIN clause to the query using the Ordencompradetalle relation
  * @method ArticulovarianteQuery rightJoinOrdencompradetalle($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Ordencompradetalle relation
  * @method ArticulovarianteQuery innerJoinOrdencompradetalle($relationAlias = null) Adds a INNER JOIN clause to the query using the Ordencompradetalle relation
@@ -656,6 +660,80 @@ abstract class BaseArticulovarianteQuery extends ModelCriteria
         return $this
             ->joinArticulovariantereorden($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Articulovariantereorden', 'ArticulovariantereordenQuery');
+    }
+
+    /**
+     * Filter the query by a related Articulovariantevalor object
+     *
+     * @param   Articulovariantevalor|PropelObjectCollection $articulovariantevalor  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 ArticulovarianteQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByArticulovariantevalor($articulovariantevalor, $comparison = null)
+    {
+        if ($articulovariantevalor instanceof Articulovariantevalor) {
+            return $this
+                ->addUsingAlias(ArticulovariantePeer::IDARTICULOVARIANTE, $articulovariantevalor->getIdarticulovariante(), $comparison);
+        } elseif ($articulovariantevalor instanceof PropelObjectCollection) {
+            return $this
+                ->useArticulovariantevalorQuery()
+                ->filterByPrimaryKeys($articulovariantevalor->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByArticulovariantevalor() only accepts arguments of type Articulovariantevalor or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Articulovariantevalor relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ArticulovarianteQuery The current query, for fluid interface
+     */
+    public function joinArticulovariantevalor($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Articulovariantevalor');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Articulovariantevalor');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Articulovariantevalor relation Articulovariantevalor object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   ArticulovariantevalorQuery A secondary query class using the current class as primary query
+     */
+    public function useArticulovariantevalorQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinArticulovariantevalor($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Articulovariantevalor', 'ArticulovariantevalorQuery');
     }
 
     /**

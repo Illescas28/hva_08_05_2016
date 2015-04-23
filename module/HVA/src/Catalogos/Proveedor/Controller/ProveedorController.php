@@ -20,173 +20,178 @@ class ProveedorController extends AbstractActionController
 {
     public function nuevoAction()
     {
-        $ProveedorForm = new ProveedorForm();
-        $ProveedorForm->get('submit')->setValue('Nuevo');
-
         $request = $this->getRequest();
-        if ($request->isPost()) {
-            $ProveedorFilter = new ProveedorFilter();
-            $ProveedorForm->setInputFilter($ProveedorFilter->getInputFilter());
-            $ProveedorForm->setData($request->getPost());
+        
+        //Almacenamos en un arreglo todas las especialidades
+        $especialidadCollection = \EspecialidadQuery::create()->find();
+        $especialidadArray = array();
+        foreach ($especialidadCollection as $especialidad){
+            $especialidadArray[$especialidad->getIdespecialidad()] = $especialidad->getEspecialidadNombre();
+        }
+        
+        //Intanciamos nuestro formulario
+        $proveedorForm = new ProveedorForm($especialidadArray);
+        
+        if ($request->isPost()) { //Si hicieron POST
+            
+            //Instanciamos nuestro filtro
+            $proveedorFilter = new ProveedorFilter();
 
-            if ($ProveedorForm->isValid()) {
-                $Proveedor = new Proveedor();
-                foreach($ProveedorForm->getData() as $ProveedorKey => $ProveedorValue){
-                    if($ProveedorKey != 'idproveedor' && $ProveedorKey != 'submit'){
-                        $Proveedor->setByName($ProveedorKey, $ProveedorValue, BasePeer::TYPE_FIELDNAME);
-                    }
+            //Le ponemos nuestro filtro a nuesto fromulario
+            $proveedorForm->setInputFilter($proveedorFilter->getInputFilter());
+            
+            //Le ponemos los datos a nuestro formulario
+            $proveedorForm->setData($request->getPost());
+            
+            //Validamos nuestro formulario
+            if($proveedorForm->isValid()){
+                
+                //Instanciamos un nuevo objeto de nuestro objeto proveedor
+                $proveedor = new Proveedor();
+                
+                //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Proveedor
+                foreach ($proveedorForm->getData() as $proveedorKey => $proveedorValue){
+                    $proveedor->setByName($proveedorKey, $proveedorValue, \BasePeer::TYPE_FIELDNAME);
                 }
-                $Proveedor->save();
+              
+                //Guardamos en nuestra base de datos
+                $proveedor->save();
+                
+                //Agregamos un mensaje
+                $this->flashMessenger()->addMessage('Proveedor guardado exitosamente!');
+                
+                //Redireccionamos a nuestro list
                 return $this->redirect()->toRoute('proveedor');
+                
             }else{
-                $messageArray = array();
-                foreach ($ProveedorForm->getMessages() as $key => $value){
-                    foreach($value as $val){
-                        //Obtenemos el valor de la columna con error
-                        $message = $key.' '.$val;
-                        array_push($messageArray, $message);
-                    }
-                }
-
-                return new ViewModel(array(
-                    'Error' => $messageArray,
-                ));
+                
             }
         }
-        return array('ProveedorForm' => $ProveedorForm);
+        
+        return new ViewModel(array(
+            'proveedorForm' => $proveedorForm,
+        ));
+
     }
 
     public function listarAction()
     {
         // Instanciamos nuestro formulario proveedorForm
-        $proveedorForm = new ProveedorForm();
-
-        // Guardamos en un arrglo los campos a los que el usuario va poder tener acceso de acuerdo a su nivel
-        $allowedColumns = array();
-        foreach ($proveedorForm->getElements() as $key=>$value){
-            array_push($allowedColumns, $key);
-        }
-        //Verificamos que si nos envian filtros  si no ponemos valores por default
-        $limit = (int) $this->params()->fromQuery('limit') ? (int)$this->params()->fromQuery('limit')  : 10;
-        if($limit > 100) $limit = 100; //Si el limit es mayor a 100 lo establece en 100 como maximo valor permitido
-        $dir = $this->params()->fromQuery('dir') ? $this->params()->fromQuery('dir')  : 'asc';
-        $order = in_array($this->params()->fromQuery('order'), $allowedColumns) ? $this->params()->fromQuery('order')  : 'idproveedor';
-        $page = (int) $this->params()->fromQuery('page') ? (int)$this->params()->fromQuery('page')  : 1;
+        $proveedorForm = new proveedorForm();
 
         $proveedorQuery = new ProveedorQuery();
 
-        //Order y Dir
-        if($order !=null || $dir !=null){
-            $proveedorQuery->orderBy($order, $dir);
-        }
-
-        // Obtenemos el filtrado por medio del idcompany del recurso.
         $result = $proveedorQuery->paginate($page,$limit);
 
-        $data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+        $dataCollection = $result->getResults();
 
         return new ViewModel(array(
-            'Proveedores' => $data,
-        ));
+            'proveedores' => $dataCollection,
+            'flashMessages' => $this->flashMessenger()->getMessages(),
+        ));    
     }
 
     public function editarAction()
-    {
-        $id = (int) $this->params()->fromRoute('id', 0);
+    {   
+        $request = $this->getRequest();
+        
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        
+        //Verificamos que el Id proveedor que se quiere modificar exista
+        if(!ProveedorQuery::create()->filterByIdproveedor($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('proveedor', array(
                 'action' => 'nuevo'
             ));
         }
 
-        //Instanciamos nuestra proveedorQuery
-        $proveedorQuery = ProveedorQuery::create();
-
-        //Verificamos que el Id proveedor que se quiere modificar exista
-        if($proveedorQuery->create()->filterByIdproveedor($id)->exists()){
-
-            $request = $this->getRequest();
-            //Instanciamos nuestra proveedorQuery
-            $proveedorPKQuery = $proveedorQuery->findPk($id);
-            $proveedorQueryArray = $proveedorPKQuery->toArray(BasePeer::TYPE_FIELDNAME);
-            $ProveedorForm = new ProveedorForm();
-            $ElementsProveedorForm = $ProveedorForm->getElements();
-
-            if ($request->isPost()){
-                $ProveedorArray = array();
-                foreach($ElementsProveedorForm as $key=>$value){
-                    if($key != 'submit'){
-                        $ProveedorArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $proveedorQueryArray[$key];
-                    }
-                }
-            }else{
-                foreach($proveedorQueryArray as $proveedorQueryKey => $proveedorQueryValue){
-                    $ProveedorArray[$proveedorQueryKey] = $proveedorQueryArray[$proveedorQueryKey];
-
-                }
+            //Instanciamos nuestro proveedor
+            $proveedor = ProveedorQuery::create()->findPk($id);
+            
+            //Almacenamos en un arreglo todas las especialidades
+            $especialidadCollection = \EspecialidadQuery::create()->find();
+            $especialidadArray = array();
+            foreach ($especialidadCollection as $especialidad){
+                $especialidadArray[$especialidad->getIdespecialidad()] = $especialidad->getEspecialidadNombre();
             }
+            
+            //Instanciamos nuestro formulario
+            $proveedorForm = new ProveedorForm($especialidadArray);
+            
+            //Le ponemos los datos de nuestro proveedor a nuestro formulario
+            $proveedorForm->setData($proveedor->toArray(BasePeer::TYPE_FIELDNAME));
+            
+            if ($request->isPost()) { //Si hicieron POST
+               
+                //Instanciamos nuestro filtro
+                $proveedorFilter = new ProveedorFilter();
 
-            $ProveedorFilter = new ProveedorFilter();
-            $ProveedorForm->setInputFilter($ProveedorFilter->getInputFilter());
-            $ProveedorForm->setData($ProveedorArray);
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $proveedorForm->setInputFilter($proveedorFilter->getInputFilter());
 
-            if ($ProveedorForm->isValid()) {
-                foreach($ProveedorForm->getData() as $ProveedorKey => $ProveedorValue){
-                    if($ProveedorKey != 'submit'){
-                        $proveedorPKQuery->setByName($ProveedorKey, $ProveedorValue, BasePeer::TYPE_FIELDNAME);
+                //Le ponemos los datos a nuestro formulario
+                $proveedorForm->setData($request->getPost());
+                
+                //Validamos nuestro formulario
+                if($proveedorForm->isValid()){
+                    
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto proveedor
+                    foreach ($proveedorForm->getData() as $proveedorKey => $proveedorValue){
+                        $proveedor->setByName($proveedorKey, $proveedorValue, \BasePeer::TYPE_FIELDNAME);
                     }
-                }
-                // Si no modifican nada, permanecemos en el formulario.
-                if($proveedorPKQuery->isModified()){
-                    $proveedorPKQuery->save();
+                    
+                    //Guardamos en nuestra base de datos
+                    $proveedor->save();
+
+                    //Agregamos un mensaje
+                    $this->flashMessenger()->addMessage('Proveedor guardado exitosamente!');
+
+                    //Redireccionamos a nuestro list
                     return $this->redirect()->toRoute('proveedor');
-                }
-            }else{
-                $messageArray = array();
-                foreach ($ProveedorForm->getMessages() as $key => $value){
-                    foreach($value as $val){
-                        //Obtenemos el valor de la columna con error
-                        $message = $key.' '.$val;
-                        array_push($messageArray, $message);
-                    }
-                }
 
-                return new ViewModel(array(
-                    'Error' => $messageArray,
-                ));
+                }else{
+                    
+                }  
             }
-        }
+            
+            return new ViewModel(array(
+                'id'  => $id,
+                'proveedorForm' => $proveedorForm,
+            ));
+        
 
-        return array(
-            'id' => $id,
-            'ProveedorForm' => $ProveedorForm,
-        );
     }
 
     public function eliminarAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        //Verificamos que el Id proveedor que se quiere eliminar exista
+        if(!ProveedorQuery::create()->filterByIdproveedor($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('proveedor');
         }
+        
+                  
+            //Instanciamos nuestro proveedor
+            $proveedor = ProveedorQuery::create()->findPk($id);
+            
+            $proveedor->delete();
+            
+            //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Proveedor eliminado exitosamente!');
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $del = $request->getPost('del', 'No');
-
-            if ($del == 'Yes') {
-                $id = (int) $request->getPost('id');
-                ProveedorQuery::create()->filterByIdproveedor($id)->delete();
-            }
-
-            // Redireccionamos a los provedores
+            //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('proveedor');
-        }
+            
+        
 
-        $provedorEntity = ProveedorQuery::create()->filterByIdproveedor($id)->findOne();
-        return array(
-            'id'    => $id,
-            'proveedor' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
-        );
     }
 }

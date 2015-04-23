@@ -73,7 +73,13 @@ class ProductoFilter implements InputFilterAwareInterface
                     ),
                 ),
             ));
-
+            $inputFilter->add(array(
+                'name'     => 'articulo_cantidadpresentacion',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            ));
 
             $inputFilter->add(array(
                 'name'     => 'propiedad_nombre',
@@ -93,17 +99,63 @@ class ProductoFilter implements InputFilterAwareInterface
                     ),
                 ),
             ));
-
+            $inputFilter->add(array(
+                'name'     => 'propiedadvalor_nombre',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            ));
 
             $inputFilter->add(array(
-                'name'     => 'idpropiedad',
-                'required' => false,
+                'name'     => 'minimo',
+                'required' => true,
                 'filters'  => array(
-                    array('name' => 'Int'),
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'propiedadvalor_nombre',
+                'name'     => 'maximo',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 255,
+                        ),
+                    ),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'reorden',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),

@@ -1596,6 +1596,10 @@ abstract class BaseConsultaPeer
             $criteria = $values->buildCriteria(); // build Criteria from Consulta object
         }
 
+        if ($criteria->containsKey(ConsultaPeer::IDCONSULTA) && $criteria->keyContainsValue(ConsultaPeer::IDCONSULTA) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ConsultaPeer::IDCONSULTA.')');
+        }
+
 
         // Set the correct dbName
         $criteria->setDbName(ConsultaPeer::DATABASE_NAME);

@@ -1,0 +1,286 @@
+<?php
+$title = $pacienteEntity->getPacienteNombre()." ".$pacienteEntity->getPacienteAp()." ".$pacienteEntity->getPacienteAm();
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div>
+    <fieldset>
+        <legend>Datos generales del paciente</legend>
+        <div class="col s4">
+            <div class="label-container">
+                <label>Fecha de nacimiento:</label>
+                <p><?php echo $pacienteEntity->getPacienteEdad()?></p>
+            </div>
+            <div class="label-container">
+                <label>Responsable:</label>
+                <p><?php echo $pacienteEntity->getPacienteResponsable()?></p>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="label-container">
+                <label>Edad:</label>
+                <p><?php echo $edad . " años"?></p>
+            </div>
+            <div class="label-container">
+                <label>Teléfono responsable:</label>
+                <p><?php echo $pacienteEntity->getPacienteTelefonoresponsable()?></p>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="label-container">
+                <label>Sexo:</label>
+                <p><?php echo $pacienteEntity->getPacienteSexo()?></p>
+            </div>
+        </div>
+    </fieldset>
+    <br>
+    <div class="row">
+        <fieldset>
+            <legend>Para uso exclusivo del hospital</legend>
+            <label>Selecciona una acción</label>
+            <div class="col s12">
+                <div class="col s4">
+                    <p onclick="javascript:nuevaConsulta();" >
+                        <input class="with-gap" name="grupo1" type="radio" id="test3"  />
+                        <label for="test3">Nueva consulta</label>
+                    </p>
+                </div>
+                <div class="col s4">
+                    <p onclick="javascript:nuevaAdmision();" >
+                        <input class="with-gap" name="grupo1" type="radio" id="test4"  />
+                        <label for="test4">Nueva admisión</label>
+                    </p>
+                </div>
+            </div>
+
+            <div id="consulta" class="hiddendiv">
+                <?php $consultaForm->setAttribute('action', '/paciente/ver');?>
+                <?php $consultaForm->setAttribute('class', 'hva-form');?>
+                <?php $consultaForm->prepare();?>
+                <?php echo $this->form()->openTag($consultaForm); ?>
+                    <div class="col s4">
+                    <div class="input-field">
+                        <?php echo $this->formSelect($consultaForm->get('idmedico')); ?>
+                        <?php $showError=$this->formElementErrors($consultaForm->get('idmedico'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s4 offset-s4">
+                    <div class="input-field">
+                        <?php echo $this->formSelect($consultaForm->get('idcuarto')); ?>
+                        <?php $showError=$this->formElementErrors($consultaForm->get('idcuarto'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <?php echo $this->formText($consultaForm->get('consulta_fechaadmision')); ?>
+                        <?php echo $this->formLabel($consultaForm->get('consulta_fechaadmision')); ?>
+                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fechaadmision'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <?php echo $this->formTextarea($consultaForm->get('consulta_diagnostico')); ?>
+                        <?php echo $this->formLabel($consultaForm->get('consulta_diagnostico')); ?>
+                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_diagnostico'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <?php echo $this->formTextarea($consultaForm->get('consulta_observaciones')); ?>
+                        <?php echo $this->formLabel($consultaForm->get('consulta_observaciones')); ?>
+                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_observaciones'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="right col s4">
+                    <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                        <i class="mdi-content-save left"></i>
+                    </button>
+                </div>
+                <?php echo $this->form()->closeTag(); ?>
+            </div>
+
+            <div id="admision" class="hiddendiv">
+                <?php $admisionForm->setAttribute('action', '/paciente/ver');?>
+                <?php $admisionForm->setAttribute('class', 'hva-form');?>
+                <?php $admisionForm->prepare();?>
+                <?php echo $this->form()->openTag($admisionForm); ?>
+                <div class="col s4">
+                    <div class="input-field">
+                        <?php echo $this->formSelect($admisionForm->get('idmedico')); ?>
+                        <?php $showError=$this->formElementErrors($admisionForm->get('idmedico'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s4 offset-s4">
+                    <div class="input-field">
+                        <?php echo $this->formSelect($admisionForm->get('idcuarto')); ?>
+                        <?php $showError=$this->formElementErrors($admisionForm->get('idcuarto'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s12">
+                    <div class="input-field">
+                        <?php echo $this->formText($admisionForm->get('admision_fechaadmision')); ?>
+                        <?php echo $this->formLabel($admisionForm->get('admision_fechaadmision')); ?>
+                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_fechaadmision'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <?php echo $this->formTextarea($admisionForm->get('admision_diagnostico')); ?>
+                        <?php echo $this->formLabel($admisionForm->get('admision_diagnostico')); ?>
+                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_diagnostico'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <?php echo $this->formTextarea($admisionForm->get('admision_observaciones')); ?>
+                        <?php echo $this->formLabel($admisionForm->get('admision_observaciones')); ?>
+                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_observaciones'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="right col s4">
+                    <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                        <i class="mdi-content-save left"></i>
+                    </button>
+                </div>
+                <?php echo $this->form()->closeTag(); ?>
+            </div>
+        </fieldset>
+    </div>
+    <div class="row">
+        <?php if($pacienteQuery):?>
+            <div class="col s4">
+                <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>ver/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
+            </div>
+        <?php endif;?>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('select').material_select();
+        $("#fecha").datepicker();
+    });
+    function nuevaConsulta() {
+        if ($('#consulta').hasClass('hiddendiv')){
+            $('#consulta').removeClass('hiddendiv');
+            $('#admision').addClass('hiddendiv')
+        }
+    }
+    function nuevaAdmision() {
+        if ($('#admision').hasClass('hiddendiv')){
+            $('#admision').removeClass('hiddendiv');
+            $('#consulta').addClass('hiddendiv')
+        }
+    }
+</script>

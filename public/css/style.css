@@ -288,3 +288,6 @@ form.hva-form .input-field input[type="text"]:focus + label, form.hva-form .inpu
     font-weight: bold;
     
 }
+.pointer {
+    cursor: pointer;
+}

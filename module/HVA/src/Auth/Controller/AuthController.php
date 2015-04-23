@@ -40,7 +40,6 @@ class AuthController extends AbstractActionController
             $request = $this->getRequest();
 
             if ($request->isPost()){ 
-                var_dump($reditect_url);
                 //Instanciamos nuestro filtro
                 $loginFilter = new LoginFilter();
 

@@ -14,12 +14,13 @@
  * @method PacienteQuery orderByPacienteNoexterior($order = Criteria::ASC) Order by the paciente_noexterior column
  * @method PacienteQuery orderByPacienteNointerior($order = Criteria::ASC) Order by the paciente_nointerior column
  * @method PacienteQuery orderByPacienteColonia($order = Criteria::ASC) Order by the paciente_colonia column
+ * @method PacienteQuery orderByPacienteCodigopostal($order = Criteria::ASC) Order by the paciente_codigopostal column
  * @method PacienteQuery orderByPacienteCiudad($order = Criteria::ASC) Order by the paciente_ciudad column
  * @method PacienteQuery orderByPacienteEstado($order = Criteria::ASC) Order by the paciente_estado column
  * @method PacienteQuery orderByPacientePais($order = Criteria::ASC) Order by the paciente_pais column
  * @method PacienteQuery orderByPacienteTelefono($order = Criteria::ASC) Order by the paciente_telefono column
  * @method PacienteQuery orderByPacienteTelefonocelular($order = Criteria::ASC) Order by the paciente_telefonocelular column
- * @method PacienteQuery orderByPacienteFechanacimiento($order = Criteria::ASC) Order by the paciente_fechanacimiento column
+ * @method PacienteQuery orderByPacienteEdad($order = Criteria::ASC) Order by the paciente_edad column
  * @method PacienteQuery orderByPacienteSexo($order = Criteria::ASC) Order by the paciente_sexo column
  * @method PacienteQuery orderByPacienteEstadocivil($order = Criteria::ASC) Order by the paciente_estadocivil column
  * @method PacienteQuery orderByPacienteOcupacion($order = Criteria::ASC) Order by the paciente_ocupacion column
@@ -37,12 +38,13 @@
  * @method PacienteQuery groupByPacienteNoexterior() Group by the paciente_noexterior column
  * @method PacienteQuery groupByPacienteNointerior() Group by the paciente_nointerior column
  * @method PacienteQuery groupByPacienteColonia() Group by the paciente_colonia column
+ * @method PacienteQuery groupByPacienteCodigopostal() Group by the paciente_codigopostal column
  * @method PacienteQuery groupByPacienteCiudad() Group by the paciente_ciudad column
  * @method PacienteQuery groupByPacienteEstado() Group by the paciente_estado column
  * @method PacienteQuery groupByPacientePais() Group by the paciente_pais column
  * @method PacienteQuery groupByPacienteTelefono() Group by the paciente_telefono column
  * @method PacienteQuery groupByPacienteTelefonocelular() Group by the paciente_telefonocelular column
- * @method PacienteQuery groupByPacienteFechanacimiento() Group by the paciente_fechanacimiento column
+ * @method PacienteQuery groupByPacienteEdad() Group by the paciente_edad column
  * @method PacienteQuery groupByPacienteSexo() Group by the paciente_sexo column
  * @method PacienteQuery groupByPacienteEstadocivil() Group by the paciente_estadocivil column
  * @method PacienteQuery groupByPacienteOcupacion() Group by the paciente_ocupacion column
@@ -86,12 +88,13 @@
  * @method Paciente findOneByPacienteNoexterior(string $paciente_noexterior) Return the first Paciente filtered by the paciente_noexterior column
  * @method Paciente findOneByPacienteNointerior(string $paciente_nointerior) Return the first Paciente filtered by the paciente_nointerior column
  * @method Paciente findOneByPacienteColonia(string $paciente_colonia) Return the first Paciente filtered by the paciente_colonia column
+ * @method Paciente findOneByPacienteCodigopostal(string $paciente_codigopostal) Return the first Paciente filtered by the paciente_codigopostal column
  * @method Paciente findOneByPacienteCiudad(string $paciente_ciudad) Return the first Paciente filtered by the paciente_ciudad column
  * @method Paciente findOneByPacienteEstado(string $paciente_estado) Return the first Paciente filtered by the paciente_estado column
  * @method Paciente findOneByPacientePais(string $paciente_pais) Return the first Paciente filtered by the paciente_pais column
  * @method Paciente findOneByPacienteTelefono(string $paciente_telefono) Return the first Paciente filtered by the paciente_telefono column
  * @method Paciente findOneByPacienteTelefonocelular(string $paciente_telefonocelular) Return the first Paciente filtered by the paciente_telefonocelular column
- * @method Paciente findOneByPacienteFechanacimiento(string $paciente_fechanacimiento) Return the first Paciente filtered by the paciente_fechanacimiento column
+ * @method Paciente findOneByPacienteEdad(string $paciente_edad) Return the first Paciente filtered by the paciente_edad column
  * @method Paciente findOneByPacienteSexo(string $paciente_sexo) Return the first Paciente filtered by the paciente_sexo column
  * @method Paciente findOneByPacienteEstadocivil(string $paciente_estadocivil) Return the first Paciente filtered by the paciente_estadocivil column
  * @method Paciente findOneByPacienteOcupacion(string $paciente_ocupacion) Return the first Paciente filtered by the paciente_ocupacion column
@@ -109,12 +112,13 @@
  * @method array findByPacienteNoexterior(string $paciente_noexterior) Return Paciente objects filtered by the paciente_noexterior column
  * @method array findByPacienteNointerior(string $paciente_nointerior) Return Paciente objects filtered by the paciente_nointerior column
  * @method array findByPacienteColonia(string $paciente_colonia) Return Paciente objects filtered by the paciente_colonia column
+ * @method array findByPacienteCodigopostal(string $paciente_codigopostal) Return Paciente objects filtered by the paciente_codigopostal column
  * @method array findByPacienteCiudad(string $paciente_ciudad) Return Paciente objects filtered by the paciente_ciudad column
  * @method array findByPacienteEstado(string $paciente_estado) Return Paciente objects filtered by the paciente_estado column
  * @method array findByPacientePais(string $paciente_pais) Return Paciente objects filtered by the paciente_pais column
  * @method array findByPacienteTelefono(string $paciente_telefono) Return Paciente objects filtered by the paciente_telefono column
  * @method array findByPacienteTelefonocelular(string $paciente_telefonocelular) Return Paciente objects filtered by the paciente_telefonocelular column
- * @method array findByPacienteFechanacimiento(string $paciente_fechanacimiento) Return Paciente objects filtered by the paciente_fechanacimiento column
+ * @method array findByPacienteEdad(string $paciente_edad) Return Paciente objects filtered by the paciente_edad column
  * @method array findByPacienteSexo(string $paciente_sexo) Return Paciente objects filtered by the paciente_sexo column
  * @method array findByPacienteEstadocivil(string $paciente_estadocivil) Return Paciente objects filtered by the paciente_estadocivil column
  * @method array findByPacienteOcupacion(string $paciente_ocupacion) Return Paciente objects filtered by the paciente_ocupacion column
@@ -230,7 +234,7 @@ abstract class BasePacienteQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idpaciente`, `paciente_nombre`, `paciente_ap`, `paciente_am`, `paciente_calle`, `paciente_noexterior`, `paciente_nointerior`, `paciente_colonia`, `paciente_ciudad`, `paciente_estado`, `paciente_pais`, `paciente_telefono`, `paciente_telefonocelular`, `paciente_fechanacimiento`, `paciente_sexo`, `paciente_estadocivil`, `paciente_ocupacion`, `paciente_conyuge`, `paciente_padre`, `paciente_madre`, `paciente_responsable`, `paciente_telefonoresponsable` FROM `paciente` WHERE `idpaciente` = :p0';
+        $sql = 'SELECT `idpaciente`, `paciente_nombre`, `paciente_ap`, `paciente_am`, `paciente_calle`, `paciente_noexterior`, `paciente_nointerior`, `paciente_colonia`, `paciente_codigopostal`, `paciente_ciudad`, `paciente_estado`, `paciente_pais`, `paciente_telefono`, `paciente_telefonocelular`, `paciente_edad`, `paciente_sexo`, `paciente_estadocivil`, `paciente_ocupacion`, `paciente_conyuge`, `paciente_padre`, `paciente_madre`, `paciente_responsable`, `paciente_telefonoresponsable` FROM `paciente` WHERE `idpaciente` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -565,6 +569,35 @@ abstract class BasePacienteQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the paciente_codigopostal column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByPacienteCodigopostal('fooValue');   // WHERE paciente_codigopostal = 'fooValue'
+     * $query->filterByPacienteCodigopostal('%fooValue%'); // WHERE paciente_codigopostal LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $pacienteCodigopostal The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return PacienteQuery The current query, for fluid interface
+     */
+    public function filterByPacienteCodigopostal($pacienteCodigopostal = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($pacienteCodigopostal)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $pacienteCodigopostal)) {
+                $pacienteCodigopostal = str_replace('*', '%', $pacienteCodigopostal);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(PacientePeer::PACIENTE_CODIGOPOSTAL, $pacienteCodigopostal, $comparison);
+    }
+
+    /**
      * Filter the query on the paciente_ciudad column
      *
      * Example usage:
@@ -710,46 +743,32 @@ abstract class BasePacienteQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the paciente_fechanacimiento column
+     * Filter the query on the paciente_edad column
      *
      * Example usage:
      * <code>
-     * $query->filterByPacienteFechanacimiento('2011-03-14'); // WHERE paciente_fechanacimiento = '2011-03-14'
-     * $query->filterByPacienteFechanacimiento('now'); // WHERE paciente_fechanacimiento = '2011-03-14'
-     * $query->filterByPacienteFechanacimiento(array('max' => 'yesterday')); // WHERE paciente_fechanacimiento < '2011-03-13'
+     * $query->filterByPacienteEdad('fooValue');   // WHERE paciente_edad = 'fooValue'
+     * $query->filterByPacienteEdad('%fooValue%'); // WHERE paciente_edad LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $pacienteFechanacimiento The value to use as filter.
-     *              Values can be integers (unix timestamps), DateTime objects, or strings.
-     *              Empty strings are treated as NULL.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $pacienteEdad The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return PacienteQuery The current query, for fluid interface
      */
-    public function filterByPacienteFechanacimiento($pacienteFechanacimiento = null, $comparison = null)
+    public function filterByPacienteEdad($pacienteEdad = null, $comparison = null)
     {
-        if (is_array($pacienteFechanacimiento)) {
-            $useMinMax = false;
-            if (isset($pacienteFechanacimiento['min'])) {
-                $this->addUsingAlias(PacientePeer::PACIENTE_FECHANACIMIENTO, $pacienteFechanacimiento['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($pacienteFechanacimiento['max'])) {
-                $this->addUsingAlias(PacientePeer::PACIENTE_FECHANACIMIENTO, $pacienteFechanacimiento['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($pacienteEdad)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $pacienteEdad)) {
+                $pacienteEdad = str_replace('*', '%', $pacienteEdad);
+                $comparison = Criteria::LIKE;
             }
         }
 
-        return $this->addUsingAlias(PacientePeer::PACIENTE_FECHANACIMIENTO, $pacienteFechanacimiento, $comparison);
+        return $this->addUsingAlias(PacientePeer::PACIENTE_EDAD, $pacienteEdad, $comparison);
     }
 
     /**

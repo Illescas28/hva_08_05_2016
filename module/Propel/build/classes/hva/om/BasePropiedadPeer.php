@@ -365,6 +365,9 @@ abstract class BasePropiedadPeer
      */
     public static function clearRelatedInstancePool()
     {
+        // Invalidate objects in ArticulovariantevalorPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        ArticulovariantevalorPeer::clearInstancePool();
         // Invalidate objects in PropiedadvalorPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         PropiedadvalorPeer::clearInstancePool();
@@ -939,6 +942,12 @@ abstract class BasePropiedadPeer
         $objects = PropiedadPeer::doSelect($criteria, $con);
         foreach ($objects as $obj) {
 
+
+            // delete related Articulovariantevalor objects
+            $criteria = new Criteria(ArticulovariantevalorPeer::DATABASE_NAME);
+
+            $criteria->add(ArticulovariantevalorPeer::IDPROPIEDAD, $obj->getIdpropiedad());
+            $affectedRows += ArticulovariantevalorPeer::doDelete($criteria, $con);
 
             // delete related Propiedadvalor objects
             $criteria = new Criteria(PropiedadvalorPeer::DATABASE_NAME);

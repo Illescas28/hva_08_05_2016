@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `admision`;
 
 CREATE TABLE `admision`
 (
-    `idadmision` INTEGER NOT NULL,
+    `idadmision` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `idmedico` INTEGER NOT NULL,
     `idcuarto` INTEGER NOT NULL,
@@ -77,6 +77,7 @@ CREATE TABLE `articulo`
     `idtipo` INTEGER NOT NULL,
     `articulo_nombre` VARCHAR(300),
     `articulo_descripcion` TEXT,
+    `articulo_cantidadpresentacion` INTEGER,
     PRIMARY KEY (`idarticulo`),
     INDEX `idtipo` (`idtipo`),
     CONSTRAINT `idtipo_articulo`
@@ -135,6 +136,46 @@ CREATE TABLE `articulovariantereorden`
     CONSTRAINT `idlugar_articulovariantereorden`
         FOREIGN KEY (`idlugar`)
         REFERENCES `lugar` (`idlugar`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- articulovariantevalor
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `articulovariantevalor`;
+
+CREATE TABLE `articulovariantevalor`
+(
+    `idarticulovariantevalor` INTEGER NOT NULL AUTO_INCREMENT,
+    `idarticulo` INTEGER NOT NULL,
+    `idpropiedad` INTEGER NOT NULL,
+    `idpropiedadvalor` INTEGER NOT NULL,
+    `idarticulovariante` INTEGER NOT NULL,
+    PRIMARY KEY (`idarticulovariantevalor`),
+    INDEX `idarticulo` (`idarticulo`),
+    INDEX `idpropiedad` (`idpropiedad`),
+    INDEX `idpropiedadvalor` (`idpropiedadvalor`),
+    INDEX `idarticulovariante` (`idarticulovariante`),
+    CONSTRAINT `idarticulo_articulovariantevalor`
+        FOREIGN KEY (`idarticulo`)
+        REFERENCES `articulo` (`idarticulo`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT `idarticulovariante_articulovariantevalor`
+        FOREIGN KEY (`idarticulovariante`)
+        REFERENCES `articulovariante` (`idarticulovariante`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT `idpropiedad_articulovariantevalor`
+        FOREIGN KEY (`idpropiedad`)
+        REFERENCES `propiedad` (`idpropiedad`)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    CONSTRAINT `idpropiedadvalor_articulovariantevalor`
+        FOREIGN KEY (`idpropiedadvalor`)
+        REFERENCES `propiedadvalor` (`idpropiedadvalor`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -373,7 +414,7 @@ DROP TABLE IF EXISTS `consulta`;
 
 CREATE TABLE `consulta`
 (
-    `idconsulta` INTEGER NOT NULL,
+    `idconsulta` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `idmedico` INTEGER NOT NULL,
     `idcuarto` INTEGER NOT NULL,
@@ -784,12 +825,13 @@ CREATE TABLE `paciente`
     `paciente_noexterior` VARCHAR(45),
     `paciente_nointerior` VARCHAR(45),
     `paciente_colonia` VARCHAR(45),
+    `paciente_codigopostal` VARCHAR(45),
     `paciente_ciudad` VARCHAR(45),
     `paciente_estado` VARCHAR(45),
     `paciente_pais` VARCHAR(45),
     `paciente_telefono` VARCHAR(45),
     `paciente_telefonocelular` VARCHAR(45),
-    `paciente_fechanacimiento` DATE,
+    `paciente_edad` VARCHAR(45),
     `paciente_sexo` enum('Masculino','Femenino') NOT NULL,
     `paciente_estadocivil` enum('Soltero(a)','Casado(a)','Divorciado(a)','Viudo(a)'),
     `paciente_ocupacion` VARCHAR(45),
@@ -1028,20 +1070,6 @@ CREATE TABLE `traspasodetalles`
         REFERENCES `traspaso` (`idinventariolugar`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
-) ENGINE=InnoDB;
-
--- ---------------------------------------------------------------------
--- udm
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `udm`;
-
-CREATE TABLE `udm`
-(
-    `idudm` INTEGER NOT NULL AUTO_INCREMENT,
-    `udm_nombre` VARCHAR(45) NOT NULL,
-    `udm_descripcion` VARCHAR(45),
-    PRIMARY KEY (`idudm`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

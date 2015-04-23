@@ -46,12 +46,13 @@ class PacienteTableMap extends TableMap
         $this->addColumn('paciente_noexterior', 'PacienteNoexterior', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_nointerior', 'PacienteNointerior', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_colonia', 'PacienteColonia', 'VARCHAR', false, 45, null);
+        $this->addColumn('paciente_codigopostal', 'PacienteCodigopostal', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_ciudad', 'PacienteCiudad', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_estado', 'PacienteEstado', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_pais', 'PacientePais', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_telefono', 'PacienteTelefono', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_telefonocelular', 'PacienteTelefonocelular', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_fechanacimiento', 'PacienteFechanacimiento', 'DATE', false, null, null);
+        $this->addColumn('paciente_edad', 'PacienteEdad', 'VARCHAR', false, 45, null);
         $this->addColumn('paciente_sexo', 'PacienteSexo', 'CHAR', true, null, null);
         $this->getColumn('paciente_sexo', false)->setValueSet(array (
   0 => 'Masculino',
