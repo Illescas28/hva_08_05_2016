@@ -71,57 +71,57 @@
             <?php echo $this->content?>
         </div>
     </div>
+
+
+    <!-- Dropdown Structures -->
+    <ul id='dropdown_administracion' class='dropdown-content'>
+        <li><a href="#!">Bancos</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Compras</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Cuentas por pagar</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Reportes</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Modulos</a></li>
+    </ul>
+    <!-- Dropdown Structures -->
+    <!-- Pacientes -->
+    <ul id='dropdown_pacientes' class='dropdown-content'>
+        <li><a href="<?php echo $this->url('pacientes', array('action'=>'listar'));?>">Listado de Pacientes</a></li>
+        <li class="divider"></li>
+        <li><a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>">Administración de pacientes</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Pacientes Actuales</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Generación de cargos a</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Programar cita paciente</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Alta y facturación</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Cancelación de facturas</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Histórico de pacientes</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Reporte facturas</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Reporte quirúrgico</a></li>
+    </ul>
+
+    <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
+        <li><a href="#!">Ver Perfil</a></li>
+        <li class="divider"></li>
+        <li>
+            <a href="/out">Cerrar sesión</a>
+        </li>
+    </ul>
     <div class="row z-depth-1" id="footer-container">
         <div class="col s12" id="footer">
             <p>Hospital del Valle de Atemajac - &copy Todos los derechos reservados 2015 </p>
         </div>
     </div>
 </div>
-
-<!-- Dropdown Structures -->
-<ul id='dropdown_administracion' class='dropdown-content'>
-    <li><a href="#!">Bancos</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Compras</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Cuentas por pagar</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reportes</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Modulos</a></li>
-</ul>
-<!-- Dropdown Structures -->
-<!-- Pacientes -->
-<ul id='dropdown_pacientes' class='dropdown-content'>
-    <li><a href="<?php echo $this->url('pacientes', array('action'=>'listar'));?>">Listado de Pacientes</a></li>
-    <li class="divider"></li>
-    <li><a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>">Administración de pacientes</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Pacientes Actuales</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Generación de cargos a</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Programar cita paciente</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Alta y facturación</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Cancelación de facturas</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Histórico de pacientes</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte facturas</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte quirúrgico</a></li>
-</ul>
-
-<ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
-    <li><a href="#!">Ver Perfil</a></li>
-    <li class="divider"></li>
-    <li>
-        <a href="/out">Cerrar sesión</a>
-    </li>
-</ul>
-
 </body>
 </html>
 <script type="text/javascript">

@@ -112,7 +112,7 @@ $this->headTitle($title);
                 </div>
                 <div class="col s6">
                     <div class="input-field">
-                        <?php echo $this->formTextarea($consultaForm->get('consulta_diagnostico')); ?>
+                        <?php echo $this->formText($consultaForm->get('consulta_diagnostico')); ?>
                         <?php echo $this->formLabel($consultaForm->get('consulta_diagnostico')); ?>
                         <?php $showError=$this->formElementErrors($consultaForm->get('consulta_diagnostico'));
                         if(!empty($showError)):
@@ -130,7 +130,7 @@ $this->headTitle($title);
                 </div>
                 <div class="col s6">
                     <div class="input-field">
-                        <?php echo $this->formTextarea($consultaForm->get('consulta_observaciones')); ?>
+                        <?php echo $this->formText($consultaForm->get('consulta_observaciones')); ?>
                         <?php echo $this->formLabel($consultaForm->get('consulta_observaciones')); ?>
                         <?php $showError=$this->formElementErrors($consultaForm->get('consulta_observaciones'));
                         if(!empty($showError)):
@@ -215,7 +215,7 @@ $this->headTitle($title);
                 </div>
                 <div class="col s6">
                     <div class="input-field">
-                        <?php echo $this->formTextarea($admisionForm->get('admision_diagnostico')); ?>
+                        <?php echo $this->formText($admisionForm->get('admision_diagnostico')); ?>
                         <?php echo $this->formLabel($admisionForm->get('admision_diagnostico')); ?>
                         <?php $showError=$this->formElementErrors($admisionForm->get('admision_diagnostico'));
                         if(!empty($showError)):
@@ -233,7 +233,7 @@ $this->headTitle($title);
                 </div>
                 <div class="col s6">
                     <div class="input-field">
-                        <?php echo $this->formTextarea($admisionForm->get('admision_observaciones')); ?>
+                        <?php echo $this->formText($admisionForm->get('admision_observaciones')); ?>
                         <?php echo $this->formLabel($admisionForm->get('admision_observaciones')); ?>
                         <?php $showError=$this->formElementErrors($admisionForm->get('admision_observaciones'));
                         if(!empty($showError)):
@@ -274,12 +274,14 @@ $this->headTitle($title);
     function nuevaConsulta() {
         if ($('#consulta').hasClass('hiddendiv')){
             $('#consulta').removeClass('hiddendiv');
+            $('#consulta').addClass('margin_button_10')
             $('#admision').addClass('hiddendiv')
         }
     }
     function nuevaAdmision() {
         if ($('#admision').hasClass('hiddendiv')){
             $('#admision').removeClass('hiddendiv');
+            $('#admision').addClass('margin_button_10')
             $('#consulta').addClass('hiddendiv')
         }
     }
