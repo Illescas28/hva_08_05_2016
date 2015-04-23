@@ -27,7 +27,7 @@ class ConsultaForm extends Form
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
                 'label' => 'Cuarto',
-                'empty_option' => 'Seleccione un cuarto',
+                'empty_option' => 'Seleccione un consultorio',
                 'value_options' => $cuarto,
             ),
         ));

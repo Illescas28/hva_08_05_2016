@@ -291,3 +291,9 @@ form.hva-form .input-field input[type="text"]:focus + label, form.hva-form .inpu
 .pointer {
     cursor: pointer;
 }
+.margin_button_10 {
+    margin-bottom: 10px;
+}
+.margin_top_1 {
+    margin-top: 1px;
+}
