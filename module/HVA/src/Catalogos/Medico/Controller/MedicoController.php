@@ -54,8 +54,19 @@ class MedicoController extends AbstractActionController
                 foreach ($medicoForm->getData() as $medicoKey => $medicoValue){
                     $medico->setByName($medicoKey, $medicoValue, \BasePeer::TYPE_FIELDNAME);
                 }
-                
+                         
                 //Guardamos en nuestra base de datos
+                $medico->save();
+                
+                //Verificamos si el perfil esta competo
+                $perfilcompleto = true;
+                $excludedColumns = array('medico_perfilcompleto','medico_nointerior','medico_fotografia');
+                foreach ($medico->toArray(BasePeer::TYPE_FIELDNAME) as $key => $value){
+                    if(empty($value) && !in_array($key, $excludedColumns)){
+                        $perfilcompleto = false;
+                    }    
+                }
+                $medico->setMedicoPerfilcompleto($perfilcompleto);
                 $medico->save();
                 
                 //Agregamos un mensaje
@@ -64,9 +75,8 @@ class MedicoController extends AbstractActionController
                 //Redireccionamos a nuestro list
                 return $this->redirect()->toRoute('medico');
                 
-            }else{
-                
             }
+            var_dump($medicoForm->getMessages());
         }
         
         return new ViewModel(array(
@@ -99,17 +109,18 @@ class MedicoController extends AbstractActionController
         $request = $this->getRequest();
         
         //Cachamos el valor desde nuestro params
-        $id = (int) $this->params()->fromRoute('id', 0);
+        $id = (int) $this->params()->fromRoute('id');
+        //Verificamos que el Id medico que se quiere modificar exista
+        if(!MedicoQuery::create()->filterByIdmedico($id)->exists()){
+            $id =0;
+        }
         //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('medico', array(
                 'action' => 'nuevo'
             ));
         }
-        
-        //Verificamos que el Id medico que se quiere modificar exista
-        if(MedicoQuery::create()->filterByIdmedico($id)->exists()){
-            
+
             //Instanciamos nuestro medico
             $medico = MedicoQuery::create()->findPk($id);
             
@@ -163,21 +174,25 @@ class MedicoController extends AbstractActionController
                 'id'  => $id,
                 'medicoForm' => $medicoForm,
             ));
-        }
+        
 
     }
 
     public function eliminarAction()
     {
         //Cachamos el valor desde nuestro params
-        $id = (int) $this->params()->fromRoute('id', 0);
+        $id = (int) $this->params()->fromRoute('id');
+        
+        //Verificamos que el Id medico que se quiere eliminar exista
+        if(!MedicoQuery::create()->filterByIdmedico($id)->exists()){
+            $id=0;
+        }
         //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('medico');
         }
         
-        //Verificamos que el Id medico que se quiere eliminar exista
-        if(MedicoQuery::create()->filterByIdmedico($id)->exists()){
+        
             
             //Instanciamos nuestro medico
             $medico = MedicoQuery::create()->findPk($id);
@@ -190,7 +205,7 @@ class MedicoController extends AbstractActionController
             //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('medico');
             
-        }
+        
 
     }
 }

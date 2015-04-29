@@ -1,47 +1,46 @@
 <?php
 
-namespace Catalogos\Cuarto\Form;
+namespace Catalogos\Banco\Form;
 
 use Zend\Form\Form;
 
-class CuartoForm extends Form
+class BancoForm extends Form
 {
     public function __construct()
     {
         // we want to ignore the name passed
-        parent::__construct('CuartoForm');
+        parent::__construct('BancoForm');
         $this->setAttribute('method', 'post');
         
         $this->add(array(
-            'name' => 'cuarto_nombre',
+            'name' => 'banco_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre del banco',
             ),
         ));
         $this->add(array(
-            'name' => 'cuarto_descripcion',
-            'type' => 'Textarea',
+            'name' => 'banco_cuenta',
+            'type' => 'Text',
             'options' => array(
-                'label' => 'Descripcion',
+                'label' => 'Número de cuenta',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'banco_balance',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Balance',
             ),
         ));
         
         $this->add(array(
-            'name' => 'cuarto_enuso',
-            'type' => 'Checkbox',
+            'name' => 'banco_descripcion',
+            'type' => 'Text',
             'options' => array(
-                'label' => 'En uso?',
+                'label' => 'Descripción',
             ),
         ));
         
-        $this->add(array(
-            'name' => 'cuarto_extension',
-            'type' => 'text',
-            'options' => array(
-                'label' => 'Extension',
-            ),
-        ));
-
     }
 }

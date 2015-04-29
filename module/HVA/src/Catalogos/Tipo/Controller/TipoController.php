@@ -20,173 +20,164 @@ class TipoController extends AbstractActionController
 {
     public function nuevoAction()
     {
-        $TipoForm = new TipoForm();
-        $TipoForm->get('submit')->setValue('Nuevo');
-
         $request = $this->getRequest();
-        if ($request->isPost()) {
-            $TipoFilter = new TipoFilter();
-            $TipoForm->setInputFilter($TipoFilter->getInputFilter());
-            $TipoForm->setData($request->getPost());
+        
+        //Intanciamos nuestro formulario
+        $tipoForm = new TipoForm($especialidadArray);
+        
+        if ($request->isPost()) { //Si hicieron POST
+            
+            //Instanciamos nuestro filtro
+            $tipoFilter = new TipoFilter();
 
-            if ($TipoForm->isValid()) {
-                $Tipo = new Tipo();
-                foreach($TipoForm->getData() as $TipoKey => $TipoValue){
-                    if($TipoKey != 'idtipo' && $TipoKey != 'submit'){
-                        $Tipo->setByName($TipoKey, $TipoValue, BasePeer::TYPE_FIELDNAME);
-                    }
+            //Le ponemos nuestro filtro a nuesto fromulario
+            $tipoForm->setInputFilter($tipoFilter->getInputFilter());
+            
+            //Le ponemos los datos a nuestro formulario
+            $tipoForm->setData($request->getPost());
+            
+            //Validamos nuestro formulario
+            if($tipoForm->isValid()){
+                
+                //Instanciamos un nuevo objeto de nuestro objeto tipo
+                $tipo = new Tipo();
+                
+                //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Tipo
+                foreach ($tipoForm->getData() as $tipoKey => $tipoValue){
+                    $tipo->setByName($tipoKey, $tipoValue, \BasePeer::TYPE_FIELDNAME);
                 }
-                $Tipo->save();
+              
+                //Guardamos en nuestra base de datos
+                $tipo->save();
+                
+                //Agregamos un mensaje
+                $this->flashMessenger()->addMessage('Tipo de Articulo guardado exitosamente!');
+                
+                //Redireccionamos a nuestro list
                 return $this->redirect()->toRoute('tipo');
+                
             }else{
-                $messageArray = array();
-                foreach ($TipoForm->getMessages() as $key => $value){
-                    foreach($value as $val){
-                        //Obtenemos el valor de la columna con error
-                        $message = $key.' '.$val;
-                        array_push($messageArray, $message);
-                    }
-                }
-
-                return new ViewModel(array(
-                    'Error' => $messageArray,
-                ));
+                
             }
         }
-        return array('TipoForm' => $TipoForm);
+        
+        return new ViewModel(array(
+            'tipoForm' => $tipoForm,
+        ));
+
     }
 
     public function listarAction()
     {
         // Instanciamos nuestro formulario tipoForm
-        $tipoForm = new TipoForm();
-
-        // Guardamos en un arrglo los campos a los que el usuario va poder tener acceso de acuerdo a su nivel
-        $allowedColumns = array();
-        foreach ($tipoForm->getElements() as $key=>$value){
-            array_push($allowedColumns, $key);
-        }
-        //Verificamos que si nos envian filtros  si no ponemos valores por default
-        $limit = (int) $this->params()->fromQuery('limit') ? (int)$this->params()->fromQuery('limit')  : 10;
-        if($limit > 100) $limit = 100; //Si el limit es mayor a 100 lo establece en 100 como maximo valor permitido
-        $dir = $this->params()->fromQuery('dir') ? $this->params()->fromQuery('dir')  : 'asc';
-        $order = in_array($this->params()->fromQuery('order'), $allowedColumns) ? $this->params()->fromQuery('order')  : 'idtipo';
-        $page = (int) $this->params()->fromQuery('page') ? (int)$this->params()->fromQuery('page')  : 1;
+        $tipoForm = new tipoForm();
 
         $tipoQuery = new TipoQuery();
 
-        //Order y Dir
-        if($order !=null || $dir !=null){
-            $tipoQuery->orderBy($order, $dir);
-        }
-
-        // Obtenemos el filtrado por medio del idcompany del recurso.
         $result = $tipoQuery->paginate($page,$limit);
 
-        $data = $result->getResults()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+        $dataCollection = $result->getResults();
 
         return new ViewModel(array(
-            'tipos' => $data,
-        ));
+            'tipos' => $dataCollection,
+            'flashMessages' => $this->flashMessenger()->getMessages(),
+        ));    
     }
 
     public function editarAction()
-    {
-        $id = (int) $this->params()->fromRoute('id', 0);
+    {   
+        $request = $this->getRequest();
+        
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        
+        //Verificamos que el Id tipo que se quiere modificar exista
+        if(!TipoQuery::create()->filterByIdtipo($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('tipo', array(
                 'action' => 'nuevo'
             ));
         }
 
-        //Instanciamos nuestra tipoQuery
-        $tipoQuery = TipoQuery::create();
+            //Instanciamos nuestro tipo
+            $tipo = TipoQuery::create()->findPk($id);
+                        
+            //Instanciamos nuestro formulario
+            $tipoForm = new TipoForm();
+            
+            //Le ponemos los datos de nuestro tipo a nuestro formulario
+            $tipoForm->setData($tipo->toArray(BasePeer::TYPE_FIELDNAME));
+            
+            if ($request->isPost()) { //Si hicieron POST
+                
+                //Instanciamos nuestro filtro
+                $tipoFilter = new TipoFilter();
 
-        //Verificamos que el Id tipo que se quiere modificar exista
-        if($tipoQuery->create()->filterByIdtipo($id)->exists()){
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $tipoForm->setInputFilter($tipoFilter->getInputFilter());
 
-            $request = $this->getRequest();
-            //Instanciamos nuestra tipoQuery
-            $tipoPKQuery = $tipoQuery->findPk($id);
-            $tipoQueryArray = $tipoPKQuery->toArray(BasePeer::TYPE_FIELDNAME);
-            $TipoForm = new TipoForm();
-            $ElementsTipoForm = $TipoForm->getElements();
-
-            if ($request->isPost()){
-                $TipoArray = array();
-                foreach($ElementsTipoForm as $key=>$value){
-                    if($key != 'submit'){
-                        $TipoArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $tipoQueryArray[$key];
+                //Le ponemos los datos a nuestro formulario
+                $tipoForm->setData($request->getPost());
+                
+                //Validamos nuestro formulario
+                if($tipoForm->isValid()){
+                    
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto tipo
+                    foreach ($tipoForm->getData() as $tipoKey => $tipoValue){
+                        $tipo->setByName($tipoKey, $tipoValue, \BasePeer::TYPE_FIELDNAME);
                     }
-                }
-            }else{
-                foreach($tipoQueryArray as $tipoQueryKey => $tipoQueryValue){
-                    $TipoArray[$tipoQueryKey] = $tipoQueryArray[$tipoQueryKey];
+   
+                    //Guardamos en nuestra base de datos
+                    $tipo->save();
 
-                }
-            }
+                    //Agregamos un mensaje
+                    $this->flashMessenger()->addMessage('Tipo de Articulo guardado exitosamente!');
 
-            $TipoFilter = new TipoFilter();
-            $TipoForm->setInputFilter($TipoFilter->getInputFilter());
-            $TipoForm->setData($TipoArray);
-
-            if ($TipoForm->isValid()) {
-                foreach($TipoForm->getData() as $TipoKey => $TipoValue){
-                    if($TipoKey != 'submit'){
-                        $tipoPKQuery->setByName($TipoKey, $TipoValue, BasePeer::TYPE_FIELDNAME);
-                    }
-                }
-                // Si no modifican nada, permanecemos en el formulario.
-                if($tipoPKQuery->isModified()){
-                    $tipoPKQuery->save();
+                    //Redireccionamos a nuestro list
                     return $this->redirect()->toRoute('tipo');
-                }
-            }else{
-                $messageArray = array();
-                foreach ($TipoForm->getMessages() as $key => $value){
-                    foreach($value as $val){
-                        //Obtenemos el valor de la columna con error
-                        $message = $key.' '.$val;
-                        array_push($messageArray, $message);
-                    }
-                }
 
-                return new ViewModel(array(
-                    'Error' => $messageArray,
-                ));
+                }else{
+                    
+                }  
             }
-        }
+            
+            return new ViewModel(array(
+                'id'  => $id,
+                'tipoForm' => $tipoForm,
+            ));
+        
 
-        return array(
-            'id' => $id,
-            'TipoForm' => $TipoForm,
-        );
     }
 
     public function eliminarAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        //Verificamos que el Id tipo que se quiere eliminar exista
+        if(!TipoQuery::create()->filterByIdtipo($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('tipo');
         }
+        
+                  
+            //Instanciamos nuestro tipo
+            $tipo = TipoQuery::create()->findPk($id);
+            
+            $tipo->delete();
+            
+            //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Tipo de Articulo eliminado exitosamente!');
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $del = $request->getPost('del', 'No');
-
-            if ($del == 'Yes') {
-                $id = (int) $request->getPost('id');
-                TipoQuery::create()->filterByIdtipo($id)->delete();
-            }
-
-            // Redireccionamos a los provedores
+            //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('tipo');
-        }
+            
+        
 
-        $provedorEntity = TipoQuery::create()->filterByIdtipo($id)->findOne();
-        return array(
-            'id'    => $id,
-            'tipo' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
-        );
     }
 }

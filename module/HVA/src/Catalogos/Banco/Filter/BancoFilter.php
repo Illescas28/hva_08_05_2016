@@ -1,13 +1,13 @@
 <?php
 
-namespace Catalogos\Servicio\Filter;
+namespace Catalogos\Banco\Filter;
 
 // Add these import statements
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-class ServicioFilter implements InputFilterAwareInterface
+class BancoFilter implements InputFilterAwareInterface
 {
     protected $inputFilter;                       // <-- Add this variable
 
@@ -24,7 +24,26 @@ class ServicioFilter implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $inputFilter->add(array(
-                'name'     => 'servicio_nombre',
+                'name'     => 'banco_nombre',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                            'max'      => 100,
+                        ),
+                    ),
+                ),
+            ));
+            
+            $inputFilter->add(array(
+                'name'     => 'banco_cuenta',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -41,9 +60,9 @@ class ServicioFilter implements InputFilterAwareInterface
                     ),
                 ),
             ));
-
+            
             $inputFilter->add(array(
-                'name'     => 'servicio_descripcion',
+                'name'     => 'banco_descripcion',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -55,38 +74,22 @@ class ServicioFilter implements InputFilterAwareInterface
                         'options' => array(
                             'encoding' => 'UTF-8',
                             'min'      => 1,
-                            'max'      => 45,
+                            'max'      => 100,
                         ),
                     ),
                 ),
             ));
-            
+
             $inputFilter->add(array(
-                'name'     => 'servicio_costo',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
+                'name'     => 'banco_balance',
+                'required' => false,
+                'validators' => array(
+                    array(
+                        'name'    => 'Float',
+                    ),
                 ),
             ));
             
-            $inputFilter->add(array(
-                'name'     => 'servicio_iva',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-            ));
-            
-            $inputFilter->add(array(
-                'name'     => 'servicio_precio',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-            ));
 
 
             $this->inputFilter = $inputFilter;

@@ -24,14 +24,6 @@ class ProveedorFilter implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $inputFilter->add(array(
-                'name'     => 'idproveedor',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
-
-            $inputFilter->add(array(
                 'name'     => 'proveedor_nombre',
                 'required' => false,
                 'filters'  => array(

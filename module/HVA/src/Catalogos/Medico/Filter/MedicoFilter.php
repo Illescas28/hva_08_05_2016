@@ -141,7 +141,7 @@ class MedicoFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'medico_telefonocelular',
-                'required' => false,
+                'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
@@ -159,7 +159,7 @@ class MedicoFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'medico_dgp',
-                'required' => false,
+                'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

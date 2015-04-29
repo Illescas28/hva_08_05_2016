@@ -1,10 +1,10 @@
 <?php
-    $title = 'Tipo de Articulos';
+    $title = 'Servicios';
     $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <!--<p>
-    <a href="<?php echo $this->url('tipo', array('action'=>'nuevo'));?>">Nueva tipo</a>
+    <a href="<?php echo $this->url('servicio', array('action'=>'nuevo'));?>">Nueva servicio</a>
 </p>-->
 <div class="row" id="table-header">
     <form class="col s12">
@@ -15,7 +15,7 @@
         <?php endif;?>    
         <div class="row" style="position: relative">
             <div class="col s6" id="new-container">
-                <a href="/catalogos/articulo/tipo/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Tipo</a>
+                <a href="/catalogos/servicio/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Servicio</a>
             </div>
               <div class="input-field col s4 offset-s2" id="search-container">
               <i class="mdi-action-search prefix"></i>
@@ -25,27 +25,33 @@
         </div>
     </form>
 </div>
-<table id="tabla-tipos" class="striped">
+<table id="tabla-servicios" class="striped">
     <thead>
         <tr>
             <th>Nombre</th>
             <th>Descripcion</th>
+            <th >Costo</th>
+            <th >IVA</th>
+            <th>Precio</th>
             <th>Opciones</th>
         </tr>
     </thead>
     <tbody>
-    <?php foreach($tipos as $tipo) : ?>
+    <?php foreach($servicios as $servicio) : ?>
         <tr>
-            <td><?php echo $tipo->getTipoNombre() ?></td>
-            <td><?php echo $tipo->getTipoDescripcion() ?></td>
+            <td><?php echo $servicio->getServicioNombre() ?></td>
+            <td><?php echo $servicio->getServicioDescripcion() ?></td>
+            <td><?php echo $servicio->getServicioCosto() ?></td>
+            <td><?php echo $servicio->getServicioIva() ?></td>
+            <td><?php echo $servicio->getServicioPrecio() ?></td>
             <td>
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/articulo/tipo/editar/".$tipo->getIdTipo()?>'><i class="tiny mdi-action-assignment"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/servicio/editar/".$servicio->getIdServicio()?>'><i class="tiny mdi-action-assignment"></i></a>
                 &nbsp;&nbsp;    
-                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-tipo-".$tipo->getIdTipo()?>'><i class="tiny mdi-action-delete"></i></a>
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-servicio-".$servicio->getIdServicio()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
         <!-- Delete Modal Structure -->
-        <div id="delete-modal-tipo-<?php echo $tipo->getIdtipo()?>" class="modal ">
+        <div id="delete-modal-servicio-<?php echo $servicio->getIdservicio()?>" class="modal ">
             <div class="modal-content" id="delete-modal-container">
                 <div class="row" id="delete-modal-header-container">
                     <div class="col s5 offset-s4">
@@ -54,14 +60,14 @@
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <p><?php echo "Esta seguro que desea eliminar el tipo de articulo: '". $tipo->getTipoNombre(). "' de su catalogo?" ?></p>
+                        <p><?php echo "Esta seguro que desea eliminar el servicio ". $servicio->getServicioNombre(). " de su catalogo?" ?></p>
                     </div>
                 </div>
                 
             </div>
             <div class="modal-footer">
                 <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                <a href="/catalogos/articulo/tipo/eliminar/<?php echo $tipo->getIdtipo()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+                <a href="/catalogos/servicio/eliminar/<?php echo $servicio->getIdservicio()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
               
             </div>
         </div>
@@ -71,8 +77,8 @@
 </table>
 <script>
 $(document).ready(function(){
-        $("#tabla-tipos").tablesorter({headers:{2:{sorter:false}}});
-        $("#tabla-tipos").filterTable({inputSelector: '#search-container input',minRows:1});
+        $("#tabla-servicios").tablesorter({headers:{5:{sorter:false},1:{sorter:false}}});
+        $("#tabla-servicios").filterTable({inputSelector: '#search-container input',minRows:1});
         $('.modal-trigger').leanModal();
 }); 
 </script>

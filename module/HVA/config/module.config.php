@@ -193,6 +193,20 @@ return array(
                     ),
                 ),
             ),
+            'banco' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/banco[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Banco\Controller\Banco',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
