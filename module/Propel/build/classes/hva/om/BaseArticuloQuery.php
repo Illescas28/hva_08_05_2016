@@ -10,13 +10,11 @@
  * @method ArticuloQuery orderByIdtipo($order = Criteria::ASC) Order by the idtipo column
  * @method ArticuloQuery orderByArticuloNombre($order = Criteria::ASC) Order by the articulo_nombre column
  * @method ArticuloQuery orderByArticuloDescripcion($order = Criteria::ASC) Order by the articulo_descripcion column
- * @method ArticuloQuery orderByArticuloCantidadpresentacion($order = Criteria::ASC) Order by the articulo_cantidadpresentacion column
  *
  * @method ArticuloQuery groupByIdarticulo() Group by the idarticulo column
  * @method ArticuloQuery groupByIdtipo() Group by the idtipo column
  * @method ArticuloQuery groupByArticuloNombre() Group by the articulo_nombre column
  * @method ArticuloQuery groupByArticuloDescripcion() Group by the articulo_descripcion column
- * @method ArticuloQuery groupByArticuloCantidadpresentacion() Group by the articulo_cantidadpresentacion column
  *
  * @method ArticuloQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ArticuloQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -48,13 +46,11 @@
  * @method Articulo findOneByIdtipo(int $idtipo) Return the first Articulo filtered by the idtipo column
  * @method Articulo findOneByArticuloNombre(string $articulo_nombre) Return the first Articulo filtered by the articulo_nombre column
  * @method Articulo findOneByArticuloDescripcion(string $articulo_descripcion) Return the first Articulo filtered by the articulo_descripcion column
- * @method Articulo findOneByArticuloCantidadpresentacion(int $articulo_cantidadpresentacion) Return the first Articulo filtered by the articulo_cantidadpresentacion column
  *
  * @method array findByIdarticulo(int $idarticulo) Return Articulo objects filtered by the idarticulo column
  * @method array findByIdtipo(int $idtipo) Return Articulo objects filtered by the idtipo column
  * @method array findByArticuloNombre(string $articulo_nombre) Return Articulo objects filtered by the articulo_nombre column
  * @method array findByArticuloDescripcion(string $articulo_descripcion) Return Articulo objects filtered by the articulo_descripcion column
- * @method array findByArticuloCantidadpresentacion(int $articulo_cantidadpresentacion) Return Articulo objects filtered by the articulo_cantidadpresentacion column
  *
  * @package    propel.generator.hva.om
  */
@@ -162,7 +158,7 @@ abstract class BaseArticuloQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idarticulo`, `idtipo`, `articulo_nombre`, `articulo_descripcion`, `articulo_cantidadpresentacion` FROM `articulo` WHERE `idarticulo` = :p0';
+        $sql = 'SELECT `idarticulo`, `idtipo`, `articulo_nombre`, `articulo_descripcion` FROM `articulo` WHERE `idarticulo` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -393,48 +389,6 @@ abstract class BaseArticuloQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ArticuloPeer::ARTICULO_DESCRIPCION, $articuloDescripcion, $comparison);
-    }
-
-    /**
-     * Filter the query on the articulo_cantidadpresentacion column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByArticuloCantidadpresentacion(1234); // WHERE articulo_cantidadpresentacion = 1234
-     * $query->filterByArticuloCantidadpresentacion(array(12, 34)); // WHERE articulo_cantidadpresentacion IN (12, 34)
-     * $query->filterByArticuloCantidadpresentacion(array('min' => 12)); // WHERE articulo_cantidadpresentacion >= 12
-     * $query->filterByArticuloCantidadpresentacion(array('max' => 12)); // WHERE articulo_cantidadpresentacion <= 12
-     * </code>
-     *
-     * @param     mixed $articuloCantidadpresentacion The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ArticuloQuery The current query, for fluid interface
-     */
-    public function filterByArticuloCantidadpresentacion($articuloCantidadpresentacion = null, $comparison = null)
-    {
-        if (is_array($articuloCantidadpresentacion)) {
-            $useMinMax = false;
-            if (isset($articuloCantidadpresentacion['min'])) {
-                $this->addUsingAlias(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION, $articuloCantidadpresentacion['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($articuloCantidadpresentacion['max'])) {
-                $this->addUsingAlias(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION, $articuloCantidadpresentacion['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION, $articuloCantidadpresentacion, $comparison);
     }
 
     /**

@@ -1,0 +1,115 @@
+<?php
+$title = 'Consultorios';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div>
+    <div class="row" id="table-header">
+        <form class="col s12">
+            <div class="row" style="position: relative">
+                <div class="col s6" id="new-container">
+                    <a href="<?php echo $this->url('consultorio', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo consultorio</a>
+                </div>
+                <div class="input-field col s4 offset-s2" id="search-container">
+                    <i class="mdi-action-search prefix"></i>
+                    <input id="icon_prefix" type="text">
+                    <label for="icon_prefix">Buscar</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table id="tabla-consultorio" class="striped hoverable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>En uso</th>
+            <th>Extención</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $direction = 'right'?>
+        <?php foreach ($consultorios as $consultorioEntity) : ?>
+            <tr>
+                <td><?php echo $consultorioEntity->getConsultorioNombre() ?></td>
+                <td><?php echo $consultorioEntity->getConsultorioDescripcion() ?></td>
+                <td><?php echo $consultorioEntity->getConsultorioEnuso() ?></td>
+                <td><?php echo $consultorioEntity->getConsultorioExtension() ?></td>
+                <td>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-consultorio-".$consultorioEntity->getIdconsultorio()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    &nbsp;&nbsp;
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/consultorio/editar/".$consultorioEntity->getIdconsultorio()?>'><i class="tiny mdi-action-assignment"></i></a>
+                    &nbsp;&nbsp;
+                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-consultorio-".$consultorioEntity->getIdconsultorio()?>'><i class="tiny mdi-action-delete"></i></a>
+                </td>
+            </tr>
+            <!-- View Modal Structure -->
+            <div id="view-modal-consultorio-<?php echo $consultorioEntity->getIdConsultorio()?>" class="modal">
+                <div class="modal-content">
+                    <h4><?php echo "Consultorio: ". $consultorioEntity->getConsultorioNombre()?></h4>
+                    <div class="row">
+                        <fieldset>
+                            <legend>Datos Generales</legend>
+                            <div class="col s6">
+                                <div class="label-container">
+                                    <label>Nombre:</label>
+                                    <p><?php echo $consultorioEntity->getConsultorioNombre()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Descripción:</label>
+                                    <p><?php echo $consultorioEntity->getConsultorioDescripcion()?></p>
+                                </div>
+                            </div>
+                            <div class="col s6">
+                                <div class="label-container">
+                                    <label>En uso:</label>
+                                    <p><?php echo $consultorioEntity->getConsultorioEnuso()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Extención:</label>
+                                    <p><?php echo $consultorioEntity->getConsultorioExtension()?></p>
+                                </div>
+
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    <a href='<?php echo "/consultorio/editar/".$consultorioEntity->getIdconsultorio()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                </div>
+            </div>
+            <!-- End View Modal Structure -->
+            <!-- Delete Modal Structure -->
+            <div id="delete-modal-consultorio-<?php echo $consultorioEntity->getIdconsultorio()?>" class="modal">
+                <div class="modal-content" id="delete-modal-container">
+                    <div class="row" id="delete-modal-header-container">
+                        <div class="col s4 offset-s4">
+                            <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <p><?php echo "Esta seguro que desea eliminar el Consultorio: ". $consultorioEntity->getConsultorioNombre(); "?" ?></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    <a href="/consultorio/eliminar/<?php echo $consultorioEntity->getIdconsultorio()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+
+                </div>
+            </div>
+            <!-- End Delete Modal Structure -->
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.modal-trigger').leanModal();
+        $("#tabla-consultorio").tablesorter({headers:{4:{sorter:false}}});
+        $("#tabla-consultorio").filterTable({inputSelector: '#search-container input',minRows:2});
+    });
+</script>

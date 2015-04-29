@@ -1,0 +1,35 @@
+<?php
+$title = 'Eliminar médico';
+$this->headTitle($title);
+?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+
+<p>Are you sure that you want to delete?</p>
+<table class="table">
+    <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Apellido Materno</th>
+        <th>En uso</th>
+        <th>Extención</th>
+    </tr>
+        <tr>
+            <td><?php echo $this->escapeHtml($consultorio['consultorio_nombre']);?></td>
+            <td><?php echo $this->escapeHtml($consultorio['consultorio_descripcion']);?></td>
+            <td><?php echo $this->escapeHtml($consultorio['consultorio_enuso']);?></td>
+            <td><?php echo $this->escapeHtml($consultorio['consultorio_extension']);?></td>
+        </tr>
+</table>
+<?php
+$url = $this->url('consultorio', array(
+    'action' => 'eliminar',
+    'id'     => $this->id,
+));
+?>
+<form action="<?php echo $url; ?>" method="post">
+    <div>
+        <input type="hidden" name="id" value="<?php echo (int) $consultorio['idconsultorio']; ?>" />
+        <input type="submit" name="del" value="Yes" />
+        <input type="submit" name="del" value="No" />
+    </div>
+</form>

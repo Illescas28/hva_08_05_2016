@@ -66,12 +66,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
     protected $collAdmisionsPartial;
 
     /**
-     * @var        PropelObjectCollection|Consulta[] Collection to store aggregation of Consulta objects.
-     */
-    protected $collConsultas;
-    protected $collConsultasPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -96,12 +90,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $admisionsScheduledForDeletion = null;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var		PropelObjectCollection
-     */
-    protected $consultasScheduledForDeletion = null;
 
     /**
      * Get the [idcuarto] column value.
@@ -381,8 +369,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
 
             $this->collAdmisions = null;
 
-            $this->collConsultas = null;
-
         } // if (deep)
     }
 
@@ -518,23 +504,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
 
             if ($this->collAdmisions !== null) {
                 foreach ($this->collAdmisions as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
-            if ($this->consultasScheduledForDeletion !== null) {
-                if (!$this->consultasScheduledForDeletion->isEmpty()) {
-                    ConsultaQuery::create()
-                        ->filterByPrimaryKeys($this->consultasScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->consultasScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collConsultas !== null) {
-                foreach ($this->collConsultas as $referrerFK) {
                     if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
                         $affectedRows += $referrerFK->save($con);
                     }
@@ -715,14 +684,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
                     }
                 }
 
-                if ($this->collConsultas !== null) {
-                    foreach ($this->collConsultas as $referrerFK) {
-                        if (!$referrerFK->validate($columns)) {
-                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-                        }
-                    }
-                }
-
 
             $this->alreadyInValidation = false;
         }
@@ -816,9 +777,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
         if ($includeForeignObjects) {
             if (null !== $this->collAdmisions) {
                 $result['Admisions'] = $this->collAdmisions->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-            if (null !== $this->collConsultas) {
-                $result['Consultas'] = $this->collConsultas->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -995,12 +953,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
                 }
             }
 
-            foreach ($this->getConsultas() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addConsulta($relObj->copy($deepCopy));
-                }
-            }
-
             //unflag object copy
             $this->startCopy = false;
         } // if ($deepCopy)
@@ -1064,9 +1016,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
     {
         if ('Admision' == $relationName) {
             $this->initAdmisions();
-        }
-        if ('Consulta' == $relationName) {
-            $this->initConsultas();
         }
     }
 
@@ -1346,281 +1295,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
     }
 
     /**
-     * Clears out the collConsultas collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return Cuarto The current object (for fluent API support)
-     * @see        addConsultas()
-     */
-    public function clearConsultas()
-    {
-        $this->collConsultas = null; // important to set this to null since that means it is uninitialized
-        $this->collConsultasPartial = null;
-
-        return $this;
-    }
-
-    /**
-     * reset is the collConsultas collection loaded partially
-     *
-     * @return void
-     */
-    public function resetPartialConsultas($v = true)
-    {
-        $this->collConsultasPartial = $v;
-    }
-
-    /**
-     * Initializes the collConsultas collection.
-     *
-     * By default this just sets the collConsultas collection to an empty array (like clearcollConsultas());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initConsultas($overrideExisting = true)
-    {
-        if (null !== $this->collConsultas && !$overrideExisting) {
-            return;
-        }
-        $this->collConsultas = new PropelObjectCollection();
-        $this->collConsultas->setModel('Consulta');
-    }
-
-    /**
-     * Gets an array of Consulta objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this Cuarto is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|Consulta[] List of Consulta objects
-     * @throws PropelException
-     */
-    public function getConsultas($criteria = null, PropelPDO $con = null)
-    {
-        $partial = $this->collConsultasPartial && !$this->isNew();
-        if (null === $this->collConsultas || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collConsultas) {
-                // return empty collection
-                $this->initConsultas();
-            } else {
-                $collConsultas = ConsultaQuery::create(null, $criteria)
-                    ->filterByCuarto($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    if (false !== $this->collConsultasPartial && count($collConsultas)) {
-                      $this->initConsultas(false);
-
-                      foreach ($collConsultas as $obj) {
-                        if (false == $this->collConsultas->contains($obj)) {
-                          $this->collConsultas->append($obj);
-                        }
-                      }
-
-                      $this->collConsultasPartial = true;
-                    }
-
-                    $collConsultas->getInternalIterator()->rewind();
-
-                    return $collConsultas;
-                }
-
-                if ($partial && $this->collConsultas) {
-                    foreach ($this->collConsultas as $obj) {
-                        if ($obj->isNew()) {
-                            $collConsultas[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collConsultas = $collConsultas;
-                $this->collConsultasPartial = false;
-            }
-        }
-
-        return $this->collConsultas;
-    }
-
-    /**
-     * Sets a collection of Consulta objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param PropelCollection $consultas A Propel collection.
-     * @param PropelPDO $con Optional connection object
-     * @return Cuarto The current object (for fluent API support)
-     */
-    public function setConsultas(PropelCollection $consultas, PropelPDO $con = null)
-    {
-        $consultasToDelete = $this->getConsultas(new Criteria(), $con)->diff($consultas);
-
-
-        $this->consultasScheduledForDeletion = $consultasToDelete;
-
-        foreach ($consultasToDelete as $consultaRemoved) {
-            $consultaRemoved->setCuarto(null);
-        }
-
-        $this->collConsultas = null;
-        foreach ($consultas as $consulta) {
-            $this->addConsulta($consulta);
-        }
-
-        $this->collConsultas = $consultas;
-        $this->collConsultasPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related Consulta objects.
-     *
-     * @param Criteria $criteria
-     * @param boolean $distinct
-     * @param PropelPDO $con
-     * @return int             Count of related Consulta objects.
-     * @throws PropelException
-     */
-    public function countConsultas(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-    {
-        $partial = $this->collConsultasPartial && !$this->isNew();
-        if (null === $this->collConsultas || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collConsultas) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getConsultas());
-            }
-            $query = ConsultaQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByCuarto($this)
-                ->count($con);
-        }
-
-        return count($this->collConsultas);
-    }
-
-    /**
-     * Method called to associate a Consulta object to this object
-     * through the Consulta foreign key attribute.
-     *
-     * @param    Consulta $l Consulta
-     * @return Cuarto The current object (for fluent API support)
-     */
-    public function addConsulta(Consulta $l)
-    {
-        if ($this->collConsultas === null) {
-            $this->initConsultas();
-            $this->collConsultasPartial = true;
-        }
-
-        if (!in_array($l, $this->collConsultas->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddConsulta($l);
-
-            if ($this->consultasScheduledForDeletion and $this->consultasScheduledForDeletion->contains($l)) {
-                $this->consultasScheduledForDeletion->remove($this->consultasScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param	Consulta $consulta The consulta object to add.
-     */
-    protected function doAddConsulta($consulta)
-    {
-        $this->collConsultas[]= $consulta;
-        $consulta->setCuarto($this);
-    }
-
-    /**
-     * @param	Consulta $consulta The consulta object to remove.
-     * @return Cuarto The current object (for fluent API support)
-     */
-    public function removeConsulta($consulta)
-    {
-        if ($this->getConsultas()->contains($consulta)) {
-            $this->collConsultas->remove($this->collConsultas->search($consulta));
-            if (null === $this->consultasScheduledForDeletion) {
-                $this->consultasScheduledForDeletion = clone $this->collConsultas;
-                $this->consultasScheduledForDeletion->clear();
-            }
-            $this->consultasScheduledForDeletion[]= clone $consulta;
-            $consulta->setCuarto(null);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Cuarto is new, it will return
-     * an empty collection; or if this Cuarto has previously
-     * been saved, it will retrieve related Consultas from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Cuarto.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return PropelObjectCollection|Consulta[] List of Consulta objects
-     */
-    public function getConsultasJoinMedico($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $query = ConsultaQuery::create(null, $criteria);
-        $query->joinWith('Medico', $join_behavior);
-
-        return $this->getConsultas($query, $con);
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Cuarto is new, it will return
-     * an empty collection; or if this Cuarto has previously
-     * been saved, it will retrieve related Consultas from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Cuarto.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return PropelObjectCollection|Consulta[] List of Consulta objects
-     */
-    public function getConsultasJoinPaciente($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $query = ConsultaQuery::create(null, $criteria);
-        $query->joinWith('Paciente', $join_behavior);
-
-        return $this->getConsultas($query, $con);
-    }
-
-    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -1657,11 +1331,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->collConsultas) {
-                foreach ($this->collConsultas as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
 
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
@@ -1670,10 +1339,6 @@ abstract class BaseCuarto extends BaseObject implements Persistent
             $this->collAdmisions->clearIterator();
         }
         $this->collAdmisions = null;
-        if ($this->collConsultas instanceof PropelCollection) {
-            $this->collConsultas->clearIterator();
-        }
-        $this->collConsultas = null;
     }
 
     /**

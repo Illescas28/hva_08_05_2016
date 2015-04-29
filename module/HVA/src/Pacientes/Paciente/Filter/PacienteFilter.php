@@ -119,6 +119,7 @@ class PacienteFilter implements InputFilterAwareInterface
             ));
             $inputFilter->add(array(
                 'name'     => 'paciente_pais',
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
@@ -141,7 +142,7 @@ class PacienteFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'paciente_edad',
+                'name'     => 'paciente_fechanacimiento',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),

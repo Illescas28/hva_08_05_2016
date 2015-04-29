@@ -55,6 +55,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
 
     /**
      * The value for the banco_balance field.
+     * Note: this column has a database default value of: '0.00'
      * @var        string
      */
     protected $banco_balance;
@@ -90,6 +91,27 @@ abstract class BaseBanco extends BaseObject implements Persistent
      * @var		PropelObjectCollection
      */
     protected $bancotransaccionsScheduledForDeletion = null;
+
+    /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see        __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->banco_balance = '0.00';
+    }
+
+    /**
+     * Initializes internal state of BaseBanco object.
+     * @see        applyDefaults()
+     */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->applyDefaultValues();
+    }
 
     /**
      * Get the [idbanco] column value.
@@ -261,6 +283,10 @@ abstract class BaseBanco extends BaseObject implements Persistent
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->banco_balance !== '0.00') {
+                return false;
+            }
+
         // otherwise, everything was equal, so return true
         return true;
     } // hasOnlyDefaultValues()
@@ -1250,6 +1276,7 @@ abstract class BaseBanco extends BaseObject implements Persistent
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);

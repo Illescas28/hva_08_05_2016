@@ -5,7 +5,7 @@ use Zend\Form\Form;
 
 class ConsultaForm extends Form
 {
-    public function __construct(array $medico = null, array $cuarto = null)
+    public function __construct(array $medico = null, array $consultorio = null)
     {
         // we want to ignore the name passed
         parent::__construct('ConsultaForm');
@@ -21,20 +21,20 @@ class ConsultaForm extends Form
                 'value_options' => $medico,
             ),
         ));
-        // cuarto
+        // consultorio
         $this->add(array(
-            'name' => 'idcuarto',
+            'name' => 'idconsultorio',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'Cuarto',
+                'label' => 'Consultorio',
                 'empty_option' => 'Seleccione un consultorio',
-                'value_options' => $cuarto,
+                'value_options' => $consultorio,
             ),
         ));
         // paciente
         $this->add(array(
             'name' => 'idpaciente',
-            'type' => 'Text',
+            'type' => 'Hidden',
         ));
 
         $this->add(array(

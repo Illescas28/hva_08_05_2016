@@ -50,12 +50,13 @@ return array(
                     ),
                 ),
             ),
+            // Módulo Pacientes
             'pacientes' => array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/paciente[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|ver|editar|eliminar',
+                        'action' => 'nuevo|ver|actuales|editar|eliminar',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
@@ -64,6 +65,22 @@ return array(
                     ),
                 ),
             ),
+            'consultorio' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/consultorio[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Consultorio\Controller\Consultorio',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+
+            // Catalogos
             'proveedor' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -229,6 +246,7 @@ return array(
 
             // Módulo Pacientes
             'Pacientes\Paciente\Controller\Paciente'                   => 'Pacientes\Paciente\Controller\PacienteController',
+            'Pacientes\Consultorio\Controller\Consultorio'             => 'Pacientes\Consultorio\Controller\ConsultorioController',
         ),
     ),
     'view_manager' => array(

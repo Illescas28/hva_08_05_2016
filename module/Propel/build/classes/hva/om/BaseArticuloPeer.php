@@ -24,13 +24,13 @@ abstract class BaseArticuloPeer
     const TM_CLASS = 'ArticuloTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 4;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /** the column name for the idarticulo field */
     const IDARTICULO = 'articulo.idarticulo';
@@ -43,9 +43,6 @@ abstract class BaseArticuloPeer
 
     /** the column name for the articulo_descripcion field */
     const ARTICULO_DESCRIPCION = 'articulo.articulo_descripcion';
-
-    /** the column name for the articulo_cantidadpresentacion field */
-    const ARTICULO_CANTIDADPRESENTACION = 'articulo.articulo_cantidadpresentacion';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -66,12 +63,12 @@ abstract class BaseArticuloPeer
      * e.g. ArticuloPeer::$fieldNames[ArticuloPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idarticulo', 'Idtipo', 'ArticuloNombre', 'ArticuloDescripcion', 'ArticuloCantidadpresentacion', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulo', 'idtipo', 'articuloNombre', 'articuloDescripcion', 'articuloCantidadpresentacion', ),
-        BasePeer::TYPE_COLNAME => array (ArticuloPeer::IDARTICULO, ArticuloPeer::IDTIPO, ArticuloPeer::ARTICULO_NOMBRE, ArticuloPeer::ARTICULO_DESCRIPCION, ArticuloPeer::ARTICULO_CANTIDADPRESENTACION, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULO', 'IDTIPO', 'ARTICULO_NOMBRE', 'ARTICULO_DESCRIPCION', 'ARTICULO_CANTIDADPRESENTACION', ),
-        BasePeer::TYPE_FIELDNAME => array ('idarticulo', 'idtipo', 'articulo_nombre', 'articulo_descripcion', 'articulo_cantidadpresentacion', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idarticulo', 'Idtipo', 'ArticuloNombre', 'ArticuloDescripcion', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulo', 'idtipo', 'articuloNombre', 'articuloDescripcion', ),
+        BasePeer::TYPE_COLNAME => array (ArticuloPeer::IDARTICULO, ArticuloPeer::IDTIPO, ArticuloPeer::ARTICULO_NOMBRE, ArticuloPeer::ARTICULO_DESCRIPCION, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULO', 'IDTIPO', 'ARTICULO_NOMBRE', 'ARTICULO_DESCRIPCION', ),
+        BasePeer::TYPE_FIELDNAME => array ('idarticulo', 'idtipo', 'articulo_nombre', 'articulo_descripcion', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /**
@@ -81,12 +78,12 @@ abstract class BaseArticuloPeer
      * e.g. ArticuloPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idarticulo' => 0, 'Idtipo' => 1, 'ArticuloNombre' => 2, 'ArticuloDescripcion' => 3, 'ArticuloCantidadpresentacion' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulo' => 0, 'idtipo' => 1, 'articuloNombre' => 2, 'articuloDescripcion' => 3, 'articuloCantidadpresentacion' => 4, ),
-        BasePeer::TYPE_COLNAME => array (ArticuloPeer::IDARTICULO => 0, ArticuloPeer::IDTIPO => 1, ArticuloPeer::ARTICULO_NOMBRE => 2, ArticuloPeer::ARTICULO_DESCRIPCION => 3, ArticuloPeer::ARTICULO_CANTIDADPRESENTACION => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULO' => 0, 'IDTIPO' => 1, 'ARTICULO_NOMBRE' => 2, 'ARTICULO_DESCRIPCION' => 3, 'ARTICULO_CANTIDADPRESENTACION' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('idarticulo' => 0, 'idtipo' => 1, 'articulo_nombre' => 2, 'articulo_descripcion' => 3, 'articulo_cantidadpresentacion' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idarticulo' => 0, 'Idtipo' => 1, 'ArticuloNombre' => 2, 'ArticuloDescripcion' => 3, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulo' => 0, 'idtipo' => 1, 'articuloNombre' => 2, 'articuloDescripcion' => 3, ),
+        BasePeer::TYPE_COLNAME => array (ArticuloPeer::IDARTICULO => 0, ArticuloPeer::IDTIPO => 1, ArticuloPeer::ARTICULO_NOMBRE => 2, ArticuloPeer::ARTICULO_DESCRIPCION => 3, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULO' => 0, 'IDTIPO' => 1, 'ARTICULO_NOMBRE' => 2, 'ARTICULO_DESCRIPCION' => 3, ),
+        BasePeer::TYPE_FIELDNAME => array ('idarticulo' => 0, 'idtipo' => 1, 'articulo_nombre' => 2, 'articulo_descripcion' => 3, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /**
@@ -164,13 +161,11 @@ abstract class BaseArticuloPeer
             $criteria->addSelectColumn(ArticuloPeer::IDTIPO);
             $criteria->addSelectColumn(ArticuloPeer::ARTICULO_NOMBRE);
             $criteria->addSelectColumn(ArticuloPeer::ARTICULO_DESCRIPCION);
-            $criteria->addSelectColumn(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION);
         } else {
             $criteria->addSelectColumn($alias . '.idarticulo');
             $criteria->addSelectColumn($alias . '.idtipo');
             $criteria->addSelectColumn($alias . '.articulo_nombre');
             $criteria->addSelectColumn($alias . '.articulo_descripcion');
-            $criteria->addSelectColumn($alias . '.articulo_cantidadpresentacion');
         }
     }
 

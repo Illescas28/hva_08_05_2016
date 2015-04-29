@@ -52,11 +52,13 @@ class MedicoTableMap extends TableMap
         $this->addColumn('medico_estado', 'MedicoEstado', 'VARCHAR', false, 45, null);
         $this->addColumn('medico_pais', 'MedicoPais', 'VARCHAR', false, 45, null);
         $this->addColumn('medico_telefono', 'MedicoTelefono', 'VARCHAR', false, 45, null);
-        $this->addColumn('medico_telefonocelular', 'MedicoTelefonocelular', 'VARCHAR', false, 45, null);
+        $this->addColumn('medico_telefonocelular', 'MedicoTelefonocelular', 'VARCHAR', true, 45, null);
         $this->addColumn('medico_clave', 'MedicoClave', 'VARCHAR', false, 45, null);
-        $this->addColumn('medico_dgp', 'MedicoDgp', 'VARCHAR', false, 45, null);
+        $this->addColumn('medico_dgp', 'MedicoDgp', 'VARCHAR', true, 45, null);
         $this->addColumn('medico_ssa', 'MedicoSsa', 'VARCHAR', false, 45, null);
         $this->addColumn('medico_ae', 'MedicoAe', 'VARCHAR', false, 45, null);
+        $this->addColumn('medico_fotografia', 'MedicoFotografia', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('medico_perfilcompleto', 'MedicoPerfilcompleto', 'BOOLEAN', true, 1, null);
         // validators
     } // initialize()
 

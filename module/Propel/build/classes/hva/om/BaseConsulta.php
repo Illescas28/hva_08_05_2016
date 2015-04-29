@@ -48,10 +48,10 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     protected $idmedico;
 
     /**
-     * The value for the idcuarto field.
+     * The value for the idconsultorio field.
      * @var        int
      */
-    protected $idcuarto;
+    protected $idconsultorio;
 
     /**
      * The value for the consulta_fechaadmision field.
@@ -91,9 +91,9 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     protected $consulta_total;
 
     /**
-     * @var        Cuarto
+     * @var        Consultorio
      */
-    protected $aCuarto;
+    protected $aConsultorio;
 
     /**
      * @var        Medico
@@ -216,14 +216,14 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [idcuarto] column value.
+     * Get the [idconsultorio] column value.
      *
      * @return int
      */
-    public function getIdcuarto()
+    public function getIdconsultorio()
     {
 
-        return $this->idcuarto;
+        return $this->idconsultorio;
     }
 
     /**
@@ -422,29 +422,29 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     } // setIdmedico()
 
     /**
-     * Set the value of [idcuarto] column.
+     * Set the value of [idconsultorio] column.
      *
      * @param  int $v new value
      * @return Consulta The current object (for fluent API support)
      */
-    public function setIdcuarto($v)
+    public function setIdconsultorio($v)
     {
         if ($v !== null && is_numeric($v)) {
             $v = (int) $v;
         }
 
-        if ($this->idcuarto !== $v) {
-            $this->idcuarto = $v;
-            $this->modifiedColumns[] = ConsultaPeer::IDCUARTO;
+        if ($this->idconsultorio !== $v) {
+            $this->idconsultorio = $v;
+            $this->modifiedColumns[] = ConsultaPeer::IDCONSULTORIO;
         }
 
-        if ($this->aCuarto !== null && $this->aCuarto->getIdcuarto() !== $v) {
-            $this->aCuarto = null;
+        if ($this->aConsultorio !== null && $this->aConsultorio->getIdconsultorio() !== $v) {
+            $this->aConsultorio = null;
         }
 
 
         return $this;
-    } // setIdcuarto()
+    } // setIdconsultorio()
 
     /**
      * Sets the value of [consulta_fechaadmision] column to a normalized version of the date/time value specified.
@@ -615,7 +615,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             $this->idconsulta = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->idpaciente = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->idmedico = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-            $this->idcuarto = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
+            $this->idconsultorio = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
             $this->consulta_fechaadmision = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->consulta_fechasalida = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->consulta_diagnostico = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
@@ -660,8 +660,8 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         if ($this->aMedico !== null && $this->idmedico !== $this->aMedico->getIdmedico()) {
             $this->aMedico = null;
         }
-        if ($this->aCuarto !== null && $this->idcuarto !== $this->aCuarto->getIdcuarto()) {
-            $this->aCuarto = null;
+        if ($this->aConsultorio !== null && $this->idconsultorio !== $this->aConsultorio->getIdconsultorio()) {
+            $this->aConsultorio = null;
         }
     } // ensureConsistency
 
@@ -702,7 +702,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aCuarto = null;
+            $this->aConsultorio = null;
             $this->aMedico = null;
             $this->aPaciente = null;
             $this->collCargoconsultas = null;
@@ -829,11 +829,11 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aCuarto !== null) {
-                if ($this->aCuarto->isModified() || $this->aCuarto->isNew()) {
-                    $affectedRows += $this->aCuarto->save($con);
+            if ($this->aConsultorio !== null) {
+                if ($this->aConsultorio->isModified() || $this->aConsultorio->isNew()) {
+                    $affectedRows += $this->aConsultorio->save($con);
                 }
-                $this->setCuarto($this->aCuarto);
+                $this->setConsultorio($this->aConsultorio);
             }
 
             if ($this->aMedico !== null) {
@@ -932,10 +932,6 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = ConsultaPeer::IDCONSULTA;
-        if (null !== $this->idconsulta) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ConsultaPeer::IDCONSULTA . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(ConsultaPeer::IDCONSULTA)) {
@@ -947,8 +943,8 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         if ($this->isColumnModified(ConsultaPeer::IDMEDICO)) {
             $modifiedColumns[':p' . $index++]  = '`idmedico`';
         }
-        if ($this->isColumnModified(ConsultaPeer::IDCUARTO)) {
-            $modifiedColumns[':p' . $index++]  = '`idcuarto`';
+        if ($this->isColumnModified(ConsultaPeer::IDCONSULTORIO)) {
+            $modifiedColumns[':p' . $index++]  = '`idconsultorio`';
         }
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHAADMISION)) {
             $modifiedColumns[':p' . $index++]  = '`consulta_fechaadmision`';
@@ -988,8 +984,8 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                     case '`idmedico`':
                         $stmt->bindValue($identifier, $this->idmedico, PDO::PARAM_INT);
                         break;
-                    case '`idcuarto`':
-                        $stmt->bindValue($identifier, $this->idcuarto, PDO::PARAM_INT);
+                    case '`idconsultorio`':
+                        $stmt->bindValue($identifier, $this->idconsultorio, PDO::PARAM_INT);
                         break;
                     case '`consulta_fechaadmision`':
                         $stmt->bindValue($identifier, $this->consulta_fechaadmision, PDO::PARAM_STR);
@@ -1016,13 +1012,6 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', $e);
-        }
-        $this->setIdconsulta($pk);
 
         $this->setNew(false);
     }
@@ -1108,9 +1097,9 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aCuarto !== null) {
-                if (!$this->aCuarto->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aCuarto->getValidationFailures());
+            if ($this->aConsultorio !== null) {
+                if (!$this->aConsultorio->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aConsultorio->getValidationFailures());
                 }
             }
 
@@ -1201,7 +1190,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                 return $this->getIdmedico();
                 break;
             case 3:
-                return $this->getIdcuarto();
+                return $this->getIdconsultorio();
                 break;
             case 4:
                 return $this->getConsultaFechaadmision();
@@ -1253,7 +1242,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             $keys[0] => $this->getIdconsulta(),
             $keys[1] => $this->getIdpaciente(),
             $keys[2] => $this->getIdmedico(),
-            $keys[3] => $this->getIdcuarto(),
+            $keys[3] => $this->getIdconsultorio(),
             $keys[4] => $this->getConsultaFechaadmision(),
             $keys[5] => $this->getConsultaFechasalida(),
             $keys[6] => $this->getConsultaDiagnostico(),
@@ -1267,8 +1256,8 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aCuarto) {
-                $result['Cuarto'] = $this->aCuarto->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            if (null !== $this->aConsultorio) {
+                $result['Consultorio'] = $this->aConsultorio->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->aMedico) {
                 $result['Medico'] = $this->aMedico->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1329,7 +1318,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                 $this->setIdmedico($value);
                 break;
             case 3:
-                $this->setIdcuarto($value);
+                $this->setIdconsultorio($value);
                 break;
             case 4:
                 $this->setConsultaFechaadmision($value);
@@ -1376,7 +1365,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         if (array_key_exists($keys[0], $arr)) $this->setIdconsulta($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setIdpaciente($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setIdmedico($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setIdcuarto($arr[$keys[3]]);
+        if (array_key_exists($keys[3], $arr)) $this->setIdconsultorio($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setConsultaFechaadmision($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setConsultaFechasalida($arr[$keys[5]]);
         if (array_key_exists($keys[6], $arr)) $this->setConsultaDiagnostico($arr[$keys[6]]);
@@ -1397,7 +1386,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         if ($this->isColumnModified(ConsultaPeer::IDCONSULTA)) $criteria->add(ConsultaPeer::IDCONSULTA, $this->idconsulta);
         if ($this->isColumnModified(ConsultaPeer::IDPACIENTE)) $criteria->add(ConsultaPeer::IDPACIENTE, $this->idpaciente);
         if ($this->isColumnModified(ConsultaPeer::IDMEDICO)) $criteria->add(ConsultaPeer::IDMEDICO, $this->idmedico);
-        if ($this->isColumnModified(ConsultaPeer::IDCUARTO)) $criteria->add(ConsultaPeer::IDCUARTO, $this->idcuarto);
+        if ($this->isColumnModified(ConsultaPeer::IDCONSULTORIO)) $criteria->add(ConsultaPeer::IDCONSULTORIO, $this->idconsultorio);
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHAADMISION)) $criteria->add(ConsultaPeer::CONSULTA_FECHAADMISION, $this->consulta_fechaadmision);
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_FECHASALIDA)) $criteria->add(ConsultaPeer::CONSULTA_FECHASALIDA, $this->consulta_fechasalida);
         if ($this->isColumnModified(ConsultaPeer::CONSULTA_DIAGNOSTICO)) $criteria->add(ConsultaPeer::CONSULTA_DIAGNOSTICO, $this->consulta_diagnostico);
@@ -1469,7 +1458,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     {
         $copyObj->setIdpaciente($this->getIdpaciente());
         $copyObj->setIdmedico($this->getIdmedico());
-        $copyObj->setIdcuarto($this->getIdcuarto());
+        $copyObj->setIdconsultorio($this->getIdconsultorio());
         $copyObj->setConsultaFechaadmision($this->getConsultaFechaadmision());
         $copyObj->setConsultaFechasalida($this->getConsultaFechasalida());
         $copyObj->setConsultaDiagnostico($this->getConsultaDiagnostico());
@@ -1553,24 +1542,24 @@ abstract class BaseConsulta extends BaseObject implements Persistent
     }
 
     /**
-     * Declares an association between this object and a Cuarto object.
+     * Declares an association between this object and a Consultorio object.
      *
-     * @param                  Cuarto $v
+     * @param                  Consultorio $v
      * @return Consulta The current object (for fluent API support)
      * @throws PropelException
      */
-    public function setCuarto(Cuarto $v = null)
+    public function setConsultorio(Consultorio $v = null)
     {
         if ($v === null) {
-            $this->setIdcuarto(NULL);
+            $this->setIdconsultorio(NULL);
         } else {
-            $this->setIdcuarto($v->getIdcuarto());
+            $this->setIdconsultorio($v->getIdconsultorio());
         }
 
-        $this->aCuarto = $v;
+        $this->aConsultorio = $v;
 
         // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the Cuarto object, it will not be re-added.
+        // If this object has already been added to the Consultorio object, it will not be re-added.
         if ($v !== null) {
             $v->addConsulta($this);
         }
@@ -1581,27 +1570,27 @@ abstract class BaseConsulta extends BaseObject implements Persistent
 
 
     /**
-     * Get the associated Cuarto object
+     * Get the associated Consultorio object
      *
      * @param PropelPDO $con Optional Connection object.
      * @param $doQuery Executes a query to get the object if required
-     * @return Cuarto The associated Cuarto object.
+     * @return Consultorio The associated Consultorio object.
      * @throws PropelException
      */
-    public function getCuarto(PropelPDO $con = null, $doQuery = true)
+    public function getConsultorio(PropelPDO $con = null, $doQuery = true)
     {
-        if ($this->aCuarto === null && ($this->idcuarto !== null) && $doQuery) {
-            $this->aCuarto = CuartoQuery::create()->findPk($this->idcuarto, $con);
+        if ($this->aConsultorio === null && ($this->idconsultorio !== null) && $doQuery) {
+            $this->aConsultorio = ConsultorioQuery::create()->findPk($this->idconsultorio, $con);
             /* The following can be used additionally to
                 guarantee the related object contains a reference
                 to this object.  This level of coupling may, however, be
                 undesirable since it could result in an only partially populated collection
                 in the referenced object.
-                $this->aCuarto->addConsultas($this);
+                $this->aConsultorio->addConsultas($this);
              */
         }
 
-        return $this->aCuarto;
+        return $this->aConsultorio;
     }
 
     /**
@@ -2488,7 +2477,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
         $this->idconsulta = null;
         $this->idpaciente = null;
         $this->idmedico = null;
-        $this->idcuarto = null;
+        $this->idconsultorio = null;
         $this->consulta_fechaadmision = null;
         $this->consulta_fechasalida = null;
         $this->consulta_diagnostico = null;
@@ -2533,8 +2522,8 @@ abstract class BaseConsulta extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
-            if ($this->aCuarto instanceof Persistent) {
-              $this->aCuarto->clearAllReferences($deep);
+            if ($this->aConsultorio instanceof Persistent) {
+              $this->aConsultorio->clearAllReferences($deep);
             }
             if ($this->aMedico instanceof Persistent) {
               $this->aMedico->clearAllReferences($deep);
@@ -2558,7 +2547,7 @@ abstract class BaseConsulta extends BaseObject implements Persistent
             $this->collFacturas->clearIterator();
         }
         $this->collFacturas = null;
-        $this->aCuarto = null;
+        $this->aConsultorio = null;
         $this->aMedico = null;
         $this->aPaciente = null;
     }

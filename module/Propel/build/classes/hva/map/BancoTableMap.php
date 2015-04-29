@@ -42,7 +42,7 @@ class BancoTableMap extends TableMap
         $this->addColumn('banco_nombre', 'BancoNombre', 'VARCHAR', true, 100, null);
         $this->addColumn('banco_cuenta', 'BancoCuenta', 'VARCHAR', true, 45, null);
         $this->addColumn('banco_descripcion', 'BancoDescripcion', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('banco_balance', 'BancoBalance', 'DECIMAL', true, 10, null);
+        $this->addColumn('banco_balance', 'BancoBalance', 'DECIMAL', true, 10, 0);
         // validators
     } // initialize()
 

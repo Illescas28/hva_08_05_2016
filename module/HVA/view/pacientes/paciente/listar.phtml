@@ -36,7 +36,7 @@ $this->headTitle($title);
                 <td><?php echo $pacienteEntity->getPacienteNombre() ?></td>
                 <td><?php echo $pacienteEntity->getPacienteAp() ?></td>
                 <td><?php echo $pacienteEntity->getPacienteAm() ?></td>
-                <td><?php echo $pacienteEntity->getPacienteEdad() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteFechanacimiento() ?></td>
                 <td><?php echo $pacienteEntity->getPacienteCalle()." ".$pacienteEntity->getPacienteNoexterior()." ".$pacienteEntity->getPacienteNointerior()." ".$pacienteEntity->getPacienteColonia() ?></td>
                 <td>
                     <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-paciente-".$pacienteEntity->getIdpaciente()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
@@ -111,7 +111,7 @@ $this->headTitle($title);
                 </div>
                 <div class="modal-footer">
                     <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href='<?php echo "/paciente/editar/".$pacienteEntity->getIdpaciente()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                    <a href='<?php echo $this->url('pacientes', array('action'=>'editar', 'id'  => $pacienteEntity->getIdpaciente()));?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
                 </div>
             </div>
             <!-- End View Modal Structure -->

@@ -24,13 +24,6 @@ class ConsultaFilter implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $inputFilter->add(array(
-                'name'     => 'idconsulta',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
-            $inputFilter->add(array(
                 'name'     => 'idmedico',
                 'required' => true,
                 'filters'  => array(
@@ -38,7 +31,7 @@ class ConsultaFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'idcuarto',
+                'name'     => 'idconsultorio',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'Int'),

@@ -51,6 +51,19 @@ $this->headTitle($title);
                 </div>
             <?php endif;?>
         </div>
+        <div class="input-field col s6">
+            <?php  echo $this->formText($form->get('articulo_cantidadpresentacion')); ?>
+            <?php  echo $this->formLabel($form->get('articulo_cantidadpresentacion'));
+            $showError=$this->formElementErrors($form->get('articulo_cantidadpresentacion'));
+            if(!empty($showError)):?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php echo $showError; ?>
+                </div>
+            <?php endif;?>
+        </div>
     </fieldset>
     <br>
     <fieldset>
@@ -71,29 +84,16 @@ $this->headTitle($title);
         <div class="input-field col s6">
             <?php  echo $this->formText($form->get('propiedadvalor_nombre')); ?>
             <?php  echo $this->formLabel($form->get('propiedadvalor_nombre'));
+            $showError=$this->formElementErrors($form->get('propiedadvalor_nombre'));
             if(isset($propiedadvalor) && $propiedadvalor != null){
-                if(count($propiedadvalor) == 1){?>
-                    <div>
-                        <div class="input-field col s11" style="border: solid 1px #CCC">
-                            <?php echo $propiedadvalor[1];?>
-                        </div>
-                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Eliminar" href="<?php echo '#delete-modal-propiedadvalor-'.$propiedadvalor[1]?>"><i class="small mdi-action-delete" style="color: red"></i></a>
+                foreach($propiedadvalor as $propiedadvalorEntity){
+                    ?>
+                    <div class="input-field col s12" style="border: solid 1px #CCC">
+                        <?php echo is_object($propiedadvalorEntity) ? $propiedadvalorEntity->getPropiedadvalorNombre() : $propiedadvalorEntity;?>
                     </div>
                 <?php
-                }else{
-                    foreach($propiedadvalor as $propiedadvalorEntity){
-                        ?>
-                        <div>
-                            <div class="input-field col s11" style="border: solid 1px #CCC">
-                                <?php echo is_object($propiedadvalorEntity) ? $propiedadvalorEntity->getPropiedadvalorNombre() : $propiedadvalorEntity;?>
-                            </div>
-                            <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Eliminar" href="<?php echo '#delete-modal-propiedadvalor-'.$propiedadvalorEntity->getIdPropiedadvalor()?>"><i class="small mdi-action-delete" style="color: red"></i></a>
-                        </div>
-                    <?php
-                    }
                 }
             }
-            $showError=$this->formElementErrors($form->get('propiedadvalor_nombre'));
             if(!empty($showError)):?>
                 <div class="center-align col" style="color: #e57373">
                     <i class="mdi-content-report prefix"></i>
@@ -103,18 +103,55 @@ $this->headTitle($title);
                 </div>
             <?php endif;?>
         </div>
-        <div class="row">
-            <div class="col s3 offset-s10">
-                <button style="width: 70%; height: 35px;"class="btn waves-effect waves-light" name="nueva_propiedad">Nueva propiedad
-                </button>
-            </div>
+    </fieldset>
+    <br>
+    <fieldset>
+        <legend>Inventario de segridad</legend>
+        <div class="input-field col s4">
+            <?php  echo $this->formText($form->get('minimo')); ?>
+            <?php  echo $this->formLabel($form->get('minimo'));
+            $showError=$this->formElementErrors($form->get('minimo'));
+            if(!empty($showError)):?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php echo $showError; ?>
+                </div>
+            <?php endif;?>
+        </div>
+        <div class="input-field col s4">
+            <?php  echo $this->formText($form->get('maximo')); ?>
+            <?php  echo $this->formLabel($form->get('maximo'));
+            $showError=$this->formElementErrors($form->get('maximo'));
+            if(!empty($showError)):?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php echo $showError; ?>
+                </div>
+            <?php endif;?>
+        </div>
+        <div class="input-field col s4">
+            <?php  echo $this->formText($form->get('reorden')); ?>
+            <?php  echo $this->formLabel($form->get('reorden'));
+            $showError=$this->formElementErrors($form->get('reorden'));
+            if(!empty($showError)):?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php echo $showError; ?>
+                </div>
+            <?php endif;?>
         </div>
     </fieldset>
     <br>
     <br>
     <div class="row">
         <div class="col s4 offset-s4">
-            <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" name="action">Guardar
+            <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
                 <i class="mdi-content-save left"></i>
             </button>
         </div>
@@ -133,23 +170,5 @@ $this->headTitle($title);
 <script>
 $(document).ready(function() {
     $('select').material_select();
-    $('.modal-trigger').leanModal();
 });
-
-function nuevapropiedad(){
-
-    var propiedadValor = document.<?php echo $form->getName()?>.propiedadvalor_nombre.value;
-
-    if (propiedadValor[0].value==""){
-        alert("Enviando el formulario");
-        formulario.submit();
-        return true;
-    } else {
-        var propiedadvalornombreArray = [];
-        propiedadvalornombreArray.push(propiedadValor);
-        alert(propiedadvalornombreArray.length); // esto es para ver si va  se van sumando las entradas
-        return false;
-    }
-}
-
 </script>

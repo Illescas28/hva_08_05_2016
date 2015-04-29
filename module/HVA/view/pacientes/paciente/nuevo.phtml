@@ -34,9 +34,9 @@ $this->headTitle($title);
         <?php  endif;?>
     </div>
     <div class="input-field">
-        <?php echo $this->formText($pacienteForm->get('paciente_edad')); ?>
-        <?php echo $this->formLabel($pacienteForm->get('paciente_edad')); ?>
-        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_edad'));
+        <?php echo $this->formText($pacienteForm->get('paciente_fechanacimiento')); ?>
+        <?php echo $this->formLabel($pacienteForm->get('paciente_fechanacimiento')); ?>
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_fechanacimiento'));
         if(!empty($showError)):
             ?>
             <div class="center-align col" style="color: #e57373">
@@ -217,7 +217,7 @@ $this->headTitle($title);
 <div class="col s4">
     <div class="input-field">
         <?php echo $this->formSelect($pacienteForm->get('paciente_estado')); ?>
-        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_edad'));
+        <?php $showError=$this->formElementErrors($pacienteForm->get('paciente_fechanacimiento'));
         if(!empty($showError)):
             ?>
             <div class="center-align col" style="color: #e57373">

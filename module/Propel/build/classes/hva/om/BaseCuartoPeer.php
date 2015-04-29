@@ -378,9 +378,6 @@ abstract class BaseCuartoPeer
         // Invalidate objects in AdmisionPeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         AdmisionPeer::clearInstancePool();
-        // Invalidate objects in ConsultaPeer instance pool,
-        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-        ConsultaPeer::clearInstancePool();
     }
 
     /**
@@ -720,12 +717,6 @@ abstract class BaseCuartoPeer
 
             $criteria->add(AdmisionPeer::IDCUARTO, $obj->getIdcuarto());
             $affectedRows += AdmisionPeer::doDelete($criteria, $con);
-
-            // delete related Consulta objects
-            $criteria = new Criteria(ConsultaPeer::DATABASE_NAME);
-
-            $criteria->add(ConsultaPeer::IDCUARTO, $obj->getIdcuarto());
-            $affectedRows += ConsultaPeer::doDelete($criteria, $con);
         }
 
         return $affectedRows;

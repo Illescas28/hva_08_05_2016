@@ -54,12 +54,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     protected $articulo_descripcion;
 
     /**
-     * The value for the articulo_cantidadpresentacion field.
-     * @var        int
-     */
-    protected $articulo_cantidadpresentacion;
-
-    /**
      * @var        Tipo
      */
     protected $aTipo;
@@ -177,17 +171,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [articulo_cantidadpresentacion] column value.
-     *
-     * @return int
-     */
-    public function getArticuloCantidadpresentacion()
-    {
-
-        return $this->articulo_cantidadpresentacion;
-    }
-
-    /**
      * Set the value of [idarticulo] column.
      *
      * @param  int $v new value
@@ -276,27 +259,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     } // setArticuloDescripcion()
 
     /**
-     * Set the value of [articulo_cantidadpresentacion] column.
-     *
-     * @param  int $v new value
-     * @return Articulo The current object (for fluent API support)
-     */
-    public function setArticuloCantidadpresentacion($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->articulo_cantidadpresentacion !== $v) {
-            $this->articulo_cantidadpresentacion = $v;
-            $this->modifiedColumns[] = ArticuloPeer::ARTICULO_CANTIDADPRESENTACION;
-        }
-
-
-        return $this;
-    } // setArticuloCantidadpresentacion()
-
-    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -332,7 +294,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $this->idtipo = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->articulo_nombre = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->articulo_descripcion = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->articulo_cantidadpresentacion = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -342,7 +303,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Articulo object", $e);
@@ -658,9 +619,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) {
             $modifiedColumns[':p' . $index++]  = '`articulo_descripcion`';
         }
-        if ($this->isColumnModified(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION)) {
-            $modifiedColumns[':p' . $index++]  = '`articulo_cantidadpresentacion`';
-        }
 
         $sql = sprintf(
             'INSERT INTO `articulo` (%s) VALUES (%s)',
@@ -683,9 +641,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                         break;
                     case '`articulo_descripcion`':
                         $stmt->bindValue($identifier, $this->articulo_descripcion, PDO::PARAM_STR);
-                        break;
-                    case '`articulo_cantidadpresentacion`':
-                        $stmt->bindValue($identifier, $this->articulo_cantidadpresentacion, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -877,9 +832,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             case 3:
                 return $this->getArticuloDescripcion();
                 break;
-            case 4:
-                return $this->getArticuloCantidadpresentacion();
-                break;
             default:
                 return null;
                 break;
@@ -913,7 +865,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $keys[1] => $this->getIdtipo(),
             $keys[2] => $this->getArticuloNombre(),
             $keys[3] => $this->getArticuloDescripcion(),
-            $keys[4] => $this->getArticuloCantidadpresentacion(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -982,9 +933,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             case 3:
                 $this->setArticuloDescripcion($value);
                 break;
-            case 4:
-                $this->setArticuloCantidadpresentacion($value);
-                break;
         } // switch()
     }
 
@@ -1013,7 +961,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setIdtipo($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setArticuloNombre($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setArticuloDescripcion($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setArticuloCantidadpresentacion($arr[$keys[4]]);
     }
 
     /**
@@ -1029,7 +976,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticuloPeer::IDTIPO)) $criteria->add(ArticuloPeer::IDTIPO, $this->idtipo);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_NOMBRE)) $criteria->add(ArticuloPeer::ARTICULO_NOMBRE, $this->articulo_nombre);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) $criteria->add(ArticuloPeer::ARTICULO_DESCRIPCION, $this->articulo_descripcion);
-        if ($this->isColumnModified(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION)) $criteria->add(ArticuloPeer::ARTICULO_CANTIDADPRESENTACION, $this->articulo_cantidadpresentacion);
 
         return $criteria;
     }
@@ -1096,7 +1042,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         $copyObj->setIdtipo($this->getIdtipo());
         $copyObj->setArticuloNombre($this->getArticuloNombre());
         $copyObj->setArticuloDescripcion($this->getArticuloDescripcion());
-        $copyObj->setArticuloCantidadpresentacion($this->getArticuloCantidadpresentacion());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2265,7 +2210,6 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         $this->idtipo = null;
         $this->articulo_nombre = null;
         $this->articulo_descripcion = null;
-        $this->articulo_cantidadpresentacion = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

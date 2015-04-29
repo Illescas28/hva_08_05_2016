@@ -64,6 +64,8 @@ class MedicoController extends AbstractActionController
                 //Redireccionamos a nuestro list
                 return $this->redirect()->toRoute('medico');
                 
+            }else{
+                
             }
         }
         
@@ -97,18 +99,17 @@ class MedicoController extends AbstractActionController
         $request = $this->getRequest();
         
         //Cachamos el valor desde nuestro params
-        $id = (int) $this->params()->fromRoute('id');
-        //Verificamos que el Id medico que se quiere modificar exista
-        if(!MedicoQuery::create()->filterByIdmedico($id)->exists()){
-            $id =0;
-        }
+        $id = (int) $this->params()->fromRoute('id', 0);
         //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('medico', array(
                 'action' => 'nuevo'
             ));
         }
-
+        
+        //Verificamos que el Id medico que se quiere modificar exista
+        if(MedicoQuery::create()->filterByIdmedico($id)->exists()){
+            
             //Instanciamos nuestro medico
             $medico = MedicoQuery::create()->findPk($id);
             
@@ -162,25 +163,21 @@ class MedicoController extends AbstractActionController
                 'id'  => $id,
                 'medicoForm' => $medicoForm,
             ));
-        
+        }
 
     }
 
     public function eliminarAction()
     {
         //Cachamos el valor desde nuestro params
-        $id = (int) $this->params()->fromRoute('id');
-        
-        //Verificamos que el Id medico que se quiere eliminar exista
-        if(!MedicoQuery::create()->filterByIdmedico($id)->exists()){
-            $id=0;
-        }
+        $id = (int) $this->params()->fromRoute('id', 0);
         //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('medico');
         }
         
-        
+        //Verificamos que el Id medico que se quiere eliminar exista
+        if(MedicoQuery::create()->filterByIdmedico($id)->exists()){
             
             //Instanciamos nuestro medico
             $medico = MedicoQuery::create()->findPk($id);
@@ -193,7 +190,7 @@ class MedicoController extends AbstractActionController
             //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('medico');
             
-        
+        }
 
     }
 }

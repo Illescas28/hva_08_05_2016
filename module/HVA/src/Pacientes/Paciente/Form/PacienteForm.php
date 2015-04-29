@@ -153,7 +153,7 @@ class PacienteForm extends Form
             ),
         ));
         $this->add(array(
-            'name' => 'paciente_edad',
+            'name' => 'paciente_fechanacimiento',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Fecha de nacimiento',

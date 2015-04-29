@@ -9,7 +9,7 @@
  * @method ConsultaQuery orderByIdconsulta($order = Criteria::ASC) Order by the idconsulta column
  * @method ConsultaQuery orderByIdpaciente($order = Criteria::ASC) Order by the idpaciente column
  * @method ConsultaQuery orderByIdmedico($order = Criteria::ASC) Order by the idmedico column
- * @method ConsultaQuery orderByIdcuarto($order = Criteria::ASC) Order by the idcuarto column
+ * @method ConsultaQuery orderByIdconsultorio($order = Criteria::ASC) Order by the idconsultorio column
  * @method ConsultaQuery orderByConsultaFechaadmision($order = Criteria::ASC) Order by the consulta_fechaadmision column
  * @method ConsultaQuery orderByConsultaFechasalida($order = Criteria::ASC) Order by the consulta_fechasalida column
  * @method ConsultaQuery orderByConsultaDiagnostico($order = Criteria::ASC) Order by the consulta_diagnostico column
@@ -20,7 +20,7 @@
  * @method ConsultaQuery groupByIdconsulta() Group by the idconsulta column
  * @method ConsultaQuery groupByIdpaciente() Group by the idpaciente column
  * @method ConsultaQuery groupByIdmedico() Group by the idmedico column
- * @method ConsultaQuery groupByIdcuarto() Group by the idcuarto column
+ * @method ConsultaQuery groupByIdconsultorio() Group by the idconsultorio column
  * @method ConsultaQuery groupByConsultaFechaadmision() Group by the consulta_fechaadmision column
  * @method ConsultaQuery groupByConsultaFechasalida() Group by the consulta_fechasalida column
  * @method ConsultaQuery groupByConsultaDiagnostico() Group by the consulta_diagnostico column
@@ -32,9 +32,9 @@
  * @method ConsultaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method ConsultaQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method ConsultaQuery leftJoinCuarto($relationAlias = null) Adds a LEFT JOIN clause to the query using the Cuarto relation
- * @method ConsultaQuery rightJoinCuarto($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Cuarto relation
- * @method ConsultaQuery innerJoinCuarto($relationAlias = null) Adds a INNER JOIN clause to the query using the Cuarto relation
+ * @method ConsultaQuery leftJoinConsultorio($relationAlias = null) Adds a LEFT JOIN clause to the query using the Consultorio relation
+ * @method ConsultaQuery rightJoinConsultorio($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Consultorio relation
+ * @method ConsultaQuery innerJoinConsultorio($relationAlias = null) Adds a INNER JOIN clause to the query using the Consultorio relation
  *
  * @method ConsultaQuery leftJoinMedico($relationAlias = null) Adds a LEFT JOIN clause to the query using the Medico relation
  * @method ConsultaQuery rightJoinMedico($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Medico relation
@@ -61,7 +61,7 @@
  *
  * @method Consulta findOneByIdpaciente(int $idpaciente) Return the first Consulta filtered by the idpaciente column
  * @method Consulta findOneByIdmedico(int $idmedico) Return the first Consulta filtered by the idmedico column
- * @method Consulta findOneByIdcuarto(int $idcuarto) Return the first Consulta filtered by the idcuarto column
+ * @method Consulta findOneByIdconsultorio(int $idconsultorio) Return the first Consulta filtered by the idconsultorio column
  * @method Consulta findOneByConsultaFechaadmision(string $consulta_fechaadmision) Return the first Consulta filtered by the consulta_fechaadmision column
  * @method Consulta findOneByConsultaFechasalida(string $consulta_fechasalida) Return the first Consulta filtered by the consulta_fechasalida column
  * @method Consulta findOneByConsultaDiagnostico(string $consulta_diagnostico) Return the first Consulta filtered by the consulta_diagnostico column
@@ -72,7 +72,7 @@
  * @method array findByIdconsulta(int $idconsulta) Return Consulta objects filtered by the idconsulta column
  * @method array findByIdpaciente(int $idpaciente) Return Consulta objects filtered by the idpaciente column
  * @method array findByIdmedico(int $idmedico) Return Consulta objects filtered by the idmedico column
- * @method array findByIdcuarto(int $idcuarto) Return Consulta objects filtered by the idcuarto column
+ * @method array findByIdconsultorio(int $idconsultorio) Return Consulta objects filtered by the idconsultorio column
  * @method array findByConsultaFechaadmision(string $consulta_fechaadmision) Return Consulta objects filtered by the consulta_fechaadmision column
  * @method array findByConsultaFechasalida(string $consulta_fechasalida) Return Consulta objects filtered by the consulta_fechasalida column
  * @method array findByConsultaDiagnostico(string $consulta_diagnostico) Return Consulta objects filtered by the consulta_diagnostico column
@@ -186,7 +186,7 @@ abstract class BaseConsultaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idconsulta`, `idpaciente`, `idmedico`, `idcuarto`, `consulta_fechaadmision`, `consulta_fechasalida`, `consulta_diagnostico`, `consulta_observaciones`, `consulta_status`, `consulta_total` FROM `consulta` WHERE `idconsulta` = :p0';
+        $sql = 'SELECT `idconsulta`, `idpaciente`, `idmedico`, `idconsultorio`, `consulta_fechaadmision`, `consulta_fechasalida`, `consulta_diagnostico`, `consulta_observaciones`, `consulta_status`, `consulta_total` FROM `consulta` WHERE `idconsulta` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -406,19 +406,19 @@ abstract class BaseConsultaQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the idcuarto column
+     * Filter the query on the idconsultorio column
      *
      * Example usage:
      * <code>
-     * $query->filterByIdcuarto(1234); // WHERE idcuarto = 1234
-     * $query->filterByIdcuarto(array(12, 34)); // WHERE idcuarto IN (12, 34)
-     * $query->filterByIdcuarto(array('min' => 12)); // WHERE idcuarto >= 12
-     * $query->filterByIdcuarto(array('max' => 12)); // WHERE idcuarto <= 12
+     * $query->filterByIdconsultorio(1234); // WHERE idconsultorio = 1234
+     * $query->filterByIdconsultorio(array(12, 34)); // WHERE idconsultorio IN (12, 34)
+     * $query->filterByIdconsultorio(array('min' => 12)); // WHERE idconsultorio >= 12
+     * $query->filterByIdconsultorio(array('max' => 12)); // WHERE idconsultorio <= 12
      * </code>
      *
-     * @see       filterByCuarto()
+     * @see       filterByConsultorio()
      *
-     * @param     mixed $idcuarto The value to use as filter.
+     * @param     mixed $idconsultorio The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -426,16 +426,16 @@ abstract class BaseConsultaQuery extends ModelCriteria
      *
      * @return ConsultaQuery The current query, for fluid interface
      */
-    public function filterByIdcuarto($idcuarto = null, $comparison = null)
+    public function filterByIdconsultorio($idconsultorio = null, $comparison = null)
     {
-        if (is_array($idcuarto)) {
+        if (is_array($idconsultorio)) {
             $useMinMax = false;
-            if (isset($idcuarto['min'])) {
-                $this->addUsingAlias(ConsultaPeer::IDCUARTO, $idcuarto['min'], Criteria::GREATER_EQUAL);
+            if (isset($idconsultorio['min'])) {
+                $this->addUsingAlias(ConsultaPeer::IDCONSULTORIO, $idconsultorio['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($idcuarto['max'])) {
-                $this->addUsingAlias(ConsultaPeer::IDCUARTO, $idcuarto['max'], Criteria::LESS_EQUAL);
+            if (isset($idconsultorio['max'])) {
+                $this->addUsingAlias(ConsultaPeer::IDCONSULTORIO, $idconsultorio['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -446,7 +446,7 @@ abstract class BaseConsultaQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(ConsultaPeer::IDCUARTO, $idcuarto, $comparison);
+        return $this->addUsingAlias(ConsultaPeer::IDCONSULTORIO, $idconsultorio, $comparison);
     }
 
     /**
@@ -665,43 +665,43 @@ abstract class BaseConsultaQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related Cuarto object
+     * Filter the query by a related Consultorio object
      *
-     * @param   Cuarto|PropelObjectCollection $cuarto The related object(s) to use as filter
+     * @param   Consultorio|PropelObjectCollection $consultorio The related object(s) to use as filter
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return                 ConsultaQuery The current query, for fluid interface
      * @throws PropelException - if the provided filter is invalid.
      */
-    public function filterByCuarto($cuarto, $comparison = null)
+    public function filterByConsultorio($consultorio, $comparison = null)
     {
-        if ($cuarto instanceof Cuarto) {
+        if ($consultorio instanceof Consultorio) {
             return $this
-                ->addUsingAlias(ConsultaPeer::IDCUARTO, $cuarto->getIdcuarto(), $comparison);
-        } elseif ($cuarto instanceof PropelObjectCollection) {
+                ->addUsingAlias(ConsultaPeer::IDCONSULTORIO, $consultorio->getIdconsultorio(), $comparison);
+        } elseif ($consultorio instanceof PropelObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(ConsultaPeer::IDCUARTO, $cuarto->toKeyValue('PrimaryKey', 'Idcuarto'), $comparison);
+                ->addUsingAlias(ConsultaPeer::IDCONSULTORIO, $consultorio->toKeyValue('PrimaryKey', 'Idconsultorio'), $comparison);
         } else {
-            throw new PropelException('filterByCuarto() only accepts arguments of type Cuarto or PropelCollection');
+            throw new PropelException('filterByConsultorio() only accepts arguments of type Consultorio or PropelCollection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the Cuarto relation
+     * Adds a JOIN clause to the query using the Consultorio relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return ConsultaQuery The current query, for fluid interface
      */
-    public function joinCuarto($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinConsultorio($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Cuarto');
+        $relationMap = $tableMap->getRelation('Consultorio');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -716,14 +716,14 @@ abstract class BaseConsultaQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'Cuarto');
+            $this->addJoinObject($join, 'Consultorio');
         }
 
         return $this;
     }
 
     /**
-     * Use the Cuarto relation Cuarto object
+     * Use the Consultorio relation Consultorio object
      *
      * @see       useQuery()
      *
@@ -731,13 +731,13 @@ abstract class BaseConsultaQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   CuartoQuery A secondary query class using the current class as primary query
+     * @return   ConsultorioQuery A secondary query class using the current class as primary query
      */
-    public function useCuartoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useConsultorioQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinCuarto($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Cuarto', 'CuartoQuery');
+            ->joinConsultorio($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Consultorio', 'ConsultorioQuery');
     }
 
     /**

@@ -1598,10 +1598,6 @@ abstract class BaseAdmisionPeer
             $criteria = $values->buildCriteria(); // build Criteria from Admision object
         }
 
-        if ($criteria->containsKey(AdmisionPeer::IDADMISION) && $criteria->keyContainsValue(AdmisionPeer::IDADMISION) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.AdmisionPeer::IDADMISION.')');
-        }
-
 
         // Set the correct dbName
         $criteria->setDbName(AdmisionPeer::DATABASE_NAME);

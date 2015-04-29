@@ -9,7 +9,7 @@ $this->headTitle($title);
         <div class="col s4">
             <div class="label-container">
                 <label>Fecha de nacimiento:</label>
-                <p><?php echo $pacienteEntity->getPacienteEdad()?></p>
+                <p><?php echo $pacienteEntity->getPacienteFechanacimiento()?></p>
             </div>
             <div class="label-container">
                 <label>Responsable:</label>
@@ -54,11 +54,14 @@ $this->headTitle($title);
             </div>
 
             <div id="consulta" class="hiddendiv">
-                <?php $consultaForm->setAttribute('action', '/paciente/ver');?>
+                <?php $consultaForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
                 <?php $consultaForm->setAttribute('class', 'hva-form');?>
                 <?php $consultaForm->prepare();?>
                 <?php echo $this->form()->openTag($consultaForm); ?>
-                    <div class="col s4">
+                <div class="col s4">
+                    <div class="input-field">
+                        <?php echo $this->formHidden($consultaForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
+                    </div>
                     <div class="input-field">
                         <?php echo $this->formSelect($consultaForm->get('idmedico')); ?>
                         <?php $showError=$this->formElementErrors($consultaForm->get('idmedico'));
@@ -77,8 +80,8 @@ $this->headTitle($title);
                 </div>
                 <div class="col s4 offset-s4">
                     <div class="input-field">
-                        <?php echo $this->formSelect($consultaForm->get('idcuarto')); ?>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('idcuarto'));
+                        <?php echo $this->formSelect($consultaForm->get('idconsultorio')); ?>
+                        <?php $showError=$this->formElementErrors($consultaForm->get('idconsultorio'));
                         if(!empty($showError)):
                             ?>
                             <div class="center-align col" style="color: #e57373">
@@ -157,7 +160,7 @@ $this->headTitle($title);
             </div>
 
             <div id="admision" class="hiddendiv">
-                <?php $admisionForm->setAttribute('action', '/paciente/ver');?>
+                <?php $admisionForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
                 <?php $admisionForm->setAttribute('class', 'hva-form');?>
                 <?php $admisionForm->prepare();?>
                 <?php echo $this->form()->openTag($admisionForm); ?>
@@ -249,6 +252,11 @@ $this->headTitle($title);
                         <?php  endif;?>
                     </div>
                 </div>
+                <div class="right col s4 hiddendiv">
+                    <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Alta de Paciebte
+                        <i class="mdi-action-accessibility left"></i>
+                    </button>
+                </div>
                 <div class="right col s4">
                     <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
                         <i class="mdi-content-save left"></i>
@@ -265,11 +273,300 @@ $this->headTitle($title);
             </div>
         <?php endif;?>
     </div>
+    <?php if($cargoconsultaFlag == true): ?>
+    <fieldset>
+        <legend>Cargos al paciente</legend>
+        <?php foreach ($cargoconsultaQuery as $cargoconsultaEntity) : ?>
+        <?php $total = $cargoconsultaEntity->getMonto()?>
+        <?php $total += $cargoconsultaEntity->getMonto()?>
+        <div class="row">
+            <div class="col s9">
+                <span class="left">Total: <?php echo $total?></span>
+                <span style="margin-left: 40px;"> Anticipo: <?php ?> MXN</span><a class="tooltipped " data-position="right" data-tooltip="Editar" href='<?php echo "#nuevo-modal-anticipo-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="mdi-action-description" style="margin-left: 5px;"></i></a>
+                <span style="margin-left: 40px;">Status: <?php echo $cargoconsultaEntity->getConsulta()->getConsultastatus()?></span>
+            </div>
+            <div class=" col s3">
+                <a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdconsulta()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+            </div>
+        </div>
+        <table id="tabla-cargoconsulta" class="striped hoverable">
+            <thead>
+            <tr>
+                <th>Cantidad</th>
+                <th>Articulo</th>
+                <th>Descripción</th>
+                <th>Salida</th>
+                <th>Fecha/hora</th>
+                <th>Costo</th>
+                <th>Subtotal</th>
+                <th>Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $direction = 'right'?>
+                <tr>
+                    <td><?php echo $cargoconsultaEntity->getCantidad() ?></td>
+                    <td><?php echo "test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre() ?></td>
+                    <td><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion() ?></td>
+                    <td>General</td>
+                    <td><?php echo $cargoconsultaEntity->getCargoconsultaFecha() ?></td>
+                    <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
+                    <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
+                    <td>
+                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                        &nbsp;&nbsp;
+                        <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-assignment"></i></a>
+                        &nbsp;&nbsp;
+                        <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-delete"></i></a>
+                    </td>
+                </tr>
+                <!-- View Modal Structure -->
+                <div id="view-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
+                    <div class="modal-content">
+                        <h4><?php echo "Cargo del paciente: ".$title?></h4>
+                        <div class="row">
+                            <fieldset>
+                                <legend>Datos Generales</legend>
+                                <div class="col s4">
+                                    <div class="label-container">
+                                        <label>Cantidad:</label>
+                                        <p><?php echo$cargoconsultaEntity->getCantidad()?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Artículo:</label>
+                                        <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre()?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Descripción:</label>
+                                        <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion()?></p>
+                                    </div>
+                                </div>
+                                <div class="col s4">
+                                    <div class="label-container">
+                                        <label>Salida:</label>
+                                        <p>General</p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Fecha/hora:</label>
+                                        <p><?php echo $cargoconsultaEntity->getCargoconsultaFecha()?></p>
+                                    </div>
+                                    <div class="label-container">
+                                        <label>Costo:</label>
+                                        <p><?php echo $cargoconsultaEntity->getMonto()?></p>
+                                    </div>
+                                </div>
+                                <div class="col s4">
+                                    <div class="label-container">
+                                        <label>Sub-total:</label>
+                                        <p><?php echo $cargoconsultaEntity->getMonto()?></p>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                        <a href=href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                    </div>
+                </div>
+                <!-- End View Modal Structure -->
+                <!-- Edit Modal Structure -->
+                <div id="edit-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
+                    <div class="modal-content">
+                        <?php $cargoconsultaForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
+                        <?php $cargoconsultaForm->setAttribute('class', 'hva-form');?>
+                        <?php $cargoconsultaForm->prepare();?>
+                        <?php echo $this->form()->openTag($cargoconsultaForm); ?>
+                        <div class="col s4">
+                            <div class="input-field">
+                                <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')->setValue($cargoconsultaForm->getIdconsulta())); ?>
+                            </div>
+                            <div class="input-field">
+                                <?php echo $this->formSelect($cargoconsultaForm->get('idmedico')); ?>
+                                <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idmedico'));
+                                if(!empty($showError)):
+                                    ?>
+                                    <div class="center-align col" style="color: #e57373">
+                                        <i class="mdi-content-report prefix"></i>
+                                    </div>
+                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                        <?php
+                                        echo $showError;
+                                        ?>
+                                    </div>
+                                <?php  endif;?>
+                            </div>
+                        </div>
+                        <div class="col s4 offset-s4">
+                            <div class="input-field">
+                                <?php echo $this->formSelect($consultaForm->get('idconsultorio')); ?>
+                                <?php $showError=$this->formElementErrors($consultaForm->get('idconsultorio'));
+                                if(!empty($showError)):
+                                    ?>
+                                    <div class="center-align col" style="color: #e57373">
+                                        <i class="mdi-content-report prefix"></i>
+                                    </div>
+                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                        <?php
+                                        echo $showError;
+                                        ?>
+                                    </div>
+                                <?php  endif;?>
+                            </div>
+                        </div>
+                        <div class="col s12">
+                            <div class="input-field">
+                                <?php echo $this->formText($consultaForm->get('consulta_fechaadmision')); ?>
+                                <?php echo $this->formLabel($consultaForm->get('consulta_fechaadmision')); ?>
+                                <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fechaadmision'));
+                                if(!empty($showError)):
+                                    ?>
+                                    <div class="center-align col" style="color: #e57373">
+                                        <i class="mdi-content-report prefix"></i>
+                                    </div>
+                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                        <?php
+                                        echo $showError;
+                                        ?>
+                                    </div>
+                                <?php  endif;?>
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <div class="input-field">
+                                <?php echo $this->formText($consultaForm->get('consulta_diagnostico')); ?>
+                                <?php echo $this->formLabel($consultaForm->get('consulta_diagnostico')); ?>
+                                <?php $showError=$this->formElementErrors($consultaForm->get('consulta_diagnostico'));
+                                if(!empty($showError)):
+                                    ?>
+                                    <div class="center-align col" style="color: #e57373">
+                                        <i class="mdi-content-report prefix"></i>
+                                    </div>
+                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                        <?php
+                                        echo $showError;
+                                        ?>
+                                    </div>
+                                <?php  endif;?>
+                            </div>
+                        </div>
+                        <div class="col s6">
+                            <div class="input-field">
+                                <?php echo $this->formText($consultaForm->get('consulta_observaciones')); ?>
+                                <?php echo $this->formLabel($consultaForm->get('consulta_observaciones')); ?>
+                                <?php $showError=$this->formElementErrors($consultaForm->get('consulta_observaciones'));
+                                if(!empty($showError)):
+                                    ?>
+                                    <div class="center-align col" style="color: #e57373">
+                                        <i class="mdi-content-report prefix"></i>
+                                    </div>
+                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                        <?php
+                                        echo $showError;
+                                        ?>
+                                    </div>
+                                <?php  endif;?>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="right col s4">
+                            <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                                <i class="mdi-content-save left"></i>
+                            </button>
+                        </div>
+                        <?php echo $this->form()->closeTag(); ?>
+                    </div>
+                    <!-- End Edit Modal Structure -->
+                    <!-- Delete Modal Structure -->
+                    <div id="delete-modal-cargoconsulta-<?php echo $medico->getIdMedico()?>" class="modal ">
+                        <div class="modal-content" id="delete-modal-container">
+                            <div class="row" id="delete-modal-header-container">
+                                <div class="col s4 offset-s4">
+                                    <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12">
+                                    <p><?php echo "Esta seguro que desea eliminar al Dr. ". $medico->getMedicoNombre(). " ". $medico->getMedicoApellidopaterno(). " ". $medico->getMedicoApellidomaterno(). "?" ?></p>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                            <a href="/catalogos/medico/eliminar/<?php echo $medico->getIdMedico()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+
+                        </div>
+                    </div>
+                    <!-- End Delete Modal Structure -->
+                    <!-- View Modal Structure -->
+                    <div id="nuevo-modal-anticipo-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
+                        <div class="modal-content">
+                            <h4><?php echo "Anticipo del paciente: ".$title?></h4>
+                            <div class="row">
+                                <fieldset>
+                                    <legend>Datos Generales</legend>
+                                    <div class="col s4">
+                                        <div class="label-container">
+                                            <label>Cantidad:</label>
+                                            <p><?php echo$cargoconsultaEntity->getCantidad()?></p>
+                                        </div>
+                                        <div class="label-container">
+                                            <label>Artículo:</label>
+                                            <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre()?></p>
+                                        </div>
+                                        <div class="label-container">
+                                            <label>Descripción:</label>
+                                            <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion()?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col s4">
+                                        <div class="label-container">
+                                            <label>Salida:</label>
+                                            <p>General</p>
+                                        </div>
+                                        <div class="label-container">
+                                            <label>Fecha/hora:</label>
+                                            <p><?php echo $cargoconsultaEntity->getCargoconsultaFecha()?></p>
+                                        </div>
+                                        <div class="label-container">
+                                            <label>Costo:</label>
+                                            <p><?php echo $cargoconsultaEntity->getMonto()?></p>
+                                        </div>
+                                    </div>
+                                    <div class="col s4">
+                                        <div class="label-container">
+                                            <label>Sub-total:</label>
+                                            <p><?php echo $cargoconsultaEntity->getMonto()?></p>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                            <a href=href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                        </div>
+                    </div>
+                    <!-- End View Modal Structure -->
+                     */ ?>
+
+            </tbody>
+        </table>
+        <?php endforeach; ?>
+    </fieldset>
 </div>
+<?php endif; ?>
 <script type="text/javascript">
     $(document).ready(function() {
         $('select').material_select();
         $("#fecha").datepicker();
+
+        //Cargoconsulta
+        $('.modal-trigger').leanModal();
+        $("#tabla-cargoconsulta").tablesorter({headers:{5:{sorter:false}}});
+        $("#tabla-cargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
     });
     function nuevaConsulta() {
         if ($('#consulta').hasClass('hiddendiv')){

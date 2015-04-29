@@ -22,25 +22,27 @@ $this->headTitle($title);
     <tr>
         <th>Nombre</th>
         <th>Descripción</th>
-        <th>Propiedad</th>
-        <th>Valor</th>
+        <th>Costo</th>
+        <th>IVA</th>
+        <th>Precio</th>
         <th>Opciones</th>
     </tr>
     </thead>
     <tbody>
-    <?php $direction = 'right'; ;?>
+    <?php $direction = 'right'?>
     <?php foreach ($productos as $producto) : ?>
         <tr>
-            <td><?php echo $producto->getPropiedad()->getArticulo()->getArticuloNombre() ?></td>
-            <td><?php echo $producto->getPropiedad()->getArticulo()->getArticuloDescripcion() ?></td>
-            <td><?php echo $producto->getPropiedad()->getPropiedadNombre() ?></td>
-            <td><?php echo $producto->getPropiedadvalorNombre() ?></td>
+            <td><?php echo $producto->getArticulo()->getArticuloNombre() ?></td>
+            <td><?php echo $producto->getArticulo()->getArticuloDescripcion() ?></td>
+            <td><?php echo $producto->getArticulovarianteCosto() ?></td>
+            <td><?php echo $producto->getArticulovarianteIva() ?></td>
+            <td><?php echo $producto->getArticulovariantePrecio() ?></td>
             <td>
-                <a class="tooltipped" data-position="left" data-tooltip="Visualizar" href='<?php echo "/catalogos/producto/ver/".$producto->getPropiedad()->getArticulo()->getIdarticulo()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                <a class="tooltipped" data-position="left" data-tooltip="Visualizar" href='<?php echo "/catalogos/producto/ver/".$producto->getIdArticulovariante()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                 &nbsp;&nbsp;
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/producto/editar/".$producto->getPropiedad()->getArticulo()->getIdarticulo()?>'><i class="tiny mdi-action-assignment"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/producto/editar/".$producto->getIdArticulovariante()?>'><i class="tiny mdi-action-assignment"></i></a>
                 &nbsp;&nbsp;
-                <a class="tooltipped" data-position="right" data-tooltip="Eliminar" href='<?php echo "/catalogos/producto/eliminar/".$producto->getPropiedad()->getArticulo()->getIdarticulo()?>'><i class="tiny mdi-action-delete"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Eliminar" href='<?php echo "/catalogos/producto/eliminar/".$producto->getIdArticulovariante()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
     <?php endforeach; ?>
