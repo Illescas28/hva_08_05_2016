@@ -134,6 +134,7 @@ class PacienteController extends AbstractActionController
         $id = (int) $this->params()->fromRoute('id', 0);
         if($id){
             $paciente = PacienteQuery::create()->filterByIdpaciente($id)->findOne();
+            $fechaNacimiento = date('m/d/Y', strtotime($paciente->getPacienteFechanacimiento()));
 
             // Inicio Preparando Form Admision
             // Almacenamos en un array los registros de todos los medicos existentes en la base de datos
@@ -211,6 +212,7 @@ class PacienteController extends AbstractActionController
                         'cargoconsultaForm' => $cargoconsultaForm,
                         'cargoconsultaQuery' => $cargoconsultaQuery,
                         'pacienteEntity' => $paciente,
+                        'edad' => $this->calculaEdad($fechaNacimiento),
                         'consultaQuery' => $consultaQuery,
                         'consultaForm' => $consultaForm,
                         'admisionForm' => $admisionForm,
@@ -244,6 +246,7 @@ class PacienteController extends AbstractActionController
                     $admisionQuery = \AdmisionQuery::create()->filterByIdadmision($admision->getIdadmision())->findOne();
                     return new ViewModel(array(
                         'pacienteEntity' => $paciente,
+                        'edad' => $this->calculaEdad($fechaNacimiento),
                         'admisionQuery' => $admisionQuery,
                         'consultaForm' => $consultaForm,
                         'admisionForm' => $admisionForm,
@@ -279,6 +282,7 @@ class PacienteController extends AbstractActionController
                     $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdcargoconsulta($cargoconsulta->getIdcargoconsulta())->findOne();
                     return new ViewModel(array(
                         'pacienteEntity' => $paciente,
+                        'edad' => $this->calculaEdad($fechaNacimiento),
                         'cargoconsultaQuery' => $cargoconsultaQuery,
                         'consultaForm' => $consultaForm,
                         'admisionForm' => $admisionForm,
@@ -291,7 +295,6 @@ class PacienteController extends AbstractActionController
                 }
             }
 
-            $fechaNacimiento = date('m/d/Y', strtotime($paciente->getPacienteFechanacimiento()));
             return new ViewModel(array(
                 'pacienteEntity' => $paciente,
                 'edad' => $this->calculaEdad($fechaNacimiento),
