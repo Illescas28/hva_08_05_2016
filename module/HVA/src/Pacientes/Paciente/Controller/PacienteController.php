@@ -4,18 +4,21 @@ namespace Pacientes\Paciente\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Validator\Explode;
 use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 //// Form ////
 use Pacientes\Paciente\Form\PacienteForm;
 use Pacientes\Paciente\Form\ConsultaForm;
 use Pacientes\Paciente\Form\AdmisionForm;
-use Pacientes\Paciente\Form\CargoconsultaForm;
+use Pacientes\Cargoconsulta\Form\CargoconsultaForm;
+use Pacientes\Cargoadmision\Form\CargoadmisionForm;
 
 //// Filter ////
 use Pacientes\Paciente\Filter\PacienteFilter;
 use Pacientes\Paciente\Filter\ConsultaFilter;
 use Pacientes\Paciente\Filter\AdmisionFilter;
-use Pacientes\Paciente\Filter\CargoconsultaFilter;
+use Pacientes\Cargoconsulta\Filter\CargoconsultaFilter;
+use Pacientes\Cargoadmision\Filter\CargoadmisionFilter;
 
 //// Propel ////
 use Paciente;
@@ -91,7 +94,6 @@ class PacienteController extends AbstractActionController
         }
 
         return new ViewModel(array(
-            'consultaAdmision' => $consultaAdmision,
             'pacienteForm' => $pacienteForm,
         ));
     }
@@ -175,6 +177,238 @@ class PacienteController extends AbstractActionController
             foreach ($consultaCollection as $consultaEntity){
                 $consultaArray[$consultaEntity->getIdconsulta()] = $consultaEntity->getPaciente()->getPacienteNombre();
             }
+            // Almacenamos en un array los registros de todos los Lugarinventario para obtener el nombre de los productos existentes en la base de datos
+            $lugarinventarioCollection = \LugarinventarioQuery::create()->find();
+            $lugarinventarioArray = array();
+            foreach ($lugarinventarioCollection as $lugarinventarioEntity){
+                $lugarinventarioArray[$lugarinventarioEntity->getIdlugarinventario()] = $lugarinventarioEntity->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre();
+            }
+            //Intanciamos nuestro formulario cargoconsulta y le mandamos por parametro los medicos y consultorios existentes
+            $cargoconsultaForm = new CargoconsultaForm($consultaArray, $lugarinventarioArray);
+            // Fin Preparando Form Cargoconsulta
+
+            // Inicio Preparando Form Cargoadmision
+            // Almacenamos en un array los registros de todos los servicios existentes en la base de datos
+            $servicioCollection = \ServicioQuery::create()->find();
+            $servicioArray = array();
+            foreach ($servicioCollection as $servicioEntity){
+                $servicioArray[$servicioEntity->getIdservicio()] = $servicioEntity->getServicioNombre();
+            }
+            //Intanciamos nuestro formulario cargoadmision y le mandamos por parametro las consultas y servicios
+            $cargoadmisionForm = new CargoadmisionForm($servicioArray);
+            // Fin Preparando Form Cargoadmision
+
+            if ($request->isPost()) { //Si hicieron POST
+                //Instanciamos nuestro filtro
+                $consultaFilter = new ConsultaFilter();
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $consultaForm->setInputFilter($consultaFilter->getInputFilter());
+
+                //Le ponemos los datos a nuestro formulario
+                $consultaForm->setData($request->getPost());
+
+                //Validamos nuestro formulario
+                if($consultaForm->isValid()){
+
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Consulta
+                    foreach ($consultaForm->getData() as $consultaKey => $consultaValue){
+                        $consulta->setByName($consultaKey, $consultaValue, \BasePeer::TYPE_FIELDNAME);
+                        if($consultaKey == 'consulta_fechaadmision'){
+                            $consulta->setConsultaFechaadmision($consultaValue." ".date('H:i:s'));
+                        }
+                        $consulta->setConsultaStatus('no pagada');
+                    }
+                    //Guardamos en nuestra base de datos
+                    $consulta->save();
+
+                    $consultaQuery = \ConsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->findOne()->toArray(BasePeer::TYPE_FIELDNAME);
+                    $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->find();
+
+                    return new JsonModel(array(
+                        'consultaQuery' => $consultaQuery
+                    ));
+                    //Redireccionamos a nuestro list
+                    //return $this->redirect()->toRoute('pacientes');
+                }
+                //Instanciamos nuestro filtro
+                $admisionFilter = new AdmisionFilter();
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $admisionForm->setInputFilter($admisionFilter->getInputFilter());
+
+                //Le ponemos los datos a nuestro formulario
+                $admisionForm->setData($request->getPost());
+
+                //Validamos nuestro formulario
+                if($admisionForm->isValid()){
+
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Cargoadmision
+                    foreach ($admisionForm->getData() as $admisionKey => $admisionValue){
+                        $admision->setByName($admisionKey, $admisionValue, \BasePeer::TYPE_FIELDNAME);
+                    }
+                    //Guardamos en nuestra base de datos
+                    $admision->save();
+
+                    $admisionQuery = \AdmisionQuery::create()->filterByIdadmision($admision->getIdadmision())->findOne();
+                    $cargoadmisionQuery = \CargoadmisionQuery::create()->filterByIdadmision($admision->getIdadmision())->find();
+
+                    return new JsonModel(array(
+                        'admisionQuery' => $admisionQuery
+                    ));
+                    //Redireccionamos a nuestro list
+                    //return $this->redirect()->toRoute('pacientes');
+                }
+
+                //Instanciamos nuestro filtro
+                $cargoconsultaFilter = new CargoconsultaFilter();
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $cargoconsultaForm->setInputFilter($cargoconsultaFilter->getInputFilter());
+
+                //Le ponemos los datos a nuestro formulario
+                $cargoconsultaForm->setData($request->getPost());
+
+                //Validamos nuestro formulario
+                if($cargoconsultaForm->isValid()){
+
+                    //Instanciamos un nuevo objeto de nuestro objeto Paciente
+                    $cargoconsulta = new \Cargoconsulta();
+
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Consulta
+                    foreach ($cargoconsultaForm->getData() as $cargoconsultaKey => $cargoconsultaValue){
+                        $cargoconsulta->setByName($cargoconsultaKey, $cargoconsultaValue, \BasePeer::TYPE_FIELDNAME);
+                    }
+                    // Validar precio, caducidad y existencia de ordencompradetalle
+                    $existencia = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleExistencia();
+                    $caducidad = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleCaducidad();
+                    $precio = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetallePrecio();
+                    $cantidad = $cargoconsulta->getCantidad();
+
+                    if($existencia > 0){
+                        if($caducidad < date('Y-m-d')){
+                            $cargoconsulta->setMonto($request->getPost()->cantidad*$precio);
+                        }
+                    }
+
+                    //Guardamos en nuestra base de datos
+                    $cargoconsulta->save();
+
+                    //Redireccionamos a nuestro list
+                    //return $this->redirect()->toRoute('pacientes');
+                }/* else {
+                    $messageArray = array();
+                    foreach ($cargoconsultaForm->getMessages() as $key => $value){
+                        foreach($value as $val){
+                            //Obtenemos el valor de la columna con error
+                            $message = $key.' '.$val;
+                            array_push($messageArray, $message);
+                        }
+                    }
+                    var_dump($messageArray);
+                    return new ViewModel(array(
+                        'input_error' => $messageArray
+                    ));
+                }*/
+
+                //Instanciamos nuestro filtro
+                $cargoadmisionFilter = new CargoadmisionFilter();
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $cargoadmisionForm->setInputFilter($cargoadmisionFilter->getInputFilter());
+
+                //Le ponemos los datos a nuestro formulario
+                $cargoadmisionForm->setData($request->getPost());
+
+                //Validamos nuestro formulario
+                if($cargoadmisionForm->isValid()){
+
+                    //Instanciamos un nuevo objeto de nuestro objeto Paciente
+                    $cargoadmision = new \Cargoadmision();
+
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Cargoadmision
+                    foreach ($cargoadmisionForm->getData() as $cargoadmisionKey => $cargoadmisionValue){
+                        $cargoadmision->setByName($cargoadmisionKey, $cargoadmisionValue, \BasePeer::TYPE_FIELDNAME);
+                    }
+                    $precio = $cargoadmision->getServicio()->getServicioPrecio();
+
+                    if($existencia > 0){
+                        if($caducidad < date('Y-m-d')){
+                            $cargoadmision->setCargoadmisionMonto($request->getPost()->cargoadmision_cantidad*$precio);
+                        }
+                    }
+
+                    //Guardamos en nuestra base de datos
+                    $cargoadmision->save();
+
+                    //Redireccionamos a nuestro list
+                    //return $this->redirect()->toRoute('pacientes');
+                }
+            }
+
+            return new ViewModel(array(
+                'pacienteEntity' => $paciente,
+                'edad' => $this->calculaEdad($fechaNacimiento),
+                'consultaForm' => $consultaForm,
+                'consultaQuery' => $consultaQuery,
+                'admisionForm' => $admisionForm,
+                'admisionQuery' => $admisionQuery,
+                'cargoconsultaForm' => $cargoconsultaForm,
+                'cargoconsultaQuery' => $cargoconsultaQuery,
+                'cargoadmisionForm' => $cargoadmisionForm,
+                'cargoadmisionuery' => $cargoadmisionQuery,
+            ));
+
+        }else{
+            return $this->redirect()->toRoute('pacientes');
+        }
+    }
+
+    /*
+    public function verAction(){
+
+        $request = $this->getRequest();
+
+        $id = (int) $this->params()->fromRoute('id', 0);
+        if($id){
+            $paciente = PacienteQuery::create()->filterByIdpaciente($id)->findOne();
+            $fechaNacimiento = date('m/d/Y', strtotime($paciente->getPacienteFechanacimiento()));
+
+            // Inicio Preparando Form Admision
+            // Almacenamos en un array los registros de todos los medicos existentes en la base de datos
+            $medicoCollection = \MedicoQuery::create()->find();
+            $medicoArray = array();
+            foreach ($medicoCollection as $medicoEntity){
+                $medicoArray[$medicoEntity->getIdmedico()] = $medicoEntity->getMedicoNombre();
+            }
+            // Almacenamos en un array los registros de todos los cuartos existentes en la base de datos
+            $cuartoCollection = \CuartoQuery::create()->filterByCuartoEnuso(false)->find();
+            $cuartoArray = array();
+            foreach ($cuartoCollection as $cuartoEntity){
+                $cuartoArray[$cuartoEntity->getIdcuarto()] = $cuartoEntity->getCuartoNombre();
+            }
+            //Intanciamos nuestro formulario admision y le mandamos por parametro los medicos y cuartos existentes
+            $admisionForm = new AdmisionForm($medicoArray, $cuartoArray);
+            //Instanciamos un nuevo objeto de nuestro objeto Paciente
+            $admision = new \Admision();
+            // Fin Preparando Form Admision
+
+            // Inicio Preparando Form Consultorio
+            // Almacenamos en un array los registros de todos los consultorios existentes en la base de datos
+            $consultorioCollection = \ConsultorioQuery::create()->filterByConsultorioEnuso(false)->find();
+            $consultorioArray = array();
+            foreach ($consultorioCollection as $consultorioEntity){
+                $consultorioArray[$consultorioEntity->getIdconsultorio()] = $consultorioEntity->getConsultorioNombre();
+            }
+            //Intanciamos nuestro formulario consulta y le mandamos por parametro los medicos y consultorios existentes
+            $consultaForm = new ConsultaForm($medicoArray, $consultorioArray);
+            //Instanciamos un nuevo objeto de nuestro objeto Paciente
+            $consulta = new \Consulta();
+            // Fin Preparando Form Consultorio
+
+            // Inicio Preparando Form Cargoconsulta
+            // Almacenamos en un array los registros de todos los consultorios existentes en la base de datos
+            $consultaCollection = \ConsultaQuery::create()->find();
+            $consultaArray = array();
+            foreach ($consultaCollection as $consultaEntity){
+                $consultaArray[$consultaEntity->getIdconsulta()] = $consultaEntity->getPaciente()->getPacienteNombre();
+            }
             //Intanciamos nuestro formulario cargoconsulta y le mandamos por parametro los medicos y consultorios existentes
             $cargoconsultaForm = new CargoconsultaForm($consultaArray);
             // Fin Preparando Form Cargoconsulta
@@ -208,7 +442,6 @@ class PacienteController extends AbstractActionController
                     $consultaQuery = \ConsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->findOne();
                     $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->find();
                     return new ViewModel(array(
-                        'cargoconsultaFlag' => true,
                         'cargoconsultaForm' => $cargoconsultaForm,
                         'cargoconsultaQuery' => $cargoconsultaQuery,
                         'pacienteEntity' => $paciente,
@@ -300,13 +533,13 @@ class PacienteController extends AbstractActionController
                 'edad' => $this->calculaEdad($fechaNacimiento),
                 'consultaForm' => $consultaForm,
                 'admisionForm' => $admisionForm,
-                'cargoconsultaFlag' => $cargoconsultaFlag,
-                'cargoconsultaQuery' => $cargoconsultaQuery
+                'cargoconsultaForm' => $cargoconsultaForm,
             ));
         }else{
             return $this->redirect()->toRoute('pacientes');
         }
     }
+    */
 
     public function editarAction()
     {

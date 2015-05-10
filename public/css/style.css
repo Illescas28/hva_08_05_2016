@@ -353,3 +353,7 @@ div#property_values i.mdi-action-delete{
 .pointer {
     cursor: pointer;
 }
+.guardado-ajax{
+    margin-top: 30px;
+    width: 50%;
+}

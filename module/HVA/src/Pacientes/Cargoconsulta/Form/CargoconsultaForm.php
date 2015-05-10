@@ -1,11 +1,11 @@
 <?php
-namespace Pacientes\Paciente\Form;
+namespace Pacientes\Cargoconsulta\Form;
 
 use Zend\Form\Form;
 
 class CargoconsultaForm extends Form
 {
-    public function __construct(array $consulta = null)
+    public function __construct(array $consulta = null, array $lugarinventario = null)
     {
         // we want to ignore the name passed
         parent::__construct('CargoconsultaForm');
@@ -20,23 +20,35 @@ class CargoconsultaForm extends Form
                 'empty_option' => 'Seleccione una consulta',
                 'value_options' => $consulta,
             ),
+            'attributes' => array(
+                'id' => 'idconsulta'
+            )
         ));
+        // lugarinventario
         $this->add(array(
             'name' => 'idlugarinventario',
-            'type' => 'Text',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Productos',
+                'empty_option' => 'Seleccione un producto',
+                'value_options' => $lugarinventario,
+            ),
+            'attributes' => array(
+                'id' => 'idlugarinventario'
+            )
         ));
-        $this->add(array(
-            'name' => 'idservicio',
-            'type' => 'Text',
-        ));
+
         $this->add(array(
             'name' => 'cargoconsulta_tipo',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
                 'label' => 'Tipo',
-                'empty_option' => 'Seleccione su estado civil',
+                'empty_option' => 'Seleccione el tipo de gasto',
                 'value_options' => array('articulo' => 'articulo','servicio' => 'servicio'),
             ),
+            'attributes' => array(
+                'id' => 'cargoconsulta_tipo'
+            )
         ));
         $this->add(array(
             'name' => 'cargoconsulta_fecha',
@@ -45,7 +57,7 @@ class CargoconsultaForm extends Form
                 'label' => 'Fecha',
             ),
             'attributes' => array(
-                'id' => 'fecha'
+                'id' => 'cargoconsulta_fecha'
             )
         ));
         $this->add(array(
@@ -54,6 +66,9 @@ class CargoconsultaForm extends Form
             'options' => array(
                 'label' => 'Cantidad',
             ),
+            'attributes' => array(
+                'id' => 'cantidad'
+            )
         ));
         $this->add(array(
             'name' => 'monto',
@@ -61,6 +76,9 @@ class CargoconsultaForm extends Form
             'options' => array(
                 'label' => 'Monto',
             ),
+            'attributes' => array(
+                'id' => 'monto'
+            )
         ));
     }
 }

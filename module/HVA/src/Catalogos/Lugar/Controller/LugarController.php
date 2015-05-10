@@ -159,10 +159,10 @@ class LugarController extends AbstractActionController
             return $this->redirect()->toRoute('lugar');
         }
 
-        $provedorEntity = LugarQuery::create()->filterByIdlugar($id)->findOne();
+        $lugarEntity = LugarQuery::create()->filterByIdlugar($id)->findOne();
         return array(
             'id'    => $id,
-            'lugar' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
+            'lugar' => $lugarEntity->toArray(BasePeer::TYPE_FIELDNAME)
         );
     }
 }

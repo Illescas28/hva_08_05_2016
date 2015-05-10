@@ -20,6 +20,9 @@ class ConsultaForm extends Form
                 'empty_option' => 'Seleccione un medico',
                 'value_options' => $medico,
             ),
+            'attributes' => array(
+                'id' => 'idmedico'
+            )
         ));
         // consultorio
         $this->add(array(
@@ -30,11 +33,17 @@ class ConsultaForm extends Form
                 'empty_option' => 'Seleccione un consultorio',
                 'value_options' => $consultorio,
             ),
+            'attributes' => array(
+                'id' => 'idconsultorio'
+            )
         ));
         // paciente
         $this->add(array(
             'name' => 'idpaciente',
             'type' => 'Hidden',
+            'attributes' => array(
+                'id' => 'idpaciente'
+            )
         ));
 
         $this->add(array(
@@ -44,7 +53,7 @@ class ConsultaForm extends Form
                 'label' => 'Fecha de consulta',
             ),
             'attributes' => array(
-                'id' => 'fecha'
+                'id' => 'consulta_fechaadmision'
             )
         ));
         $this->add(array(
@@ -54,7 +63,7 @@ class ConsultaForm extends Form
                 'label' => 'Fecha de salida',
             ),
             'attributes' => array(
-                'id' => 'fecha'
+                'id' => 'consulta_fechasalida'
             )
         ));
         $this->add(array(
@@ -63,6 +72,9 @@ class ConsultaForm extends Form
             'options' => array(
                 'label' => 'Diagnostico',
             ),
+            'attributes' => array(
+                'id' => 'consulta_diagnostico'
+            )
         ));
         $this->add(array(
             'name' => 'consulta_observaciones',
@@ -70,6 +82,9 @@ class ConsultaForm extends Form
             'options' => array(
                 'label' => 'Observaciones',
             ),
+            'attributes' => array(
+                'id' => 'consulta_observaciones'
+            )
         ));
         $this->add(array(
             'name' => 'consulta_status',
@@ -79,6 +94,9 @@ class ConsultaForm extends Form
                 'empty_option' => 'Seleccione su estado civil',
                 'value_options' => array('pagada' => 'pagada','no pagada' => 'no pagada','pendiente' => 'pendiente'),
             ),
+            'attributes' => array(
+                'id' => 'consulta_status'
+            )
         ));
         $this->add(array(
             'name' => 'consulta_total',
@@ -94,8 +112,10 @@ class ConsultaForm extends Form
             ),
             'options' => array(
                 'label' => 'Consulta Total'
+            ),
+            'attributes' => array(
+                'id' => 'consulta_total'
             )
         ));
-
     }
 }

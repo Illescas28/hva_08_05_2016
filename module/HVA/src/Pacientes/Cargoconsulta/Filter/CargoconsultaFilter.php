@@ -1,6 +1,6 @@
 <?php
 
-namespace Pacientes\Paciente\Filter;
+namespace Pacientes\Cargoconsulta\Filter;
 
 // Add these import statements
 use Zend\InputFilter\InputFilter;
@@ -24,7 +24,7 @@ class CargoconsultaFilter implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $inputFilter->add(array(
-                'name'     => 'idadmision',
+                'name'     => 'idconsulta',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'Int'),
@@ -32,13 +32,6 @@ class CargoconsultaFilter implements InputFilterAwareInterface
             ));
             $inputFilter->add(array(
                 'name'     => 'idlugarinventario',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
-            $inputFilter->add(array(
-                'name'     => 'idservicio',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'Int'),
@@ -70,7 +63,7 @@ class CargoconsultaFilter implements InputFilterAwareInterface
             ));
             $inputFilter->add(array(
                 'name'     => 'monto',
-                'required' => true,
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

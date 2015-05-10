@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `admision`;
 
 CREATE TABLE `admision`
 (
-    `idadmision` INTEGER NOT NULL,
+    `idadmision` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `idmedico` INTEGER NOT NULL,
     `idcuarto` INTEGER NOT NULL,
@@ -413,7 +413,7 @@ DROP TABLE IF EXISTS `consulta`;
 
 CREATE TABLE `consulta`
 (
-    `idconsulta` INTEGER NOT NULL,
+    `idconsulta` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `idmedico` INTEGER NOT NULL,
     `idconsultorio` INTEGER NOT NULL,
