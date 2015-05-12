@@ -221,11 +221,10 @@ class PacienteController extends AbstractActionController
                     //Guardamos en nuestra base de datos
                     $consulta->save();
 
-                    $consultaQuery = \ConsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->findOne()->toArray(BasePeer::TYPE_FIELDNAME);
-                    $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->find();
+                    $consultaArray = \ConsultaQuery::create()->filterByIdconsulta($consulta->getIdconsulta())->findOne()->toArray(BasePeer::TYPE_FIELDNAME);
 
                     return new JsonModel(array(
-                        'consultaQuery' => $consultaQuery
+                        'consultaArray' => $consultaArray,
                     ));
                     //Redireccionamos a nuestro list
                     //return $this->redirect()->toRoute('pacientes');
@@ -280,7 +279,6 @@ class PacienteController extends AbstractActionController
                     $existencia = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleExistencia();
                     $caducidad = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleCaducidad();
                     $precio = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetallePrecio();
-                    $cantidad = $cargoconsulta->getCantidad();
 
                     if($existencia > 0){
                         if($caducidad < date('Y-m-d')){
@@ -290,6 +288,18 @@ class PacienteController extends AbstractActionController
 
                     //Guardamos en nuestra base de datos
                     $cargoconsulta->save();
+
+                    /*
+                    $cargoconsultaArray = \CargoconsultaQuery::create()->filterByIdconsulta($cargoconsulta->getIdconsulta())->find()->toArray(null,false,BasePeer::TYPE_FIELDNAME);
+                    return new JsonModel(array(
+                        'cargoconsultaArray' => $cargoconsultaArray
+                    ));
+                    */
+
+                    $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($cargoconsulta->getIdconsulta())->find();
+                    return new ViewModel(array(
+                        'cargoconsultaQuery' => $cargoconsultaQuery->getArrayCopy()
+                    ));
 
                     //Redireccionamos a nuestro list
                     //return $this->redirect()->toRoute('pacientes');

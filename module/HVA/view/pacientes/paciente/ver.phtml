@@ -370,9 +370,14 @@ $this->headTitle($title);
                     </div>
                     <br>
                     <br>
-                    <div class="right col s12">
+                    <div class="right col s6">
                         <button id="guardarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Agregar a cuenta
                             <i class="mdi-content-save left"></i>
+                        </button>
+                    </div>
+                    <div class="right col s6">
+                        <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn black waves-effect waves-light modal-close" >Salir
+                            <i class="mdi-action-highlight-remove left"></i>
                         </button>
                     </div>
                     <?php echo $this->form()->closeTag(); ?>
@@ -887,8 +892,10 @@ $this->headTitle($title);
             url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
             dataType : 'json',
             data: dataString,
-            success: function(jsonStr) {
-                $("input#idconsulta").val(JSON.stringify(jsonStr.consultaQuery.idconsulta));
+            jsonpCallback: 'callback',
+            success: function(data) {
+                $("input#idconsulta").val(JSON.stringify(data.consultaArray.idconsulta));
+
                 if ($('#cargos').hasClass('hiddendiv')){
                     $('#cargos').removeClass('hiddendiv')
                     $('#botonGuardarConsulta').addClass('hiddendiv')
@@ -897,6 +904,24 @@ $this->headTitle($title);
                 }
             }
         });
+        /*
+        $.ajax({
+            type: "POST",
+            url: "<?php //$this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            dataType : 'json',
+            data: dataString,
+            success: function(jsonStr) {
+                $("input#idconsulta").val(JSON.stringify(jsonStr.consultaArray.idconsulta));
+
+                if ($('#cargos').hasClass('hiddendiv')){
+                    $('#cargos').removeClass('hiddendiv')
+                    $('#botonGuardarConsulta').addClass('hiddendiv')
+                    $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Consulta guardada exitosamente</div>')
+                    $('#cargos').removeClass('hiddendiv')
+                }
+            }
+        });
+        */
 
         return false;
     });
@@ -1029,6 +1054,44 @@ $this->headTitle($title);
         $.ajax({
             type: "POST",
             url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+            //dataType : 'json',
+            data: dataString,
+            //jsonpCallback: 'callback',
+            success: function() {
+                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Cargo guardada exitosamente</div>')
+                //console.log(data.cargoconsultaArray);
+                /*
+                cargoconsultaArray = []
+                var cargoconsultaEntity = data.cargoconsultaArray, $myList = $('#cargoconsultaResult');
+                $.each( cargoconsultaEntity, function( key, value ) {
+                    cargoconsultaArray.push({
+                        "idcargoconsulta" : value.idcargoconsulta,
+                        "idconsulta" : value.idconsulta,
+                        "cargoconsulta_tipo" : value.cargoconsulta_tipo,
+                        "cargoconsulta_fecha" : value.cargoconsulta_fecha,
+                        "cantidad" : value.cantidad,
+                        "monto" : value.monto
+                    });
+                });
+
+                genera_tabla(cargoconsultaArray);
+
+                */
+                if ($('#cargoconsultaResult').hasClass('hiddendiv')){
+                    $('#cargoconsultaResult').removeClass('hiddendiv')
+                }
+
+            },
+            error: function(){
+
+                $('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
+
+            }
+        });
+        /*
+        $.ajax({
+            type: "POST",
+            url: "<?php // $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
             data: dataString,
             success: function() {
                 $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Cargo guardada exitosamente</div>')
@@ -1037,6 +1100,7 @@ $this->headTitle($title);
                 $('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
             }
         });
+        */
 
         return false;
     });
@@ -1108,4 +1172,72 @@ $this->headTitle($title);
 
         return false;
     });
+    function genera_tabla(collection) {
+
+        // Obtener la referencia del elemento body
+        var div = document.getElementById("cargoconsultaResult");
+
+        // Crea un elemento <table> y un elemento <tbody>
+        var tabla   = document.createElement("table");
+        tabla.className = "striped hoverable";
+        var tblHead = document.createElement("thead");
+        var tblBody = document.createElement("tbody");
+
+        var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Costo', 'Subtotal', 'Opciones']
+
+        // Crea las celdas
+        for (var i = 0; i < 1; i++) {
+            // Crea las hileras de la tabla
+            var hilera = document.createElement("tr");
+
+            for (var j = 0; j < thArray.length; j++) {
+                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+                // texto sea el contenido de <td>, ubica el elemento <td> al final
+                // de la hilera de la tabla
+                var celda = document.createElement("th");
+                var textoCelda = document.createTextNode(thArray[j]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+
+            // agrega la hilera al final de la tabla (al final del elemento tblHead)
+            tblHead.appendChild(hilera);
+        }
+
+        // posiciona el <thead> debajo del elemento <tbody>
+        tabla.appendChild(tblHead);
+
+        // Crea las celdas
+        for (var i = 0; i < collection.length; i++) {
+            // Crea las hileras de la tabla
+            var hilera = document.createElement("tr");
+
+            for (var j = 0; j < thArray.length; j++) {
+                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+                // texto sea el contenido de <td>, ubica el elemento <td> al final
+                // de la hilera de la tabla
+                var celda = document.createElement("td");
+                var textoCelda = document.createTextNode(thArray[j]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+
+            // agrega la hilera al final de la tabla (al final del elemento tblbody)
+            tblHead.appendChild(hilera);
+        }
+
+        // posiciona el <tbody> debajo del elemento <table>
+        tabla.appendChild(tblBody);
+
+        // appends <table> into <body>
+        div.appendChild(tabla);
+        // modifica el atributo "border" de la tabla y lo fija a "2";
+        tabla.setAttribute("border", "2");
+
+    }
+
+    function eliminarTabla(){
+        var parrafo = document.getElementById("cargoconsultaResult");
+        parrafo.parentNode.removeChild(parrafo);
+    }
 </script>
