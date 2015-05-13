@@ -385,7 +385,7 @@ $this->headTitle($title);
             </div>
             <!-- End Create Modal Structure -->
             <div id="cargoconsultaResult" class="hiddendiv">
-            <?php if($cargoconsultaQuery) :?>
+            <?php // if($cargoconsultaQuery) :?>
                 <?php foreach ($cargoconsultaQuery as $cargoconsultaEntity) : ?>
                 <?php $total = $cargoconsultaEntity->getMonto()?>
                 <?php $total += $cargoconsultaEntity->getMonto()?>
@@ -614,7 +614,7 @@ $this->headTitle($title);
                     </tbody>
                 </table>
                 <?php endforeach; ?>
-            <?php endif; ?>
+            <?php // endif; ?>
             </div>
             <br>
             <br>
@@ -1054,32 +1054,32 @@ $this->headTitle($title);
         $.ajax({
             type: "POST",
             url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            //dataType : 'json',
+            dataType : 'json',
             data: dataString,
-            //jsonpCallback: 'callback',
-            success: function() {
-                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Cargo guardada exitosamente</div>')
-                //console.log(data.cargoconsultaArray);
-                /*
+            jsonpCallback: 'callback',
+            success: function(data) {
+                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
+                console.log(data.cargoconsultaArray);
+
                 cargoconsultaArray = []
-                var cargoconsultaEntity = data.cargoconsultaArray, $myList = $('#cargoconsultaResult');
+                var cargoconsultaEntity = data.cargoconsultaArray
                 $.each( cargoconsultaEntity, function( key, value ) {
                     cargoconsultaArray.push({
                         "idcargoconsulta" : value.idcargoconsulta,
-                        "idconsulta" : value.idconsulta,
-                        "cargoconsulta_tipo" : value.cargoconsulta_tipo,
-                        "cargoconsulta_fecha" : value.cargoconsulta_fecha,
                         "cantidad" : value.cantidad,
-                        "monto" : value.monto
+                        "articulo" : value.articulo,
+                        "descripcion" : value.descripcion,
+                        "salida" : value.salida,
+                        "fechahora" : value.fechahora,
+                        "costo" : value.costo,
+                        "subtotal" : value.subtotal
                     });
                 });
 
-                genera_tabla(cargoconsultaArray);
-
-                */
                 if ($('#cargoconsultaResult').hasClass('hiddendiv')){
                     $('#cargoconsultaResult').removeClass('hiddendiv')
                 }
+                genera_tabla(cargoconsultaArray);
 
             },
             error: function(){
@@ -1172,14 +1172,35 @@ $this->headTitle($title);
 
         return false;
     });
-    function genera_tabla(collection) {
 
-        // Obtener la referencia del elemento body
+    // Esta función no está en uso
+    function anticipoTotalStatus(cargoconsultaArray){
+        var divRow   = document.createElement("div");
+        divRow.className = "row";
+        var divCols9   = document.createElement("div");
+        divCols9.className = "col s9";
+        var spanTotal   = document.createElement("span");
+        spanTotal.className = "left";
+        var spanAnticipo   = document.createElement("span");
+        spanAnticipo.style = "margin-left: 40px;";
+        var spanStatus   = document.createElement("span");
+        spanStatus.style = "margin-left: 40px;";
+        var divCols3   = document.createElement("div");
+        divCols3.className = "col s3";
+        var a = document.createElement("a");
+        a.className = "tooltipped right";
+        a.setAttribute ( 'data-position', 'right' );
+        a.setAttribute ( 'data-tooltip', 'Editar' );
+        a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+    }
+    function genera_tabla(cargoconsultaArray) {
+
+        // Obtener la referencia del elemento div con id = cargoconsultaResult
         var div = document.getElementById("cargoconsultaResult");
-
+        div.innerHTML = div;
         // Crea un elemento <table> y un elemento <tbody>
         var tabla   = document.createElement("table");
-        tabla.className = "striped hoverable";
+        tabla.className = "hoverable table striped";
         var tblHead = document.createElement("thead");
         var tblBody = document.createElement("tbody");
 
@@ -1208,7 +1229,7 @@ $this->headTitle($title);
         tabla.appendChild(tblHead);
 
         // Crea las celdas
-        for (var i = 0; i < collection.length; i++) {
+        for (var i = 0; i < cargoconsultaArray.length; i++) {
             // Crea las hileras de la tabla
             var hilera = document.createElement("tr");
 
@@ -1217,9 +1238,72 @@ $this->headTitle($title);
                 // texto sea el contenido de <td>, ubica el elemento <td> al final
                 // de la hilera de la tabla
                 var celda = document.createElement("td");
-                var textoCelda = document.createTextNode(thArray[j]);
-                celda.appendChild(textoCelda);
-                hilera.appendChild(celda);
+
+                if(j == 0){
+                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                    celda.appendChild(textoCelda);
+                    hilera.appendChild(celda);
+                }
+                if(j == 1){
+                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                    celda.appendChild(textoCelda);
+                    hilera.appendChild(celda);
+                }
+                if(j == 2){
+                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                    celda.appendChild(textoCelda);
+                    hilera.appendChild(celda);
+                }
+                if(j == 3){
+                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                    celda.appendChild(textoCelda);
+                    hilera.appendChild(celda);
+                }
+                if(j == 4){
+                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                    celda.appendChild(textoCelda);
+                    hilera.appendChild(celda);
+                }
+                if(j == 5){
+                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                    celda.appendChild(textoCelda);
+                    hilera.appendChild(celda);
+                }
+                if(j == 6){
+                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                    celda.appendChild(textoCelda);
+                    hilera.appendChild(celda);
+                }
+                if(j == 7){
+                    var link1 = document.createElement("a");
+                    link1.className = "tooltipped modal-trigger";
+                    link1.setAttribute ( 'data-position', 'left' );
+                    link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                    link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                    var vista = document.createElement("i");
+                    vista.className = "tiny mdi-image-remove-red-eye";
+                    var link2 = document.createElement("a");
+                    link2.className = "tooltipped";
+                    link2.setAttribute ( 'data-position', 'right' );
+                    link2.setAttribute ( 'data-tooltip', 'Editar' );
+                    link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                    var editar = document.createElement("i");
+                    editar.className = "tiny mdi-action-assignment";
+                    var link3 = document.createElement("a");
+                    link3.className = "tooltipped";
+                    link3.setAttribute ( 'data-position', 'right' );
+                    link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                    link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                    var eliminar = document.createElement("i");
+                    eliminar.className = "tiny mdi-action-delete";
+                    celda.appendChild(link1);
+                    celda.appendChild(vista);
+                    celda.appendChild(link2);
+                    celda.appendChild(editar);
+                    celda.appendChild(link3);
+                    celda.appendChild(eliminar);
+                    hilera.appendChild(celda);
+                }
             }
 
             // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -1231,8 +1315,6 @@ $this->headTitle($title);
 
         // appends <table> into <body>
         div.appendChild(tabla);
-        // modifica el atributo "border" de la tabla y lo fija a "2";
-        tabla.setAttribute("border", "2");
 
     }
 
