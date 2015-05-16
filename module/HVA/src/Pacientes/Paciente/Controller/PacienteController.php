@@ -183,6 +183,7 @@ class PacienteController extends AbstractActionController
             foreach ($lugarinventarioCollection as $lugarinventarioEntity){
                 $lugarinventarioArray[$lugarinventarioEntity->getIdlugarinventario()] = $lugarinventarioEntity->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre();
             }
+
             //Intanciamos nuestro formulario cargoconsulta y le mandamos por parametro los medicos y consultorios existentes
             $cargoconsultaForm = new CargoconsultaForm($consultaArray, $lugarinventarioArray);
             // Fin Preparando Form Cargoconsulta
@@ -273,7 +274,9 @@ class PacienteController extends AbstractActionController
 
                     //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Consulta
                     foreach ($cargoconsultaForm->getData() as $cargoconsultaKey => $cargoconsultaValue){
-                        $cargoconsulta->setByName($cargoconsultaKey, $cargoconsultaValue, \BasePeer::TYPE_FIELDNAME);
+                        if($cargoconsultaKey != 'cargoconsulta_by'){
+                            $cargoconsulta->setByName($cargoconsultaKey, $cargoconsultaValue, \BasePeer::TYPE_FIELDNAME);
+                        }
                     }
                     // Validar precio, caducidad y existencia de ordencompradetalle
                     $existencia = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleExistencia();
@@ -298,7 +301,7 @@ class PacienteController extends AbstractActionController
                                 'cantidad' => $cargoconsultaEntity->getCantidad(),
                                 'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
                                 'descripcion' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloDescripcion(),
-                                'salida' => 'General',
+                                'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
                                 'fechahora' => date('Y-m-d H:i:s'),
                                 'costo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetallePrecio(),
                                 'subtotal' => $cargoconsultaEntity->getMonto(),

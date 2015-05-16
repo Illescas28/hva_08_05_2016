@@ -5,11 +5,37 @@ use Zend\Form\Form;
 
 class CargoconsultaForm extends Form
 {
-    public function __construct(array $consulta = null, array $lugarinventario = null)
+    public function __construct(array $busqueda = null,array $consulta = null, array $lugarinventario = null)
     {
         // we want to ignore the name passed
         parent::__construct('CargoconsultaForm');
         $this->setAttribute('method', 'post');
+
+        // Inicio columnas adicionales
+        // busqueda
+        $this->add(array(
+            'name' => 'busqueda',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Busqueda',
+            ),
+            'attributes' => array(
+                'id' => 'busqueda'
+            )
+        ));
+        $this->add(array(
+            'name' => 'cargoconsulta_by',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Tipo',
+                'empty_option' => 'Buscar por',
+                'value_options' => array('nombre' => 'nombre', 'código de barras' => 'código de barras', 'provedor' => 'provedor'),
+            ),
+            'attributes' => array(
+                'id' => 'cargoconsulta_by'
+            )
+        ));
+        // Fin columnas adicionales
 
         // consulta
         $this->add(array(
