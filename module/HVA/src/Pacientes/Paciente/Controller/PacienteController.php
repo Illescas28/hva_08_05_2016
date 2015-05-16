@@ -186,6 +186,28 @@ class PacienteController extends AbstractActionController
 
             //Intanciamos nuestro formulario cargoconsulta y le mandamos por parametro los medicos y consultorios existentes
             $cargoconsultaForm = new CargoconsultaForm($consultaArray, $lugarinventarioArray);
+
+            if($request->getPost()->cargoconsulta_by == 'nombre'){
+
+                $cargoconsultaQuery = \CargoconsultaQuery::create()->find();
+                if($cargoconsultaQuery->getArrayCopy()){
+                    $cargoconsultaArray = array();
+                    foreach($cargoconsultaQuery as $cargoconsultaEntity){
+                        $cargoconsulta = array(
+                            'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                            'ordencompradetalle_existencia' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleExistencia(),
+                            'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
+                            'descripcion' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloDescripcion(),
+                            'costo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetallePrecio(),
+                            'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
+                        );
+                        array_push($cargoconsultaArray, $cargoconsulta);
+                    }
+                }
+                return new JsonModel(array(
+                    'cargoconsultaArray' => $cargoconsultaArray
+                ));
+            }
             // Fin Preparando Form Cargoconsulta
 
             // Inicio Preparando Form Cargoadmision
