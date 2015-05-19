@@ -300,25 +300,13 @@ $this->headTitle($title);
                                 <div id="busquedaCargoconsulta" class="col s6">
                                     <div class="input-field col s4 left" id="search-container">
                                         <i class="mdi-action-search prefix"></i>
-                                        <input id="icon_prefix" type="text">
-                                        <label for="icon_prefix">Buscar</label>
+                                        <?php echo $this->formText($cargoconsultaForm->get('busqueda')); ?>
+                                        <?php echo $this->formLabel($cargoconsultaForm->get('busqueda')); ?>
                                     </div>
                                     <div class="col s4">
                                         <div class="input-field">
                                             <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsulta_by')); ?>
                                             <span class="red-text hidden" for="cargoconsulta_by" id="cargoconsulta_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                            <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idlugarinventario'));
-                                            if(!empty($showError)):
-                                                ?>
-                                                <div class="center-align col" style="color: #e57373">
-                                                    <i class="mdi-content-report prefix"></i>
-                                                </div>
-                                                <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                                    <?php
-                                                    echo $showError;
-                                                    ?>
-                                                </div>
-                                            <?php  endif;?>
                                         </div>
                                     </div>
                                     <div class="right col s4">
@@ -326,10 +314,10 @@ $this->headTitle($title);
                                             <i class="mdi-action-search left"></i>
                                         </button>
                                     </div>
-                                    <div class="col s12">
-                                        <fieldset id="fieldsetCargoconsulta">
+                                    <div id="fieldsetCargoconsulta" class="col s12 hiddendiv">
+                                        <fieldset>
                                             <legend>Artículo</legend>
-                                            <div class="right col s3 hiddendiv">
+                                            <div id="botonGuardarCargoconsulta" class="right col s3 hiddendiv">
                                                 <button id="guardarCargoconsulta" style="width: 100%; margin-top: 5px;" class="btn waves-effect waves-light" type="submit">Agregar</button>
                                             </div>
                                             <?php echo $this->form()->closeTag(); ?>
@@ -337,7 +325,7 @@ $this->headTitle($title);
                                         <br>
                                         <br>
                                     </div>
-                                    <div id="tablaCargoconsulta" class="col s6">
+                                    <div id="tablaCargoconsulta" class="col s12">
 
                                     </div>
                                 </div>
@@ -862,6 +850,8 @@ $this->headTitle($title);
         $('.modal-trigger').leanModal();
         $("#tabla-cargoconsulta").tablesorter({headers:{5:{sorter:false}}});
         $("#tabla-cargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
+        $("#tablaCargoconsulta").tablesorter({headers:{5:{sorter:false}}});
+        $("#tablaCargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
     });
     function nuevaConsulta() {
         if ($('#consulta').hasClass('hiddendiv')){
@@ -1050,6 +1040,9 @@ $this->headTitle($title);
     $("#buscarCargoconsulta").click(function() {
 
         //Obtenemos el valor del selector de lugarinventario
+        var busqueda = $("input#busqueda").val();
+
+        //Obtenemos el valor del selector de lugarinventario
         var cargoconsulta_by = $("select#cargoconsulta_by").val();
         //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
         if (cargoconsulta_by == "") {
@@ -1064,7 +1057,7 @@ $this->headTitle($title);
         }
 
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'cargoconsulta_by=' + cargoconsulta_by;
+        var dataString = 'cargoconsulta_by=' + cargoconsulta_by + '&busqueda=' + busqueda ;
 
         $.ajax({
             type: "POST",
@@ -1073,12 +1066,13 @@ $this->headTitle($title);
             data: dataString,
             jsonpCallback: 'callback',
             success: function(data) {
-                console.log(data.cargoconsultaArray);
+                console.log(data.ordencompradetalleArray);
 
-                cargoconsultaArray = []
-                var cargoconsultaEntity = data.cargoconsultaArray
-                $.each( cargoconsultaEntity, function( key, value ) {
-                    cargoconsultaArray.push({
+                ordencompradetalleArray = []
+                var ordencompradetalleEntity = data.ordencompradetalleArray
+                $.each( ordencompradetalleEntity, function( key, value ) {
+                    ordencompradetalleArray.push({
+                        "idordencompradetalle" : value.idordencompradetalle,
                         "ordencompradetalle_existencia" : value.ordencompradetalle_existencia,
                         "articulo" : value.articulo,
                         "descripcion" : value.descripcion,
@@ -1087,10 +1081,10 @@ $this->headTitle($title);
                     });
                 });
 
-                if ($('#guardarCargoconsulta').hasClass('hiddendiv')){
-                    $('#guardarCargoconsulta').removeClass('hiddendiv')
+                if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
+                    $('#fieldsetCargoconsulta').removeClass('hiddendiv')
                 }
-                generaTablaBuscarConsulta(cargoconsultaArray);
+                generaTablaBuscarConsulta(ordencompradetalleArray);
 
             },
             error: function(){
@@ -1102,17 +1096,17 @@ $this->headTitle($title);
         return false;
     });
 
-    function generaTablaBuscarConsulta(cargoconsultaArray) {
+    function generaTablaBuscarConsulta(ordencompradetalleArray) {
 
         // Obtener la referencia del elemento div con id = tablaCargoconsulta
         var div = document.getElementById("tablaCargoconsulta");
         div.innerHTML = div;
-        // Crea un elemento <table> y un elemento <tbody>
+        // Crea un elemento <table> y un elemento <thead> y <tbody>
         var tabla   = document.createElement("table");
-        tabla.className = "hoverable table striped";
+        tabla.className = "hoverable striped";
         var tblHead = document.createElement("thead");
         var tblBody = document.createElement("tbody");
-        var thArray = ['Existencias', 'Articulo', 'Descripción', 'Costo', 'Salida', 'Opciones']
+        var thArray = ['Existencias', 'Articulo', 'Descripción', 'Costo', 'Salida']
 
         // Crea las celdas
         for (var i = 0; i < 1; i++) {
@@ -1120,8 +1114,8 @@ $this->headTitle($title);
             var hilera = document.createElement("tr");
 
             for (var j = 0; j < thArray.length; j++) {
-                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
-                // texto sea el contenido de <td>, ubica el elemento <td> al final
+                // Crea un elemento <th> y un nodo de texto, haz que el nodo de
+                // texto sea el contenido de <th>, ubica el elemento <th> al final
                 // de la hilera de la tabla
                 var celda = document.createElement("th");
                 var textoCelda = document.createTextNode(thArray[j]);
@@ -1133,85 +1127,59 @@ $this->headTitle($title);
             tblHead.appendChild(hilera);
         }
 
-        // posiciona el <thead> debajo del elemento <tbody>
+        // posiciona el <thead> debajo del elemento <table>
         tabla.appendChild(tblHead);
 
         // Crea las celdas
-        for (var i = 0; i < cargoconsultaArray.length; i++) {
+        for (var i = 0; i < ordencompradetalleArray.length; i++) {
             // Crea las hileras de la tabla
             var hilera = document.createElement("tr");
+            hilera.className = "pointer";
+            // Le agregamos un id a la entidad <th
+            hilera.setAttribute('id', 'entidad-' + ordencompradetalleArray[i]["idordencompradetalle"])
 
             for (var j = 0; j < thArray.length; j++) {
+
                 // Crea un elemento <td> y un nodo de texto, haz que el nodo de
                 // texto sea el contenido de <td>, ubica el elemento <td> al final
                 // de la hilera de la tabla
                 var celda = document.createElement("td");
 
                 if(j == 0){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["ordencompradetalle_existencia"]);
+                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["ordencompradetalle_existencia"]);
                     celda.appendChild(textoCelda);
                     hilera.appendChild(celda);
                 }
                 if(j == 1){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["articulo"]);
                     celda.appendChild(textoCelda);
                     hilera.appendChild(celda);
                 }
                 if(j == 2){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["descripcion"]);
                     celda.appendChild(textoCelda);
                     hilera.appendChild(celda);
                 }
                 if(j == 3){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                    var textoCelda = document.createTextNode("$"+ordencompradetalleArray[i]["costo"]);
                     celda.appendChild(textoCelda);
                     hilera.appendChild(celda);
                 }
                 if(j == 4){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["salida"]);
                     celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 5){
-                    var link1 = document.createElement("a");
-                    link1.className = "tooltipped modal-trigger";
-                    link1.setAttribute ( 'data-position', 'left' );
-                    link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                    link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                    var vista = document.createElement("i");
-                    vista.className = "tiny mdi-image-remove-red-eye";
-                    var link2 = document.createElement("a");
-                    link2.className = "tooltipped";
-                    link2.setAttribute ( 'data-position', 'right' );
-                    link2.setAttribute ( 'data-tooltip', 'Editar' );
-                    link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                    var editar = document.createElement("i");
-                    editar.className = "tiny mdi-action-assignment";
-                    var link3 = document.createElement("a");
-                    link3.className = "tooltipped";
-                    link3.setAttribute ( 'data-position', 'right' );
-                    link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                    link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                    var eliminar = document.createElement("i");
-                    eliminar.className = "tiny mdi-action-delete";
-                    celda.appendChild(link1);
-                    celda.appendChild(vista);
-                    celda.appendChild(link2);
-                    celda.appendChild(editar);
-                    celda.appendChild(link3);
-                    celda.appendChild(eliminar);
                     hilera.appendChild(celda);
                 }
             }
 
             // agrega la hilera al final de la tabla (al final del elemento tblbody)
-            tblHead.appendChild(hilera);
+            tblBody.appendChild(hilera);
         }
 
         // posiciona el <tbody> debajo del elemento <table>
         tabla.appendChild(tblBody);
 
-        // appends <table> into <body>
+        // appends <table> into <div>
         div.appendChild(tabla);
 
     }
@@ -1305,19 +1273,6 @@ $this->headTitle($title);
 
             }
         });
-        /*
-        $.ajax({
-            type: "POST",
-            url: "<?php // $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            data: dataString,
-            success: function() {
-                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Cargo guardada exitosamente</div>')
-            },
-            error: function(){
-                $('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
-            }
-        });
-        */
 
         return false;
     });
@@ -1524,7 +1479,7 @@ $this->headTitle($title);
             }
 
             // agrega la hilera al final de la tabla (al final del elemento tblbody)
-            tblHead.appendChild(hilera);
+            tblBody.appendChild(hilera);
         }
 
         // posiciona el <tbody> debajo del elemento <table>

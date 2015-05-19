@@ -29,7 +29,7 @@ class CargoconsultaForm extends Form
             'options' => array(
                 'label' => 'Tipo',
                 'empty_option' => 'Buscar por',
-                'value_options' => array('nombre' => 'nombre', 'código de barras' => 'código de barras', 'provedor' => 'provedor'),
+                'value_options' => array('nombre' => 'nombre', 'código de barras' => 'código de barras', 'proveedor' => 'proveedor'),
             ),
             'attributes' => array(
                 'id' => 'cargoconsulta_by'
