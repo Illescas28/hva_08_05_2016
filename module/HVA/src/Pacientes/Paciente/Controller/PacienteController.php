@@ -193,11 +193,11 @@ class PacienteController extends AbstractActionController
                     if($request->getPost()->busqueda != null){
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()
                             ->useArticulovarianteQuery()
-                                ->useArticuloQuery()
-                                    ->filterBy(BasePeer::translateFieldname('articulo', 'articulo_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busqueda.'%', \Criteria::LIKE)
-                                ->endUse()
+                            ->useArticuloQuery()
+                            ->filterBy(BasePeer::translateFieldname('articulo', 'articulo_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busqueda.'%', \Criteria::LIKE)
                             ->endUse()
-                        ->find();
+                            ->endUse()
+                            ->find();
                     }else{
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()->find();
                     }
@@ -206,7 +206,7 @@ class PacienteController extends AbstractActionController
                     if($request->getPost()->busqueda != null){
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()
                             ->useArticulovarianteQuery()
-                                ->filterBy(BasePeer::translateFieldname('articulovariante', 'articulovariante_codigobarras', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busqueda.'%', \Criteria::LIKE)
+                            ->filterBy(BasePeer::translateFieldname('articulovariante', 'articulovariante_codigobarras', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busqueda.'%', \Criteria::LIKE)
                             ->endUse()
                             ->find();
                     }else{
@@ -217,67 +217,47 @@ class PacienteController extends AbstractActionController
                     if($request->getPost()->busqueda != null){
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()
                             ->useOrdencompraQuery()
-                                ->useProveedorQuery()
-                                    ->filterBy(BasePeer::translateFieldname('proveedor', 'proveedor_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busqueda.'%', \Criteria::LIKE)
-                                ->endUse()
+                            ->useProveedorQuery()
+                            ->filterBy(BasePeer::translateFieldname('proveedor', 'proveedor_nombre', BasePeer::TYPE_FIELDNAME, BasePeer::TYPE_PHPNAME), '%'.$request->getPost()->busqueda.'%', \Criteria::LIKE)
+                            ->endUse()
                             ->endUse()
                             ->find();
                     }else{
                         $ordencompradetalleQuery = \OrdencompradetalleQuery::create()->find();
                     }
                 }
-                /*
+
                 if($ordencompradetalleQuery->getArrayCopy()){
                     $ordencompradetalleArray = array();
+                    $lugarNombre = null;
                     foreach($ordencompradetalleQuery as $ordencompradetalleEntity){
-                        $lugarinventario = \LugarinventarioQuery::create()->filterByIdordencompradetalle($ordencompradetalleEntity->getIdordencompradetalle())->find();
-                        $lugarinventarioNombreArray = array();
-                        foreach($lugarinventario as $lugarinventarioEntity){
-                            $lugarinventarioNombre = $lugarinventarioEntity->getLugar()->getLugarNombre();
-                            array_push($lugarinventarioNombreArray, $lugarinventarioNombre);
-                        }
-                        $propiedad = \PropiedadQuery::create()->filterByIdarticulo($ordencompradetalleEntity->getArticulovariante()->getIdarticulo())->find();
-                        $propiedadNombreArray = array();
-                        foreach($propiedad as $propiedadEntity){
-                            $propiedadNombre = $propiedadEntity->getPropiedadNombre();
-                            $propiedadvalor = \PropiedadvalorQuery::create()->filterByIdarticulo($ordencompradetalleEntity->getArticulovariante()->getIdarticulo())->filterByIdpropiedad($propiedadEntity->getIdpropiedad())->find();
-                            $propiedadvalorNombreArray = array();
-                            foreach($propiedadvalor as $propiedadvalorEntity){
-                                $propiedadvalorNombre = $propiedadvalorEntity->getPropiedadvalorNombre();
-                                array_push($propiedadvalorNombreArray, $propiedadvalorNombre);
+                        foreach($ordencompradetalleEntity->getLugarinventarios()->getArrayCopy() as $lugarinventarioEntity){
+                            $lugarNombre = $lugarinventarioEntity->getLugar()->getLugarNombre();
+                            $lugarinventarioCantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
+                            $articuloNombre = $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre();
+
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                $propiedadNombre = $propiedadQuery->getPropiedadNombre();
                             }
-                            array_push($propiedadNombreArray, $propiedadNombre);
+                            foreach($ordencompradetalleEntity->getArticulovariante()->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                            }
                         }
                         $ordencompradetalle = array(
                             'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
-                            'ordencompradetalle_existencia' => $ordencompradetalleEntity->getOrdencompradetalleExistencia(),
-                            'articulo' => $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                            'descripcion' => utf8_encode($propiedad->getPropiedadNombre()." ".$propiedadvalor->getPropiedadvalorNombre()),
+                            'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
+                            'existencia' => $lugarinventarioCantidad,
+                            'articulo' => $articuloNombre,
+                            'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
                             'costo' => $ordencompradetalleEntity->getOrdencompradetallePrecio(),
-                            'salida' => $lugarinventario->getLugar()->getLugarNombre(),
+                            'salida' => $lugarNombre,
                         );
                         array_push($ordencompradetalleArray, $ordencompradetalle);
                     }
                 }
-                */
-                if($ordencompradetalleQuery->getArrayCopy()){
-                    $ordencompradetalleArray = array();
-                    foreach($ordencompradetalleQuery as $ordencompradetalleEntity){
-                        $idordencompradetalle = $ordencompradetalleEntity->getIdordencompradetalle();
-                        $lugarinventario = \LugarinventarioQuery::create()->filterByIdordencompradetalle($idordencompradetalle)->findOne();
-                        $propiedad = \PropiedadQuery::create()->filterByIdarticulo($ordencompradetalleEntity->getArticulovariante()->getIdarticulo())->findOne();
-                        $propiedadvalor = \PropiedadvalorQuery::create()->filterByIdarticulo($ordencompradetalleEntity->getArticulovariante()->getIdarticulo())->filterByIdpropiedad($propiedad->getIdpropiedad())->findOne();
-                        $ordencompradetalle = array(
-                            'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
-                            'ordencompradetalle_existencia' => $ordencompradetalleEntity->getOrdencompradetalleExistencia(),
-                            'articulo' => $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                            'descripcion' => utf8_encode($propiedad->getPropiedadNombre()." ".$propiedadvalor->getPropiedadvalorNombre()),
-                            'costo' => $ordencompradetalleEntity->getOrdencompradetallePrecio(),
-                            'salida' => $lugarinventario->getLugar()->getLugarNombre(),
-                        );
-                        array_push($ordencompradetalleArray, $ordencompradetalle);
-                    }
-                }
+
                 return new JsonModel(array(
                     'ordencompradetalleArray' => $ordencompradetalleArray
                 ));

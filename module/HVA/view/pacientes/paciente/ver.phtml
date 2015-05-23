@@ -296,41 +296,43 @@ $this->headTitle($title);
                         <div class="input-field">
                             <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
                         </div>
-                            <div id="modalCargoconsulta" class="row">
-                                <div id="busquedaCargoconsulta" class="col s6">
-                                    <div class="input-field col s4 left" id="search-container">
-                                        <i class="mdi-action-search prefix"></i>
-                                        <?php echo $this->formText($cargoconsultaForm->get('busqueda')); ?>
-                                        <?php echo $this->formLabel($cargoconsultaForm->get('busqueda')); ?>
-                                    </div>
-                                    <div class="col s4">
-                                        <div class="input-field">
-                                            <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsulta_by')); ?>
-                                            <span class="red-text hidden" for="cargoconsulta_by" id="cargoconsulta_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                        </div>
-                                    </div>
-                                    <div class="right col s4">
-                                        <button id="buscarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar
-                                            <i class="mdi-action-search left"></i>
-                                        </button>
-                                    </div>
-                                    <div id="fieldsetCargoconsulta" class="col s12 hiddendiv">
-                                        <fieldset>
-                                            <legend>Artículo</legend>
-                                            <div id="botonGuardarCargoconsulta" class="right col s3 hiddendiv">
-                                                <button id="guardarCargoconsulta" style="width: 100%; margin-top: 5px;" class="btn waves-effect waves-light" type="submit">Agregar</button>
-                                            </div>
-                                            <?php echo $this->form()->closeTag(); ?>
-                                        </fieldset>
-                                        <br>
-                                        <br>
-                                    </div>
-                                    <div id="tablaCargoconsulta" class="col s12">
-
+                        <div id="modalCargoconsulta" class="row">
+                            <div id="busquedaCargoconsulta" class="col s6">
+                                <div class="input-field col s4 left" id="search-container">
+                                    <i class="mdi-action-search prefix"></i>
+                                    <?php echo $this->formText($cargoconsultaForm->get('busqueda')); ?>
+                                    <?php echo $this->formLabel($cargoconsultaForm->get('busqueda')); ?>
+                                </div>
+                                <div class="col s4">
+                                    <div class="input-field">
+                                        <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsulta_by')); ?>
+                                        <span class="red-text hidden" for="cargoconsulta_by" id="cargoconsulta_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
                                     </div>
                                 </div>
+                                <div class="right col s4">
+                                    <button id="buscarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar
+                                        <i class="mdi-action-search left"></i>
+                                    </button>
+                                </div>
+                                <div id="fieldsetCargoconsulta" class="col s12 hiddendiv">
+                                    <fieldset>
+                                        <legend>Artículo</legend>
+                                        <div id="fieldsetCargoconsultaEntity" class="left col s9">
+                                            <!-- Aquí agregamos los elementos con javascript -->
+                                        </div>
+                                        <div id="botonGuardarCargoconsulta" class="right col s3"  style="margin-top: 70px;">
+                                            <button id="guardarCargoconsulta" style="width: 100%;" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                                        </div>
+                                        <?php echo $this->form()->closeTag(); ?>
+                                    </fieldset>
+                                    <br>
+                                    <br>
+                                </div>
+                                <div id="tablaCargoconsulta" class="col s12">
+
+                                </div>
                             </div>
-                        <?php /*
+                        </div>
                         <div class="col s6">
                             <div class="input-field">
                                 <?php echo $this->formSelect($cargoconsultaForm->get('idlugarinventario')); ?>
@@ -415,7 +417,6 @@ $this->headTitle($title);
                             </button>
                         </div>
                         <?php echo $this->form()->closeTag(); ?>
-                        */?>
                     </div>
                 </div>
             </div>
@@ -1073,22 +1074,53 @@ $this->headTitle($title);
                 $.each( ordencompradetalleEntity, function( key, value ) {
                     ordencompradetalleArray.push({
                         "idordencompradetalle" : value.idordencompradetalle,
-                        "ordencompradetalle_existencia" : value.ordencompradetalle_existencia,
+                        "caducidad" : value.ordencompradetalle_caducidad,
+                        "existencia" : value.existencia,
                         "articulo" : value.articulo,
                         "descripcion" : value.descripcion,
                         "costo" : value.costo,
-                        "salida" : value.salida,
+                        "salida" : value.salida
                     });
                 });
 
-                if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
-                    $('#fieldsetCargoconsulta').removeClass('hiddendiv')
-                }
+                // Creamos nuestra tabla de colecciones
                 generaTablaBuscarConsulta(ordencompradetalleArray);
 
+                // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
+                $.each(ordencompradetalleArray, function(keys, values){
+                    // Si dan clic a una entidad de la colección
+                    $("#entidad-"+values.idordencompradetalle).click(function(){
+                        if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
+                            $('#fieldsetCargoconsulta').removeClass('hiddendiv')
+                        }
+                        var br   = document.createElement("br");
+                        var br2   = document.createElement("br");
+                        var br3   = document.createElement("br");
+                        var br4   = document.createElement("br");
+                        var br5   = document.createElement("br");
+                        var div = document.getElementById("fieldsetCargoconsultaEntity");
+                        div.innerHTML = div;
+                        var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
+                        var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
+                        var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
+                        var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                        var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
+                        var textoCantidad = document.createTextNode("Cantidad: ");
+                        div.appendChild(textoArticulo);
+                        div.appendChild(br);
+                        div.appendChild(textoDescripcion);
+                        div.appendChild(br2);
+                        div.appendChild(textoCaducidad);
+                        div.appendChild(br3);
+                        div.appendChild(textoDisponibleEn);
+                        div.appendChild(br4);
+                        div.appendChild(textoExistencia);
+                        div.appendChild(br5);
+                        div.appendChild(textoCantidad);
+                    });
+                });
             },
             error: function(){
-
                 $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
             }
         });
@@ -1135,7 +1167,7 @@ $this->headTitle($title);
             // Crea las hileras de la tabla
             var hilera = document.createElement("tr");
             hilera.className = "pointer";
-            // Le agregamos un id a la entidad <th
+            // Le agregamos un id a la entidad <th>
             hilera.setAttribute('id', 'entidad-' + ordencompradetalleArray[i]["idordencompradetalle"])
 
             for (var j = 0; j < thArray.length; j++) {
@@ -1146,7 +1178,7 @@ $this->headTitle($title);
                 var celda = document.createElement("td");
 
                 if(j == 0){
-                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["ordencompradetalle_existencia"]);
+                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["existencia"]);
                     celda.appendChild(textoCelda);
                     hilera.appendChild(celda);
                 }
@@ -1181,8 +1213,9 @@ $this->headTitle($title);
 
         // appends <table> into <div>
         div.appendChild(tabla);
-
     }
+
+
 
     $("#guardarCargoconsulta").click(function() {
 
@@ -1236,6 +1269,7 @@ $this->headTitle($title);
         //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
         var dataString = 'idconsulta=' + idconsulta + '&idlugarinventario=' + idlugarinventario + '&cargoconsulta_tipo=' + cargoconsulta_tipo + '&cargoconsulta_fecha=' + cargoconsulta_fecha + '&cantidad=' + cantidad;
 
+        alert(dataString)
         $.ajax({
             type: "POST",
             url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
@@ -1268,9 +1302,8 @@ $this->headTitle($title);
 
             },
             error: function(){
-
-                $('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
-
+                //$('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
+                $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar agregar</div>')
             }
         });
 
