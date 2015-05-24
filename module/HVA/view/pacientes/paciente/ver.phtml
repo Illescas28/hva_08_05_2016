@@ -5,532 +5,341 @@ $this->headTitle($title);
 
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div>
-    <fieldset>
-        <legend>Datos generales del paciente</legend>
-        <div class="col s4">
-            <div class="label-container">
-                <label>Fecha de nacimiento:</label>
-                <p><?php echo $pacienteEntity->getPacienteFechanacimiento()?></p>
-            </div>
-            <div class="label-container">
-                <label>Responsable:</label>
-                <p><?php echo $pacienteEntity->getPacienteResponsable()?></p>
-            </div>
+<fieldset>
+    <legend>Datos generales del paciente</legend>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Fecha de nacimiento:</label>
+            <p><?php echo $pacienteEntity->getPacienteFechanacimiento()?></p>
         </div>
-        <div class="col s4">
-            <div class="label-container">
-                <label>Edad:</label>
-                <p><?php echo $edad . " años"?></p>
-            </div>
-            <div class="label-container">
-                <label>Teléfono responsable:</label>
-                <p><?php echo $pacienteEntity->getPacienteTelefonoresponsable()?></p>
-            </div>
+        <div class="label-container">
+            <label>Responsable:</label>
+            <p><?php echo $pacienteEntity->getPacienteResponsable()?></p>
         </div>
-        <div class="col s4">
-            <div class="label-container">
-                <label>Sexo:</label>
-                <p><?php echo $pacienteEntity->getPacienteSexo()?></p>
-            </div>
+    </div>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Edad:</label>
+            <p><?php echo $edad . " años"?></p>
         </div>
-    </fieldset>
+        <div class="label-container">
+            <label>Teléfono responsable:</label>
+            <p><?php echo $pacienteEntity->getPacienteTelefonoresponsable()?></p>
+        </div>
+    </div>
+    <div class="col s4">
+        <div class="label-container">
+            <label>Sexo:</label>
+            <p><?php echo $pacienteEntity->getPacienteSexo()?></p>
+        </div>
+    </div>
+</fieldset>
+<br>
+<div class="row">
+<fieldset>
+<legend>Para uso exclusivo del hospital</legend>
+<label>Selecciona una acción</label>
+<div class="col s12">
+    <div id="radioNuevaConsulta" class="col s4">
+        <p onclick="javascript:nuevaConsulta();" >
+            <input class="with-gap" name="grupo1" type="radio" id="test3"  />
+            <label for="test3">Nueva consulta</label>
+        </p>
+    </div>
+    <div id="radioNuevaAdmision" class="col s4">
+        <p onclick="javascript:nuevaAdmision();" >
+            <input class="with-gap" name="grupo1" type="radio" id="test4"  />
+            <label for="test4">Nueva admisión</label>
+        </p>
+    </div>
+</div>
+<div id="consulta" class="hiddendiv">
+    <?php $consultaForm->prepare();?>
+    <?php echo $this->form()->openTag($consultaForm); ?>
+    <div class="col s4">
+        <div class="input-field">
+            <?php echo $this->formHidden($consultaForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
+        </div>
+        <div class="input-field">
+            <?php echo $this->formSelect($consultaForm->get('idmedico')); ?>
+            <span class="red-text hidden" for="idmedico" id="idmedico_error">Debe selecionar un medico.</span><br><br>
+            <?php $showError=$this->formElementErrors($consultaForm->get('idmedico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s4 offset-s4">
+        <div class="input-field">
+            <?php echo $this->formSelect($consultaForm->get('idconsultorio')); ?>
+            <span class="red-text hidden" for="idconsultorio" id="idconsultorio_error">Debe selecionar un consultorio.</span><br><br>
+            <?php $showError=$this->formElementErrors($consultaForm->get('idconsultorio'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s12">
+        <div class="input-field">
+            <?php echo $this->formText($consultaForm->get('consulta_fechaadmision')); ?>
+            <?php echo $this->formLabel($consultaForm->get('consulta_fechaadmision')); ?>
+            <span class="red-text hidden" for="consulta_fechaadmision" id="fechaadmision_error">Debe selecionar una fecha.</span><br><br>
+            <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fechaadmision'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($consultaForm->get('consulta_diagnostico')); ?>
+            <?php echo $this->formLabel($consultaForm->get('consulta_diagnostico')); ?>
+            <?php $showError=$this->formElementErrors($consultaForm->get('consulta_diagnostico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($consultaForm->get('consulta_observaciones')); ?>
+            <?php echo $this->formLabel($consultaForm->get('consulta_observaciones')); ?>
+            <?php $showError=$this->formElementErrors($consultaForm->get('consulta_observaciones'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
     <br>
-    <div class="row">
-        <fieldset>
-            <legend>Para uso exclusivo del hospital</legend>
-            <label>Selecciona una acción</label>
-            <div class="col s12">
-                <div id="radioNuevaConsulta" class="col s4">
-                    <p onclick="javascript:nuevaConsulta();" >
-                        <input class="with-gap" name="grupo1" type="radio" id="test3"  />
-                        <label for="test3">Nueva consulta</label>
-                    </p>
-                </div>
-                <div id="radioNuevaAdmision" class="col s4">
-                    <p onclick="javascript:nuevaAdmision();" >
-                        <input class="with-gap" name="grupo1" type="radio" id="test4"  />
-                        <label for="test4">Nueva admisión</label>
-                    </p>
-                </div>
-            </div>
-            <div id="consulta" class="hiddendiv">
-                <?php $consultaForm->prepare();?>
-                <?php echo $this->form()->openTag($consultaForm); ?>
-                <div class="col s4">
-                    <div class="input-field">
-                        <?php echo $this->formHidden($consultaForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
-                    </div>
-                    <div class="input-field">
-                        <?php echo $this->formSelect($consultaForm->get('idmedico')); ?>
-                        <span class="red-text hidden" for="idmedico" id="idmedico_error">Debe selecionar un medico.</span><br><br>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('idmedico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s4 offset-s4">
-                    <div class="input-field">
-                        <?php echo $this->formSelect($consultaForm->get('idconsultorio')); ?>
-                        <span class="red-text hidden" for="idconsultorio" id="idconsultorio_error">Debe selecionar un consultorio.</span><br><br>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('idconsultorio'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s12">
-                    <div class="input-field">
-                        <?php echo $this->formText($consultaForm->get('consulta_fechaadmision')); ?>
-                        <?php echo $this->formLabel($consultaForm->get('consulta_fechaadmision')); ?>
-                        <span class="red-text hidden" for="consulta_fechaadmision" id="fechaadmision_error">Debe selecionar una fecha.</span><br><br>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_fechaadmision'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($consultaForm->get('consulta_diagnostico')); ?>
-                        <?php echo $this->formLabel($consultaForm->get('consulta_diagnostico')); ?>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_diagnostico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($consultaForm->get('consulta_observaciones')); ?>
-                        <?php echo $this->formLabel($consultaForm->get('consulta_observaciones')); ?>
-                        <?php $showError=$this->formElementErrors($consultaForm->get('consulta_observaciones'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div id="botonGuardarConsulta" class="right col s4">
-                    <button id="guardarConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Guardar Consulta
-                        <i class="mdi-content-save left"></i>
-                    </button>
-                </div>
-                <?php echo $this->form()->closeTag(); ?>
-                <div class="right col s4">
-                    <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Consulta
-                        <i class="mdi-action-accessibility left"></i>
-                    </button>
-                </div>
-            </div>
-
-            <div id="admision" class="hiddendiv">
-                <?php $admisionForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
-                <?php $admisionForm->setAttribute('class', 'hva-form');?>
-                <?php $admisionForm->prepare();?>
-                <?php echo $this->form()->openTag($admisionForm); ?>
-                <div class="col s4">
-                    <div class="input-field">
-                        <?php echo $this->formSelect($admisionForm->get('idmedico')); ?>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('idmedico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s4 offset-s4">
-                    <div class="input-field">
-                        <?php echo $this->formSelect($admisionForm->get('idcuarto')); ?>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('idcuarto'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s12">
-                    <div class="input-field">
-                        <?php echo $this->formText($admisionForm->get('admision_fechaadmision')); ?>
-                        <?php echo $this->formLabel($admisionForm->get('admision_fechaadmision')); ?>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_fechaadmision'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($admisionForm->get('admision_diagnostico')); ?>
-                        <?php echo $this->formLabel($admisionForm->get('admision_diagnostico')); ?>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_diagnostico'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($admisionForm->get('admision_observaciones')); ?>
-                        <?php echo $this->formLabel($admisionForm->get('admision_observaciones')); ?>
-                        <?php $showError=$this->formElementErrors($admisionForm->get('admision_observaciones'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div id="botonGuardarAdmision" class="right col s4">
-                    <button id="guardarAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit" name="action">Guardar Admisión
-                        <i class="mdi-content-save left"></i>
-                    </button>
-                </div>
-                <?php echo $this->form()->closeTag(); ?>
-                <div class="right col s4">
-                    <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Admisión
-                        <i class="mdi-action-accessibility left"></i>
-                    </button>
-                </div>
-            </div>
-        </fieldset>
+    <br>
+    <div id="botonGuardarConsulta" class="right col s4">
+        <button id="guardarConsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Guardar Consulta
+            <i class="mdi-content-save left"></i>
+        </button>
     </div>
-    <div class="row">
-        <?php if($pacienteQuery):?>
-            <div class="col s4">
-                <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>ver/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
-            </div>
-        <?php endif;?>
+    <?php echo $this->form()->closeTag(); ?>
+    <div class="right col s4">
+        <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Consulta
+            <i class="mdi-action-accessibility left"></i>
+        </button>
     </div>
-    <?php //if($cargoconsultaFlag == true): ?>
-    <div id="cargos" class="hiddendiv">
-        <fieldset>
-            <legend>Cargos al paciente</legend>
-            <div id="nuevoCargoconsulta" class=" col s3 offset-s9">
-                <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-            </div>
-            <!-- Create Modal Structure -->
-            <div id="create-modal-cargoconsulta" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
-                <div class="modal-content">
-                    <h3>Agregar producto a cuenta</h3>
-                    <div class="row" id="table-header">
-                        <?php $cargoconsultaForm->prepare();?>
-                        <?php echo $this->form()->openTag($cargoconsultaForm); ?>
-                        <div class="input-field">
-                            <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
-                        </div>
-                        <div id="modalCargoconsulta" class="row">
-                            <div id="busquedaCargoconsulta" class="col s6">
-                                <div class="input-field col s4 left" id="search-container">
-                                    <i class="mdi-action-search prefix"></i>
-                                    <?php echo $this->formText($cargoconsultaForm->get('busqueda')); ?>
-                                    <?php echo $this->formLabel($cargoconsultaForm->get('busqueda')); ?>
-                                </div>
-                                <div class="col s4">
-                                    <div class="input-field">
-                                        <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsulta_by')); ?>
-                                        <span class="red-text hidden" for="cargoconsulta_by" id="cargoconsulta_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                    </div>
-                                </div>
-                                <div class="right col s4">
-                                    <button id="buscarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar
-                                        <i class="mdi-action-search left"></i>
-                                    </button>
-                                </div>
-                                <div id="fieldsetCargoconsulta" class="col s12 hiddendiv">
-                                    <fieldset>
-                                        <legend>Artículo</legend>
-                                        <div id="fieldsetCargoconsultaEntity" class="left col s9">
-                                            <!-- Aquí agregamos los elementos con javascript -->
-                                        </div>
-                                        <div id="botonGuardarCargoconsulta" class="right col s3"  style="margin-top: 70px;">
-                                            <button id="guardarCargoconsulta" style="width: 100%;" class="btn waves-effect waves-light" type="submit">Agregar</button>
-                                        </div>
-                                        <?php echo $this->form()->closeTag(); ?>
-                                    </fieldset>
-                                    <br>
-                                    <br>
-                                </div>
-                                <div id="tablaCargoconsulta" class="col s12">
+</div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col s6">
-                            <div class="input-field">
-                                <?php echo $this->formSelect($cargoconsultaForm->get('idlugarinventario')); ?>
-                                <span class="red-text hidden" for="idlugarinventario" id="idlugarinventario_error">Debe selecionar un producto.</span><br><br>
-                                <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idlugarinventario'));
-                                if(!empty($showError)):
-                                    ?>
-                                    <div class="center-align col" style="color: #e57373">
-                                        <i class="mdi-content-report prefix"></i>
-                                    </div>
-                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                        <?php
-                                        echo $showError;
-                                        ?>
-                                    </div>
-                                <?php  endif;?>
-                            </div>
-                        </div>
-                        <!--<div class="col s6">-->
-                        <div class="input-field">
-                            <?php echo $this->formHidden($cargoconsultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
-                            <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cargoconsulta_tipo'));
-                            if(!empty($showError)):
-                                ?>
-                                <div class="center-align col" style="color: #e57373">
-                                    <i class="mdi-content-report prefix"></i>
-                                </div>
-                                <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                    <?php
-                                    echo $showError;
-                                    ?>
-                                </div>
-                            <?php  endif;?>
-                        </div>
-                        <!--</div>-->
-                        <div class="col s6">
-                            <div class="input-field">
-                                <?php echo $this->formText($cargoconsultaForm->get('cantidad')); ?>
-                                <span class="red-text hidden" for="cantidad" id="cantidad_error">Debe agregar cantidad.</span><br><br>
-                                <?php echo $this->formLabel($cargoconsultaForm->get('cantidad')); ?>
-                                <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cantidad'));
-                                if(!empty($showError)):
-                                    ?>
-                                    <div class="center-align col" style="color: #e57373">
-                                        <i class="mdi-content-report prefix"></i>
-                                    </div>
-                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                        <?php
-                                        echo $showError;
-                                        ?>
-                                    </div>
-                                <?php  endif;?>
-                            </div>
-                        </div>
-                        <div class="col s6">
-                            <div class="input-field">
-                                <?php echo $this->formText($cargoconsultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
-                                <span class="red-text hidden" for="cargoconsulta_fecha" id="cargoconsulta_fecha_error">Debe selecionar una fecha.</span><br><br>
-                                <?php echo $this->formLabel($cargoconsultaForm->get('cargoconsulta_fecha')); ?>
-                                <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cargoconsulta_fecha'));
-                                if(!empty($showError)):
-                                    ?>
-                                    <div class="center-align col" style="color: #e57373">
-                                        <i class="mdi-content-report prefix"></i>
-                                    </div>
-                                    <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                        <?php
-                                        echo $showError;
-                                        ?>
-                                    </div>
-                                <?php  endif;?>
-                            </div>
-                        </div>
-                        <div class="right col s6">
-                            <button id="guardarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Agregar a cuenta
-                                <i class="mdi-content-save left"></i>
-                            </button>
-                        </div>
-                        <div class="right col s6">
-                            <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn grey darken-3 waves-effect waves-light modal-close" >Salir
-                                <i class="mdi-action-highlight-remove left"></i>
-                            </button>
-                        </div>
-                        <?php echo $this->form()->closeTag(); ?>
-                    </div>
+<div id="admision" class="hiddendiv">
+    <?php $admisionForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
+    <?php $admisionForm->setAttribute('class', 'hva-form');?>
+    <?php $admisionForm->prepare();?>
+    <?php echo $this->form()->openTag($admisionForm); ?>
+    <div class="col s4">
+        <div class="input-field">
+            <?php echo $this->formSelect($admisionForm->get('idmedico')); ?>
+            <?php $showError=$this->formElementErrors($admisionForm->get('idmedico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
                 </div>
-            </div>
-            <!-- End Create Modal Structure -->
-            <div id="cargoconsultaResult" class="hiddendiv">
-            <?php // if($cargoconsultaQuery) :?>
-                <?php foreach ($cargoconsultaQuery as $cargoconsultaEntity) : ?>
-                <?php $total = $cargoconsultaEntity->getMonto()?>
-                <?php $total += $cargoconsultaEntity->getMonto()?>
-                <div class="row">
-                    <div class="col s9">
-                        <span class="left">Total: <?php echo $total?></span>
-                        <span style="margin-left: 40px;"> Anticipo: <?php ?> MXN</span><a class="tooltipped " data-position="right" data-tooltip="Editar" href='<?php echo "#nuevo-modal-anticipo-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="mdi-action-description" style="margin-left: 5px;"></i></a>
-                        <span style="margin-left: 40px;">Status: <?php echo $cargoconsultaEntity->getConsulta()->getConsultastatus()?></span>
-                    </div>
-                    <div class=" col s3">
-                        <a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdconsulta()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-                    </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
                 </div>
-                <table id="tabla-cargoconsulta" class="striped hoverable">
-                    <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                        <th>Articulo</th>
-                        <th>Descripción</th>
-                        <th>Salida</th>
-                        <th>Fecha/hora</th>
-                        <th>Costo</th>
-                        <th>Subtotal</th>
-                        <th>Opciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $direction = 'right'?>
-                        <tr>
-                            <td><?php echo $cargoconsultaEntity->getCantidad() ?></td>
-                            <td><?php echo "test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre() ?></td>
-                            <td><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion() ?></td>
-                            <td>General</td>
-                            <td><?php echo $cargoconsultaEntity->getCargoconsultaFecha() ?></td>
-                            <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
-                            <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
-                            <td>
-                                <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
-                                &nbsp;&nbsp;
-                                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-assignment"></i></a>
-                                &nbsp;&nbsp;
-                                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-delete"></i></a>
-                            </td>
-                        </tr>
-                        <!-- View Modal Structure -->
-                        <div id="view-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
-                            <div class="modal-content">
-                                <h4><?php echo "Cargo del paciente: ".$title?></h4>
-                                <div class="row">
-                                    <fieldset>
-                                        <legend>Datos Generales</legend>
-                                        <div class="col s4">
-                                            <div class="label-container">
-                                                <label>Cantidad:</label>
-                                                <p><?php echo$cargoconsultaEntity->getCantidad()?></p>
-                                            </div>
-                                            <div class="label-container">
-                                                <label>Artículo:</label>
-                                                <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre()?></p>
-                                            </div>
-                                            <div class="label-container">
-                                                <label>Descripción:</label>
-                                                <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion()?></p>
-                                            </div>
-                                        </div>
-                                        <div class="col s4">
-                                            <div class="label-container">
-                                                <label>Salida:</label>
-                                                <p>General</p>
-                                            </div>
-                                            <div class="label-container">
-                                                <label>Fecha/hora:</label>
-                                                <p><?php echo $cargoconsultaEntity->getCargoconsultaFecha()?></p>
-                                            </div>
-                                            <div class="label-container">
-                                                <label>Costo:</label>
-                                                <p><?php echo $cargoconsultaEntity->getMonto()?></p>
-                                            </div>
-                                        </div>
-                                        <div class="col s4">
-                                            <div class="label-container">
-                                                <label>Sub-total:</label>
-                                                <p><?php echo $cargoconsultaEntity->getMonto()?></p>
-                                            </div>
-                                        </div>
-                                    </fieldset>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s4 offset-s4">
+        <div class="input-field">
+            <?php echo $this->formSelect($admisionForm->get('idcuarto')); ?>
+            <?php $showError=$this->formElementErrors($admisionForm->get('idcuarto'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s12">
+        <div class="input-field">
+            <?php echo $this->formText($admisionForm->get('admision_fechaadmision')); ?>
+            <?php echo $this->formLabel($admisionForm->get('admision_fechaadmision')); ?>
+            <?php $showError=$this->formElementErrors($admisionForm->get('admision_fechaadmision'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($admisionForm->get('admision_diagnostico')); ?>
+            <?php echo $this->formLabel($admisionForm->get('admision_diagnostico')); ?>
+            <?php $showError=$this->formElementErrors($admisionForm->get('admision_diagnostico'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="input-field">
+            <?php echo $this->formText($admisionForm->get('admision_observaciones')); ?>
+            <?php echo $this->formLabel($admisionForm->get('admision_observaciones')); ?>
+            <?php $showError=$this->formElementErrors($admisionForm->get('admision_observaciones'));
+            if(!empty($showError)):
+                ?>
+                <div class="center-align col" style="color: #e57373">
+                    <i class="mdi-content-report prefix"></i>
+                </div>
+                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                    <?php
+                    echo $showError;
+                    ?>
+                </div>
+            <?php  endif;?>
+        </div>
+    </div>
+    <div id="botonGuardarAdmision" class="right col s4">
+        <button id="guardarAdmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit" name="action">Guardar Admisión
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+    <?php echo $this->form()->closeTag(); ?>
+    <div class="right col s4">
+        <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light disabled" type="submit" name="action">Alta Paciente - Admisión
+            <i class="mdi-action-accessibility left"></i>
+        </button>
+    </div>
+</div>
+</fieldset>
+</div>
+<div class="row">
+    <?php if($pacienteQuery):?>
+        <div class="col s4">
+            <a style="width: 100%; height: 45px; padding-top: 5px;" class="btn center-align" href="<?php echo $this->url('pacientes')?>ver/<?php echo $pacienteQuery->getIdpaciente()?>"><i class="mdi-editor-insert-comment left"></i>Nueva consula/admisión</a>
+        </div>
+    <?php endif;?>
+</div>
+<?php //if($cargoconsultaFlag == true): ?>
+<div id="cargos" class="hiddendiv">
+    <fieldset>
+        <legend>Cargos al paciente</legend>
+        <div id="nuevoCargoconsulta" class=" col s3 offset-s9">
+            <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+        </div>
+        <!-- Create Modal Structure -->
+        <div id="create-modal-cargoconsulta" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
+            <div class="modal-content">
+                <h3>Agregar producto a cuenta</h3>
+                <div class="row" id="table-header">
+                    <?php $cargoconsultaForm->prepare();?>
+                    <?php echo $this->form()->openTag($cargoconsultaForm); ?>
+                    <div class="input-field">
+                        <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
+                    </div>
+                    <div id="modalCargoconsulta" class="row">
+                        <div id="busquedaCargoconsulta" class="col s5">
+                            <div class="input-field col s4 left" id="search-container">
+                                <i class="mdi-action-search prefix"></i>
+                                <?php echo $this->formText($cargoconsultaForm->get('busqueda')); ?>
+                                <?php echo $this->formLabel($cargoconsultaForm->get('busqueda')); ?>
+                            </div>
+                            <div class="col s4">
+                                <div class="input-field">
+                                    <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsulta_by')); ?>
+                                    <span class="red-text hidden" for="cargoconsulta_by" id="cargoconsulta_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
                                 </div>
                             </div>
-                            <div class="modal-footer">
-                                <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                                <a href=href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                            <div class="right col s4">
+                                <button id="buscarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
+                            </div>
+                            <div id="fieldsetCargoconsulta" class="col s12 hiddendiv">
+                                <fieldset>
+                                    <legend>Artículo</legend>
+                                    <div id="fieldsetCargoconsultaEntity" class="left col s8">
+                                        <!-- Aquí agregamos los elementos con javascript -->
+                                    </div>
+                                    <div id="botonGuardarCargoconsulta" class="right col s4" style="margin-top: 80px;">
+                                        <button id="guardarCargoconsulta" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                                    </div>
+                                    <?php echo $this->form()->closeTag(); ?>
+                                </fieldset>
+                                <br>
+                                <br>
+                            </div>
+                            <div id="tablaCargoconsulta" class="col s12">
+                                <!-- Aquí agregamos los elementos con javascript -->
                             </div>
                         </div>
-                        <!-- End View Modal Structure -->
-                        <!-- Edit Modal Structure -->
-                        <div id="edit-modal-paciente-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
-                            <div class="modal-content">
-                                <?php $cargoconsultaForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
-                                <?php $cargoconsultaForm->setAttribute('class', 'hva-form');?>
-                                <?php $cargoconsultaForm->prepare();?>
-                                <?php echo $this->form()->openTag($cargoconsultaForm); ?>
-                                <div class="col s4">
+                        <div id="tablaCargoconsultaAgregado" class="col s7">
+                            <!-- Aquí agregamos los elementos con javascript -->
+                        </div>
+                    </div>
+                    <?php /*
+                                <div class="col s6">
                                     <div class="input-field">
-                                        <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')->setValue($cargoconsultaForm->getIdconsulta())); ?>
-                                    </div>
-                                    <div class="input-field">
-                                        <?php echo $this->formSelect($cargoconsultaForm->get('idservicio')); ?>
-                                        <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idservicio'));
+                                        <?php echo $this->formHidden($cargoconsultaForm->get('idlugarinventario')); ?>
+                                        <span class="red-text hidden" for="idlugarinventario" id="idlugarinventario_error">Debe selecionar un producto.</span><br><br>
+                                        <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idlugarinventario'));
                                         if(!empty($showError)):
                                             ?>
                                             <div class="center-align col" style="color: #e57373">
@@ -544,28 +353,30 @@ $this->headTitle($title);
                                         <?php  endif;?>
                                     </div>
                                 </div>
-                                <div class="col s4 offset-s4">
-                                    <div class="input-field">
-                                        <?php echo $this->formSelect($consultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
-                                        <?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_tipo'));
-                                        if(!empty($showError)):
+                                <!--<div class="col s6">-->
+                                <div class="input-field">
+                                    <?php echo $this->formHidden($cargoconsultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
+                                    <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cargoconsulta_tipo'));
+                                    if(!empty($showError)):
+                                        ?>
+                                        <div class="center-align col" style="color: #e57373">
+                                            <i class="mdi-content-report prefix"></i>
+                                        </div>
+                                        <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                            <?php
+                                            echo $showError;
                                             ?>
-                                            <div class="center-align col" style="color: #e57373">
-                                                <i class="mdi-content-report prefix"></i>
-                                            </div>
-                                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                                <?php
-                                                echo $showError;
-                                                ?>
-                                            </div>
-                                        <?php  endif;?>
-                                    </div>
+                                        </div>
+                                    <?php  endif;?>
                                 </div>
-                                <div class="col s12">
+                                <!--</div>-->
+                                <div class="col s6">
                                     <div class="input-field">
-                                        <?php echo $this->formText($consultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
-                                        <?php echo $this->formLabel($consultaForm->get('cargoconsulta_fecha')); ?>
-                                        <?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_fecha'));
+                                        <?php echo $this->formHidden($cargoconsultaForm->get('cantidad')); ?>
+                                        <?php /*
+                                        <span class="red-text hidden" for="cantidad" id="cantidad_error">Debe agregar cantidad.</span><br><br>
+                                        <?php // echo $this->formLabel($cargoconsultaForm->get('cantidad')); ?>
+                                        <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cantidad'));
                                         if(!empty($showError)):
                                             ?>
                                             <div class="center-align col" style="color: #e57373">
@@ -581,9 +392,10 @@ $this->headTitle($title);
                                 </div>
                                 <div class="col s6">
                                     <div class="input-field">
-                                        <?php echo $this->formText($consultaForm->get('cantidad')); ?>
-                                        <?php echo $this->formLabel($consultaForm->get('cantidad')); ?>
-                                        <?php $showError=$this->formElementErrors($consultaForm->get('cantidad'));
+                                        <?php echo $this->formHidden($cargoconsultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
+                                        <span class="red-text hidden" for="cargoconsulta_fecha" id="cargoconsulta_fecha_error">Debe selecionar una fecha.</span><br><br>
+                                        <?php // echo $this->formLabel($cargoconsultaForm->get('cargoconsulta_fecha')); ?>
+                                        <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cargoconsulta_fecha'));
                                         if(!empty($showError)):
                                             ?>
                                             <div class="center-align col" style="color: #e57373">
@@ -597,84 +409,136 @@ $this->headTitle($title);
                                         <?php  endif;?>
                                     </div>
                                 </div>
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <?php echo $this->formText($consultaForm->get('monto')); ?>
-                                        <?php echo $this->formLabel($consultaForm->get('monto')); ?>
-                                        <?php $showError=$this->formElementErrors($consultaForm->get('monto'));
-                                        if(!empty($showError)):
-                                            ?>
-                                            <div class="center-align col" style="color: #e57373">
-                                                <i class="mdi-content-report prefix"></i>
-                                            </div>
-                                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                                <?php
-                                                echo $showError;
-                                                ?>
-                                            </div>
-                                        <?php  endif;?>
-                                    </div>
-                                </div>
-                                <br>
-                                <br>
-                                <div class="right col s4">
-                                    <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                                <?php /*
+                                <div class="right col s6">
+                                    <button id="guardarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Agregar a cuenta
                                         <i class="mdi-content-save left"></i>
                                     </button>
                                 </div>
-                                <?php echo $this->form()->closeTag(); ?>
-                            </div>
-                        </div>
-                        <!-- End Edit Modal Structure -->
-                        <!-- Delete Modal Structure -->
-                        <div id="delete-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal">
-                            <div class="modal-content" id="delete-modal-container">
-                                <div class="row" id="delete-modal-header-container">
-                                    <div class="col s4 offset-s4">
-                                        <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
-                                    </div>
+                                <div class="right col s6">
+                                    <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn grey darken-3 waves-effect waves-light modal-close" >Salir
+                                        <i class="mdi-action-highlight-remove left"></i>
+                                    </button>
                                 </div>
-                                <div class="row">
-                                    <div class="col s12">
-                                        <p><?php echo "Esta seguro que desea eliminar al id. ". $cargoconsultaEntity->getIdcargoconsulta() ?></p>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="modal-footer">
-                                <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                                <a href="/pacientes/cargoconsulta/eliminar/<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
-
-                            </div>
-                        </div>
-                        <!-- End Delete Modal Structure -->
-                    </tbody>
-                </table>
-                <?php endforeach; ?>
-            <?php // endif; ?>
+                                */ ?>
+                    <?php echo $this->form()->closeTag(); ?>
+                </div>
             </div>
-            <br>
-            <br>
-            <div id="nuevoCargoadmision" class=" col s3 offset-s9">
-                <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
+        </div>
+        <!-- End Create Modal Structure -->
+        <div id="cargoconsultaResult" class="hiddendiv">
+        <?php /**
+             *  Ya no ocupamos crear la tabla y los modals con php... ahora los creamos con javascript
+             *
+        <?php // if($cargoconsultaQuery) :?>
+        <?php foreach ($cargoconsultaQuery as $cargoconsultaEntity) : ?>
+            <?php $total = $cargoconsultaEntity->getMonto()?>
+            <?php $total += $cargoconsultaEntity->getMonto()?>
+            <div class="row">
+                <div class="col s9">
+                    <span class="left">Total: <?php echo $total?></span>
+                    <span style="margin-left: 40px;"> Anticipo: <?php ?> MXN</span><a class="tooltipped " data-position="right" data-tooltip="Editar" href='<?php echo "#nuevo-modal-anticipo-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="mdi-action-description" style="margin-left: 5px;"></i></a>
+                    <span style="margin-left: 40px;">Status: <?php echo $cargoconsultaEntity->getConsulta()->getConsultastatus()?></span>
+                </div>
+                <div class=" col s3">
+                    <a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdconsulta()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+                </div>
             </div>
-            <!-- Create Modal Structure -->
-            <div id="create-modal-cargoadmision" class="modal">
+            <table id="tabla-cargoconsulta" class="striped hoverable">
+            <thead>
+            <tr>
+                <th>Cantidad</th>
+                <th>Articulo</th>
+                <th>Descripción</th>
+                <th>Salida</th>
+                <th>Fecha/hora</th>
+                <th>Costo</th>
+                <th>Subtotal</th>
+                <th>Opciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php $direction = 'right'?>
+            <tr>
+                <td><?php echo $cargoconsultaEntity->getCantidad() ?></td>
+                <td><?php echo "test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre() ?></td>
+                <td><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion() ?></td>
+                <td>General</td>
+                <td><?php echo $cargoconsultaEntity->getCargoconsultaFecha() ?></td>
+                <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
+                <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
+                <td>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    &nbsp;&nbsp;
+                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-assignment"></i></a>
+                    &nbsp;&nbsp;
+                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-delete"></i></a>
+                </td>
+            </tr>
+            <!-- View Modal Structure -->
+            <div id="view-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
                 <div class="modal-content">
-                    <h3>Agregar servicio a cuenta</h3>
-                    <?php $cargoadmisionForm->prepare();?>
-                    <?php echo $this->form()->openTag($cargoadmisionForm); ?>
-                    <div class="input-field">
-                        <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')->setValue(1)); ?>
-                        <?php if($admisionQuery):?>
-                            <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')->setValue($admisionQuery->getIdadmision())); ?>
-                        <?php endif; ?>
+                    <h4><?php echo "Cargo del paciente: ".$title?></h4>
+                    <div class="row">
+                        <fieldset>
+                            <legend>Datos Generales</legend>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Cantidad:</label>
+                                    <p><?php echo$cargoconsultaEntity->getCantidad()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Artículo:</label>
+                                    <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Descripción:</label>
+                                    <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion()?></p>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Salida:</label>
+                                    <p>General</p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Fecha/hora:</label>
+                                    <p><?php echo $cargoconsultaEntity->getCargoconsultaFecha()?></p>
+                                </div>
+                                <div class="label-container">
+                                    <label>Costo:</label>
+                                    <p><?php echo $cargoconsultaEntity->getMonto()?></p>
+                                </div>
+                            </div>
+                            <div class="col s4">
+                                <div class="label-container">
+                                    <label>Sub-total:</label>
+                                    <p><?php echo $cargoconsultaEntity->getMonto()?></p>
+                                </div>
+                            </div>
+                        </fieldset>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    <a href=href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+                </div>
+            </div>
+            <!-- End View Modal Structure -->
+            <!-- Edit Modal Structure -->
+            <div id="edit-modal-paciente-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
+                <div class="modal-content">
+                    <?php $cargoconsultaForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
+                    <?php $cargoconsultaForm->setAttribute('class', 'hva-form');?>
+                    <?php $cargoconsultaForm->prepare();?>
+                    <?php echo $this->form()->openTag($cargoconsultaForm); ?>
                     <div class="col s4">
                         <div class="input-field">
-                            <?php echo $this->formHidden($cargoadmisionForm->get('idservicio')); ?>
-                            <span class="red-text hidden" for="idservicio" id="idservicio_error">Debe selecionar un servicio.</span><br><br>
-                            <?php $showError=$this->formElementErrors($cargoadmisionForm->get('idservicio'));
+                            <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')->setValue($cargoconsultaForm->getIdconsulta())); ?>
+                        </div>
+                        <div class="input-field">
+                            <?php echo $this->formSelect($cargoconsultaForm->get('idservicio')); ?>
+                            <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idservicio'));
                             if(!empty($showError)):
                                 ?>
                                 <div class="center-align col" style="color: #e57373">
@@ -688,29 +552,28 @@ $this->headTitle($title);
                             <?php  endif;?>
                         </div>
                     </div>
-                    <!--<div class="col s6">-->
-                    <div class="input-field">
-                        <?php echo $this->formHidden($cargoadmisionForm->get('cargoadmision_tipo')->setValue('servicio')); ?>
-                        <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_tipo'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                    <!--</div>-->
-                    <div class="col s6">
+                    <div class="col s4 offset-s4">
                         <div class="input-field">
-                            <?php echo $this->formText($cargoadmisionForm->get('cargoadmision_cantidad')); ?>
-                            <span class="red-text hidden" for="cantidad" id="cantidad_error">Debe agregar cantidad.</span><br><br>
-                            <?php echo $this->formLabel($cargoadmisionForm->get('cargoadmision_cantidad')); ?>
-                            <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_cantidad'));
+                            <?php echo $this->formSelect($consultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
+                            <?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_tipo'));
+                            if(!empty($showError)):
+                                ?>
+                                <div class="center-align col" style="color: #e57373">
+                                    <i class="mdi-content-report prefix"></i>
+                                </div>
+                                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                    <?php
+                                    echo $showError;
+                                    ?>
+                                </div>
+                            <?php  endif;?>
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="input-field">
+                            <?php echo $this->formText($consultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
+                            <?php echo $this->formLabel($consultaForm->get('cargoconsulta_fecha')); ?>
+                            <?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_fecha'));
                             if(!empty($showError)):
                                 ?>
                                 <div class="center-align col" style="color: #e57373">
@@ -726,10 +589,27 @@ $this->headTitle($title);
                     </div>
                     <div class="col s6">
                         <div class="input-field">
-                            <?php echo $this->formText($cargoadmisionForm->get('cargoadmision_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
-                            <span class="red-text hidden" for="cargoadmision_fecha" id="ccargoadmision_fecha_error">Debe selecionar una fecha.</span><br><br>
-                            <?php echo $this->formLabel($cargoadmisionForm->get('cargoadmision_fecha')); ?>
-                            <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_fecha'));
+                            <?php echo $this->formText($consultaForm->get('cantidad')); ?>
+                            <?php echo $this->formLabel($consultaForm->get('cantidad')); ?>
+                            <?php $showError=$this->formElementErrors($consultaForm->get('cantidad'));
+                            if(!empty($showError)):
+                                ?>
+                                <div class="center-align col" style="color: #e57373">
+                                    <i class="mdi-content-report prefix"></i>
+                                </div>
+                                <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                    <?php
+                                    echo $showError;
+                                    ?>
+                                </div>
+                            <?php  endif;?>
+                        </div>
+                    </div>
+                    <div class="col s6">
+                        <div class="input-field">
+                            <?php echo $this->formText($consultaForm->get('monto')); ?>
+                            <?php echo $this->formLabel($consultaForm->get('monto')); ?>
+                            <?php $showError=$this->formElementErrors($consultaForm->get('monto'));
                             if(!empty($showError)):
                                 ?>
                                 <div class="center-align col" style="color: #e57373">
@@ -745,17 +625,146 @@ $this->headTitle($title);
                     </div>
                     <br>
                     <br>
-                    <div class="right col s12">
-                        <button id="guardarCargodmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Agregar a cuenta
+                    <div class="right col s4">
+                        <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
                             <i class="mdi-content-save left"></i>
                         </button>
                     </div>
                     <?php echo $this->form()->closeTag(); ?>
                 </div>
             </div>
-            <!-- End Create Modal Structure -->
-            <div id="cargoadmisionResult" class="hiddendiv">
-                <?php foreach ($cargoadmisionQuery as $cargoadmisionEntity) : ?>
+            <!-- End Edit Modal Structure -->
+            <!-- Delete Modal Structure -->
+            <div id="delete-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal">
+                <div class="modal-content" id="delete-modal-container">
+                    <div class="row" id="delete-modal-header-container">
+                        <div class="col s4 offset-s4">
+                            <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                            <p><?php echo "Esta seguro que desea eliminar al id. ". $cargoconsultaEntity->getIdcargoconsulta() ?></p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    <a href="/pacientes/cargoconsulta/eliminar/<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+
+                </div>
+            </div>
+            <!-- End Delete Modal Structure -->
+            </tbody>
+            </table>
+        <?php endforeach; ?>
+        <?php // endif; ?>
+        */ ?>
+        </div>
+        <br>
+        <br>
+        <div id="nuevoCargoadmision" class=" col s3 offset-s9">
+            <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
+        </div>
+        <!-- Create Modal Structure -->
+        <div id="create-modal-cargoadmision" class="modal">
+            <div class="modal-content">
+                <h3>Agregar servicio a cuenta</h3>
+                <?php $cargoadmisionForm->prepare();?>
+                <?php echo $this->form()->openTag($cargoadmisionForm); ?>
+                <div class="input-field">
+                    <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')->setValue(1)); ?>
+                    <?php if($admisionQuery):?>
+                        <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')->setValue($admisionQuery->getIdadmision())); ?>
+                    <?php endif; ?>
+                </div>
+                <div class="col s4">
+                    <div class="input-field">
+                        <?php echo $this->formHidden($cargoadmisionForm->get('idservicio')); ?>
+                        <span class="red-text hidden" for="idservicio" id="idservicio_error">Debe selecionar un servicio.</span><br><br>
+                        <?php $showError=$this->formElementErrors($cargoadmisionForm->get('idservicio'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <!--<div class="col s6">-->
+                <div class="input-field">
+                    <?php echo $this->formHidden($cargoadmisionForm->get('cargoadmision_tipo')->setValue('servicio')); ?>
+                    <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_tipo'));
+                    if(!empty($showError)):
+                        ?>
+                        <div class="center-align col" style="color: #e57373">
+                            <i class="mdi-content-report prefix"></i>
+                        </div>
+                        <div class="center-align col s11 offset-s1" style="color: #e57373">
+                            <?php
+                            echo $showError;
+                            ?>
+                        </div>
+                    <?php  endif;?>
+                </div>
+                <!--</div>-->
+                <div class="col s6">
+                    <div class="input-field">
+                        <?php echo $this->formText($cargoadmisionForm->get('cargoadmision_cantidad')); ?>
+                        <span class="red-text hidden" for="cantidad" id="cantidad_error">Debe agregar cantidad.</span><br><br>
+                        <?php echo $this->formLabel($cargoadmisionForm->get('cargoadmision_cantidad')); ?>
+                        <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_cantidad'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <div class="col s6">
+                    <div class="input-field">
+                        <?php echo $this->formText($cargoadmisionForm->get('cargoadmision_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
+                        <span class="red-text hidden" for="cargoadmision_fecha" id="ccargoadmision_fecha_error">Debe selecionar una fecha.</span><br><br>
+                        <?php echo $this->formLabel($cargoadmisionForm->get('cargoadmision_fecha')); ?>
+                        <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_fecha'));
+                        if(!empty($showError)):
+                            ?>
+                            <div class="center-align col" style="color: #e57373">
+                                <i class="mdi-content-report prefix"></i>
+                            </div>
+                            <div class="center-align col s11 offset-s1" style="color: #e57373">
+                                <?php
+                                echo $showError;
+                                ?>
+                            </div>
+                        <?php  endif;?>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div class="right col s12">
+                    <button id="guardarCargodmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Agregar a cuenta
+                        <i class="mdi-content-save left"></i>
+                    </button>
+                </div>
+                <?php echo $this->form()->closeTag(); ?>
+            </div>
+        </div>
+        <!-- End Create Modal Structure -->
+        <div id="cargoadmisionResult" class="hiddendiv">
+            <?php foreach ($cargoadmisionQuery as $cargoadmisionEntity) : ?>
                 <div class="row">
                     <div class=" col s3">
                         <a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoadmision-".$cargoadmisionEntity->getIdadmision()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
@@ -836,695 +845,1211 @@ $this->headTitle($title);
                     <!-- End View Modal Structure -->
                     </tbody>
                 </table>
-                <?php endforeach; ?>
-            </div>
-        </fieldset>
-    </div>
-    <?php //endif; ?>
+            <?php endforeach; ?>
+        </div>
+    </fieldset>
+</div>
+<?php //endif; ?>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('select').material_select();
-        $("#consulta_fechaadmision").datepicker();
+$(document).ready(function() {
+    $('select').material_select();
+    $("#consulta_fechaadmision").datepicker();
 
-        //Cargoconsulta
-        $('.modal-trigger').leanModal();
-        $("#tabla-cargoconsulta").tablesorter({headers:{5:{sorter:false}}});
-        $("#tabla-cargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
-        $("#tablaCargoconsulta").tablesorter({headers:{5:{sorter:false}}});
-        $("#tablaCargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
-    });
-    function nuevaConsulta() {
-        if ($('#consulta').hasClass('hiddendiv')){
-            $('#consulta').removeClass('hiddendiv')
-            $('#admision').addClass('hiddendiv')
-            $('#radioNuevaAdmision').addClass('hiddendiv')
-        }
+    //Cargoconsulta
+    $('.modal-trigger').leanModal();
+    $("#tabla-cargoconsulta").tablesorter({headers:{5:{sorter:false}}});
+    $("#tabla-cargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
+    $("#tablaCargoconsulta").tablesorter({headers:{5:{sorter:false}}});
+    $("#tablaCargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
+});
+function nuevaConsulta() {
+    if ($('#consulta').hasClass('hiddendiv')){
+        $('#consulta').removeClass('hiddendiv')
+        $('#admision').addClass('hiddendiv')
+        $('#radioNuevaAdmision').addClass('hiddendiv')
     }
-    function nuevaAdmision() {
-        if ($('#admision').hasClass('hiddendiv')){
-            $('#admision').removeClass('hiddendiv')
-            $('#consulta').addClass('hiddendiv')
-            $('#radioNuevaConsulta').addClass('hiddendiv')
+}
+function nuevaAdmision() {
+    if ($('#admision').hasClass('hiddendiv')){
+        $('#admision').removeClass('hiddendiv')
+        $('#consulta').addClass('hiddendiv')
+        $('#radioNuevaConsulta').addClass('hiddendiv')
+    }
+}
+
+// Validamos formulario Consulta
+$('.red-text').hide();
+$("#guardarConsulta").click(function() {
+
+    //Obtenemos el valor del selector de medicos
+    var idmedico = $("select#idmedico").val();
+    //Validamos el campo medico, simplemente miramos que no esté vacío
+    if (idmedico == "") {
+        if ($('span#idmedico_error').hasClass('hidden')){
+            $('span#idmedico_error').removeClass('hidden');
+            $("span#idmedico_error").show();
+            $("span#idmedico").focus();
         }
+        return false;
+    }else{
+        $('span#idmedico_error').hide();
     }
 
-    // Validamos formulario Consulta
-    $('.red-text').hide();
-    $("#guardarConsulta").click(function() {
-
-        //Obtenemos el valor del selector de medicos
-        var idmedico = $("select#idmedico").val();
-        //Validamos el campo medico, simplemente miramos que no esté vacío
-        if (idmedico == "") {
-            if ($('span#idmedico_error').hasClass('hidden')){
-                $('span#idmedico_error').removeClass('hidden');
-                $("span#idmedico_error").show();
-                $("span#idmedico").focus();
-            }
-            return false;
-        }else{
-            $('span#idmedico_error').hide();
+    //Obtenemos el valor del selector de consultorios
+    var idconsultorio = $("select#idconsultorio").val();
+    //Validamos el campo medico, simplemente miramos que no esté vacío
+    if (idconsultorio == "") {
+        if ($('span#idconsultorio_error').hasClass('hidden')){
+            $('span#idconsultorio_error').removeClass('hidden');
+            $("span#idconsultorio_error").show();
+            $("span#idconsultorio").focus();
         }
-
-        //Obtenemos el valor del selector de consultorios
-        var idconsultorio = $("select#idconsultorio").val();
-        //Validamos el campo medico, simplemente miramos que no esté vacío
-        if (idconsultorio == "") {
-            if ($('span#idconsultorio_error').hasClass('hidden')){
-                $('span#idconsultorio_error').removeClass('hidden');
-                $("span#idconsultorio_error").show();
-                $("span#idconsultorio").focus();
-            }
-            return false;
-        }else{
-            $("span#idconsultorio_error").hide();
-        }
-
-        //Obtenemos el valor del campo fechaadmision
-        var consulta_fechaadmision = $("input#consulta_fechaadmision").val();
-
-        //Validamos el campo fechaadmision, simplemente miramos que no esté vacío
-        if (consulta_fechaadmision == "") {
-            if ($('span#fechaadmision_error').hasClass('hidden')){
-                $('span#fechaadmision_error').removeClass('hidden');
-                $("span#fechaadmision_error").show();
-                $("span#consulta_fechaadmision").focus();
-            }
-            return false;
-        }else{
-            $("span#fechaadmision_error").hide();
-        }
-
-        //Obtenemos el valor del campo idpaciente
-        var idpaciente = $("input#idpaciente").val();
-        //Obtenemos el valor del campo consulta_diagnostico
-        var consulta_diagnostico = $("input#consulta_diagnostico").val();
-        //Obtenemos el valor del campo consulta_observaciones
-        var consulta_observaciones = $("input#consulta_observaciones").val();
-
-        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idmedico=' + idmedico + '&idconsultorio=' + idconsultorio + '&idpaciente=' + idpaciente + '&consulta_fechaadmision=' + consulta_fechaadmision + '&consulta_diagnostico=' + consulta_diagnostico + '&consulta_observaciones=' + consulta_observaciones;
-
-        $.ajax({
-            type: "POST",
-            url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            dataType : 'json',
-            data: dataString,
-            jsonpCallback: 'callback',
-            success: function(data) {
-                $("input#idconsulta").val(JSON.stringify(data.consultaArray.idconsulta));
-
-                if ($('#cargos').hasClass('hiddendiv')){
-                    $('#cargos').removeClass('hiddendiv')
-                    $('#botonGuardarConsulta').addClass('hiddendiv')
-                    $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Consulta guardada exitosamente</div>')
-                    $('#cargos').removeClass('hiddendiv')
-                }
-            }
-        });
-        /*
-        $.ajax({
-            type: "POST",
-            url: "<?php //$this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            dataType : 'json',
-            data: dataString,
-            success: function(jsonStr) {
-                $("input#idconsulta").val(JSON.stringify(jsonStr.consultaArray.idconsulta));
-
-                if ($('#cargos').hasClass('hiddendiv')){
-                    $('#cargos').removeClass('hiddendiv')
-                    $('#botonGuardarConsulta').addClass('hiddendiv')
-                    $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Consulta guardada exitosamente</div>')
-                    $('#cargos').removeClass('hiddendiv')
-                }
-            }
-        });
-        */
-
         return false;
+    }else{
+        $("span#idconsultorio_error").hide();
+    }
+
+    //Obtenemos el valor del campo fechaadmision
+    var consulta_fechaadmision = $("input#consulta_fechaadmision").val();
+
+    //Validamos el campo fechaadmision, simplemente miramos que no esté vacío
+    if (consulta_fechaadmision == "") {
+        if ($('span#fechaadmision_error').hasClass('hidden')){
+            $('span#fechaadmision_error').removeClass('hidden');
+            $("span#fechaadmision_error").show();
+            $("span#consulta_fechaadmision").focus();
+        }
+        return false;
+    }else{
+        $("span#fechaadmision_error").hide();
+    }
+
+    //Obtenemos el valor del campo idpaciente
+    var idpaciente = $("input#idpaciente").val();
+    //Obtenemos el valor del campo consulta_diagnostico
+    var consulta_diagnostico = $("input#consulta_diagnostico").val();
+    //Obtenemos el valor del campo consulta_observaciones
+    var consulta_observaciones = $("input#consulta_observaciones").val();
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'idmedico=' + idmedico + '&idconsultorio=' + idconsultorio + '&idpaciente=' + idpaciente + '&consulta_fechaadmision=' + consulta_fechaadmision + '&consulta_diagnostico=' + consulta_diagnostico + '&consulta_observaciones=' + consulta_observaciones;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        jsonpCallback: 'callback',
+        success: function(data) {
+            $("input#idconsulta").val(JSON.stringify(data.consultaArray.idconsulta));
+
+            if ($('#cargos').hasClass('hiddendiv')){
+                $('#cargos').removeClass('hiddendiv')
+                $('#botonGuardarConsulta').addClass('hiddendiv')
+                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Consulta guardada exitosamente</div>')
+                $('#cargos').removeClass('hiddendiv')
+            }
+        }
     });
-    $("#guardarAdmision").click(function() {
+    /*
+     $.ajax({
+     type: "POST",
+     url: "<?php //$this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+     dataType : 'json',
+     data: dataString,
+     success: function(jsonStr) {
+     $("input#idconsulta").val(JSON.stringify(jsonStr.consultaArray.idconsulta));
 
-        //Obtenemos el valor del selector de medicos
-        var idmedico = $("select#idmedico").val();
-        //Validamos el campo medico, simplemente miramos que no esté vacío
-        if (idmedico == "") {
-            if ($('span#idmedico_error').hasClass('hidden')){
-                $('span#idmedico_error').removeClass('hidden');
-                $("span#idmedico_error").show();
-                $("span#idmedico").focus();
-            }
-            return false;
-        }else{
-            $('span#idmedico_error').hide();
+     if ($('#cargos').hasClass('hiddendiv')){
+     $('#cargos').removeClass('hiddendiv')
+     $('#botonGuardarConsulta').addClass('hiddendiv')
+     $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Consulta guardada exitosamente</div>')
+     $('#cargos').removeClass('hiddendiv')
+     }
+     }
+     });
+     */
+
+    return false;
+});
+$("#guardarAdmision").click(function() {
+
+    //Obtenemos el valor del selector de medicos
+    var idmedico = $("select#idmedico").val();
+    //Validamos el campo medico, simplemente miramos que no esté vacío
+    if (idmedico == "") {
+        if ($('span#idmedico_error').hasClass('hidden')){
+            $('span#idmedico_error').removeClass('hidden');
+            $("span#idmedico_error").show();
+            $("span#idmedico").focus();
         }
-
-        //Obtenemos el valor del selector de cuartos
-        var idcuarto = $("select#idcuarto").val();
-        //Validamos el campo idcuarto, simplemente miramos que no esté vacío
-        if (idcuarto == "") {
-            if ($('span#idcuarto_error').hasClass('hidden')){
-                $('span#idcuarto_error').removeClass('hidden');
-                $("span#idcuarto_error").show();
-                $("span#idcuarto").focus();
-            }
-            return false;
-        }else{
-            $("span#idconsultorio_error").hide();
-        }
-
-        //Obtenemos el valor del campo fechaadmision
-        var admision_fechaadmision = $("input#consulta_fechaadmision").val();
-
-        //Validamos el campo fechaadmision, simplemente miramos que no esté vacío
-        if (admision_fechaadmision == "") {
-            if ($('span#fechaadmision_error').hasClass('hidden')){
-                $('span#fechaadmision_error').removeClass('hidden');
-                $("span#fechaadmision_error").show();
-                $("span#consulta_fechaadmision").focus();
-            }
-            return false;
-        }else{
-            $("span#fechaadmision_error").hide();
-        }
-
-        //Obtenemos el valor del campo idpaciente
-        var idpaciente = $("input#idpaciente").val();
-        //Obtenemos el valor del campo admision_diagnostico
-        var admision_diagnostico = $("input#admision_diagnostico").val();
-        //Obtenemos el valor del campo admision_observaciones
-        var admision_observaciones = $("input#admision_observaciones").val();
-
-        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idmedico=' + idmedico + '&idcuarto=' + idcuarto + '&idpaciente=' + idpaciente + '&admision_fechaadmision=' + admision_fechaadmision + '&admision_diagnostico=' + admision_diagnostico + '&admision_observaciones=' + admision_observaciones;
-
-        $.ajax({
-            type: "POST",
-            url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            dataType : 'json',
-            data: dataString,
-            success: function(jsonStr) {
-                $("input#idadmision").val(JSON.stringify(jsonStr.admisionQuery.idadmision));
-                if ($('#cargos').hasClass('hiddendiv')){
-                    $('#cargos').removeClass('hiddendiv')
-                    $('#botonGuardarAdmision').addClass('hiddendiv')
-                    $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Admisión guardada exitosamente</div>')
-                    $('#cargos').removeClass('hiddendiv')
-                }
-            }
-        });
-
         return false;
+    }else{
+        $('span#idmedico_error').hide();
+    }
+
+    //Obtenemos el valor del selector de cuartos
+    var idcuarto = $("select#idcuarto").val();
+    //Validamos el campo idcuarto, simplemente miramos que no esté vacío
+    if (idcuarto == "") {
+        if ($('span#idcuarto_error').hasClass('hidden')){
+            $('span#idcuarto_error').removeClass('hidden');
+            $("span#idcuarto_error").show();
+            $("span#idcuarto").focus();
+        }
+        return false;
+    }else{
+        $("span#idconsultorio_error").hide();
+    }
+
+    //Obtenemos el valor del campo fechaadmision
+    var admision_fechaadmision = $("input#consulta_fechaadmision").val();
+
+    //Validamos el campo fechaadmision, simplemente miramos que no esté vacío
+    if (admision_fechaadmision == "") {
+        if ($('span#fechaadmision_error').hasClass('hidden')){
+            $('span#fechaadmision_error').removeClass('hidden');
+            $("span#fechaadmision_error").show();
+            $("span#consulta_fechaadmision").focus();
+        }
+        return false;
+    }else{
+        $("span#fechaadmision_error").hide();
+    }
+
+    //Obtenemos el valor del campo idpaciente
+    var idpaciente = $("input#idpaciente").val();
+    //Obtenemos el valor del campo admision_diagnostico
+    var admision_diagnostico = $("input#admision_diagnostico").val();
+    //Obtenemos el valor del campo admision_observaciones
+    var admision_observaciones = $("input#admision_observaciones").val();
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'idmedico=' + idmedico + '&idcuarto=' + idcuarto + '&idpaciente=' + idpaciente + '&admision_fechaadmision=' + admision_fechaadmision + '&admision_diagnostico=' + admision_diagnostico + '&admision_observaciones=' + admision_observaciones;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        success: function(jsonStr) {
+            $("input#idadmision").val(JSON.stringify(jsonStr.admisionQuery.idadmision));
+            if ($('#cargos').hasClass('hiddendiv')){
+                $('#cargos').removeClass('hiddendiv')
+                $('#botonGuardarAdmision').addClass('hiddendiv')
+                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Admisión guardada exitosamente</div>')
+                $('#cargos').removeClass('hiddendiv')
+            }
+        }
     });
 
-    $("#buscarCargoconsulta").click(function() {
+    return false;
+});
 
-        //Obtenemos el valor del selector de lugarinventario
-        var busqueda = $("input#busqueda").val();
+$("#buscarCargoconsulta").click(function() {
 
-        //Obtenemos el valor del selector de lugarinventario
-        var cargoconsulta_by = $("select#cargoconsulta_by").val();
-        //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
-        if (cargoconsulta_by == "") {
-            if ($('span#cargoconsulta_by_error').hasClass('hidden')){
-                $('span#cargoconsulta_by_error').removeClass('hidden');
-                $("span#cargoconsulta_by_error").show();
-                $("span#cargoconsulta_by").focus();
-            }
-            return false;
-        }else{
-            $("span#cargoconsulta_by_error").hide();
+    //Obtenemos el valor del selector de lugarinventario
+    var busqueda = $("input#busqueda").val();
+
+    //Obtenemos el valor del selector de lugarinventario
+    var cargoconsulta_by = $("select#cargoconsulta_by").val();
+    //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
+    if (cargoconsulta_by == "") {
+        if ($('span#cargoconsulta_by_error').hasClass('hidden')){
+            $('span#cargoconsulta_by_error').removeClass('hidden');
+            $("span#cargoconsulta_by_error").show();
+            $("span#cargoconsulta_by").focus();
         }
+        return false;
+    }else{
+        $("span#cargoconsulta_by_error").hide();
+    }
 
-        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'cargoconsulta_by=' + cargoconsulta_by + '&busqueda=' + busqueda ;
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'cargoconsulta_by=' + cargoconsulta_by + '&busqueda=' + busqueda ;
 
-        $.ajax({
-            type: "POST",
-            url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            dataType : 'json',
-            data: dataString,
-            jsonpCallback: 'callback',
-            success: function(data) {
-                console.log(data.ordencompradetalleArray);
-
-                ordencompradetalleArray = []
-                var ordencompradetalleEntity = data.ordencompradetalleArray
-                $.each( ordencompradetalleEntity, function( key, value ) {
-                    ordencompradetalleArray.push({
-                        "idordencompradetalle" : value.idordencompradetalle,
-                        "caducidad" : value.ordencompradetalle_caducidad,
-                        "existencia" : value.existencia,
-                        "articulo" : value.articulo,
-                        "descripcion" : value.descripcion,
-                        "costo" : value.costo,
-                        "salida" : value.salida
-                    });
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        jsonpCallback: 'callback',
+        success: function(data) {
+            ordencompradetalleArray = []
+            var ordencompradetalleEntity = data.ordencompradetalleArray
+            $.each( ordencompradetalleEntity, function( key, value ) {
+                ordencompradetalleArray.push({
+                    "idordencompradetalle" : value.idordencompradetalle,
+                    "idlugarinventario" : value.idlugarinventario,
+                    "cargoconsulta_tipo" : value.cargoconsulta_tipo,
+                    "cargoconsulta_fecha" : value.cargoconsulta_fecha,
+                    "caducidad" : value.ordencompradetalle_caducidad,
+                    "existencia" : value.existencia,
+                    "articulo" : value.articulo,
+                    "descripcion" : value.descripcion,
+                    "costo" : value.costo,
+                    "salida" : value.salida
                 });
+            });
 
-                // Creamos nuestra tabla de colecciones
-                generaTablaBuscarConsulta(ordencompradetalleArray);
+            // Creamos nuestra tabla de colecciones
+            generaTablaBuscarConsulta(ordencompradetalleArray);
 
-                // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
-                $.each(ordencompradetalleArray, function(keys, values){
-                    // Si dan clic a una entidad de la colección
-                    $("#entidad-"+values.idordencompradetalle).click(function(){
-                        if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
-                            $('#fieldsetCargoconsulta').removeClass('hiddendiv')
-                        }
-                        var br   = document.createElement("br");
-                        var br2   = document.createElement("br");
-                        var br3   = document.createElement("br");
-                        var br4   = document.createElement("br");
-                        var br5   = document.createElement("br");
-                        var div = document.getElementById("fieldsetCargoconsultaEntity");
-                        div.innerHTML = div;
-                        var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
-                        var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
-                        var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
-                        var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
-                        var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
-                        var textoCantidad = document.createTextNode("Cantidad: ");
-                        div.appendChild(textoArticulo);
-                        div.appendChild(br);
-                        div.appendChild(textoDescripcion);
-                        div.appendChild(br2);
-                        div.appendChild(textoCaducidad);
-                        div.appendChild(br3);
-                        div.appendChild(textoDisponibleEn);
-                        div.appendChild(br4);
-                        div.appendChild(textoExistencia);
-                        div.appendChild(br5);
-                        div.appendChild(textoCantidad);
-                    });
+            // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
+            $.each(ordencompradetalleArray, function(keys, values){
+                // Si dan clic a una entidad de la colección
+                $("#entidad-"+values.idordencompradetalle).click(function(){
+                    if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsulta').removeClass('hiddendiv')
+                    }
+                    var br   = document.createElement("br");
+                    var br2   = document.createElement("br");
+                    var br3   = document.createElement("br");
+                    var br4   = document.createElement("br");
+                    var br5   = document.createElement("br");
+                    // Creamos el input de cantidad de tipo select
+                    var divinputCantidad = document.createElement('div');
+                    divinputCantidad.className = "input-field";
+                    divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
+                    var select = document.createElement('select');
+                    select.style.display = "inline";
+                    select.style.width = "auto";
+                    select.style.height = "auto";
+                    select.setAttribute ( 'id', 'cantidad' );
+                    // agregamos los valores <option> a seleccionar
+                    for($i=1; $i<=values.existencia; $i++){
+                        var selectOption = new Option($i,$i);
+                        select.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputCantidad.appendChild(select);
+
+                    // Creamos la entidad textual lista para agregar al cargoconsulta
+                    var div = document.getElementById("fieldsetCargoconsultaEntity");
+                    div.innerHTML = div;
+                    var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
+                    var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
+                    var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
+                    var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
+                    var textoCantidad = document.createTextNode("Cantidad: ");
+                    div.appendChild(textoArticulo);
+                    div.appendChild(br);
+                    div.appendChild(textoDescripcion);
+                    div.appendChild(br2);
+                    div.appendChild(textoCaducidad);
+                    div.appendChild(br3);
+                    div.appendChild(textoDisponibleEn);
+                    div.appendChild(br4);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br5);
+                    div.appendChild(textoCantidad);
+                    div.appendChild(select);
+
+                    // Actializar existencias
+
+                    // El input ordencompradetalle solamente lo necesitamos para actualizar nuestra entidad artículo antes de agregar el cargo.
+                    // Si el formulario ya tiene el input de idordencompradetalle lo eliminamos
+                    if(document.getElementById('divinputIdordencompradetalle')){
+                        var divinputIdordencompradetalleDelete = document.getElementById("divinputIdordencompradetalle");
+                        divinputIdordencompradetalleDelete.parentNode.removeChild(divinputIdordencompradetalleDelete);
+                    }
+                    // Actializar existencias
+
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputIdlugarinventario')){
+                        var divinputIdlugarinventarioDelete = document.getElementById("divinputIdlugarinventario");
+                        divinputIdlugarinventarioDelete.parentNode.removeChild(divinputIdlugarinventarioDelete);
+                    }
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaTipo')){
+                        var divinputCargoconsultaTipoDelete = document.getElementById("divinputCargoconsultaTipo");
+                        divinputCargoconsultaTipoDelete.parentNode.removeChild(divinputCargoconsultaTipoDelete);
+                    }
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaFecha')){
+                        var divinputCargoconsultaFechaDelete = document.getElementById("divinputCargoconsultaFecha");
+                        divinputCargoconsultaFechaDelete.parentNode.removeChild(divinputCargoconsultaFechaDelete);
+                    }
+                    // Creamos nuestro Formulario con los datos a insertar en Cargoconsulta
+                    var form = document.getElementById('CargoconsultaForm');
+
+                    // Actializar existencias
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdordencompradetalle = document.createElement('div');
+                    divinputIdordencompradetalle.className = "input-field";
+                    divinputIdordencompradetalle.setAttribute ( 'id', 'divinputIdordencompradetalle' );
+                    var inputIdordencompradetalle = document.createElement('input');
+                    inputIdordencompradetalle.setAttribute ( 'id', 'idordencompradetalle' );
+                    inputIdordencompradetalle.setAttribute ( 'type', 'hidden' );
+                    inputIdordencompradetalle.setAttribute ( 'name', 'idordencompradetalle' );
+                    inputIdordencompradetalle.setAttribute ( 'value', values.idordencompradetalle );
+                    divinputIdordencompradetalle.appendChild(inputIdordencompradetalle)
+                    // Actializar existencias
+
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdlugarinventario = document.createElement('div');
+                    divinputIdlugarinventario.className = "input-field";
+                    divinputIdlugarinventario.setAttribute ( 'id', 'divinputIdlugarinventario' );
+                    var inputIdlugarinventario = document.createElement('input');
+                    inputIdlugarinventario.setAttribute ( 'id', 'idlugarinventario' );
+                    inputIdlugarinventario.setAttribute ( 'type', 'hidden' );
+                    inputIdlugarinventario.setAttribute ( 'name', 'idlugarinventario' );
+                    inputIdlugarinventario.setAttribute ( 'value', values.idlugarinventario );
+                    divinputIdlugarinventario.appendChild(inputIdlugarinventario)
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaTipo = document.createElement('div');
+                    divinputCargoconsultaTipo.className = "input-field";
+                    divinputCargoconsultaTipo.setAttribute ( 'id', 'divinputCargoconsultaTipo' );
+                    var inputCargoconsultaTipo = document.createElement('input');
+                    inputCargoconsultaTipo.setAttribute ( 'id', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaTipo.setAttribute ( 'name', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'value', values.cargoconsulta_tipo );
+                    divinputCargoconsultaTipo.appendChild(inputCargoconsultaTipo);
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaFecha = document.createElement('div');
+                    divinputCargoconsultaFecha.className = "input-field";
+                    divinputCargoconsultaFecha.setAttribute ( 'id', 'divinputCargoconsultaFecha' );
+                    var inputCargoconsultaFecha = document.createElement('input');
+                    inputCargoconsultaFecha.setAttribute ( 'id', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaFecha.setAttribute ( 'name', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'value', values.cargoconsulta_fecha );
+                    divinputCargoconsultaFecha.appendChild(inputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaTipo);
+                    form.appendChild(divinputIdlugarinventario);
+                    form.appendChild(divinputIdordencompradetalle);
                 });
-            },
-            error: function(){
-                $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
-            }
-        });
-
-        return false;
+            });
+        },
+        error: function(){
+            $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
+        }
     });
 
-    function generaTablaBuscarConsulta(ordencompradetalleArray) {
+    return false;
+});
 
-        // Obtener la referencia del elemento div con id = tablaCargoconsulta
-        var div = document.getElementById("tablaCargoconsulta");
-        div.innerHTML = div;
-        // Crea un elemento <table> y un elemento <thead> y <tbody>
-        var tabla   = document.createElement("table");
-        tabla.className = "hoverable striped";
-        var tblHead = document.createElement("thead");
-        var tblBody = document.createElement("tbody");
-        var thArray = ['Existencias', 'Articulo', 'Descripción', 'Costo', 'Salida']
+function generaTablaBuscarConsulta(ordencompradetalleArray) {
 
-        // Crea las celdas
-        for (var i = 0; i < 1; i++) {
-            // Crea las hileras de la tabla
-            var hilera = document.createElement("tr");
+    // Obtener la referencia del elemento div con id = tablaCargoconsulta
+    var div = document.getElementById("tablaCargoconsulta");
+    div.innerHTML = div;
+    // Crea un elemento <table> y un elemento <thead> y <tbody>
+    var tabla   = document.createElement("table");
+    tabla.className = "hoverable striped";
+    var tblHead = document.createElement("thead");
+    var tblBody = document.createElement("tbody");
+    var thArray = ['Existencias', 'Articulo', 'Descripción', 'Costo', 'Salida']
 
-            for (var j = 0; j < thArray.length; j++) {
-                // Crea un elemento <th> y un nodo de texto, haz que el nodo de
-                // texto sea el contenido de <th>, ubica el elemento <th> al final
-                // de la hilera de la tabla
-                var celda = document.createElement("th");
-                var textoCelda = document.createTextNode(thArray[j]);
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <th> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <th>, ubica el elemento <th> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <table>
+    tabla.appendChild(tblHead);
+
+    // Crea las celdas
+    for (var i = 0; i < ordencompradetalleArray.length; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+        hilera.className = "pointer";
+        // Le agregamos un id a la entidad <th>
+        hilera.setAttribute('id', 'entidad-' + ordencompradetalleArray[i]["idordencompradetalle"])
+
+        for (var j = 0; j < thArray.length; j++) {
+
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(ordencompradetalleArray[i]["existencia"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
-
-            // agrega la hilera al final de la tabla (al final del elemento tblHead)
-            tblHead.appendChild(hilera);
-        }
-
-        // posiciona el <thead> debajo del elemento <table>
-        tabla.appendChild(tblHead);
-
-        // Crea las celdas
-        for (var i = 0; i < ordencompradetalleArray.length; i++) {
-            // Crea las hileras de la tabla
-            var hilera = document.createElement("tr");
-            hilera.className = "pointer";
-            // Le agregamos un id a la entidad <th>
-            hilera.setAttribute('id', 'entidad-' + ordencompradetalleArray[i]["idordencompradetalle"])
-
-            for (var j = 0; j < thArray.length; j++) {
-
-                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
-                // texto sea el contenido de <td>, ubica el elemento <td> al final
-                // de la hilera de la tabla
-                var celda = document.createElement("td");
-
-                if(j == 0){
-                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["existencia"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 1){
-                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["articulo"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 2){
-                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["descripcion"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 3){
-                    var textoCelda = document.createTextNode("$"+ordencompradetalleArray[i]["costo"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 4){
-                    var textoCelda = document.createTextNode(ordencompradetalleArray[i]["salida"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-            }
-
-            // agrega la hilera al final de la tabla (al final del elemento tblbody)
-            tblBody.appendChild(hilera);
-        }
-
-        // posiciona el <tbody> debajo del elemento <table>
-        tabla.appendChild(tblBody);
-
-        // appends <table> into <div>
-        div.appendChild(tabla);
-    }
-
-
-
-    $("#guardarCargoconsulta").click(function() {
-
-        //Obtenemos el valor del selector de consulta
-        var idconsulta = $("input#idconsulta").val();
-        //Obtenemos el valor del selector de lugarinventario
-        var idlugarinventario = $("select#idlugarinventario").val();
-        //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
-        if (idlugarinventario == "") {
-            if ($('span#idlugarinventario_error').hasClass('hidden')){
-                $('span#idlugarinventario_error').removeClass('hidden');
-                $("span#idlugarinventario_error").show();
-                $("span#idlugarinventario").focus();
-            }
-            return false;
-        }else{
-            $("span#idlugarinventario_error").hide();
-        }
-
-        //Obtenemos el valor del campo cargoconsulta_tipo
-        var cargoconsulta_tipo = $("input#cargoconsulta_tipo").val();
-
-        //Obtenemos el valor del campo cargoconsulta_fecha
-        var cargoconsulta_fecha = $("input#cargoconsulta_fecha").val();
-        //Validamos el campo cargoconsulta_fecha, simplemente miramos que no esté vacío
-        if (cargoconsulta_fecha == "") {
-            if ($('span#cargoconsulta_fecha_error').hasClass('hidden')){
-                $('span#cargoconsulta_fecha_error').removeClass('hidden');
-                $("span#cargoconsulta_fecha_error").show();
-                $("span#cargoconsulta_fecha").focus();
-            }
-            return false;
-        }else{
-            $("span#cargoconsulta_fecha_error").hide();
-        }
-
-        //Obtenemos el valor del campo cantidad
-        var cantidad = $("input#cantidad").val();
-        //Validamos el campo cantidad, simplemente miramos que no esté vacío
-        if (cantidad == "") {
-            if ($('span#cantidad_error').hasClass('hidden')){
-                $('span#cantidad_error').removeClass('hidden');
-                $("span#cantidad_error").show();
-                $("span#cantidad").focus();
-            }
-            return false;
-        }else{
-            $("span#cantidad_error").hide();
-        }
-
-        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idconsulta=' + idconsulta + '&idlugarinventario=' + idlugarinventario + '&cargoconsulta_tipo=' + cargoconsulta_tipo + '&cargoconsulta_fecha=' + cargoconsulta_fecha + '&cantidad=' + cantidad;
-
-        alert(dataString)
-        $.ajax({
-            type: "POST",
-            url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            dataType : 'json',
-            data: dataString,
-            jsonpCallback: 'callback',
-            success: function(data) {
-                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
-                console.log(data.cargoconsultaArray);
-
-                cargoconsultaArray = []
-                var cargoconsultaEntity = data.cargoconsultaArray
-                $.each( cargoconsultaEntity, function( key, value ) {
-                    cargoconsultaArray.push({
-                        "idcargoconsulta" : value.idcargoconsulta,
-                        "cantidad" : value.cantidad,
-                        "articulo" : value.articulo,
-                        "descripcion" : value.descripcion,
-                        "salida" : value.salida,
-                        "fechahora" : value.fechahora,
-                        "costo" : value.costo,
-                        "subtotal" : value.subtotal
-                    });
-                });
-
-                if ($('#cargoconsultaResult').hasClass('hiddendiv')){
-                    $('#cargoconsultaResult').removeClass('hiddendiv')
-                }
-                genera_tabla(cargoconsultaArray);
-
-            },
-            error: function(){
-                //$('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
-                $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar agregar</div>')
-            }
-        });
-
-        return false;
-    });
-
-    $("#guardarCargoadmision").click(function() {
-
-        //Obtenemos el valor del selector de admision
-        var idadmision = $("input#idadmision").val();
-        //Obtenemos el valor del selector de servicio
-        var idservicio = $("select#idservicio").val();
-        //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
-        if (idservicio == "") {
-            if ($('span#idservicio_error').hasClass('hidden')){
-                $('span#idservicio_error').removeClass('hidden');
-                $("span#idservicio_error").show();
-                $("span#idservicio").focus();
-            }
-            return false;
-        }else{
-            $("span#idservicio_error").hide();
-        }
-
-        //Obtenemos el valor del campo cargoadmision_tipo
-        var cargoadmision_tipo = $("input#cargoadmision_tipo").val();
-
-        //Obtenemos el valor del campo cargoadmision_fecha
-        var cargoadmision_fecha = $("input#cargoadmision_fecha").val();
-        //Validamos el campo cargoadmision_fecha, simplemente miramos que no esté vacío
-        if (cargoadmision_fecha == "") {
-            if ($('span#cargoadmision_fecha_error').hasClass('hidden')){
-                $('span#cargoadmision_fecha_error').removeClass('hidden');
-                $("span#cargoadmision_fecha_error").show();
-                $("span#cargoadmision_fecha").focus();
-            }
-            return false;
-        }else{
-            $("span#cargoadmision_fecha_error").hide();
-        }
-
-        //Obtenemos el valor del campo cantidad
-        var cargoadmision_cantidad = $("input#cargoadmision_cantidad").val();
-        //Validamos el campo cantidad, simplemente miramos que no esté vacío
-        if (cargoadmision_cantidad == "") {
-            if ($('span#ccargoadmision_antidad_error').hasClass('hidden')){
-                $('span#cargoadmision_cantidad_error').removeClass('hidden');
-                $("span#cargoadmision_cantidad_error").show();
-                $("span#cargoadmision_cantidad").focus();
-            }
-            return false;
-        }else{
-            $("span#cargoadmision_cantidad_error").hide();
-        }
-
-        //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-        var dataString = 'idadmision=' + idadmision + '&idservicio=' + idservicio + '&cargoadmision_tipo=' + cargoadmision_tipo + '&cargoadmision_fecha=' + cargoadmision_fecha + '&cargoadmision_cantidad=' + cargoadmision_cantidad;
-
-        $.ajax({
-            type: "POST",
-            url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-            data: dataString,
-            success: function() {
-                $("#create-modal-cargoadmision").hide();
-                $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Cargo guardada exitosamente</div>')
-            },
-            error: function(){
-                $('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
-            }
-        });
-
-        return false;
-    });
-
-    // Esta función no está en uso
-    function anticipoTotalStatus(cargoconsultaArray){
-        var divRow   = document.createElement("div");
-        divRow.className = "row";
-        var divCols9   = document.createElement("div");
-        divCols9.className = "col s9";
-        var spanTotal   = document.createElement("span");
-        spanTotal.className = "left";
-        var spanAnticipo   = document.createElement("span");
-        spanAnticipo.style = "margin-left: 40px;";
-        var spanStatus   = document.createElement("span");
-        spanStatus.style = "margin-left: 40px;";
-        var divCols3   = document.createElement("div");
-        divCols3.className = "col s3";
-        var a = document.createElement("a");
-        a.className = "tooltipped right";
-        a.setAttribute ( 'data-position', 'right' );
-        a.setAttribute ( 'data-tooltip', 'Editar' );
-        a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-    }
-    function genera_tabla(cargoconsultaArray) {
-
-        // Obtener la referencia del elemento div con id = cargoconsultaResult
-        var div = document.getElementById("cargoconsultaResult");
-        div.innerHTML = div;
-        // Crea un elemento <table> y un elemento <tbody>
-        var tabla   = document.createElement("table");
-        tabla.className = "hoverable table striped";
-        var tblHead = document.createElement("thead");
-        var tblBody = document.createElement("tbody");
-
-        var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Costo', 'Subtotal', 'Opciones']
-
-        // Crea las celdas
-        for (var i = 0; i < 1; i++) {
-            // Crea las hileras de la tabla
-            var hilera = document.createElement("tr");
-
-            for (var j = 0; j < thArray.length; j++) {
-                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
-                // texto sea el contenido de <td>, ubica el elemento <td> al final
-                // de la hilera de la tabla
-                var celda = document.createElement("th");
-                var textoCelda = document.createTextNode(thArray[j]);
+            if(j == 1){
+                var textoCelda = document.createTextNode(ordencompradetalleArray[i]["articulo"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
-
-            // agrega la hilera al final de la tabla (al final del elemento tblHead)
-            tblHead.appendChild(hilera);
-        }
-
-        // posiciona el <thead> debajo del elemento <tbody>
-        tabla.appendChild(tblHead);
-
-        // Crea las celdas
-        for (var i = 0; i < cargoconsultaArray.length; i++) {
-            // Crea las hileras de la tabla
-            var hilera = document.createElement("tr");
-
-            for (var j = 0; j < thArray.length; j++) {
-                // Crea un elemento <td> y un nodo de texto, haz que el nodo de
-                // texto sea el contenido de <td>, ubica el elemento <td> al final
-                // de la hilera de la tabla
-                var celda = document.createElement("td");
-
-                if(j == 0){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 1){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["articulo"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 2){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 3){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["salida"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 4){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 5){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 6){
-                    var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
-                    celda.appendChild(textoCelda);
-                    hilera.appendChild(celda);
-                }
-                if(j == 7){
-                    var link1 = document.createElement("a");
-                    link1.className = "tooltipped modal-trigger";
-                    link1.setAttribute ( 'data-position', 'left' );
-                    link1.setAttribute ( 'data-tooltip', 'Visualizar' );
-                    link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                    var vista = document.createElement("i");
-                    vista.className = "tiny mdi-image-remove-red-eye";
-                    var link2 = document.createElement("a");
-                    link2.className = "tooltipped";
-                    link2.setAttribute ( 'data-position', 'right' );
-                    link2.setAttribute ( 'data-tooltip', 'Editar' );
-                    link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                    var editar = document.createElement("i");
-                    editar.className = "tiny mdi-action-assignment";
-                    var link3 = document.createElement("a");
-                    link3.className = "tooltipped";
-                    link3.setAttribute ( 'data-position', 'right' );
-                    link3.setAttribute ( 'data-tooltip', 'Eliminar' );
-                    link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
-                    var eliminar = document.createElement("i");
-                    eliminar.className = "tiny mdi-action-delete";
-                    celda.appendChild(link1);
-                    celda.appendChild(vista);
-                    celda.appendChild(link2);
-                    celda.appendChild(editar);
-                    celda.appendChild(link3);
-                    celda.appendChild(eliminar);
-                    hilera.appendChild(celda);
-                }
+            if(j == 2){
+                var textoCelda = document.createTextNode(ordencompradetalleArray[i]["descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
             }
-
-            // agrega la hilera al final de la tabla (al final del elemento tblbody)
-            tblBody.appendChild(hilera);
+            if(j == 3){
+                var textoCelda = document.createTextNode("$"+ordencompradetalleArray[i]["costo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 4){
+                var textoCelda = document.createTextNode(ordencompradetalleArray[i]["salida"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
         }
 
-        // posiciona el <tbody> debajo del elemento <table>
-        tabla.appendChild(tblBody);
-
-        // appends <table> into <body>
-        div.appendChild(tabla);
-
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
     }
 
-    function eliminarTabla(){
-        var parrafo = document.getElementById("cargoconsultaResult");
-        parrafo.parentNode.removeChild(parrafo);
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <div>
+    div.appendChild(tabla);
+}
+
+
+
+$("#guardarCargoconsulta").click(function() {
+
+    // Actializar existencias
+    //Obtenemos el valor del selector de consulta
+    var idordencompradetalle = $("input#idordencompradetalle").val();
+    // Actializar existencias
+
+    //Obtenemos el valor del selector de consulta
+    var idconsulta = $("input#idconsulta").val();
+    //Obtenemos el valor del selector de lugarinventario
+    var idlugarinventario = $("input#idlugarinventario").val();
+    //Obtenemos el valor del campo cargoconsulta_tipo
+    var cargoconsulta_tipo = $("input#cargoconsulta_tipo").val();
+    //Obtenemos el valor del campo cargoconsulta_fecha
+    var cargoconsulta_fecha = $("input#cargoconsulta_fecha").val();
+    //Obtenemos el valor del campo cantidad
+    var cantidad = $("select#cantidad").val();
+
+    if(cantidad == null){
+        //$('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 error-modal-ajax">Error al intentar agregar. Ya no hay artículos en existencia.</div>')
+        alert("Error al intentar agregar. Ya no hay artículos en existencia");
+        return false;
     }
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'idconsulta=' + idconsulta + '&idlugarinventario=' + idlugarinventario + '&cargoconsulta_tipo=' + cargoconsulta_tipo + '&cargoconsulta_fecha=' + cargoconsulta_fecha + '&cantidad=' + cantidad;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        jsonpCallback: 'callback',
+        success: function(data) {
+            //$('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
+            //$('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
+            alert("Cargo agregado exitosamente");
+
+            //console.log(data.cargoconsultaArray);
+            cargoconsultaArray = []
+            var cargoconsultaEntity = data.cargoconsultaArray
+            $.each( cargoconsultaEntity, function( key, value ) {
+                cargoconsultaArray.push({
+                    "idcargoconsulta" : value.idcargoconsulta,
+                    "cantidad" : value.cantidad,
+                    "articulo" : value.articulo,
+                    "descripcion" : value.descripcion,
+                    "salida" : value.salida,
+                    "fechahora" : value.fechahora,
+                    "costo" : value.costo,
+                    "subtotal" : value.subtotal
+                });
+            });
+
+            if ($('#cargoconsultaResult').hasClass('hiddendiv')){
+                $('#cargoconsultaResult').removeClass('hiddendiv')
+            }
+            tablaCargoconsultaAgregado(cargoconsultaArray);
+            genera_tabla(cargoconsultaArray);
+
+            // Refrescamos
+            buscarCargoconsulta(idordencompradetalle);
+
+        },
+        error: function(){
+            //$('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
+            //$('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 error-modal-ajax">Error al intentar agregar</div>')
+            alert("Error al intentar agregar");
+        }
+    });
+
+    return false;
+});
+
+$("#guardarCargoadmision").click(function() {
+
+    //Obtenemos el valor del selector de admision
+    var idadmision = $("input#idadmision").val();
+    //Obtenemos el valor del selector de servicio
+    var idservicio = $("select#idservicio").val();
+    //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
+    if (idservicio == "") {
+        if ($('span#idservicio_error').hasClass('hidden')){
+            $('span#idservicio_error').removeClass('hidden');
+            $("span#idservicio_error").show();
+            $("span#idservicio").focus();
+        }
+        return false;
+    }else{
+        $("span#idservicio_error").hide();
+    }
+
+    //Obtenemos el valor del campo cargoadmision_tipo
+    var cargoadmision_tipo = $("input#cargoadmision_tipo").val();
+
+    //Obtenemos el valor del campo cargoadmision_fecha
+    var cargoadmision_fecha = $("input#cargoadmision_fecha").val();
+    //Validamos el campo cargoadmision_fecha, simplemente miramos que no esté vacío
+    if (cargoadmision_fecha == "") {
+        if ($('span#cargoadmision_fecha_error').hasClass('hidden')){
+            $('span#cargoadmision_fecha_error').removeClass('hidden');
+            $("span#cargoadmision_fecha_error").show();
+            $("span#cargoadmision_fecha").focus();
+        }
+        return false;
+    }else{
+        $("span#cargoadmision_fecha_error").hide();
+    }
+
+    //Obtenemos el valor del campo cantidad
+    var cargoadmision_cantidad = $("input#cargoadmision_cantidad").val();
+    //Validamos el campo cantidad, simplemente miramos que no esté vacío
+    if (cargoadmision_cantidad == "") {
+        if ($('span#ccargoadmision_antidad_error').hasClass('hidden')){
+            $('span#cargoadmision_cantidad_error').removeClass('hidden');
+            $("span#cargoadmision_cantidad_error").show();
+            $("span#cargoadmision_cantidad").focus();
+        }
+        return false;
+    }else{
+        $("span#cargoadmision_cantidad_error").hide();
+    }
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'idadmision=' + idadmision + '&idservicio=' + idservicio + '&cargoadmision_tipo=' + cargoadmision_tipo + '&cargoadmision_fecha=' + cargoadmision_fecha + '&cargoadmision_cantidad=' + cargoadmision_cantidad;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        data: dataString,
+        success: function() {
+            $("#create-modal-cargoadmision").hide();
+            //$('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Cargo guardada exitosamente</div>')
+        },
+        error: function(){
+            //$('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
+        }
+    });
+
+    return false;
+});
+
+// Esta función no está en uso
+function anticipoTotalStatus(cargoconsultaArray){
+    var divRow   = document.createElement("div");
+    divRow.className = "row";
+    var divCols9   = document.createElement("div");
+    divCols9.className = "col s9";
+    var spanTotal   = document.createElement("span");
+    spanTotal.className = "left";
+    var spanAnticipo   = document.createElement("span");
+    spanAnticipo.style = "margin-left: 40px;";
+    var spanStatus   = document.createElement("span");
+    spanStatus.style = "margin-left: 40px;";
+    var divCols3   = document.createElement("div");
+    divCols3.className = "col s3";
+    var a = document.createElement("a");
+    a.className = "tooltipped right";
+    a.setAttribute ( 'data-position', 'right' );
+    a.setAttribute ( 'data-tooltip', 'Editar' );
+    a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+}
+function tablaCargoconsultaAgregado(cargoconsultaArray) {
+
+    // Obtener la referencia del elemento div con id = tablaCargoconsultaAgregado
+    var div = document.getElementById("tablaCargoconsultaAgregado");
+    div.innerHTML = div;
+    // Creamos el elemento <table>
+    var tabla   = document.createElement("table");
+    // Agregamos clases el elemento <table>
+    tabla.className = "hoverable striped";
+    // Creamos el elemento <thead>
+    var tblHead = document.createElement("thead");
+    // Creamos el elemento <tbody>
+    var tblBody = document.createElement("tbody");
+
+    // Creamos un array con las columnas de nuestra tabla
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Costo', 'Subtotal', 'Opciones']
+
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <tbody>
+    tabla.appendChild(tblHead);
+
+    // Crea las celdas
+    for (var i = 0; i < cargoconsultaArray.length; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 2){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 3){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 4){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 5){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 6){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
+                var link1 = document.createElement("a");
+                link1.className = "tooltipped modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var vista = document.createElement("i");
+                vista.className = "tiny mdi-image-remove-red-eye";
+                var link2 = document.createElement("a");
+                link2.className = "tooltipped";
+                link2.setAttribute ( 'data-position', 'right' );
+                link2.setAttribute ( 'data-tooltip', 'Editar' );
+                link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var editar = document.createElement("i");
+                editar.className = "tiny mdi-action-assignment";
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "tiny mdi-action-delete";
+                celda.appendChild(link1);
+                celda.appendChild(vista);
+                celda.appendChild(link2);
+                celda.appendChild(editar);
+                celda.appendChild(link3);
+                celda.appendChild(eliminar);
+                hilera.appendChild(celda);
+            }
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <body>
+    div.appendChild(tabla);
+
+}
+function buscarCargoconsulta(idordencompradetalle){
+
+    //Obtenemos el valor del selector de lugarinventario
+    var busqueda = $("input#busqueda").val();
+
+    //Obtenemos el valor del selector de lugarinventario
+    var cargoconsulta_by = $("select#cargoconsulta_by").val();
+    //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
+    if (cargoconsulta_by == "") {
+        if ($('span#cargoconsulta_by_error').hasClass('hidden')){
+            $('span#cargoconsulta_by_error').removeClass('hidden');
+            $("span#cargoconsulta_by_error").show();
+            $("span#cargoconsulta_by").focus();
+        }
+        return false;
+    }else{
+        $("span#cargoconsulta_by_error").hide();
+    }
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'cargoconsulta_by=' + cargoconsulta_by + '&busqueda=' + busqueda ;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        jsonpCallback: 'callback',
+        success: function(data) {
+            ordencompradetalleArray = []
+            var ordencompradetalleEntity = data.ordencompradetalleArray;
+            $.each( ordencompradetalleEntity, function( key, value ) {
+                ordencompradetalleArray.push({
+                    "idordencompradetalle" : value.idordencompradetalle,
+                    "idlugarinventario" : value.idlugarinventario,
+                    "cargoconsulta_tipo" : value.cargoconsulta_tipo,
+                    "cargoconsulta_fecha" : value.cargoconsulta_fecha,
+                    "caducidad" : value.ordencompradetalle_caducidad,
+                    "existencia" : value.existencia,
+                    "articulo" : value.articulo,
+                    "descripcion" : value.descripcion,
+                    "costo" : value.costo,
+                    "salida" : value.salida
+                });
+            });
+
+            // Creamos nuestra tabla de colecciones
+            generaTablaBuscarConsulta(ordencompradetalleArray);
+
+            // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
+            $.each(ordencompradetalleArray, function(keys, values){
+
+                // Falta mantener el foco en el artículo que se esta agregando
+                if(idordencompradetalle == values.idordencompradetalle){
+                    if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsulta').removeClass('hiddendiv')
+                    }
+                    var br   = document.createElement("br");
+                    var br2   = document.createElement("br");
+                    var br3   = document.createElement("br");
+                    var br4   = document.createElement("br");
+                    var br5   = document.createElement("br");
+                    // Creamos el input de cantidad de tipo select
+                    var divinputCantidad = document.createElement('div');
+                    divinputCantidad.className = "input-field";
+                    divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
+                    var select = document.createElement('select');
+                    select.style.display = "inline";
+                    select.style.width = "auto";
+                    select.style.height = "auto";
+                    select.setAttribute ( 'id', 'cantidad' );
+                    // agregamos los valores <option> a seleccionar
+                    for($i=1; $i<=values.existencia; $i++){
+                        var selectOption = new Option($i,$i);
+                        select.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputCantidad.appendChild(select);
+
+                    // Creamos la entidad textual lista para agregar al cargoconsulta
+                    var div = document.getElementById("fieldsetCargoconsultaEntity");
+                    div.innerHTML = div;
+                    var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
+                    var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
+                    var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
+                    var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
+                    var textoCantidad = document.createTextNode("Cantidad: ");
+                    div.appendChild(textoArticulo);
+                    div.appendChild(br);
+                    div.appendChild(textoDescripcion);
+                    div.appendChild(br2);
+                    div.appendChild(textoCaducidad);
+                    div.appendChild(br3);
+                    div.appendChild(textoDisponibleEn);
+                    div.appendChild(br4);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br5);
+                    div.appendChild(textoCantidad);
+                    div.appendChild(select);
+
+                    // Actializar existencias
+
+                    // El input ordencompradetalle solamente lo necesitamos para actualizar nuestra entidad artículo antes de agregar el cargo.
+                    // Si el formulario ya tiene el input de idordencompradetalle lo eliminamos
+                    if(document.getElementById('divinputIdordencompradetalle')){
+                        var divinputIdordencompradetalleDelete = document.getElementById("divinputIdordencompradetalle");
+                        divinputIdordencompradetalleDelete.parentNode.removeChild(divinputIdordencompradetalleDelete);
+                    }
+                    // Actializar existencias
+
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputIdlugarinventario')){
+                        var divinputIdlugarinventarioDelete = document.getElementById("divinputIdlugarinventario");
+                        divinputIdlugarinventarioDelete.parentNode.removeChild(divinputIdlugarinventarioDelete);
+                    }
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaTipo')){
+                        var divinputCargoconsultaTipoDelete = document.getElementById("divinputCargoconsultaTipo");
+                        divinputCargoconsultaTipoDelete.parentNode.removeChild(divinputCargoconsultaTipoDelete);
+                    }
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaFecha')){
+                        var divinputCargoconsultaFechaDelete = document.getElementById("divinputCargoconsultaFecha");
+                        divinputCargoconsultaFechaDelete.parentNode.removeChild(divinputCargoconsultaFechaDelete);
+                    }
+                    // Creamos nuestro Formulario con los datos a insertar en Cargoconsulta
+                    var form = document.getElementById('CargoconsultaForm');
+
+                    // Actializar existencias
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdordencompradetalle = document.createElement('div');
+                    divinputIdordencompradetalle.className = "input-field";
+                    divinputIdordencompradetalle.setAttribute ( 'id', 'divinputIdordencompradetalle' );
+                    var inputIdordencompradetalle = document.createElement('input');
+                    inputIdordencompradetalle.setAttribute ( 'id', 'idordencompradetalle' );
+                    inputIdordencompradetalle.setAttribute ( 'type', 'hidden' );
+                    inputIdordencompradetalle.setAttribute ( 'name', 'idordencompradetalle' );
+                    inputIdordencompradetalle.setAttribute ( 'value', values.idordencompradetalle );
+                    divinputIdordencompradetalle.appendChild(inputIdordencompradetalle)
+                    // Actializar existencias
+
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdlugarinventario = document.createElement('div');
+                    divinputIdlugarinventario.className = "input-field";
+                    divinputIdlugarinventario.setAttribute ( 'id', 'divinputIdlugarinventario' );
+                    var inputIdlugarinventario = document.createElement('input');
+                    inputIdlugarinventario.setAttribute ( 'id', 'idlugarinventario' );
+                    inputIdlugarinventario.setAttribute ( 'type', 'hidden' );
+                    inputIdlugarinventario.setAttribute ( 'name', 'idlugarinventario' );
+                    inputIdlugarinventario.setAttribute ( 'value', values.idlugarinventario );
+                    divinputIdlugarinventario.appendChild(inputIdlugarinventario)
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaTipo = document.createElement('div');
+                    divinputCargoconsultaTipo.className = "input-field";
+                    divinputCargoconsultaTipo.setAttribute ( 'id', 'divinputCargoconsultaTipo' );
+                    var inputCargoconsultaTipo = document.createElement('input');
+                    inputCargoconsultaTipo.setAttribute ( 'id', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaTipo.setAttribute ( 'name', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'value', values.cargoconsulta_tipo );
+                    divinputCargoconsultaTipo.appendChild(inputCargoconsultaTipo);
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaFecha = document.createElement('div');
+                    divinputCargoconsultaFecha.className = "input-field";
+                    divinputCargoconsultaFecha.setAttribute ( 'id', 'divinputCargoconsultaFecha' );
+                    var inputCargoconsultaFecha = document.createElement('input');
+                    inputCargoconsultaFecha.setAttribute ( 'id', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaFecha.setAttribute ( 'name', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'value', values.cargoconsulta_fecha );
+                    divinputCargoconsultaFecha.appendChild(inputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaTipo);
+                    form.appendChild(divinputIdlugarinventario);
+                    form.appendChild(divinputIdordencompradetalle);
+                }
+
+                // Si dan clic a una entidad de la colección
+                $("#entidad-"+values.idordencompradetalle).click(function(){
+                    if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsulta').removeClass('hiddendiv')
+                    }
+                    var br   = document.createElement("br");
+                    var br2   = document.createElement("br");
+                    var br3   = document.createElement("br");
+                    var br4   = document.createElement("br");
+                    var br5   = document.createElement("br");
+                    // Creamos el input de cantidad de tipo select
+                    var divinputCantidad = document.createElement('div');
+                    divinputCantidad.className = "input-field";
+                    divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
+                    var select = document.createElement('select');
+                    select.style.display = "inline";
+                    select.style.width = "auto";
+                    select.style.height = "auto";
+                    select.setAttribute ( 'id', 'cantidad' );
+                    // agregamos los valores <option> a seleccionar
+                    for($i=1; $i<=values.existencia; $i++){
+                        var selectOption = new Option($i,$i);
+                        select.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputCantidad.appendChild(select);
+
+                    // Creamos la entidad textual lista para agregar al cargoconsulta
+                    var div = document.getElementById("fieldsetCargoconsultaEntity");
+                    div.innerHTML = div;
+                    var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
+                    var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
+                    var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
+                    var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
+                    var textoCantidad = document.createTextNode("Cantidad: ");
+                    div.appendChild(textoArticulo);
+                    div.appendChild(br);
+                    div.appendChild(textoDescripcion);
+                    div.appendChild(br2);
+                    div.appendChild(textoCaducidad);
+                    div.appendChild(br3);
+                    div.appendChild(textoDisponibleEn);
+                    div.appendChild(br4);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br5);
+                    div.appendChild(textoCantidad);
+                    div.appendChild(select);
+
+                    // Actializar existencias
+
+                    // El input ordencompradetalle solamente lo necesitamos para actualizar nuestra entidad artículo antes de agregar el cargo.
+                    // Si el formulario ya tiene el input de idordencompradetalle lo eliminamos
+                    if(document.getElementById('divinputIdordencompradetalle')){
+                        var divinputIdordencompradetalleDelete = document.getElementById("divinputIdordencompradetalle");
+                        divinputIdordencompradetalleDelete.parentNode.removeChild(divinputIdordencompradetalleDelete);
+                    }
+                    // Actializar existencias
+
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputIdlugarinventario')){
+                        var divinputIdlugarinventarioDelete = document.getElementById("divinputIdlugarinventario");
+                        divinputIdlugarinventarioDelete.parentNode.removeChild(divinputIdlugarinventarioDelete);
+                    }
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaTipo')){
+                        var divinputCargoconsultaTipoDelete = document.getElementById("divinputCargoconsultaTipo");
+                        divinputCargoconsultaTipoDelete.parentNode.removeChild(divinputCargoconsultaTipoDelete);
+                    }
+                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaFecha')){
+                        var divinputCargoconsultaFechaDelete = document.getElementById("divinputCargoconsultaFecha");
+                        divinputCargoconsultaFechaDelete.parentNode.removeChild(divinputCargoconsultaFechaDelete);
+                    }
+                    // Creamos nuestro Formulario con los datos a insertar en Cargoconsulta
+                    var form = document.getElementById('CargoconsultaForm');
+
+                    // Actializar existencias
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdordencompradetalle = document.createElement('div');
+                    divinputIdordencompradetalle.className = "input-field";
+                    divinputIdordencompradetalle.setAttribute ( 'id', 'divinputIdordencompradetalle' );
+                    var inputIdordencompradetalle = document.createElement('input');
+                    inputIdordencompradetalle.setAttribute ( 'id', 'idordencompradetalle' );
+                    inputIdordencompradetalle.setAttribute ( 'type', 'hidden' );
+                    inputIdordencompradetalle.setAttribute ( 'name', 'idordencompradetalle' );
+                    inputIdordencompradetalle.setAttribute ( 'value', values.idordencompradetalle );
+                    divinputIdordencompradetalle.appendChild(inputIdordencompradetalle)
+                    // Actializar existencias
+
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdlugarinventario = document.createElement('div');
+                    divinputIdlugarinventario.className = "input-field";
+                    divinputIdlugarinventario.setAttribute ( 'id', 'divinputIdlugarinventario' );
+                    var inputIdlugarinventario = document.createElement('input');
+                    inputIdlugarinventario.setAttribute ( 'id', 'idlugarinventario' );
+                    inputIdlugarinventario.setAttribute ( 'type', 'hidden' );
+                    inputIdlugarinventario.setAttribute ( 'name', 'idlugarinventario' );
+                    inputIdlugarinventario.setAttribute ( 'value', values.idlugarinventario );
+                    divinputIdlugarinventario.appendChild(inputIdlugarinventario)
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaTipo = document.createElement('div');
+                    divinputCargoconsultaTipo.className = "input-field";
+                    divinputCargoconsultaTipo.setAttribute ( 'id', 'divinputCargoconsultaTipo' );
+                    var inputCargoconsultaTipo = document.createElement('input');
+                    inputCargoconsultaTipo.setAttribute ( 'id', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaTipo.setAttribute ( 'name', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'value', values.cargoconsulta_tipo );
+                    divinputCargoconsultaTipo.appendChild(inputCargoconsultaTipo);
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaFecha = document.createElement('div');
+                    divinputCargoconsultaFecha.className = "input-field";
+                    divinputCargoconsultaFecha.setAttribute ( 'id', 'divinputCargoconsultaFecha' );
+                    var inputCargoconsultaFecha = document.createElement('input');
+                    inputCargoconsultaFecha.setAttribute ( 'id', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaFecha.setAttribute ( 'name', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'value', values.cargoconsulta_fecha );
+                    divinputCargoconsultaFecha.appendChild(inputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaTipo);
+                    form.appendChild(divinputIdlugarinventario);
+                    form.appendChild(divinputIdordencompradetalle);
+                });
+            });
+        },
+        error: function(){
+            $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
+        }
+    });
+
+    return false;
+};
+function genera_tabla(cargoconsultaArray) {
+
+    // Obtener la referencia del elemento div con id = cargoconsultaResult
+    var div = document.getElementById("cargoconsultaResult");
+    div.innerHTML = div;
+    // Crea un elemento <table> y un elemento <tbody>
+    var tabla   = document.createElement("table");
+    tabla.className = "hoverable striped";
+    var tblHead = document.createElement("thead");
+    var tblBody = document.createElement("tbody");
+
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Costo', 'Subtotal', 'Opciones']
+
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <tbody>
+    tabla.appendChild(tblHead);
+
+    // Crea las celdas
+    for (var i = 0; i < cargoconsultaArray.length; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["articulo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 2){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 3){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["salida"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 4){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 5){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 6){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
+                var link1 = document.createElement("a");
+                link1.className = "tooltipped modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var vista = document.createElement("i");
+                vista.className = "tiny mdi-image-remove-red-eye";
+                var link2 = document.createElement("a");
+                link2.className = "tooltipped";
+                link2.setAttribute ( 'data-position', 'right' );
+                link2.setAttribute ( 'data-tooltip', 'Editar' );
+                link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var editar = document.createElement("i");
+                editar.className = "tiny mdi-action-assignment";
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "tiny mdi-action-delete";
+                celda.appendChild(link1);
+                celda.appendChild(vista);
+                celda.appendChild(link2);
+                celda.appendChild(editar);
+                celda.appendChild(link3);
+                celda.appendChild(eliminar);
+                hilera.appendChild(celda);
+            }
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <body>
+    div.appendChild(tabla);
+}
+
+function eliminarTabla(){
+    var parrafo = document.getElementById("cargoconsultaResult");
+    parrafo.parentNode.removeChild(parrafo);
+}
 </script>

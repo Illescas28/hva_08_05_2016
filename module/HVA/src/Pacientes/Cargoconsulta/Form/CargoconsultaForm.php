@@ -37,7 +37,9 @@ class CargoconsultaForm extends Form
         ));
         // Fin columnas adicionales
 
-        // consulta
+
+        /*
+        // consulta con prarámetros
         $this->add(array(
             'name' => 'idconsulta',
             'type' => 'Zend\Form\Element\Select',
@@ -50,7 +52,10 @@ class CargoconsultaForm extends Form
                 'id' => 'idconsulta'
             )
         ));
-        // lugarinventario
+        */
+
+        /*
+        // lugarinventario con prarámetros
         $this->add(array(
             'name' => 'idlugarinventario',
             'type' => 'Zend\Form\Element\Select',
@@ -63,7 +68,28 @@ class CargoconsultaForm extends Form
                 'id' => 'idlugarinventario'
             )
         ));
+        */
 
+        $this->add(array(
+            'name' => 'idconsulta',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Consulta',
+            ),
+            'attributes' => array(
+                'id' => 'idconsulta'
+            )
+        ));
+        $this->add(array(
+            'name' => 'idlugarinventario',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Consulta',
+            ),
+            'attributes' => array(
+                'id' => 'idlugarinventario'
+            )
+        ));
         $this->add(array(
             'name' => 'cargoconsulta_tipo',
             'type' => 'Zend\Form\Element\Select',

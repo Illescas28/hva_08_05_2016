@@ -32,6 +32,15 @@ class PacienteController extends AbstractActionController
         return( date("md") < $m.$d ? date("Y")-$Y-1 : date("Y")-$Y );
     }
 
+    /*
+    public function calcularEdades($fecha){
+        $dias = explode('/', $fecha, 3);
+        $dias = mktime(0, 0, 0, $dias[1], $dias[0], $dias[2]);
+        $edad = (int)((time()-$dias)/31556926);
+        return $edad;
+    }
+    */
+
     public function nuevoAction()
     {
         $request = $this->getRequest();
@@ -170,6 +179,9 @@ class PacienteController extends AbstractActionController
             $consulta = new \Consulta();
             // Fin Preparando Form Consultorio
 
+            /**
+             * Ya no necesitamos esto para nuestro form cargoconsulta -> ahora solo instanciamos un form sin parametros
+             *
             // Inicio Preparando Form Cargoconsulta
             // Almacenamos en un array los registros de todos los consultorios existentes en la base de datos
             $consultaCollection = \ConsultaQuery::create()->find();
@@ -186,6 +198,10 @@ class PacienteController extends AbstractActionController
 
             //Intanciamos nuestro formulario cargoconsulta y le mandamos por parametro los medicos y consultorios existentes
             $cargoconsultaForm = new CargoconsultaForm($consultaArray, $lugarinventarioArray);
+            */
+
+            //Intanciamos nuestro formulario cargoconsulta "SIN PARAMETROS"
+            $cargoconsultaForm = new CargoconsultaForm();
 
             if($request->getPost()->cargoconsulta_by != null){
 
@@ -232,6 +248,7 @@ class PacienteController extends AbstractActionController
                     $lugarNombre = null;
                     foreach($ordencompradetalleQuery as $ordencompradetalleEntity){
                         foreach($ordencompradetalleEntity->getLugarinventarios()->getArrayCopy() as $lugarinventarioEntity){
+                            $idlugarinventario = $lugarinventarioEntity->getIdlugarinventario();
                             $lugarNombre = $lugarinventarioEntity->getLugar()->getLugarNombre();
                             $lugarinventarioCantidad = $lugarinventarioEntity->getLugarinventarioCantidad();
                             $articuloNombre = $ordencompradetalleEntity->getArticulovariante()->getArticulo()->getArticuloNombre();
@@ -247,6 +264,9 @@ class PacienteController extends AbstractActionController
                         }
                         $ordencompradetalle = array(
                             'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
+                            'idlugarinventario' => $idlugarinventario,
+                            'cargoconsulta_tipo' => 'articulo',
+                            'cargoconsulta_fecha' => date('Y-m-d H:i:s'),
                             'ordencompradetalle_caducidad' => $ordencompradetalleEntity->getOrdencompradetalleCaducidad(),
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,
@@ -350,7 +370,7 @@ class PacienteController extends AbstractActionController
 
                     //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Consulta
                     foreach ($cargoconsultaForm->getData() as $cargoconsultaKey => $cargoconsultaValue){
-                        if($cargoconsultaKey != 'cargoconsulta_by'){
+                        if($cargoconsultaKey != 'cargoconsulta_by' && $cargoconsultaKey != 'busqueda'){
                             $cargoconsulta->setByName($cargoconsultaKey, $cargoconsultaValue, \BasePeer::TYPE_FIELDNAME);
                         }
                     }
@@ -368,17 +388,30 @@ class PacienteController extends AbstractActionController
                     //Guardamos en nuestra base de datos
                     $cargoconsulta->save();
 
+                    $ordencompradetalleQuery = $cargoconsulta->getLugarinventario();
+                    $ordencompradetalleQuery->setLugarinventarioCantidad($ordencompradetalleQuery->getLugarinventarioCantidad()-$cargoconsulta->getCantidad());
+                    $ordencompradetalleQuery->save();
+
                     $cargoconsultaQuery = \CargoconsultaQuery::create()->filterByIdconsulta($cargoconsulta->getIdconsulta())->find();
                     if($cargoconsultaQuery->getArrayCopy()){
                         $cargoconsultaArray = array();
                         foreach($cargoconsultaQuery as $cargoconsultaEntity){
+                            $articulovarianteEntity = $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante();
+                            foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadQuery = \PropiedadQuery::create()->filterByIdpropiedad($articulovariantevalorEntity->getIdpropiedad())->findOne();
+                                $propiedadNombre = $propiedadQuery->getPropiedadNombre();
+                            }
+                            foreach($articulovarianteEntity->getArticulovariantevalors()->getArrayCopy() as $articulovariantevalorEntity){
+                                $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
+                                $propiedadvalorNombre = $propiedadvalorQuery->getPropiedadvalorNombre();
+                            }
                             $cargoconsulta = array(
                                 'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
                                 'cantidad' => $cargoconsultaEntity->getCantidad(),
                                 'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
-                                'descripcion' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloDescripcion(),
+                                'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
                                 'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
-                                'fechahora' => date('Y-m-d H:i:s'),
+                                'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
                                 'costo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetallePrecio(),
                                 'subtotal' => $cargoconsultaEntity->getMonto(),
                             );
@@ -412,6 +445,7 @@ class PacienteController extends AbstractActionController
                         'input_error' => $messageArray
                     ));
                 }*/
+
 
                 //Instanciamos nuestro filtro
                 $cargoadmisionFilter = new CargoadmisionFilter();
@@ -702,8 +736,6 @@ class PacienteController extends AbstractActionController
 
                 //Redireccionamos a nuestro list
                 return $this->redirect()->toRoute('pacientes');
-
-            }else{
 
             }
         }
