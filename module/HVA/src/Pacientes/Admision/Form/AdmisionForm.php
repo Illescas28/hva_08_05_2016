@@ -1,14 +1,14 @@
 <?php
-namespace Pacientes\Paciente\Form;
+namespace Pacientes\Admision\Form;
 
 use Zend\Form\Form;
 
-class ConsultaForm extends Form
+class AdmisionForm extends Form
 {
-    public function __construct(array $medico = null, array $consultorio = null)
+    public function __construct(array $medico = null, array $cuarto = null)
     {
         // we want to ignore the name passed
-        parent::__construct('ConsultaForm');
+        parent::__construct('AdmisionForm');
         $this->setAttribute('method', 'post');
 
         // medicos
@@ -21,85 +21,85 @@ class ConsultaForm extends Form
                 'value_options' => $medico,
             ),
             'attributes' => array(
-                'id' => 'idmedico'
+                'id' => 'idmedicoadmision'
             )
         ));
-        // consultorio
+        // cuarto
         $this->add(array(
-            'name' => 'idconsultorio',
+            'name' => 'idcuarto',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'Consultorio',
-                'empty_option' => 'Seleccione un consultorio',
-                'value_options' => $consultorio,
+                'label' => 'Cuarto',
+                'empty_option' => 'Seleccione un cuarto',
+                'value_options' => $cuarto,
             ),
             'attributes' => array(
-                'id' => 'idconsultorio'
+                'id' => 'idcuarto'
             )
         ));
         // paciente
         $this->add(array(
             'name' => 'idpaciente',
-            'type' => 'Hidden',
+            'type' => 'Text',
             'attributes' => array(
-                'id' => 'idpaciente'
+                'id' => 'idpacienteadmision'
             )
         ));
 
         $this->add(array(
-            'name' => 'consulta_fechaadmision',
+            'name' => 'admision_fechaadmision',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Fecha de consulta',
+                'label' => 'Fecha de admisión',
             ),
             'attributes' => array(
-                'id' => 'consulta_fechaadmision'
+                'id' => 'admision_fechaadmision'
             )
         ));
         $this->add(array(
-            'name' => 'consulta_fechasalida',
+            'name' => 'admision_fechasalida',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Fecha de salida',
             ),
             'attributes' => array(
-                'id' => 'consulta_fechasalida'
+                'id' => 'admision_fechasalida'
             )
         ));
         $this->add(array(
-            'name' => 'consulta_diagnostico',
+            'name' => 'admision_diagnostico',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Diagnostico',
             ),
             'attributes' => array(
-                'id' => 'consulta_diagnostico'
+                'id' => 'admision_diagnostico'
             )
         ));
         $this->add(array(
-            'name' => 'consulta_observaciones',
+            'name' => 'admision_observaciones',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Observaciones',
             ),
             'attributes' => array(
-                'id' => 'consulta_observaciones'
+                'id' => 'admision_observaciones'
             )
         ));
         $this->add(array(
-            'name' => 'consulta_status',
+            'name' => 'admision_status',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'Estado Civil',
+                'label' => 'Status',
                 'empty_option' => 'Seleccione su estado civil',
                 'value_options' => array('pagada' => 'pagada','no pagada' => 'no pagada','pendiente' => 'pendiente'),
             ),
             'attributes' => array(
-                'id' => 'consulta_status'
+                'id' => 'admision_status'
             )
         ));
         $this->add(array(
-            'name' => 'consulta_total',
+            'name' => 'admision_total',
             'required' => true,
             'validators' => array(
                 array(
@@ -111,10 +111,20 @@ class ConsultaForm extends Form
                 ),
             ),
             'options' => array(
-                'label' => 'Consulta Total'
+                'label' => 'Admisión Total'
             ),
             'attributes' => array(
-                'id' => 'consulta_total'
+                'id' => 'admision_total'
+            )
+        ));
+        $this->add(array(
+            'name' => 'admision_pagadaen',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Pagada en',
+            ),
+            'attributes' => array(
+                'id' => 'admision_pagadaen'
             )
         ));
     }

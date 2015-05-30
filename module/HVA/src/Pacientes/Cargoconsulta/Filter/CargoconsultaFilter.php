@@ -23,16 +23,24 @@ class CargoconsultaFilter implements InputFilterAwareInterface
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
 
-            // Inicio Columna alternativa
+            // Inicio Columnas alternativa
             $inputFilter->add(array(
-                'name'     => 'cargoconsulta_by',
+                'name'     => 'cargoconsultaarticulo_by',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),
                 ),
             ));
-            // Fin Columna alternativa
+            $inputFilter->add(array(
+                'name'     => 'cargoconsultaservicio_by',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            // Fin Columnas alternativa
 
             $inputFilter->add(array(
                 'name'     => 'idconsulta',
@@ -43,7 +51,14 @@ class CargoconsultaFilter implements InputFilterAwareInterface
             ));
             $inputFilter->add(array(
                 'name'     => 'idlugarinventario',
-                'required' => true,
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'Int'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'idservicio',
+                'required' => false,
                 'filters'  => array(
                     array('name' => 'Int'),
                 ),

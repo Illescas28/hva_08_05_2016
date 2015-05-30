@@ -11,6 +11,44 @@ class CargoadmisionForm extends Form
         parent::__construct('CargoadmisionForm');
         $this->setAttribute('method', 'post');
 
+        // Inicio columnas adicionales
+        // busqueda
+        $this->add(array(
+            'name' => 'busqueda',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Busqueda',
+            ),
+            'attributes' => array(
+                'id' => 'busqueda'
+            )
+        ));
+        $this->add(array(
+            'name' => 'cargoadmisionarticulo_by',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Tipo',
+                'empty_option' => 'Buscar por',
+                'value_options' => array('nombre' => 'nombre', 'código de barras' => 'código de barras', 'proveedor' => 'proveedor'),
+            ),
+            'attributes' => array(
+                'id' => 'cargoadmisionarticulo_by'
+            )
+        ));
+        $this->add(array(
+            'name' => 'cargoconsultaservicio_by',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Tipo',
+                'empty_option' => 'Buscar por',
+                'value_options' => array('nombre' => 'nombre'),
+            ),
+            'attributes' => array(
+                'id' => 'cargoconsultaservicio_by'
+            )
+        ));
+        // Fin columnas adicionales
+
         // admision
         $this->add(array(
             'type' => 'Hidden',
@@ -19,6 +57,8 @@ class CargoadmisionForm extends Form
                 'label' => 'idamision',
             ),
         ));
+
+        /*
         // servicio
         $this->add(array(
             'name' => 'idservicio',
@@ -27,6 +67,18 @@ class CargoadmisionForm extends Form
                 'label' => 'Servicios',
                 'empty_option' => 'Seleccione un servicio',
                 'value_options' => $servicio,
+            ),
+            'attributes' => array(
+                'id' => 'idservicio'
+            )
+        ));
+        */
+
+        $this->add(array(
+            'name' => 'idservicio',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Servicio',
             ),
             'attributes' => array(
                 'id' => 'idservicio'

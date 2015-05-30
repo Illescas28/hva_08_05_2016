@@ -166,13 +166,15 @@ $this->headTitle($title);
 </div>
 
 <div id="admision" class="hiddendiv">
-    <?php $admisionForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
-    <?php $admisionForm->setAttribute('class', 'hva-form');?>
     <?php $admisionForm->prepare();?>
     <?php echo $this->form()->openTag($admisionForm); ?>
     <div class="col s4">
         <div class="input-field">
+            <?php echo $this->formHidden($admisionForm->get('idpaciente')->setValue($pacienteEntity->getIdpaciente())); ?>
+        </div>
+        <div class="input-field">
             <?php echo $this->formSelect($admisionForm->get('idmedico')); ?>
+            <span class="red-text hidden" for="idmedico" id="idmedico_error">Debe selecionar un medico.</span><br><br>
             <?php $showError=$this->formElementErrors($admisionForm->get('idmedico'));
             if(!empty($showError)):
                 ?>
@@ -190,6 +192,7 @@ $this->headTitle($title);
     <div class="col s4 offset-s4">
         <div class="input-field">
             <?php echo $this->formSelect($admisionForm->get('idcuarto')); ?>
+            <span class="red-text hidden" for="idcuarto" id="idcuarto_error">Debe selecionar un cuarto.</span><br><br>
             <?php $showError=$this->formElementErrors($admisionForm->get('idcuarto'));
             if(!empty($showError)):
                 ?>
@@ -208,6 +211,7 @@ $this->headTitle($title);
         <div class="input-field">
             <?php echo $this->formText($admisionForm->get('admision_fechaadmision')); ?>
             <?php echo $this->formLabel($admisionForm->get('admision_fechaadmision')); ?>
+            <span class="red-text hidden" for="admision_fechaadmision" id="fechaadmision_error">Debe selecionar una fecha.</span><br><br>
             <?php $showError=$this->formElementErrors($admisionForm->get('admision_fechaadmision'));
             if(!empty($showError)):
                 ?>
@@ -281,573 +285,382 @@ $this->headTitle($title);
 </div>
 <?php //if($cargoconsultaFlag == true): ?>
 <div id="cargos" class="hiddendiv">
-    <fieldset>
-        <legend>Cargos al paciente</legend>
-        <div id="nuevoCargoconsulta" class=" col s3 offset-s9">
-            <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-        </div>
-        <!-- Create Modal Structure -->
-        <div id="create-modal-cargoconsulta" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
-            <div class="modal-content">
-                <h3>Agregar producto a cuenta</h3>
-                <div class="row" id="table-header">
-                    <?php $cargoconsultaForm->prepare();?>
-                    <?php echo $this->form()->openTag($cargoconsultaForm); ?>
-                    <div class="input-field">
-                        <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
-                    </div>
-                    <div id="modalCargoconsulta" class="row">
-                        <div id="busquedaCargoconsulta" class="col s5">
-                            <div class="input-field col s4 left" id="search-container">
-                                <i class="mdi-action-search prefix"></i>
-                                <?php echo $this->formText($cargoconsultaForm->get('busqueda')); ?>
-                                <?php echo $this->formLabel($cargoconsultaForm->get('busqueda')); ?>
-                            </div>
-                            <div class="col s4">
-                                <div class="input-field">
-                                    <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsulta_by')); ?>
-                                    <span class="red-text hidden" for="cargoconsulta_by" id="cargoconsulta_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
-                                </div>
-                            </div>
-                            <div class="right col s4">
-                                <button id="buscarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
-                            </div>
-                            <div id="fieldsetCargoconsulta" class="col s12 hiddendiv">
-                                <fieldset>
-                                    <legend>Artículo</legend>
-                                    <div id="fieldsetCargoconsultaEntity" class="left col s8">
-                                        <!-- Aquí agregamos los elementos con javascript -->
-                                    </div>
-                                    <div id="botonGuardarCargoconsulta" class="right col s4" style="margin-top: 80px;">
-                                        <button id="guardarCargoconsulta" class="btn waves-effect waves-light" type="submit">Agregar</button>
-                                    </div>
-                                    <?php echo $this->form()->closeTag(); ?>
-                                </fieldset>
-                                <br>
-                                <br>
-                            </div>
-                            <div id="tablaCargoconsulta" class="col s12">
-                                <!-- Aquí agregamos los elementos con javascript -->
-                            </div>
-                        </div>
-                        <div id="tablaCargoconsultaAgregado" class="col s7">
-                            <!-- Aquí agregamos los elementos con javascript -->
-                        </div>
-                    </div>
-                    <?php /*
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <?php echo $this->formHidden($cargoconsultaForm->get('idlugarinventario')); ?>
-                                        <span class="red-text hidden" for="idlugarinventario" id="idlugarinventario_error">Debe selecionar un producto.</span><br><br>
-                                        <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idlugarinventario'));
-                                        if(!empty($showError)):
-                                            ?>
-                                            <div class="center-align col" style="color: #e57373">
-                                                <i class="mdi-content-report prefix"></i>
-                                            </div>
-                                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                                <?php
-                                                echo $showError;
-                                                ?>
-                                            </div>
-                                        <?php  endif;?>
-                                    </div>
-                                </div>
-                                <!--<div class="col s6">-->
-                                <div class="input-field">
-                                    <?php echo $this->formHidden($cargoconsultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
-                                    <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cargoconsulta_tipo'));
-                                    if(!empty($showError)):
-                                        ?>
-                                        <div class="center-align col" style="color: #e57373">
-                                            <i class="mdi-content-report prefix"></i>
-                                        </div>
-                                        <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                            <?php
-                                            echo $showError;
-                                            ?>
-                                        </div>
-                                    <?php  endif;?>
-                                </div>
-                                <!--</div>-->
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <?php echo $this->formHidden($cargoconsultaForm->get('cantidad')); ?>
-                                        <?php /*
-                                        <span class="red-text hidden" for="cantidad" id="cantidad_error">Debe agregar cantidad.</span><br><br>
-                                        <?php // echo $this->formLabel($cargoconsultaForm->get('cantidad')); ?>
-                                        <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cantidad'));
-                                        if(!empty($showError)):
-                                            ?>
-                                            <div class="center-align col" style="color: #e57373">
-                                                <i class="mdi-content-report prefix"></i>
-                                            </div>
-                                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                                <?php
-                                                echo $showError;
-                                                ?>
-                                            </div>
-                                        <?php  endif;?>
-                                    </div>
-                                </div>
-                                <div class="col s6">
-                                    <div class="input-field">
-                                        <?php echo $this->formHidden($cargoconsultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
-                                        <span class="red-text hidden" for="cargoconsulta_fecha" id="cargoconsulta_fecha_error">Debe selecionar una fecha.</span><br><br>
-                                        <?php // echo $this->formLabel($cargoconsultaForm->get('cargoconsulta_fecha')); ?>
-                                        <?php $showError=$this->formElementErrors($cargoconsultaForm->get('cargoconsulta_fecha'));
-                                        if(!empty($showError)):
-                                            ?>
-                                            <div class="center-align col" style="color: #e57373">
-                                                <i class="mdi-content-report prefix"></i>
-                                            </div>
-                                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                                <?php
-                                                echo $showError;
-                                                ?>
-                                            </div>
-                                        <?php  endif;?>
-                                    </div>
-                                </div>
-                                <?php /*
-                                <div class="right col s6">
-                                    <button id="guardarCargoconsulta" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Agregar a cuenta
-                                        <i class="mdi-content-save left"></i>
-                                    </button>
-                                </div>
-                                <div class="right col s6">
-                                    <button style="width: 100%; height: 45px; margin-top: 20px;" class="btn grey darken-3 waves-effect waves-light modal-close" >Salir
-                                        <i class="mdi-action-highlight-remove left"></i>
-                                    </button>
-                                </div>
-                                */ ?>
-                    <?php echo $this->form()->closeTag(); ?>
-                </div>
+<fieldset>
+<legend>Cargos al paciente</legend>
+<div id="totalSuperior" class="col s9">
+    <!-- Aquí agregamos los elementos con javascript -->
+</div>
+<div id="nuevoCargoArticulo" class=" col s3 offset-s9">
+    <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-articulo'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+</div>
+<!-- Create Modal Structure -->
+<div id="create-modal-cargoconsulta-articulo" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
+    <div class="modal-content">
+        <h3>Agregar producto a cuenta</h3>
+        <div class="row" id="table-header">
+            <?php $cargoconsultaForm->prepare();?>
+            <?php echo $this->form()->openTag($cargoconsultaForm); ?>
+            <div class="input-field">
+                <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
             </div>
-        </div>
-        <!-- End Create Modal Structure -->
-        <div id="cargoconsultaResult" class="hiddendiv">
-        <?php /**
-             *  Ya no ocupamos crear la tabla y los modals con php... ahora los creamos con javascript
-             *
-        <?php // if($cargoconsultaQuery) :?>
-        <?php foreach ($cargoconsultaQuery as $cargoconsultaEntity) : ?>
-            <?php $total = $cargoconsultaEntity->getMonto()?>
-            <?php $total += $cargoconsultaEntity->getMonto()?>
-            <div class="row">
-                <div class="col s9">
-                    <span class="left">Total: <?php echo $total?></span>
-                    <span style="margin-left: 40px;"> Anticipo: <?php ?> MXN</span><a class="tooltipped " data-position="right" data-tooltip="Editar" href='<?php echo "#nuevo-modal-anticipo-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="mdi-action-description" style="margin-left: 5px;"></i></a>
-                    <span style="margin-left: 40px;">Status: <?php echo $cargoconsultaEntity->getConsulta()->getConsultastatus()?></span>
-                </div>
-                <div class=" col s3">
-                    <a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdconsulta()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-                </div>
-            </div>
-            <table id="tabla-cargoconsulta" class="striped hoverable">
-            <thead>
-            <tr>
-                <th>Cantidad</th>
-                <th>Articulo</th>
-                <th>Descripción</th>
-                <th>Salida</th>
-                <th>Fecha/hora</th>
-                <th>Costo</th>
-                <th>Subtotal</th>
-                <th>Opciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php $direction = 'right'?>
-            <tr>
-                <td><?php echo $cargoconsultaEntity->getCantidad() ?></td>
-                <td><?php echo "test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre() ?></td>
-                <td><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion() ?></td>
-                <td>General</td>
-                <td><?php echo $cargoconsultaEntity->getCargoconsultaFecha() ?></td>
-                <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
-                <td><?php echo $cargoconsultaEntity->getMonto() ?></td>
-                <td>
-                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
-                    &nbsp;&nbsp;
-                    <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-assignment"></i></a>
-                    &nbsp;&nbsp;
-                    <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-delete"></i></a>
-                </td>
-            </tr>
-            <!-- View Modal Structure -->
-            <div id="view-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
-                <div class="modal-content">
-                    <h4><?php echo "Cargo del paciente: ".$title?></h4>
-                    <div class="row">
-                        <fieldset>
-                            <legend>Datos Generales</legend>
-                            <div class="col s4">
-                                <div class="label-container">
-                                    <label>Cantidad:</label>
-                                    <p><?php echo$cargoconsultaEntity->getCantidad()?></p>
-                                </div>
-                                <div class="label-container">
-                                    <label>Artículo:</label>
-                                    <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre()?></p>
-                                </div>
-                                <div class="label-container">
-                                    <label>Descripción:</label>
-                                    <p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion()?></p>
-                                </div>
-                            </div>
-                            <div class="col s4">
-                                <div class="label-container">
-                                    <label>Salida:</label>
-                                    <p>General</p>
-                                </div>
-                                <div class="label-container">
-                                    <label>Fecha/hora:</label>
-                                    <p><?php echo $cargoconsultaEntity->getCargoconsultaFecha()?></p>
-                                </div>
-                                <div class="label-container">
-                                    <label>Costo:</label>
-                                    <p><?php echo $cargoconsultaEntity->getMonto()?></p>
-                                </div>
-                            </div>
-                            <div class="col s4">
-                                <div class="label-container">
-                                    <label>Sub-total:</label>
-                                    <p><?php echo $cargoconsultaEntity->getMonto()?></p>
-                                </div>
-                            </div>
-                        </fieldset>
+            <div id="modalCargoconsultaArticulo" class="row">
+                <div id="busquedaCargoconsultaArticulo" class="col s5">
+                    <div class="input-field col s4 left" id="search-container">
+                        <i class="mdi-action-search prefix"></i>
+                        <?php echo $this->formText($cargoconsultaForm->get('busquedaArticulo')); ?>
+                        <?php echo $this->formLabel($cargoconsultaForm->get('busquedaArticulo')); ?>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href=href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
-                </div>
-            </div>
-            <!-- End View Modal Structure -->
-            <!-- Edit Modal Structure -->
-            <div id="edit-modal-paciente-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
-                <div class="modal-content">
-                    <?php $cargoconsultaForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
-                    <?php $cargoconsultaForm->setAttribute('class', 'hva-form');?>
-                    <?php $cargoconsultaForm->prepare();?>
-                    <?php echo $this->form()->openTag($cargoconsultaForm); ?>
                     <div class="col s4">
                         <div class="input-field">
-                            <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')->setValue($cargoconsultaForm->getIdconsulta())); ?>
-                        </div>
-                        <div class="input-field">
-                            <?php echo $this->formSelect($cargoconsultaForm->get('idservicio')); ?>
-                            <?php $showError=$this->formElementErrors($cargoconsultaForm->get('idservicio'));
-                            if(!empty($showError)):
-                                ?>
-                                <div class="center-align col" style="color: #e57373">
-                                    <i class="mdi-content-report prefix"></i>
-                                </div>
-                                <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                    <?php
-                                    echo $showError;
-                                    ?>
-                                </div>
-                            <?php  endif;?>
+                            <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsultaarticulo_by')); ?>
+                            <span class="red-text hidden" for="cargoconsultaarticulo_by" id="cargoconsultaarticulo_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
                         </div>
                     </div>
-                    <div class="col s4 offset-s4">
-                        <div class="input-field">
-                            <?php echo $this->formSelect($consultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
-                            <?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_tipo'));
-                            if(!empty($showError)):
-                                ?>
-                                <div class="center-align col" style="color: #e57373">
-                                    <i class="mdi-content-report prefix"></i>
-                                </div>
-                                <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                    <?php
-                                    echo $showError;
-                                    ?>
-                                </div>
-                            <?php  endif;?>
-                        </div>
-                    </div>
-                    <div class="col s12">
-                        <div class="input-field">
-                            <?php echo $this->formText($consultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
-                            <?php echo $this->formLabel($consultaForm->get('cargoconsulta_fecha')); ?>
-                            <?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_fecha'));
-                            if(!empty($showError)):
-                                ?>
-                                <div class="center-align col" style="color: #e57373">
-                                    <i class="mdi-content-report prefix"></i>
-                                </div>
-                                <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                    <?php
-                                    echo $showError;
-                                    ?>
-                                </div>
-                            <?php  endif;?>
-                        </div>
-                    </div>
-                    <div class="col s6">
-                        <div class="input-field">
-                            <?php echo $this->formText($consultaForm->get('cantidad')); ?>
-                            <?php echo $this->formLabel($consultaForm->get('cantidad')); ?>
-                            <?php $showError=$this->formElementErrors($consultaForm->get('cantidad'));
-                            if(!empty($showError)):
-                                ?>
-                                <div class="center-align col" style="color: #e57373">
-                                    <i class="mdi-content-report prefix"></i>
-                                </div>
-                                <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                    <?php
-                                    echo $showError;
-                                    ?>
-                                </div>
-                            <?php  endif;?>
-                        </div>
-                    </div>
-                    <div class="col s6">
-                        <div class="input-field">
-                            <?php echo $this->formText($consultaForm->get('monto')); ?>
-                            <?php echo $this->formLabel($consultaForm->get('monto')); ?>
-                            <?php $showError=$this->formElementErrors($consultaForm->get('monto'));
-                            if(!empty($showError)):
-                                ?>
-                                <div class="center-align col" style="color: #e57373">
-                                    <i class="mdi-content-report prefix"></i>
-                                </div>
-                                <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                    <?php
-                                    echo $showError;
-                                    ?>
-                                </div>
-                            <?php  endif;?>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
                     <div class="right col s4">
-                        <button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
-                            <i class="mdi-content-save left"></i>
-                        </button>
+                        <button id="buscarCargoconsultaArticulo" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
                     </div>
-                    <?php echo $this->form()->closeTag(); ?>
+                    <div id="fieldsetCargoconsultaArticulo" class="col s12 hiddendiv">
+                        <fieldset>
+                            <legend>Artículo</legend>
+                            <div id="fieldsetCargoconsultaArticuloEntity" class="left col s8">
+                                <!-- Aquí agregamos los elementos con javascript -->
+                            </div>
+                            <div id="botonGuardarCargoconsultaArticulo" class="right col s4" style="margin-top: 80px;">
+                                <button id="guardarCargoconsultaArticulo" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <br>
+                    </div>
+                    <div id="tablaCargoconsultaArticulo" class="col s12">
+                        <!-- Aquí agregamos los elementos con javascript -->
+                    </div>
+                </div>
+                <div id="tablaCargoconsultaArticuloAgregado" class="col s7">
+                    <!-- Aquí agregamos los elementos con javascript -->
                 </div>
             </div>
-            <!-- End Edit Modal Structure -->
-            <!-- Delete Modal Structure -->
-            <div id="delete-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal">
-                <div class="modal-content" id="delete-modal-container">
-                    <div class="row" id="delete-modal-header-container">
-                        <div class="col s4 offset-s4">
-                            <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col s12">
-                            <p><?php echo "Esta seguro que desea eliminar al id. ". $cargoconsultaEntity->getIdcargoconsulta() ?></p>
-                        </div>
-                    </div>
+            <?php echo $this->form()->closeTag(); ?>
+        </div>
+    </div>
+</div>
+<!-- End Create Modal Structure -->
+<div id="cargoconsultaArticuloResult" class="hiddendiv">
+<?php /**
+ *  Ya no ocupamos crear la tabla y los modals con php... ahora los creamos con javascript
+ *
+<?php // if($cargoconsultaQuery) :?>
+<?php foreach ($cargoconsultaQuery as $cargoconsultaEntity) : ?>
+<?php $total = $cargoconsultaEntity->getMonto()?>
+<?php $total += $cargoconsultaEntity->getMonto()?>
+<div class="row">
+<div class="col s9">
+<span class="left">Total: <?php echo $total?></span>
+<span style="margin-left: 40px;"> Anticipo: <?php ?> MXN</span><a class="tooltipped " data-position="right" data-tooltip="Editar" href='<?php echo "#nuevo-modal-anticipo-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="mdi-action-description" style="margin-left: 5px;"></i></a>
+<span style="margin-left: 40px;">Status: <?php echo $cargoconsultaEntity->getConsulta()->getConsultastatus()?></span>
+</div>
+<div class=" col s3">
+<a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdconsulta()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
+</div>
+</div>
+<table id="tabla-cargoconsulta" class="striped hoverable">
+<thead>
+<tr>
+<th>Cantidad</th>
+<th>Articulo</th>
+<th>Descripción</th>
+<th>Salida</th>
+<th>Fecha/hora</th>
+<th>Costo</th>
+<th>Subtotal</th>
+<th>Opciones</th>
+</tr>
+</thead>
+<tbody>
+<?php $direction = 'right'?>
+<tr>
+<td><?php echo $cargoconsultaEntity->getCantidad() ?></td>
+<td><?php echo "test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre() ?></td>
+<td><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion() ?></td>
+<td>General</td>
+<td><?php echo $cargoconsultaEntity->getCargoconsultaFecha() ?></td>
+<td><?php echo $cargoconsultaEntity->getMonto() ?></td>
+<td><?php echo $cargoconsultaEntity->getMonto() ?></td>
+<td>
+<a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+&nbsp;&nbsp;
+<a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-assignment"></i></a>
+&nbsp;&nbsp;
+<a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-delete"></i></a>
+</td>
+</tr>
+<!-- View Modal Structure -->
+<div id="view-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
+<div class="modal-content">
+<h4><?php echo "Cargo del paciente: ".$title?></h4>
+<div class="row">
+<fieldset>
+<legend>Datos Generales</legend>
+<div class="col s4">
+<div class="label-container">
+<label>Cantidad:</label>
+<p><?php echo$cargoconsultaEntity->getCantidad()?></p>
+</div>
+<div class="label-container">
+<label>Artículo:</label>
+<p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre()?></p>
+</div>
+<div class="label-container">
+<label>Descripción:</label>
+<p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion()?></p>
+</div>
+</div>
+<div class="col s4">
+<div class="label-container">
+<label>Salida:</label>
+<p>General</p>
+</div>
+<div class="label-container">
+<label>Fecha/hora:</label>
+<p><?php echo $cargoconsultaEntity->getCargoconsultaFecha()?></p>
+</div>
+<div class="label-container">
+<label>Costo:</label>
+<p><?php echo $cargoconsultaEntity->getMonto()?></p>
+</div>
+</div>
+<div class="col s4">
+<div class="label-container">
+<label>Sub-total:</label>
+<p><?php echo $cargoconsultaEntity->getMonto()?></p>
+</div>
+</div>
+</fieldset>
+</div>
+</div>
+<div class="modal-footer">
+<a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+<a href=href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+</div>
+</div>
+<!-- End View Modal Structure -->
+<!-- Edit Modal Structure -->
+<div id="edit-modal-paciente-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
+<div class="modal-content">
+<?php $cargoconsultaForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
+<?php $cargoconsultaForm->setAttribute('class', 'hva-form');?>
+<?php $cargoconsultaForm->prepare();?>
+<?php echo $this->form()->openTag($cargoconsultaForm); ?>
+<div class="col s4">
+<div class="input-field">
+<?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')->setValue($cargoconsultaForm->getIdconsulta())); ?>
+</div>
+<div class="input-field">
+<?php echo $this->formSelect($cargoconsultaForm->get('idservicio')); ?>
+<?php $showError=$this->formElementErrors($cargoconsultaForm->get('idservicio'));
+if(!empty($showError)):
+?>
+<div class="center-align col" style="color: #e57373">
+<i class="mdi-content-report prefix"></i>
+</div>
+<div class="center-align col s11 offset-s1" style="color: #e57373">
+<?php
+echo $showError;
+?>
+</div>
+<?php  endif;?>
+</div>
+</div>
+<div class="col s4 offset-s4">
+<div class="input-field">
+<?php echo $this->formSelect($consultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
+<?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_tipo'));
+if(!empty($showError)):
+?>
+<div class="center-align col" style="color: #e57373">
+<i class="mdi-content-report prefix"></i>
+</div>
+<div class="center-align col s11 offset-s1" style="color: #e57373">
+<?php
+echo $showError;
+?>
+</div>
+<?php  endif;?>
+</div>
+</div>
+<div class="col s12">
+<div class="input-field">
+<?php echo $this->formText($consultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
+<?php echo $this->formLabel($consultaForm->get('cargoconsulta_fecha')); ?>
+<?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_fecha'));
+if(!empty($showError)):
+?>
+<div class="center-align col" style="color: #e57373">
+<i class="mdi-content-report prefix"></i>
+</div>
+<div class="center-align col s11 offset-s1" style="color: #e57373">
+<?php
+echo $showError;
+?>
+</div>
+<?php  endif;?>
+</div>
+</div>
+<div class="col s6">
+<div class="input-field">
+<?php echo $this->formText($consultaForm->get('cantidad')); ?>
+<?php echo $this->formLabel($consultaForm->get('cantidad')); ?>
+<?php $showError=$this->formElementErrors($consultaForm->get('cantidad'));
+if(!empty($showError)):
+?>
+<div class="center-align col" style="color: #e57373">
+<i class="mdi-content-report prefix"></i>
+</div>
+<div class="center-align col s11 offset-s1" style="color: #e57373">
+<?php
+echo $showError;
+?>
+</div>
+<?php  endif;?>
+</div>
+</div>
+<div class="col s6">
+<div class="input-field">
+<?php echo $this->formText($consultaForm->get('monto')); ?>
+<?php echo $this->formLabel($consultaForm->get('monto')); ?>
+<?php $showError=$this->formElementErrors($consultaForm->get('monto'));
+if(!empty($showError)):
+?>
+<div class="center-align col" style="color: #e57373">
+<i class="mdi-content-report prefix"></i>
+</div>
+<div class="center-align col s11 offset-s1" style="color: #e57373">
+<?php
+echo $showError;
+?>
+</div>
+<?php  endif;?>
+</div>
+</div>
+<br>
+<br>
+<div class="right col s4">
+<button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+<i class="mdi-content-save left"></i>
+</button>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+</div>
+</div>
+<!-- End Edit Modal Structure -->
+<!-- Delete Modal Structure -->
+<div id="delete-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal">
+<div class="modal-content" id="delete-modal-container">
+<div class="row" id="delete-modal-header-container">
+<div class="col s4 offset-s4">
+<h4><i class="mdi-alert-warning"></i> ATENCION</h4>
+</div>
+</div>
+<div class="row">
+<div class="col s12">
+<p><?php echo "Esta seguro que desea eliminar al id. ". $cargoconsultaEntity->getIdcargoconsulta() ?></p>
+</div>
+</div>
 
-                </div>
-                <div class="modal-footer">
-                    <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    <a href="/pacientes/cargoconsulta/eliminar/<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+</div>
+<div class="modal-footer">
+<a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+<a href="/pacientes/cargoconsulta/eliminar/<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
 
+</div>
+</div>
+<!-- End Delete Modal Structure -->
+</tbody>
+</table>
+<?php endforeach; ?>
+<?php // endif; ?>
+ */ ?>
+</div>
+<br>
+<br>
+<div id="nuevoCargoServicio" class=" col s3 offset-s9">
+    <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoconsulta" href='#create-modal-cargoconsulta-servicio'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
+</div>
+<!-- Create Modal Structure -->
+<div id="create-modal-cargoconsulta-servicio" class="modal bottom-sheet" style="width: 100%; bottom: 15px;">
+    <div class="modal-content">
+        <h3>Agregar servicio a cuenta</h3>
+        <div class="row" id="table-header">
+            <?php $cargoconsultaForm->prepare();?>
+            <?php echo $this->form()->openTag($cargoconsultaForm); ?>
+            <div class="input-field">
+                <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
+            </div>
+            <div id="modalCargoconsultaServicio" class="row">
+                <div id="busquedaCargoconsultaServicio" class="col s6">
+                    <div class="input-field col s4 left" id="search-container">
+                        <i class="mdi-action-search prefix"></i>
+                        <?php echo $this->formText($cargoconsultaForm->get('busquedaServicio')); ?>
+                        <?php echo $this->formLabel($cargoconsultaForm->get('busquedaServicio')); ?>
+                    </div>
+                    <div class="col s4">
+                        <div class="input-field">
+                            <?php echo $this->formSelect($cargoconsultaForm->get('cargoconsultaservicio_by')); ?>
+                            <span class="red-text hidden" for="cargoconsultaservicio_by" id="cargoconsultaservicio_by_error">Debe selecionar un tipo de busqueda.</span><br><br>
+                        </div>
+                    </div>
+                    <div class="right col s4">
+                        <button id="buscarCargoconsultaServicio" style="width: 100%; height: 45px; margin-top: 20px;" class="btn light-blue lighten-3 waves-effect waves-light">Buscar</button>
+                    </div>
+                    <div id="fieldsetCargoconsultaServicio" class="col s12 hiddendiv">
+                        <fieldset>
+                            <legend>Servicio</legend>
+                            <div id="fieldsetCargoconsultaServicioEntity" class="left col s8">
+                                <!-- Aquí agregamos los elementos con javascript -->
+                            </div>
+                            <div id="botonGuardarCargoconsultaServicio" class="right col s4" style="margin-top: 50px;">
+                                <button id="guardarCargoconsultaServicio" class="btn waves-effect waves-light" type="submit">Agregar</button>
+                            </div>
+                        </fieldset>
+                        <br>
+                        <br>
+                    </div>
+                    <div id="tablaCargoconsultaServicio" class="col s12">
+                        <!-- Aquí agregamos los elementos con javascript -->
+                    </div>
+                </div>
+                <div id="tablaCargoconsultaServicioAgregado" class="col s6">
+                    <!-- Aquí agregamos los elementos con javascript -->
                 </div>
             </div>
-            <!-- End Delete Modal Structure -->
-            </tbody>
-            </table>
-        <?php endforeach; ?>
-        <?php // endif; ?>
-        */ ?>
+            <?php echo $this->form()->closeTag(); ?>
         </div>
-        <br>
-        <br>
-        <div id="nuevoCargoadmision" class=" col s3 offset-s9">
-            <a class="tooltipped modal-trigger right" data-position="right" data-tooltip="AgregarCargoadmision" href='#create-modal-cargoadmision'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
-        </div>
-        <!-- Create Modal Structure -->
-        <div id="create-modal-cargoadmision" class="modal">
-            <div class="modal-content">
-                <h3>Agregar servicio a cuenta</h3>
-                <?php $cargoadmisionForm->prepare();?>
-                <?php echo $this->form()->openTag($cargoadmisionForm); ?>
-                <div class="input-field">
-                    <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')->setValue(1)); ?>
-                    <?php if($admisionQuery):?>
-                        <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')->setValue($admisionQuery->getIdadmision())); ?>
-                    <?php endif; ?>
-                </div>
-                <div class="col s4">
-                    <div class="input-field">
-                        <?php echo $this->formHidden($cargoadmisionForm->get('idservicio')); ?>
-                        <span class="red-text hidden" for="idservicio" id="idservicio_error">Debe selecionar un servicio.</span><br><br>
-                        <?php $showError=$this->formElementErrors($cargoadmisionForm->get('idservicio'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <!--<div class="col s6">-->
-                <div class="input-field">
-                    <?php echo $this->formHidden($cargoadmisionForm->get('cargoadmision_tipo')->setValue('servicio')); ?>
-                    <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_tipo'));
-                    if(!empty($showError)):
-                        ?>
-                        <div class="center-align col" style="color: #e57373">
-                            <i class="mdi-content-report prefix"></i>
-                        </div>
-                        <div class="center-align col s11 offset-s1" style="color: #e57373">
-                            <?php
-                            echo $showError;
-                            ?>
-                        </div>
-                    <?php  endif;?>
-                </div>
-                <!--</div>-->
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($cargoadmisionForm->get('cargoadmision_cantidad')); ?>
-                        <span class="red-text hidden" for="cantidad" id="cantidad_error">Debe agregar cantidad.</span><br><br>
-                        <?php echo $this->formLabel($cargoadmisionForm->get('cargoadmision_cantidad')); ?>
-                        <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_cantidad'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <?php echo $this->formText($cargoadmisionForm->get('cargoadmision_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
-                        <span class="red-text hidden" for="cargoadmision_fecha" id="ccargoadmision_fecha_error">Debe selecionar una fecha.</span><br><br>
-                        <?php echo $this->formLabel($cargoadmisionForm->get('cargoadmision_fecha')); ?>
-                        <?php $showError=$this->formElementErrors($cargoadmisionForm->get('cargoadmision_fecha'));
-                        if(!empty($showError)):
-                            ?>
-                            <div class="center-align col" style="color: #e57373">
-                                <i class="mdi-content-report prefix"></i>
-                            </div>
-                            <div class="center-align col s11 offset-s1" style="color: #e57373">
-                                <?php
-                                echo $showError;
-                                ?>
-                            </div>
-                        <?php  endif;?>
-                    </div>
-                </div>
-                <br>
-                <br>
-                <div class="right col s12">
-                    <button id="guardarCargodmision" style="width: 100%; height: 45px; margin-top: 20px;" class="btn waves-effect waves-light" type="submit">Agregar a cuenta
-                        <i class="mdi-content-save left"></i>
-                    </button>
-                </div>
-                <?php echo $this->form()->closeTag(); ?>
-            </div>
-        </div>
-        <!-- End Create Modal Structure -->
-        <div id="cargoadmisionResult" class="hiddendiv">
-            <?php foreach ($cargoadmisionQuery as $cargoadmisionEntity) : ?>
-                <div class="row">
-                    <div class=" col s3">
-                        <a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoadmision-".$cargoadmisionEntity->getIdadmision()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar servicio a cuenta</a>
-                    </div>
-                </div>
-                <table id="tabla-cargoadmision" class="striped hoverable">
-                    <thead>
-                    <tr>
-                        <th>Cantidad</th>
-                        <th>Servicio</th>
-                        <th>Descripción</th>
-                        <th>Costo</th>
-                        <th>Subtotal</th>
-                        <th>Fecha/hora</th>
-                        <th>Opciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php $direction = 'right'?>
-                    <tr>
-                        <td><?php echo $cargoadmisionEntity->getCantidad() ?></td>
-                        <td><?php echo $cargoadmisionEntity->getServicio()->getServicioNombre() ?></td>
-                        <td><?php echo $cargoadmisionEntity->getServicio()->getServicioDescripcion() ?></td>
-                        <td><?php echo $cargoadmisionEntity->getServicio()->getCosto() ?></td>
-                        <td><?php echo $cargoadmisionEntity->getCargoadmisionMonto() ?></td>
-                        <td><?php echo $cargoadmisionEntity->getCargoadmisionFecha() ?></td>
-                        <td>
-                            <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-cargoadmision-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
-                            &nbsp;&nbsp;
-                            <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoadmision-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-assignment"></i></a>
-                            &nbsp;&nbsp;
-                            <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-cargoadmision-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-delete"></i></a>
-                        </td>
-                    </tr>
-                    <!-- View Modal Structure -->
-                    <div id="view-modal-cargoadmision-<?php echo $cargoadmisionEntity->getIdcargoadmision()?>" class="modal ">
-                        <div class="modal-content">
-                            <h4><?php echo "Cargo del paciente: ".$title?></h4>
-                            <div class="row">
-                                <fieldset>
-                                    <legend>Datos Generales</legend>
-                                    <div class="col s4">
-                                        <div class="label-container">
-                                            <label>Cantidad:</label>
-                                            <p><?php echo$cargoadmisionEntity->getCantidad()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Servicio:</label>
-                                            <p><?php echo $cargoadmisionEntity->getServicio()->getServicioNombre()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Descripción:</label>
-                                            <p><?php echo $cargoadmisionEntity->getServicio()->getServicioDescripcion()?></p>
-                                        </div>
-                                    </div>
-                                    <div class="col s4">
-                                        <div class="label-container">
-                                            <label>Costo:</label>
-                                            <p><?php echo $cargoadmisionEntity->getServicio()->getServicioCosto()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Sub-total:</label>
-                                            <p><?php echo $cargoadmisionEntity->getCargoadmisionMonto()?></p>
-                                        </div>
-                                        <div class="label-container">
-                                            <label>Fecha:</label>
-                                            <p><?php echo $cargoadmisionEntity->getCargoadmisionFecha()?></p>
-                                        </div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                            <a href=href='<?php echo "#edit-modal-cargoservicio-".$cargoadmisionEntity->getIdcargoservicio()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
-                        </div>
-                    </div>
-                    <!-- End View Modal Structure -->
-                    </tbody>
-                </table>
-            <?php endforeach; ?>
-        </div>
-    </fieldset>
+    </div>
+</div>
+<!-- End Create Modal Structure -->
+<div id="cargoconsultaServicioResult" class="hiddendiv">
+    <!-- Aquí agregamos los elementos con javascript -->
+</div>
+<div class="col s12">
+    <div id="botonPagarAnticipo" class="col s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="botonGenerarFactura" class="col s3">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="botonGenerarNota" class="col s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+    <div id="totalInferior" class="col s3">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+</div>
+<div class="col s12">
+    <div id="botonVerFactura" class="col s3 offset-s2">
+        <!-- Aquí agregamos los elementos con javascript -->
+    </div>
+</div>
+</fieldset>
 </div>
 <?php //endif; ?>
 </div>
@@ -855,13 +668,14 @@ $this->headTitle($title);
 $(document).ready(function() {
     $('select').material_select();
     $("#consulta_fechaadmision").datepicker();
+    $("#admision_fechaadmision").datepicker();
 
     //Cargoconsulta
     $('.modal-trigger').leanModal();
     $("#tabla-cargoconsulta").tablesorter({headers:{5:{sorter:false}}});
     $("#tabla-cargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
-    $("#tablaCargoconsulta").tablesorter({headers:{5:{sorter:false}}});
-    $("#tablaCargoconsulta").filterTable({inputSelector: '#search-container input',minRows:2});
+    $("#tablaCargoconsultaArticulo").tablesorter({headers:{5:{sorter:false}}});
+    $("#tablaCargoconsultaArticulo").filterTable({inputSelector: '#search-container input',minRows:2});
 });
 function nuevaConsulta() {
     if ($('#consulta').hasClass('hiddendiv')){
@@ -976,7 +790,7 @@ $("#guardarConsulta").click(function() {
 $("#guardarAdmision").click(function() {
 
     //Obtenemos el valor del selector de medicos
-    var idmedico = $("select#idmedico").val();
+    var idmedico = $("select#idmedicoadmision").val();
     //Validamos el campo medico, simplemente miramos que no esté vacío
     if (idmedico == "") {
         if ($('span#idmedico_error').hasClass('hidden')){
@@ -1000,18 +814,18 @@ $("#guardarAdmision").click(function() {
         }
         return false;
     }else{
-        $("span#idconsultorio_error").hide();
+        $("span#idcuarto_error").hide();
     }
 
     //Obtenemos el valor del campo fechaadmision
-    var admision_fechaadmision = $("input#consulta_fechaadmision").val();
+    var admision_fechaadmision = $("input#admision_fechaadmision").val();
 
     //Validamos el campo fechaadmision, simplemente miramos que no esté vacío
     if (admision_fechaadmision == "") {
         if ($('span#fechaadmision_error').hasClass('hidden')){
             $('span#fechaadmision_error').removeClass('hidden');
             $("span#fechaadmision_error").show();
-            $("span#consulta_fechaadmision").focus();
+            $("span#admision_fechaadmision").focus();
         }
         return false;
     }else{
@@ -1019,7 +833,7 @@ $("#guardarAdmision").click(function() {
     }
 
     //Obtenemos el valor del campo idpaciente
-    var idpaciente = $("input#idpaciente").val();
+    var idpaciente = $("input#idpacienteadmision").val();
     //Obtenemos el valor del campo admision_diagnostico
     var admision_diagnostico = $("input#admision_diagnostico").val();
     //Obtenemos el valor del campo admision_observaciones
@@ -1033,8 +847,9 @@ $("#guardarAdmision").click(function() {
         url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
         dataType : 'json',
         data: dataString,
-        success: function(jsonStr) {
-            $("input#idadmision").val(JSON.stringify(jsonStr.admisionQuery.idadmision));
+        jsonpCallback: 'callback',
+        success: function(data) {
+            $("input#idadmision").val(JSON.stringify(data.admisionQuery.idadmision));
             if ($('#cargos').hasClass('hiddendiv')){
                 $('#cargos').removeClass('hiddendiv')
                 $('#botonGuardarAdmision').addClass('hiddendiv')
@@ -1047,27 +862,27 @@ $("#guardarAdmision").click(function() {
     return false;
 });
 
-$("#buscarCargoconsulta").click(function() {
+$("#buscarCargoconsultaArticulo").click(function() {
 
     //Obtenemos el valor del selector de lugarinventario
-    var busqueda = $("input#busqueda").val();
+    var busquedaArticulo = $("input#busquedaArticulo").val();
 
     //Obtenemos el valor del selector de lugarinventario
-    var cargoconsulta_by = $("select#cargoconsulta_by").val();
+    var cargoconsultaarticulo_by = $("select#cargoconsultaarticulo_by").val();
     //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
-    if (cargoconsulta_by == "") {
-        if ($('span#cargoconsulta_by_error').hasClass('hidden')){
-            $('span#cargoconsulta_by_error').removeClass('hidden');
-            $("span#cargoconsulta_by_error").show();
-            $("span#cargoconsulta_by").focus();
+    if (cargoconsultaarticulo_by == "") {
+        if ($('span#cargoconsultaarticulo_by_error').hasClass('hidden')){
+            $('span#cargoconsultaarticulo_by_error').removeClass('hidden');
+            $("span#cargoconsultaarticulo_by_error").show();
+            $("span#cargoconsultaarticulo_by").focus();
         }
         return false;
     }else{
-        $("span#cargoconsulta_by_error").hide();
+        $("span#cargoconsultaarticulo_by_error").hide();
     }
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'cargoconsulta_by=' + cargoconsulta_by + '&busqueda=' + busqueda ;
+    var dataString = 'cargoconsultaarticulo_by=' + cargoconsultaarticulo_by + '&busquedaArticulo=' + busquedaArticulo ;
 
     $.ajax({
         type: "POST",
@@ -1094,14 +909,14 @@ $("#buscarCargoconsulta").click(function() {
             });
 
             // Creamos nuestra tabla de colecciones
-            generaTablaBuscarConsulta(ordencompradetalleArray);
+            generaTablaBuscarConsultaArticulo(ordencompradetalleArray);
 
             // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
             $.each(ordencompradetalleArray, function(keys, values){
                 // Si dan clic a una entidad de la colección
-                $("#entidad-"+values.idordencompradetalle).click(function(){
-                    if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
-                        $('#fieldsetCargoconsulta').removeClass('hiddendiv')
+                $("#entidadArticulo-"+values.idordencompradetalle).click(function(){
+                    if ($('#fieldsetCargoconsultaArticulo').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsultaArticulo').removeClass('hiddendiv')
                     }
                     var br   = document.createElement("br");
                     var br2   = document.createElement("br");
@@ -1126,7 +941,7 @@ $("#buscarCargoconsulta").click(function() {
                     divinputCantidad.appendChild(select);
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
-                    var div = document.getElementById("fieldsetCargoconsultaEntity");
+                    var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
                     div.innerHTML = div;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
@@ -1162,19 +977,19 @@ $("#buscarCargoconsulta").click(function() {
                         var divinputIdlugarinventarioDelete = document.getElementById("divinputIdlugarinventario");
                         divinputIdlugarinventarioDelete.parentNode.removeChild(divinputIdlugarinventarioDelete);
                     }
-                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    // Si el formulario ya tiene el input de cargoconsulta_tipo lo eliminamos
                     if(document.getElementById('divinputCargoconsultaTipo')){
                         var divinputCargoconsultaTipoDelete = document.getElementById("divinputCargoconsultaTipo");
                         divinputCargoconsultaTipoDelete.parentNode.removeChild(divinputCargoconsultaTipoDelete);
                     }
-                    // Si el formulario ya tiene el input de idlugarinventario lo eliminamos
+                    // Si el formulario ya tiene el input de cargoconsulta_fecha lo eliminamos
                     if(document.getElementById('divinputCargoconsultaFecha')){
                         var divinputCargoconsultaFechaDelete = document.getElementById("divinputCargoconsultaFecha");
                         divinputCargoconsultaFechaDelete.parentNode.removeChild(divinputCargoconsultaFechaDelete);
                     }
+
                     // Creamos nuestro Formulario con los datos a insertar en Cargoconsulta
                     var form = document.getElementById('CargoconsultaForm');
-
                     // Actializar existencias
                     // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
                     var divinputIdordencompradetalle = document.createElement('div');
@@ -1226,17 +1041,166 @@ $("#buscarCargoconsulta").click(function() {
             });
         },
         error: function(){
-            $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
+            $('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
         }
     });
 
     return false;
 });
 
-function generaTablaBuscarConsulta(ordencompradetalleArray) {
+$("#buscarCargoconsultaServicio").click(function() {
 
-    // Obtener la referencia del elemento div con id = tablaCargoconsulta
-    var div = document.getElementById("tablaCargoconsulta");
+    //Obtenemos el valor del selector de lugarinventario
+    var busquedaServicio = $("input#busquedaServicio").val();
+
+    //Obtenemos el valor del selector de lugarinventario
+    var cargoconsultaservicio_by = $("select#cargoconsultaservicio_by").val();
+    //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
+    if (cargoconsultaservicio_by == "") {
+        if ($('span#cargoconsultaservicio_by_error').hasClass('hidden')){
+            $('span#cargoconsultaservicio_by_error').removeClass('hidden');
+            $("span#cargoconsultaservicio_by_error").show();
+            $("span#cargoconsultaservicio_by").focus();
+        }
+        return false;
+    }else{
+        $("span#cargoconsultaservicio_by_error").hide();
+    }
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'cargoconsultaservicio_by=' + cargoconsultaservicio_by + '&busquedaServicio=' + busquedaServicio ;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        jsonpCallback: 'callback',
+        success: function(data) {
+            servicioArray = []
+            var servicioEntity = data.servicioArray
+            $.each( servicioEntity, function( key, value ) {
+                servicioArray.push({
+                    "idservicio" : value.idservicio,
+                    "cargoconsulta_tipo" : value.cargoconsulta_tipo,
+                    "cargoconsulta_fecha" : value.cargoconsulta_fecha,
+                    "servicio_nombre" : value.servicio_nombre,
+                    "servicio_descripcion" : value.servicio_descripcion,
+                    "servicio_precio" : value.servicio_precio
+                });
+            });
+
+            // Creamos nuestra tabla de colecciones
+            generaTablaBuscarConsultaServicio(servicioArray);
+
+            // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
+            $.each(servicioArray, function(keys, values){
+                // Si dan clic a una entidad de la colección
+                $("#entidadServicio-"+values.idservicio).click(function(){
+                    if ($('#fieldsetCargoconsultaServicio').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsultaServicio').removeClass('hiddendiv')
+                    }
+                    var br   = document.createElement("br");
+                    var br2   = document.createElement("br");
+                    var br3   = document.createElement("br");
+                    var br4   = document.createElement("br");
+                    // Creamos el input de cantidad de tipo input
+                    var divinputCantidad = document.createElement('div');
+                    divinputCantidad.className = "input-field";
+                    divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
+                    var inputCantidad = document.createElement('input');
+                    inputCantidad.setAttribute ( 'id', 'cantidad' );
+
+                    // agregamos las options en nuestro input
+                    divinputCantidad.appendChild(inputCantidad);
+
+                    // Creamos la entidad textual lista para agregar al cargoconsulta
+                    var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
+                    div.innerHTML = div;
+                    var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
+                    var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
+                    var textoServicioPrecio = document.createTextNode("Costo: "+values.servicio_precio);
+                    var textoCargoconsultaFecha = document.createTextNode("Fecha: "+values.cargoconsulta_fecha);
+                    var textoCantidad = document.createTextNode("Cantidad: ");
+                    div.appendChild(textoServicioNombre);
+                    div.appendChild(br);
+                    div.appendChild(textoServicioDescripcion);
+                    div.appendChild(br2);
+                    div.appendChild(textoServicioPrecio);
+                    div.appendChild(br3);
+                    div.appendChild(textoCargoconsultaFecha);
+                    div.appendChild(br4);
+                    div.appendChild(textoCantidad);
+                    div.appendChild(inputCantidad);
+
+                    // El input idservicio solamente lo necesitamos para actualizar nuestra entidad servicio antes de agregar el cargo.
+                    // Si el formulario ya tiene el input de idservicio lo eliminamos
+                    if(document.getElementById('divinputIdservicio')){
+                        var divinputIdservicioDelete = document.getElementById("divinputIdservicio");
+                        divinputIdservicioDelete.parentNode.removeChild(divinputIdservicioDelete);
+                    }
+
+                    // Si el formulario ya tiene el input de servicio_nombre lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaTipo')){
+                        var divinputCargoconsultaTipoDelete = document.getElementById("divinputCargoconsultaTipo");
+                        divinputCargoconsultaTipoDelete.parentNode.removeChild(divinputCargoconsultaTipoDelete);
+                    }
+                    // Si el formulario ya tiene el input de servicio_descripcion lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaFecha')){
+                        var divinputCargoconsultaFechaDelete = document.getElementById("divinputCargoconsultaFecha");
+                        divinputCargoconsultaFechaDelete.parentNode.removeChild(divinputCargoconsultaFechaDelete);
+                    }
+
+                    // Creamos nuestro Formulario con los datos a insertar en Cargoconsulta
+                    var form = document.getElementById('CargoconsultaForm');
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdservicio = document.createElement('div');
+                    divinputIdservicio.className = "input-field";
+                    divinputIdservicio.setAttribute ( 'id', 'divinputIdservicio' );
+                    var inputIdservicio = document.createElement('input');
+                    inputIdservicio.setAttribute ( 'id', 'idservicio' );
+                    inputIdservicio.setAttribute ( 'type', 'hidden' );
+                    inputIdservicio.setAttribute ( 'name', 'idservicio' );
+                    inputIdservicio.setAttribute ( 'value', values.idservicio );
+                    divinputIdservicio.appendChild(inputIdservicio)
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaTipo = document.createElement('div');
+                    divinputCargoconsultaTipo.className = "input-field";
+                    divinputCargoconsultaTipo.setAttribute ( 'id', 'divinputCargoconsultaTipo' );
+                    var inputCargoconsultaTipo = document.createElement('input');
+                    inputCargoconsultaTipo.setAttribute ( 'id', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaTipo.setAttribute ( 'name', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'value', values.cargoconsulta_tipo );
+                    divinputCargoconsultaTipo.appendChild(inputCargoconsultaTipo);
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaFecha = document.createElement('div');
+                    divinputCargoconsultaFecha.className = "input-field";
+                    divinputCargoconsultaFecha.setAttribute ( 'id', 'divinputCargoconsultaFecha' );
+                    var inputCargoconsultaFecha = document.createElement('input');
+                    inputCargoconsultaFecha.setAttribute ( 'id', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaFecha.setAttribute ( 'name', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'value', values.cargoconsulta_fecha );
+                    divinputCargoconsultaFecha.appendChild(inputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaTipo);
+                    form.appendChild(divinputIdservicio);
+                });
+            });
+        },
+        error: function(){
+            $('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
+        }
+    });
+
+    return false;
+});
+
+function generaTablaBuscarConsultaArticulo(ordencompradetalleArray) {
+
+    // Obtener la referencia del elemento div con id = tablaCargoconsultaArticulo
+    var div = document.getElementById("tablaCargoconsultaArticulo");
     div.innerHTML = div;
     // Crea un elemento <table> y un elemento <thead> y <tbody>
     var tabla   = document.createElement("table");
@@ -1273,7 +1237,7 @@ function generaTablaBuscarConsulta(ordencompradetalleArray) {
         var hilera = document.createElement("tr");
         hilera.className = "pointer";
         // Le agregamos un id a la entidad <th>
-        hilera.setAttribute('id', 'entidad-' + ordencompradetalleArray[i]["idordencompradetalle"])
+        hilera.setAttribute('id', 'entidadArticulo-' + ordencompradetalleArray[i]["idordencompradetalle"])
 
         for (var j = 0; j < thArray.length; j++) {
 
@@ -1320,9 +1284,84 @@ function generaTablaBuscarConsulta(ordencompradetalleArray) {
     div.appendChild(tabla);
 }
 
+function generaTablaBuscarConsultaServicio(servicioArray) {
 
+    // Obtener la referencia del elemento div con id = tablaCargoconsultaArticulo
+    var div = document.getElementById("tablaCargoconsultaServicio");
+    div.innerHTML = div;
+    // Crea un elemento <table> y un elemento <thead> y <tbody>
+    var tabla   = document.createElement("table");
+    tabla.className = "hoverable striped";
+    var tblHead = document.createElement("thead");
+    var tblBody = document.createElement("tbody");
+    var thArray = ['Servicio', 'Descripción', 'Costo']
 
-$("#guardarCargoconsulta").click(function() {
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <th> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <th>, ubica el elemento <th> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <table>
+    tabla.appendChild(tblHead);
+
+    // Crea las celdas
+    for (var i = 0; i < servicioArray.length; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+        hilera.className = "pointer";
+        // Le agregamos un id a la entidad <th>
+        hilera.setAttribute('id', 'entidadServicio-' + servicioArray[i]["idservicio"])
+
+        for (var j = 0; j < thArray.length; j++) {
+
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(servicioArray[i]["servicio_nombre"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(servicioArray[i]["servicio_descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 2){
+                var textoCelda = document.createTextNode(servicioArray[i]["servicio_precio"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <div>
+    div.appendChild(tabla);
+}
+
+$("#guardarCargoconsultaArticulo").click(function() {
 
     // Actializar existencias
     //Obtenemos el valor del selector de consulta
@@ -1341,7 +1380,7 @@ $("#guardarCargoconsulta").click(function() {
     var cantidad = $("select#cantidad").val();
 
     if(cantidad == null){
-        //$('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 error-modal-ajax">Error al intentar agregar. Ya no hay artículos en existencia.</div>')
+        //$('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text red accent-2 error-modal-ajax">Error al intentar agregar. Ya no hay artículos en existencia.</div>')
         alert("Error al intentar agregar. Ya no hay artículos en existencia");
         return false;
     }
@@ -1357,7 +1396,7 @@ $("#guardarCargoconsulta").click(function() {
         jsonpCallback: 'callback',
         success: function(data) {
             //$('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
-            //$('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
+            //$('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
             alert("Cargo agregado exitosamente");
 
             //console.log(data.cargoconsultaArray);
@@ -1376,19 +1415,19 @@ $("#guardarCargoconsulta").click(function() {
                 });
             });
 
-            if ($('#cargoconsultaResult').hasClass('hiddendiv')){
-                $('#cargoconsultaResult').removeClass('hiddendiv')
+            if ($('#cargoconsultaArticuloResult').hasClass('hiddendiv')){
+                $('#cargoconsultaArticuloResult').removeClass('hiddendiv')
             }
-            tablaCargoconsultaAgregado(cargoconsultaArray);
-            genera_tabla(cargoconsultaArray);
 
+            tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray);
+            tablaCargoconsultaArticuloAgregado(cargoconsultaArray);
             // Refrescamos
-            buscarCargoconsulta(idordencompradetalle);
+            buscarCargoconsultaArticulo(idordencompradetalle);
 
         },
         error: function(){
             //$('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
-            //$('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 error-modal-ajax">Error al intentar agregar</div>')
+            //$('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text red accent-2 error-modal-ajax">Error al intentar agregar</div>')
             alert("Error al intentar agregar");
         }
     });
@@ -1396,13 +1435,142 @@ $("#guardarCargoconsulta").click(function() {
     return false;
 });
 
-$("#guardarCargoadmision").click(function() {
+$("#guardarCargoconsultaServicio").click(function() {
+
+    //Obtenemos el valor del selector de consulta
+    var idconsulta = $("input#idconsulta").val();
+    //Obtenemos el valor del selector de lugarinventario
+    var idservicio = $("input#idservicio").val();
+    //Obtenemos el valor del campo cargoconsulta_tipo
+    var cargoconsulta_tipo = $("input#cargoconsulta_tipo").val();
+    //Obtenemos el valor del campo cargoconsulta_fecha
+    var cargoconsulta_fecha = $("input#cargoconsulta_fecha").val();
+    //Obtenemos el valor del campo cantidad
+    var cantidad = $("input#cantidad").val();
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'idconsulta=' + idconsulta + '&idservicio=' + idservicio + '&cargoconsulta_tipo=' + cargoconsulta_tipo + '&cargoconsulta_fecha=' + cargoconsulta_fecha + '&cantidad=' + cantidad;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        jsonpCallback: 'callback',
+        success: function(data) {
+            //$('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
+            //$('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
+            alert("Cargo agregado exitosamente");
+
+            //console.log(data.cargoconsultaArray);
+            cargoconsultaArray = []
+            var cargoconsultaEntity = data.cargoconsultaArray
+            $.each( cargoconsultaEntity, function( key, value ) {
+                cargoconsultaArray.push({
+                    "idcargoconsulta" : value.idcargoconsulta,
+                    "cantidad" : value.cantidad,
+                    "servicio" : value.servicio,
+                    "descripcion" : value.descripcion,
+                    "costo" : value.costo,
+                    "subtotal" : value.subtotal,
+                    "fechahora" : value.fechahora
+                });
+            });
+
+            if ($('#cargoconsultaServicioResult').hasClass('hiddendiv')){
+                $('#cargoconsultaServicioResult').removeClass('hiddendiv')
+            }
+
+            tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray);
+            tablaCargoconsultaServicioAgregado(cargoconsultaArray);
+            // Refrescamos
+            buscarCargoconsultaServicio(idservicio);
+
+        },
+        error: function(){
+            //$('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
+            //$('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text red accent-2 error-modal-ajax">Error al intentar agregar</div>')
+            alert("Error al intentar agregar");
+        }
+    });
+
+    return false;
+});
+
+$("#guardarCargoadmisionArticulo").click(function() {
 
     //Obtenemos el valor del selector de admision
     var idadmision = $("input#idadmision").val();
     //Obtenemos el valor del selector de servicio
     var idservicio = $("select#idservicio").val();
-    //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
+    //Validamos el campo idservicio, simplemente miramos que no esté vacío
+    if (idservicio == "") {
+        if ($('span#idservicio_error').hasClass('hidden')){
+            $('span#idservicio_error').removeClass('hidden');
+            $("span#idservicio_error").show();
+            $("span#idservicio").focus();
+        }
+        return false;
+    }else{
+        $("span#idservicio_error").hide();
+    }
+
+    //Obtenemos el valor del campo cargoadmision_tipo
+    var cargoadmision_tipo = $("input#cargoadmision_tipo").val();
+
+    //Obtenemos el valor del campo cargoadmision_fecha
+    var cargoadmision_fecha = $("input#cargoadmision_fecha").val();
+    //Validamos el campo cargoadmision_fecha, simplemente miramos que no esté vacío
+    if (cargoadmision_fecha == "") {
+        if ($('span#cargoadmision_fecha_error').hasClass('hidden')){
+            $('span#cargoadmision_fecha_error').removeClass('hidden');
+            $("span#cargoadmision_fecha_error").show();
+            $("span#cargoadmision_fecha").focus();
+        }
+        return false;
+    }else{
+        $("span#cargoadmision_fecha_error").hide();
+    }
+
+    //Obtenemos el valor del campo cantidad
+    var cargoadmision_cantidad = $("input#cargoadmision_cantidad").val();
+    //Validamos el campo cantidad, simplemente miramos que no esté vacío
+    if (cargoadmision_cantidad == "") {
+        if ($('span#ccargoadmision_antidad_error').hasClass('hidden')){
+            $('span#cargoadmision_cantidad_error').removeClass('hidden');
+            $("span#cargoadmision_cantidad_error").show();
+            $("span#cargoadmision_cantidad").focus();
+        }
+        return false;
+    }else{
+        $("span#cargoadmision_cantidad_error").hide();
+    }
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'idadmision=' + idadmision + '&idservicio=' + idservicio + '&cargoadmision_tipo=' + cargoadmision_tipo + '&cargoadmision_fecha=' + cargoadmision_fecha + '&cargoadmision_cantidad=' + cargoadmision_cantidad;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        data: dataString,
+        success: function() {
+            $("#create-modal-cargoadmision").hide();
+            //$('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Cargo guardada exitosamente</div>')
+        },
+        error: function(){
+            //$('#cargos').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar guardar</div>')
+        }
+    });
+
+    return false;
+});
+$("#guardarCargoadmisionServicio").click(function() {
+
+    //Obtenemos el valor del selector de admision
+    var idadmision = $("input#idadmision").val();
+    //Obtenemos el valor del selector de servicio
+    var idservicio = $("select#idservicio").val();
+    //Validamos el campo idservicio, simplemente miramos que no esté vacío
     if (idservicio == "") {
         if ($('span#idservicio_error').hasClass('hidden')){
             $('span#idservicio_error').removeClass('hidden');
@@ -1484,10 +1652,10 @@ function anticipoTotalStatus(cargoconsultaArray){
     a.setAttribute ( 'data-tooltip', 'Editar' );
     a.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
 }
-function tablaCargoconsultaAgregado(cargoconsultaArray) {
+function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
 
-    // Obtener la referencia del elemento div con id = tablaCargoconsultaAgregado
-    var div = document.getElementById("tablaCargoconsultaAgregado");
+    // Obtener la referencia del elemento div con id = tablaCargoconsultaArticuloAgregado
+    var div = document.getElementById("tablaCargoconsultaArticuloAgregado");
     div.innerHTML = div;
     // Creamos el elemento <table>
     var tabla   = document.createElement("table");
@@ -1612,27 +1780,152 @@ function tablaCargoconsultaAgregado(cargoconsultaArray) {
     div.appendChild(tabla);
 
 }
-function buscarCargoconsulta(idordencompradetalle){
+function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
+
+    // Obtener la referencia del elemento div con id = tablaCargoconsultaServicioAgregado
+    var div = document.getElementById("tablaCargoconsultaServicioAgregado");
+    div.innerHTML = div;
+    // Creamos el elemento <table>
+    var tabla   = document.createElement("table");
+    // Agregamos clases el elemento <table>
+    tabla.className = "hoverable striped";
+    // Creamos el elemento <thead>
+    var tblHead = document.createElement("thead");
+    // Creamos el elemento <tbody>
+    var tblBody = document.createElement("tbody");
+
+    // Creamos un array con las columnas de nuestra tabla
+    var thArray = ['Cantidad', 'Servicio', /*'Descripción',*/ 'Costo', 'Subtotal', 'Fecha/hora', 'Opciones']
+
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <tbody>
+    tabla.appendChild(tblHead);
+
+    // Crea las celdas
+    for (var i = 0; i < cargoconsultaArray.length; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["servicio"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            /*
+            if(j == 2){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            */
+            if(j == 2){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 3){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 4){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 5){
+                var link1 = document.createElement("a");
+                link1.className = "tooltipped modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var vista = document.createElement("i");
+                vista.className = "tiny mdi-image-remove-red-eye";
+                var link2 = document.createElement("a");
+                link2.className = "tooltipped";
+                link2.setAttribute ( 'data-position', 'right' );
+                link2.setAttribute ( 'data-tooltip', 'Editar' );
+                link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var editar = document.createElement("i");
+                editar.className = "tiny mdi-action-assignment";
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "tiny mdi-action-delete";
+                celda.appendChild(link1);
+                celda.appendChild(vista);
+                celda.appendChild(link2);
+                celda.appendChild(editar);
+                celda.appendChild(link3);
+                celda.appendChild(eliminar);
+                hilera.appendChild(celda);
+            }
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <body>
+    div.appendChild(tabla);
+
+}
+function buscarCargoconsultaArticulo(idordencompradetalle){
 
     //Obtenemos el valor del selector de lugarinventario
-    var busqueda = $("input#busqueda").val();
+    var busquedaArticulo = $("input#busquedaArticulo").val();
 
     //Obtenemos el valor del selector de lugarinventario
-    var cargoconsulta_by = $("select#cargoconsulta_by").val();
-    //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
-    if (cargoconsulta_by == "") {
-        if ($('span#cargoconsulta_by_error').hasClass('hidden')){
-            $('span#cargoconsulta_by_error').removeClass('hidden');
-            $("span#cargoconsulta_by_error").show();
-            $("span#cargoconsulta_by").focus();
+    var cargoconsultaarticulo_by = $("select#cargoconsultaarticulo_by").val();
+    //Validamos el campo cargoconsultaarticulo_by, simplemente miramos que no esté vacío
+    if (cargoconsultaarticulo_by == "") {
+        if ($('span#cargoconsultaarticulo_by_error').hasClass('hidden')){
+            $('span#cargoconsultaarticulo_by_error').removeClass('hidden');
+            $("span#cargoconsultaarticulo_by_error").show();
+            $("span#cargoconsultaarticulo_by").focus();
         }
         return false;
     }else{
-        $("span#cargoconsulta_by_error").hide();
+        $("span#cargoconsultaarticulo_by_error").hide();
     }
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'cargoconsulta_by=' + cargoconsulta_by + '&busqueda=' + busqueda ;
+    var dataString = 'cargoconsultaarticulo_by=' + cargoconsultaarticulo_by + '&busquedaArticulo=' + busquedaArticulo ;
 
     $.ajax({
         type: "POST",
@@ -1659,15 +1952,15 @@ function buscarCargoconsulta(idordencompradetalle){
             });
 
             // Creamos nuestra tabla de colecciones
-            generaTablaBuscarConsulta(ordencompradetalleArray);
+            generaTablaBuscarConsultaArticulo(ordencompradetalleArray);
 
             // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
             $.each(ordencompradetalleArray, function(keys, values){
 
-                // Falta mantener el foco en el artículo que se esta agregando
+                // Mantenemos el foco en el artículo que se esta agregando
                 if(idordencompradetalle == values.idordencompradetalle){
-                    if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
-                        $('#fieldsetCargoconsulta').removeClass('hiddendiv')
+                    if ($('#fieldsetCargoconsultaArticulo').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsultaArticulo').removeClass('hiddendiv')
                     }
                     var br   = document.createElement("br");
                     var br2   = document.createElement("br");
@@ -1692,7 +1985,7 @@ function buscarCargoconsulta(idordencompradetalle){
                     divinputCantidad.appendChild(select);
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
-                    var div = document.getElementById("fieldsetCargoconsultaEntity");
+                    var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
                     div.innerHTML = div;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
@@ -1791,9 +2084,9 @@ function buscarCargoconsulta(idordencompradetalle){
                 }
 
                 // Si dan clic a una entidad de la colección
-                $("#entidad-"+values.idordencompradetalle).click(function(){
-                    if ($('#fieldsetCargoconsulta').hasClass('hiddendiv')){
-                        $('#fieldsetCargoconsulta').removeClass('hiddendiv')
+                $("#entidadArticulo-"+values.idordencompradetalle).click(function(){
+                    if ($('#fieldsetCargoconsultaArticulo').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsultaArticulo').removeClass('hiddendiv')
                     }
                     var br   = document.createElement("br");
                     var br2   = document.createElement("br");
@@ -1818,7 +2111,7 @@ function buscarCargoconsulta(idordencompradetalle){
                     divinputCantidad.appendChild(select);
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
-                    var div = document.getElementById("fieldsetCargoconsultaEntity");
+                    var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
                     div.innerHTML = div;
                     var textoArticulo = document.createTextNode("Artículo: "+values.articulo);
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
@@ -1918,16 +2211,258 @@ function buscarCargoconsulta(idordencompradetalle){
             });
         },
         error: function(){
-            $('#modalCargoconsulta').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
+            $('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
         }
     });
 
     return false;
 };
-function genera_tabla(cargoconsultaArray) {
+function buscarCargoconsultaServicio(idservicio){
 
-    // Obtener la referencia del elemento div con id = cargoconsultaResult
-    var div = document.getElementById("cargoconsultaResult");
+    //Obtenemos el valor del selector de lugarinventario
+    var busquedaServicio = $("input#busquedaServicio").val();
+
+    //Obtenemos el valor del selector de lugarinventario
+    var cargoconsultaservicio_by = $("select#cargoconsultaservicio_by").val();
+    //Validamos el campo idlugarinventario, simplemente miramos que no esté vacío
+    if (cargoconsultaservicio_by == "") {
+        if ($('span#cargoconsultaservicio_by_error').hasClass('hidden')){
+            $('span#cargoconsultaservicio_by_error').removeClass('hidden');
+            $("span#cargoconsultaservicio_by_error").show();
+            $("span#cargoconsultaservicio_by").focus();
+        }
+        return false;
+    }else{
+        $("span#cargoconsultaservicio_by_error").hide();
+    }
+
+    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+    var dataString = 'cargoconsultaservicio_by=' + cargoconsultaservicio_by + '&busquedaServicio=' + busquedaServicio ;
+
+    $.ajax({
+        type: "POST",
+        url: "<?php $this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
+        dataType : 'json',
+        data: dataString,
+        jsonpCallback: 'callback',
+        success: function(data) {
+            servicioArray = []
+            var servicioEntity = data.servicioArray
+            $.each( servicioEntity, function( key, value ) {
+                servicioArray.push({
+                    "idservicio" : value.idservicio,
+                    "cargoconsulta_tipo" : value.cargoconsulta_tipo,
+                    "cargoconsulta_fecha" : value.cargoconsulta_fecha,
+                    "servicio_nombre" : value.servicio_nombre,
+                    "servicio_descripcion" : value.servicio_descripcion,
+                    "servicio_precio" : value.servicio_precio
+                });
+            });
+
+            // Creamos nuestra tabla de colecciones
+            generaTablaBuscarConsultaServicio(servicioArray);
+
+            // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
+            $.each(servicioArray, function(keys, values){
+                // Mantenemos el foco en el servicio que se esta agregando
+                if(idservicio == values.idservicio){
+                    if ($('#fieldsetCargoconsultaServicio').hasClass('hiddendiv')){
+                        $('#fieldsetCargoconsultaServicio').removeClass('hiddendiv')
+                    }
+                    var br   = document.createElement("br");
+                    var br2   = document.createElement("br");
+                    var br3   = document.createElement("br");
+                    var br4   = document.createElement("br");
+                    // Creamos el input de cantidad de tipo input
+                    var divinputCantidad = document.createElement('div');
+                    divinputCantidad.className = "input-field";
+                    divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
+                    var inputCantidad = document.createElement('input');
+                    inputCantidad.setAttribute ( 'id', 'cantidad' );
+                    divinputCantidad.appendChild(inputCantidad);
+
+                    // Creamos la entidad textual lista para agregar al cargoconsulta
+                    var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
+                    div.innerHTML = div;
+                    var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
+                    var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
+                    var textoServicioPrecio = document.createTextNode("Costo: "+values.servicio_precio);
+                    var textoCargoconsultaFecha = document.createTextNode("Fecha: "+values.cargoconsulta_fecha);
+                    var textoCantidad = document.createTextNode("Cantidad: ");
+                    div.appendChild(textoServicioNombre);
+                    div.appendChild(br);
+                    div.appendChild(textoServicioDescripcion);
+                    div.appendChild(br2);
+                    div.appendChild(textoServicioPrecio);
+                    div.appendChild(br3);
+                    div.appendChild(textoCargoconsultaFecha);
+                    div.appendChild(br4);
+                    div.appendChild(textoCantidad);
+                    div.appendChild(inputCantidad);
+
+                    // El input idservicio solamente lo necesitamos para actualizar nuestra entidad servicio antes de agregar el cargo.
+                    // Si el formulario ya tiene el input de idservicio lo eliminamos
+                    if(document.getElementById('divinputIdservicio')){
+                        var divinputIdservicioDelete = document.getElementById("divinputIdservicio");
+                        divinputIdservicioDelete.parentNode.removeChild(divinputIdservicioDelete);
+                    }
+
+                    // Si el formulario ya tiene el input de servicio_nombre lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaTipo')){
+                        var divinputCargoconsultaTipoDelete = document.getElementById("divinputCargoconsultaTipo");
+                        divinputCargoconsultaTipoDelete.parentNode.removeChild(divinputCargoconsultaTipoDelete);
+                    }
+                    // Si el formulario ya tiene el input de servicio_descripcion lo eliminamos
+                    if(document.getElementById('divinputCargoconsultaFecha')){
+                        var divinputCargoconsultaFechaDelete = document.getElementById("divinputCargoconsultaFecha");
+                        divinputCargoconsultaFechaDelete.parentNode.removeChild(divinputCargoconsultaFechaDelete);
+                    }
+
+                    // Creamos nuestro Formulario con los datos a insertar en Cargoconsulta
+                    var form = document.getElementById('CargoconsultaForm');
+                    // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                    var divinputIdservicio = document.createElement('div');
+                    divinputIdservicio.className = "input-field";
+                    divinputIdservicio.setAttribute ( 'id', 'divinputIdservicio' );
+                    var inputIdservicio = document.createElement('input');
+                    inputIdservicio.setAttribute ( 'id', 'idservicio' );
+                    inputIdservicio.setAttribute ( 'type', 'hidden' );
+                    inputIdservicio.setAttribute ( 'name', 'idservicio' );
+                    inputIdservicio.setAttribute ( 'value', values.idservicio );
+                    divinputIdservicio.appendChild(inputIdservicio)
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaTipo = document.createElement('div');
+                    divinputCargoconsultaTipo.className = "input-field";
+                    divinputCargoconsultaTipo.setAttribute ( 'id', 'divinputCargoconsultaTipo' );
+                    var inputCargoconsultaTipo = document.createElement('input');
+                    inputCargoconsultaTipo.setAttribute ( 'id', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaTipo.setAttribute ( 'name', 'cargoconsulta_tipo' );
+                    inputCargoconsultaTipo.setAttribute ( 'value', values.cargoconsulta_tipo );
+                    divinputCargoconsultaTipo.appendChild(inputCargoconsultaTipo);
+                    // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                    var divinputCargoconsultaFecha = document.createElement('div');
+                    divinputCargoconsultaFecha.className = "input-field";
+                    divinputCargoconsultaFecha.setAttribute ( 'id', 'divinputCargoconsultaFecha' );
+                    var inputCargoconsultaFecha = document.createElement('input');
+                    inputCargoconsultaFecha.setAttribute ( 'id', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'type', 'hidden' );
+                    inputCargoconsultaFecha.setAttribute ( 'name', 'cargoconsulta_fecha' );
+                    inputCargoconsultaFecha.setAttribute ( 'value', values.cargoconsulta_fecha );
+                    divinputCargoconsultaFecha.appendChild(inputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaFecha);
+                    form.appendChild(divinputCargoconsultaTipo);
+                    form.appendChild(divinputIdservicio);
+                }
+
+                // Si dan clic a una entidad de la colección
+
+                // Seleccionamos un item de nuestra tabla de colecciones y construimos la entidad para agregarla como cargoconsulta
+                $.each(servicioArray, function(keys, values){
+                    // Si dan clic a una entidad de la colección
+                    $("#entidadServicio-"+values.idservicio).click(function(){
+                        if ($('#fieldsetCargoconsultaServicio').hasClass('hiddendiv')){
+                            $('#fieldsetCargoconsultaServicio').removeClass('hiddendiv')
+                        }
+                        var br   = document.createElement("br");
+                        var br2   = document.createElement("br");
+                        var br3   = document.createElement("br");
+                        var br4   = document.createElement("br");
+                        // Creamos el input de cantidad de tipo input
+                        var divinputCantidad = document.createElement('div');
+                        divinputCantidad.className = "input-field";
+                        divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
+                        var inputCantidad = document.createElement('input');
+                        inputCantidad.setAttribute ( 'id', 'cantidad' );
+                        divinputCantidad.appendChild(inputCantidad);
+
+                        // Creamos la entidad textual lista para agregar al cargoconsulta
+                        var div = document.getElementById("fieldsetCargoconsultaServicioEntity");
+                        div.innerHTML = div;
+                        var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
+                        var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
+                        var textoServicioPrecio = document.createTextNode("Costo: "+values.servicio_precio);
+                        var textoCargoconsultaFecha = document.createTextNode("Fecha: "+values.cargoconsulta_fecha);
+                        var textoCantidad = document.createTextNode("Cantidad: ");
+                        div.appendChild(textoServicioNombre);
+                        div.appendChild(br);
+                        div.appendChild(textoServicioDescripcion);
+                        div.appendChild(br2);
+                        div.appendChild(textoServicioPrecio);
+                        div.appendChild(br3);
+                        div.appendChild(textoCargoconsultaFecha);
+                        div.appendChild(br4);
+                        div.appendChild(textoCantidad);
+                        div.appendChild(inputCantidad);
+
+                        // El input idservicio solamente lo necesitamos para actualizar nuestra entidad servicio antes de agregar el cargo.
+                        // Si el formulario ya tiene el input de idservicio lo eliminamos
+                        if(document.getElementById('divinputIdservicio')){
+                            var divinputIdservicioDelete = document.getElementById("divinputIdservicio");
+                            divinputIdservicioDelete.parentNode.removeChild(divinputIdservicioDelete);
+                        }
+
+                        // Si el formulario ya tiene el input de servicio_nombre lo eliminamos
+                        if(document.getElementById('divinputCargoconsultaTipo')){
+                            var divinputCargoconsultaTipoDelete = document.getElementById("divinputCargoconsultaTipo");
+                            divinputCargoconsultaTipoDelete.parentNode.removeChild(divinputCargoconsultaTipoDelete);
+                        }
+                        // Si el formulario ya tiene el input de servicio_descripcion lo eliminamos
+                        if(document.getElementById('divinputCargoconsultaFecha')){
+                            var divinputCargoconsultaFechaDelete = document.getElementById("divinputCargoconsultaFecha");
+                            divinputCargoconsultaFechaDelete.parentNode.removeChild(divinputCargoconsultaFechaDelete);
+                        }
+
+                        // Creamos nuestro Formulario con los datos a insertar en Cargoconsulta
+                        var form = document.getElementById('CargoconsultaForm');
+                        // Creamos el input de idlugarinventario y le seteamos el valor que le corresponde
+                        var divinputIdservicio = document.createElement('div');
+                        divinputIdservicio.className = "input-field";
+                        divinputIdservicio.setAttribute ( 'id', 'divinputIdservicio' );
+                        var inputIdservicio = document.createElement('input');
+                        inputIdservicio.setAttribute ( 'id', 'idservicio' );
+                        inputIdservicio.setAttribute ( 'type', 'hidden' );
+                        inputIdservicio.setAttribute ( 'name', 'idservicio' );
+                        inputIdservicio.setAttribute ( 'value', values.idservicio );
+                        divinputIdservicio.appendChild(inputIdservicio)
+                        // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                        var divinputCargoconsultaTipo = document.createElement('div');
+                        divinputCargoconsultaTipo.className = "input-field";
+                        divinputCargoconsultaTipo.setAttribute ( 'id', 'divinputCargoconsultaTipo' );
+                        var inputCargoconsultaTipo = document.createElement('input');
+                        inputCargoconsultaTipo.setAttribute ( 'id', 'cargoconsulta_tipo' );
+                        inputCargoconsultaTipo.setAttribute ( 'type', 'hidden' );
+                        inputCargoconsultaTipo.setAttribute ( 'name', 'cargoconsulta_tipo' );
+                        inputCargoconsultaTipo.setAttribute ( 'value', values.cargoconsulta_tipo );
+                        divinputCargoconsultaTipo.appendChild(inputCargoconsultaTipo);
+                        // Creamos el input de cargoconsulta_tipo y le seteamos el valor que le corresponde
+                        var divinputCargoconsultaFecha = document.createElement('div');
+                        divinputCargoconsultaFecha.className = "input-field";
+                        divinputCargoconsultaFecha.setAttribute ( 'id', 'divinputCargoconsultaFecha' );
+                        var inputCargoconsultaFecha = document.createElement('input');
+                        inputCargoconsultaFecha.setAttribute ( 'id', 'cargoconsulta_fecha' );
+                        inputCargoconsultaFecha.setAttribute ( 'type', 'hidden' );
+                        inputCargoconsultaFecha.setAttribute ( 'name', 'cargoconsulta_fecha' );
+                        inputCargoconsultaFecha.setAttribute ( 'value', values.cargoconsulta_fecha );
+                        divinputCargoconsultaFecha.appendChild(inputCargoconsultaFecha);
+                        form.appendChild(divinputCargoconsultaFecha);
+                        form.appendChild(divinputCargoconsultaTipo);
+                        form.appendChild(divinputIdservicio);
+                    });
+                });
+            });
+        },
+        error: function(){
+            $('#modalCargoconsultaServicio').prepend('<div class="card-panel #00086E-text red accent-2 guardado-ajax">Error al intentar buscar</div>')
+        }
+    });
+
+    return false;
+};
+function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
+
+    // Obtener la referencia del elemento div con id = cargoconsultaArticuloResult
+    var div = document.getElementById("cargoconsultaArticuloResult");
     div.innerHTML = div;
     // Crea un elemento <table> y un elemento <tbody>
     var tabla   = document.createElement("table");
@@ -2048,8 +2583,199 @@ function genera_tabla(cargoconsultaArray) {
     div.appendChild(tabla);
 }
 
+function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
+
+    // Obtener la referencia del elemento div con id = cargoconsultaServicioResult
+    var div = document.getElementById("cargoconsultaServicioResult");
+    div.innerHTML = div;
+    // Crea un elemento <table> y un elemento <tbody>
+    var tabla   = document.createElement("table");
+    tabla.className = "hoverable striped";
+    var tblHead = document.createElement("thead");
+    var tblBody = document.createElement("tbody");
+
+    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Costo', 'Subtotal', 'Fecha/hora', 'Opciones']
+
+    // Crea las celdas
+    for (var i = 0; i < 1; i++) {
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("th");
+            var textoCelda = document.createTextNode(thArray[j]);
+            celda.appendChild(textoCelda);
+            hilera.appendChild(celda);
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblHead)
+        tblHead.appendChild(hilera);
+    }
+
+    // posiciona el <thead> debajo del elemento <tbody>
+    tabla.appendChild(tblHead);
+
+    var subTotal = 0;
+    // Crea las celdas
+    for (var i = 0; i < cargoconsultaArray.length; i++) {
+
+        subTotal = subTotal+parseFloat(cargoconsultaArray[i]["subtotal"]);
+
+        // Crea las hileras de la tabla
+        var hilera = document.createElement("tr");
+
+        for (var j = 0; j < thArray.length; j++) {
+            // Crea un elemento <td> y un nodo de texto, haz que el nodo de
+            // texto sea el contenido de <td>, ubica el elemento <td> al final
+            // de la hilera de la tabla
+            var celda = document.createElement("td");
+
+            if(j == 0){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["cantidad"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 1){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["servicio"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 2){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["descripcion"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 3){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 4){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 5){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 6){
+                var link1 = document.createElement("a");
+                link1.className = "tooltipped modal-trigger";
+                link1.setAttribute ( 'data-position', 'left' );
+                link1.setAttribute ( 'data-tooltip', 'Visualizar' );
+                link1.setAttribute ( 'href', '#view-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var vista = document.createElement("i");
+                vista.className = "tiny mdi-image-remove-red-eye";
+                var link2 = document.createElement("a");
+                link2.className = "tooltipped";
+                link2.setAttribute ( 'data-position', 'right' );
+                link2.setAttribute ( 'data-tooltip', 'Editar' );
+                link2.setAttribute ( 'href', '#edit-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var editar = document.createElement("i");
+                editar.className = "tiny mdi-action-assignment";
+                var link3 = document.createElement("a");
+                link3.className = "tooltipped";
+                link3.setAttribute ( 'data-position', 'right' );
+                link3.setAttribute ( 'data-tooltip', 'Eliminar' );
+                link3.setAttribute ( 'href', '#delete-modal-cargoconsulta-'+cargoconsultaArray[i]["idcargoconsulta"] );
+                var eliminar = document.createElement("i");
+                eliminar.className = "tiny mdi-action-delete";
+                celda.appendChild(link1);
+                celda.appendChild(vista);
+                celda.appendChild(link2);
+                celda.appendChild(editar);
+                celda.appendChild(link3);
+                celda.appendChild(eliminar);
+                hilera.appendChild(celda);
+            }
+        }
+
+        // agrega la hilera al final de la tabla (al final del elemento tblbody)
+        tblBody.appendChild(hilera);
+    }
+
+    // posiciona el <tbody> debajo del elemento <table>
+    tabla.appendChild(tblBody);
+
+    // appends <table> into <body>
+    div.appendChild(tabla);
+
+    var divTotalSuperior = document.getElementById("totalSuperior");
+    divTotalSuperior.innerHTML = divTotalSuperior;
+    var textoServicioNombre = document.createTextNode("Total: "+subTotal);
+    divTotalSuperior.appendChild(textoServicioNombre)
+
+    var divTotalInferior = document.getElementById("totalInferior");
+    divTotalInferior.innerHTML = divTotalInferior;
+    var h4 = document.createElement('h4')
+    h4.className = "right-align";
+    var textoServicioTotal = document.createTextNode("Total: "+subTotal);
+    h4.appendChild(textoServicioTotal)
+    divTotalInferior.appendChild(h4)
+
+    var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipo");
+    divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo;
+    var buttonPagarAnticipo = document.createElement('button')
+    buttonPagarAnticipo.setAttribute ( 'id', 'buttonPagarAnticipo' );
+    buttonPagarAnticipo.style.width = "100%";
+    buttonPagarAnticipo.style.height = "45px";
+    buttonPagarAnticipo.style.marginTop = "20px";
+    buttonPagarAnticipo.className = "btn waves-effect waves-light";
+    buttonPagarAnticipo.setAttribute ( 'type', 'submit' );
+    var textoButtonPagarAnticipo = document.createTextNode("Pagar/Anticipo");
+    buttonPagarAnticipo.appendChild(textoButtonPagarAnticipo)
+    divbotonPagarAnticipo.appendChild(buttonPagarAnticipo)
+
+    var divbotonGenerarFactura = document.getElementById("botonGenerarFactura");
+    divbotonGenerarFactura.innerHTML = divbotonGenerarFactura;
+    var buttonGenerarFactura = document.createElement('button')
+    buttonGenerarFactura.setAttribute ( 'id', 'buttonGenerarFactura' );
+    buttonGenerarFactura.style.width = "100%";
+    buttonGenerarFactura.style.height = "45px";
+    buttonGenerarFactura.style.marginTop = "20px";
+    buttonGenerarFactura.className = "btn waves-effect waves-light disabled";
+    buttonGenerarFactura.setAttribute ( 'type', 'submit' );
+    var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
+    buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
+    divbotonGenerarFactura.appendChild(buttonGenerarFactura)
+
+    var divbotonGenerarNota = document.getElementById("botonGenerarNota");
+    divbotonGenerarNota.innerHTML = divbotonGenerarNota;
+    var buttonGenerarNota = document.createElement('button')
+    buttonGenerarNota.setAttribute ( 'id', 'buttonGenerarNota' );
+    buttonGenerarNota.style.width = "100%";
+    buttonGenerarNota.style.height = "45px";
+    buttonGenerarNota.style.marginTop = "20px";
+    buttonGenerarNota.className = "btn waves-effect waves-light disabled";
+    buttonGenerarNota.setAttribute ( 'type', 'submit' );
+    var textoButtonGenerarNota = document.createTextNode("Generar Nota");
+    buttonGenerarNota.appendChild(textoButtonGenerarNota)
+    divbotonGenerarNota.appendChild(buttonGenerarNota)
+
+    var divbotoVerFactura = document.getElementById("botonVerFactura");
+    divbotoVerFactura.innerHTML = divbotoVerFactura;
+    var buttonVerFactura = document.createElement('button')
+    buttonVerFactura.setAttribute ( 'id', 'buttonVerFactura' );
+    buttonVerFactura.style.width = "100%";
+    buttonVerFactura.style.height = "45px";
+    buttonVerFactura.className = "left btn waves-effect waves-light disabled";
+    buttonVerFactura.setAttribute ( 'type', 'submit' );
+    var textoButtonVerFactura = document.createTextNode("Ver Factura");
+    buttonVerFactura.appendChild(textoButtonVerFactura)
+    divbotoVerFactura.appendChild(buttonVerFactura)
+
+}
+
+function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
+
+}
 function eliminarTabla(){
-    var parrafo = document.getElementById("cargoconsultaResult");
+    var parrafo = document.getElementById("cargoconsultaArticuloResult");
     parrafo.parentNode.removeChild(parrafo);
 }
 </script>

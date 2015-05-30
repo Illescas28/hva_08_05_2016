@@ -12,19 +12,30 @@ class CargoconsultaForm extends Form
         $this->setAttribute('method', 'post');
 
         // Inicio columnas adicionales
-        // busqueda
+        // busquedaArticulo
         $this->add(array(
-            'name' => 'busqueda',
+            'name' => 'busquedaArticulo',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Busqueda',
+                'label' => 'busqueda Articulo',
             ),
             'attributes' => array(
-                'id' => 'busqueda'
+                'id' => 'busquedaArticulo'
+            )
+        ));
+        // busquedaServicio
+        $this->add(array(
+            'name' => 'busquedaServicio',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'busqueda Servicio',
+            ),
+            'attributes' => array(
+                'id' => 'busquedaServicio'
             )
         ));
         $this->add(array(
-            'name' => 'cargoconsulta_by',
+            'name' => 'cargoconsultaarticulo_by',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
                 'label' => 'Tipo',
@@ -32,7 +43,19 @@ class CargoconsultaForm extends Form
                 'value_options' => array('nombre' => 'nombre', 'código de barras' => 'código de barras', 'proveedor' => 'proveedor'),
             ),
             'attributes' => array(
-                'id' => 'cargoconsulta_by'
+                'id' => 'cargoconsultaarticulo_by'
+            )
+        ));
+        $this->add(array(
+            'name' => 'cargoconsultaservicio_by',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Tipo',
+                'empty_option' => 'Buscar por',
+                'value_options' => array('nombre' => 'nombre'),
+            ),
+            'attributes' => array(
+                'id' => 'cargoconsultaservicio_by'
             )
         ));
         // Fin columnas adicionales
@@ -91,12 +114,22 @@ class CargoconsultaForm extends Form
             )
         ));
         $this->add(array(
+            'name' => 'idservicio',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Servicio',
+            ),
+            'attributes' => array(
+                'id' => 'idservicio'
+            )
+        ));
+        $this->add(array(
             'name' => 'cargoconsulta_tipo',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
                 'label' => 'Tipo',
                 'empty_option' => 'Seleccione el tipo de gasto',
-                'value_options' => array('articulo' => 'articulo','servicio' => 'servicio'),
+                'value_options' => array('articulo' => 'articulo', 'servicio' => 'servicio'),
             ),
             'attributes' => array(
                 'id' => 'cargoconsulta_tipo'

@@ -23,6 +23,25 @@ class CargoadmisionFilter implements InputFilterAwareInterface
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
 
+            // Inicio Columnas alternativa
+            $inputFilter->add(array(
+                'name'     => 'cargoadmisionarticulo_by',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
+                'name'     => 'cargodmisionservicio_by',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            // Fin Columnas alternativa
+
             $inputFilter->add(array(
                 'name'     => 'idadmision',
                 'required' => true,

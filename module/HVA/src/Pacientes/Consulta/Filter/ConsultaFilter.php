@@ -1,13 +1,13 @@
 <?php
 
-namespace Pacientes\Paciente\Filter;
+namespace Pacientes\Consulta\Filter;
 
 // Add these import statements
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
 
-class AdmisionFilter implements InputFilterAwareInterface
+class ConsultaFilter implements InputFilterAwareInterface
 {
     protected $inputFilter;                       // <-- Add this variable
 
@@ -24,13 +24,6 @@ class AdmisionFilter implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $inputFilter->add(array(
-                'name'     => 'idconsulta',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
-            $inputFilter->add(array(
                 'name'     => 'idmedico',
                 'required' => true,
                 'filters'  => array(
@@ -38,7 +31,7 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'idcuarto',
+                'name'     => 'idconsultorio',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'Int'),
@@ -52,7 +45,7 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'admision_fechaadmision',
+                'name'     => 'consulta_fechaadmision',
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -60,7 +53,7 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'admision_fechasalida',
+                'name'     => 'consulta_fechasalida',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -68,7 +61,7 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'admision_diagnostico',
+                'name'     => 'consulta_diagnostico',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -76,7 +69,7 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'admision_observaciones',
+                'name'     => 'consulta_observaciones',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -84,7 +77,7 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'admision_status',
+                'name'     => 'consulta_status',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -92,15 +85,7 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
-                'name'     => 'admision_total',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'StripTags'),
-                    array('name' => 'StringTrim'),
-                ),
-            ));
-            $inputFilter->add(array(
-                'name'     => 'admision_pagadaen',
+                'name'     => 'consulta_total',
                 'required' => false,
                 'filters'  => array(
                     array('name' => 'StripTags'),
