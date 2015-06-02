@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `admision`;
 
 CREATE TABLE `admision`
 (
-    `idadmision` INTEGER NOT NULL,
+    `idadmision` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `idmedico` INTEGER NOT NULL,
     `idcuarto` INTEGER NOT NULL,
@@ -77,7 +77,6 @@ CREATE TABLE `articulo`
     `idtipo` INTEGER NOT NULL,
     `articulo_nombre` VARCHAR(300),
     `articulo_descripcion` TEXT,
-    `articulo_cantidadpresentacion` INTEGER,
     PRIMARY KEY (`idarticulo`),
     INDEX `idtipo` (`idtipo`),
     CONSTRAINT `idtipo_articulo`
@@ -192,7 +191,7 @@ CREATE TABLE `banco`
     `banco_nombre` VARCHAR(100) NOT NULL,
     `banco_cuenta` VARCHAR(45) NOT NULL,
     `banco_descripcion` TEXT,
-    `banco_balance` DECIMAL(10,2) NOT NULL,
+    `banco_balance` DECIMAL(10,2) DEFAULT 0.00 NOT NULL,
     PRIMARY KEY (`idbanco`)
 ) ENGINE=InnoDB;
 
@@ -414,10 +413,10 @@ DROP TABLE IF EXISTS `consulta`;
 
 CREATE TABLE `consulta`
 (
-    `idconsulta` INTEGER NOT NULL,
+    `idconsulta` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `idmedico` INTEGER NOT NULL,
-    `idcuarto` INTEGER NOT NULL,
+    `idconsultorio` INTEGER NOT NULL,
     `consulta_fechaadmision` DATETIME NOT NULL,
     `consulta_fechasalida` DATETIME,
     `consulta_diagnostico` TEXT,
@@ -427,10 +426,10 @@ CREATE TABLE `consulta`
     PRIMARY KEY (`idconsulta`),
     INDEX `idmedico` (`idmedico`),
     INDEX `idpaciente` (`idpaciente`),
-    INDEX `idcuarto` (`idcuarto`),
-    CONSTRAINT `idcuarto_consulta`
-        FOREIGN KEY (`idcuarto`)
-        REFERENCES `cuarto` (`idcuarto`)
+    INDEX `idconsultorio` (`idconsultorio`),
+    CONSTRAINT `idconsultorio_consulta`
+        FOREIGN KEY (`idconsultorio`)
+        REFERENCES `consultorio` (`idconsultorio`)
         ON UPDATE CASCADE
         ON DELETE CASCADE,
     CONSTRAINT `idmedico_consulta`
@@ -465,6 +464,22 @@ CREATE TABLE `consultaanticipo`
         REFERENCES `consulta` (`idconsulta`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- consultorio
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `consultorio`;
+
+CREATE TABLE `consultorio`
+(
+    `idconsultorio` INTEGER NOT NULL AUTO_INCREMENT,
+    `consultorio_nombre` VARCHAR(300) NOT NULL,
+    `consultorio_descripcion` TEXT NOT NULL,
+    `consultorio_enuso` TINYINT(1) NOT NULL,
+    `consultorio_extension` VARCHAR(45),
+    PRIMARY KEY (`idconsultorio`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------
@@ -668,11 +683,13 @@ CREATE TABLE `medico`
     `medico_estado` VARCHAR(45),
     `medico_pais` VARCHAR(45),
     `medico_telefono` VARCHAR(45),
-    `medico_telefonocelular` VARCHAR(45),
+    `medico_telefonocelular` VARCHAR(45) NOT NULL,
     `medico_clave` VARCHAR(45),
-    `medico_dgp` VARCHAR(45),
+    `medico_dgp` VARCHAR(45) NOT NULL,
     `medico_ssa` VARCHAR(45),
     `medico_ae` VARCHAR(45),
+    `medico_fotografia` TEXT,
+    `medico_perfilcompleto` TINYINT(1) NOT NULL,
     PRIMARY KEY (`idmedico`),
     INDEX `idespecialidad` (`idespecialidad`),
     CONSTRAINT `idespecialidad_medico`
@@ -820,25 +837,26 @@ CREATE TABLE `paciente`
     `idpaciente` INTEGER NOT NULL AUTO_INCREMENT,
     `paciente_nombre` VARCHAR(250) NOT NULL,
     `paciente_ap` VARCHAR(100) NOT NULL,
-    `paciente_am` VARCHAR(45),
-    `paciente_calle` VARCHAR(45),
-    `paciente_noexterior` VARCHAR(45),
-    `paciente_nointerior` VARCHAR(45),
-    `paciente_colonia` VARCHAR(45),
-    `paciente_ciudad` VARCHAR(45),
-    `paciente_estado` VARCHAR(45),
-    `paciente_pais` VARCHAR(45),
-    `paciente_telefono` VARCHAR(45),
-    `paciente_telefonocelular` VARCHAR(45),
-    `paciente_edad` VARCHAR(45),
+    `paciente_am` VARCHAR(45) NOT NULL,
+    `paciente_calle` VARCHAR(45) NOT NULL,
+    `paciente_noexterior` VARCHAR(45) NOT NULL,
+    `paciente_nointerior` VARCHAR(45) NOT NULL,
+    `paciente_colonia` VARCHAR(45) NOT NULL,
+    `paciente_codigopostal` VARCHAR(5) NOT NULL,
+    `paciente_ciudad` VARCHAR(45) NOT NULL,
+    `paciente_estado` VARCHAR(45) NOT NULL,
+    `paciente_pais` VARCHAR(45) NOT NULL,
+    `paciente_telefono` VARCHAR(45) NOT NULL,
+    `paciente_telefonocelular` VARCHAR(45) NOT NULL,
+    `paciente_fechanacimiento` DATE NOT NULL,
     `paciente_sexo` enum('Masculino','Femenino') NOT NULL,
-    `paciente_estadocivil` enum('Soltero(a)','Casado(a)','Divorciado(a)','Viudo(a)'),
-    `paciente_ocupacion` VARCHAR(45),
-    `paciente_conyuge` VARCHAR(45),
-    `paciente_padre` VARCHAR(45),
-    `paciente_madre` VARCHAR(45),
-    `paciente_responsable` VARCHAR(45),
-    `paciente_telefonoresponsable` VARCHAR(45),
+    `paciente_estadocivil` enum('Soltero(a)','Casado(a)','Divorciado(a)','Viudo(a)') NOT NULL,
+    `paciente_ocupacion` VARCHAR(45) NOT NULL,
+    `paciente_conyuge` VARCHAR(45) NOT NULL,
+    `paciente_padre` VARCHAR(45) NOT NULL,
+    `paciente_madre` VARCHAR(45) NOT NULL,
+    `paciente_responsable` VARCHAR(45) NOT NULL,
+    `paciente_telefonoresponsable` VARCHAR(45) NOT NULL,
     PRIMARY KEY (`idpaciente`)
 ) ENGINE=InnoDB;
 
@@ -881,7 +899,7 @@ DROP TABLE IF EXISTS `propiedad`;
 
 CREATE TABLE `propiedad`
 (
-    `idpropiedad` INTEGER NOT NULL AUTO_INCREMENT,
+    `idpropiedad` INTEGER NOT NULL,
     `idarticulo` INTEGER NOT NULL,
     `propiedad_nombre` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`idpropiedad`),
@@ -1069,6 +1087,20 @@ CREATE TABLE `traspasodetalles`
         REFERENCES `traspaso` (`idinventariolugar`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+-- ---------------------------------------------------------------------
+-- udm
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `udm`;
+
+CREATE TABLE `udm`
+(
+    `idudm` INTEGER NOT NULL AUTO_INCREMENT,
+    `udm_nombre` VARCHAR(45) NOT NULL,
+    `udm_descripcion` VARCHAR(45),
+    PRIMARY KEY (`idudm`)
 ) ENGINE=InnoDB;
 
 -- ---------------------------------------------------------------------

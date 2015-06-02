@@ -52,7 +52,6 @@ class CuartoTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('Admision', 'Admision', RelationMap::ONE_TO_MANY, array('idcuarto' => 'idcuarto', ), 'CASCADE', 'CASCADE', 'Admisions');
-        $this->addRelation('Consulta', 'Consulta', RelationMap::ONE_TO_MANY, array('idcuarto' => 'idcuarto', ), 'CASCADE', 'CASCADE', 'Consultas');
     } // buildRelations()
 
 } // CuartoTableMap

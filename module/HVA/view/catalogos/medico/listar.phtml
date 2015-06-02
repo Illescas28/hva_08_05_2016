@@ -1,6 +1,6 @@
 <?php
-$title = 'Médicos';
-$this->headTitle($title);
+    $title = 'Médicos';
+    $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <!--<p>
@@ -12,28 +12,29 @@ $this->headTitle($title);
             <?php foreach ($flashMessages as $message) :?>
                 <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
             <?php endforeach;?>
-        <?php endif;?>
+        <?php endif;?>    
         <div class="row" style="position: relative">
             <div class="col s6" id="new-container">
                 <a href="/catalogos/medico/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Médico</a>
             </div>
-            <div class="input-field col s4 offset-s2" id="search-container">
-                <i class="mdi-action-search prefix"></i>
-                <input id="icon_prefix" type="text">
-                <label for="icon_prefix">Buscar</label>
-            </div>
+              <div class="input-field col s4 offset-s2" id="search-container">
+              <i class="mdi-action-search prefix"></i>
+              <input id="icon_prefix" type="text">
+              <label for="icon_prefix">Buscar</label>
+            </div>     
         </div>
     </form>
 </div>
 <table id="tabla-medicos" class="striped">
     <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Apellido Paterno</th>
-        <th>Apellido Materno</th>
-        <th>Especialidad</th>
-        <th >Opciones</th>
-    </tr>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Especialidad</th>
+            <th>Datos Completos</th>
+            <th >Opciones</th>
+        </tr>
     </thead>
     <tbody>
     <?php $direction = 'right'?>
@@ -43,27 +44,28 @@ $this->headTitle($title);
             <td><?php echo $medico->getMedicoApellidopaterno() ?></td>
             <td><?php echo $medico->getMedicoApellidomaterno() ?></td>
             <td><?php echo $medico->getEspecialidad()->getEspecialidadNombre() ?></td>
+             <td><?php if($medico->getMedicoPerfilcompleto()) echo "<i style='color:#69f0ae' class='tiny mdi-action-done-all'></i>"; else echo "<i style='color:#e53935' class='tiny mdi-navigation-cancel'></i>" ?></td>
             <td>
                 <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-medico-".$medico->getIdMedico()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                 &nbsp;&nbsp;
                 <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/medico/editar/".$medico->getIdMedico()?>'><i class="tiny mdi-action-assignment"></i></a>
-                &nbsp;&nbsp;
+                &nbsp;&nbsp;    
                 <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-medico-".$medico->getIdMedico()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
-        <!-- View Modal Structure -->
+         <!-- View Modal Structure -->
         <div id="view-modal-medico-<?php echo $medico->getIdMedico()?>" class="modal ">
             <div class="modal-content">
                 <h4><?php echo "Dr. ". $medico->getMedicoNombre(). " ". $medico->getMedicoApellidopaterno(). " ". $medico->getMedicoApellidomaterno() ?></h4>
                 <div class="row">
                     <fieldset>
-                        <legend>Datos Generales</legend>
-                        <div class="col s4">
-                            <div class="label-container">
+                         <legend>Datos Generales</legend>
+                         <div class="col s4">
+                             <div class="label-container">
                                 <label>Calle:</label>
                                 <p><?php echo $medico->getMedicoCalle()?></p>
                             </div>
-                            <div class="label-container">
+                             <div class="label-container">
                                 <label>Colonia:</label>
                                 <p><?php echo $medico->getMedicoColonia()?></p>
                             </div>
@@ -71,13 +73,13 @@ $this->headTitle($title);
                                 <label>Estado:</label>
                                 <p><?php echo $medico->getMedicoEstado()?></p>
                             </div>
-                        </div>
-                        <div class="col s4">
-                            <div class="label-container">
+                         </div>
+                         <div class="col s4">
+                             <div class="label-container">
                                 <label>No. Exterior:</label>
                                 <p><?php echo $medico->getMedicoNoexterior()?></p>
                             </div>
-                            <div class="label-container">
+                             <div class="label-container">
                                 <label>Codigo Postal:</label>
                                 <p><?php echo $medico->getMedicoCodigopostal()?></p>
                             </div>
@@ -85,17 +87,17 @@ $this->headTitle($title);
                                 <label>Pais:</label>
                                 <p><?php echo $medico->getMedicoPais()?></p>
                             </div>
-                        </div>
-                        <div class="col s4">
-                            <div class="label-container">
+                         </div>
+                         <div class="col s4">
+                             <div class="label-container">
                                 <label>No. Interior:</label>
                                 <p><?php echo $medico->getMedicoNoInterior()?></p>
                             </div>
-                            <div class="label-container">
+                             <div class="label-container">
                                 <label>Ciudad:</label>
                                 <p><?php echo $medico->getMedicoCiudad()?></p>
                             </div>
-                        </div>
+                         </div>
                     </fieldset>
                 </div>
                 <div class="row">
@@ -144,8 +146,8 @@ $this->headTitle($title);
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                <a href='<?php echo "/catalogos/medico/editar/".$medico->getIdMedico()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
+              <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+              <a href='<?php echo "/catalogos/medico/editar/".$medico->getIdMedico()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
             </div>
         </div>
         <!-- End View Modal Structure -->
@@ -153,8 +155,8 @@ $this->headTitle($title);
         <div id="delete-modal-medico-<?php echo $medico->getIdMedico()?>" class="modal ">
             <div class="modal-content" id="delete-modal-container">
                 <div class="row" id="delete-modal-header-container">
-                    <div class="col s4 offset-s4">
-                        <h4><i class="mdi-alert-warning"></i> ATENCION</h4>
+                    <div class="col s5 offset-s4">
+                        <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
                     </div>
                 </div>
                 <div class="row">
@@ -162,12 +164,12 @@ $this->headTitle($title);
                         <p><?php echo "Esta seguro que desea eliminar al Dr. ". $medico->getMedicoNombre(). " ". $medico->getMedicoApellidopaterno(). " ". $medico->getMedicoApellidomaterno(). "?" ?></p>
                     </div>
                 </div>
-
+                
             </div>
             <div class="modal-footer">
                 <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
                 <a href="/catalogos/medico/eliminar/<?php echo $medico->getIdMedico()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
-
+              
             </div>
         </div>
         <!-- End Delete Modal Structure -->
@@ -175,9 +177,9 @@ $this->headTitle($title);
     </tbody>
 </table>
 <script>
-    $(document).ready(function(){
-        $("#tabla-medicos").tablesorter({headers:{4:{sorter:false}}});
+$(document).ready(function(){
+        $("#tabla-medicos").tablesorter({headers:{5:{sorter:false},4:{sorter:false}}});
         $("#tabla-medicos").filterTable({inputSelector: '#search-container input',minRows:2});
         $('.modal-trigger').leanModal();
-    });
+}); 
 </script>

@@ -1,28 +1,84 @@
 <?php
-$title = 'Editar proveedor';
-$this->headTitle($title);
+    $title = $proveedorForm->get('proveedor_nombre')->getValue();
+    $this->headTitle($title);
 ?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
-
-<?php
-if(!$Error){
-
-    $ProveedorForm = $this->ProveedorForm;
-    $ProveedorForm->setAttribute('action', $this->url(
-        'proveedor',
-        array(
-            'action' => 'editar',
-            'id'     => $this->id,
-        )
-    ));
-    $ProveedorForm->prepare();
-
-    echo $this->form()->openTag($ProveedorForm);
-    echo $this->formHidden($ProveedorForm->get('idproveedor'));
-    echo $this->formCollection($ProveedorForm);
-    echo $this->form()->closeTag();
-}else{
-    foreach ($Error as $errorValue){
-        echo $errorValue;
-    }
-}
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<?php $proveedorForm->setAttribute('action', '/catalogos/proveedor/editar/'.$id);?>
+<?php $proveedorForm->setAttribute('class', 'hva-form');?>
+<?php $proveedorForm->prepare();?>
+<?php echo $this->form()->openTag($proveedorForm); ?>
+<div class="row">
+    <fieldset>
+        <legend>Datos Generales</legend>
+        <div class="row">
+            <div class="col s4">
+                <div class="input-field">
+                    <?php echo $this->formText($proveedorForm->get('proveedor_nombre')); ?>
+                    <?php echo $this->formLabel($proveedorForm->get('proveedor_nombre')); ?>
+                </div>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_contacto')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_contacto')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_direccion')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_direccion')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_direccion2')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_direccion2')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_colonia')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_colonia')); ?>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_codigopostal')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_codigopostal')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_ciudad')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_ciudad')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_estado')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_estado')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_pais')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_pais')); ?>
+            </div>
+        </div>
+        <div class="col s4">
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_email')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_email')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_telefono')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_telefono')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_telefonocelular')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_telefonocelular')); ?>
+            </div>
+            <div class="input-field">
+                <?php echo $this->formText($proveedorForm->get('proveedor_fax')); ?>
+                <?php echo $this->formLabel($proveedorForm->get('proveedor_fax')); ?>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<div class="row">
+    <div class="col s4 offset-s4">
+        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+</div>
+<?php echo $this->form()->closeTag(); ?>

@@ -36,6 +36,7 @@ class Module
             'Zend\Loader\StandardAutoloader' => array(
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
+                    'Pacientes' => __DIR__ . '/src/' . 'Pacientes/',
                     'Catalogos' => __DIR__ . '/src/' . 'Catalogos/',
                     'Auth' => __DIR__ . '/src/' . 'Auth/',
                     'Shared' => __DIR__ . '/src/' . 'Shared/',

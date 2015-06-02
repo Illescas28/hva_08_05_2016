@@ -50,6 +50,65 @@ return array(
                     ),
                 ),
             ),
+            // Módulo Pacientes
+            'pacientes' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/paciente[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|actuales|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Paciente\Controller\Paciente',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'consultorio' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/consultorio[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Consultorio\Controller\Consultorio',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'servicio' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/servicios[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Servicio\Controller\Servicio',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'cargoconsulta' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cargoconsulta[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Cargoconsulta\Controller\Cargoconsulta',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+
+            // Catalogos
             'proveedor' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -78,58 +137,16 @@ return array(
                     ),
                 ),
             ),
-            'udm' => array(
+            'lugar' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/catalogos/udm[/:action][/:id][/]',
+                    'route'    => '/catalogos/lugar[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
+                        'action' => 'ver|nuevo|editar|eliminar',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'Catalogos\UDM\Controller\UDM',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'articulo' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/articulo[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Articulo\Controller\Articulo',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'articulovariante' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/articulovariante[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Articulovariante\Controller\Articulovariante',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'propiedad' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/propiedad[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Propiedad\Controller\Propiedad',
+                        'controller' => 'Catalogos\Lugar\Controller\Lugar',
                         'action'     => 'listar',
                     ),
                 ),
@@ -158,6 +175,64 @@ return array(
                     ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Medico\Controller\Medico',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'especialidad' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/especialidad[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Especialidad\Controller\Especialidad',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'cuarto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/cuarto[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Cuarto\Controller\Cuarto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            /*
+            'servicio' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/servicio[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Servicio\Controller\Servicio',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            */
+            'banco' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/banco[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Banco\Controller\Banco',
                         'action'     => 'listar',
                     ),
                 ),
@@ -197,20 +272,27 @@ return array(
         'invokables' => array(
             // Index
             'HVA\Controller\Index' => 'HVA\Controller\IndexController',
-            
+
             //Login
             'Auth\Controller\Auth' => 'Auth\Controller\AuthController',
 
             // Módulo Catalogos
             'Catalogos\Proveedor\Controller\Proveedor'                  => 'Catalogos\Proveedor\Controller\ProveedorController',
             'Catalogos\Tipo\Controller\Tipo'                            => 'Catalogos\Tipo\Controller\TipoController',
-            'Catalogos\UDM\Controller\UDM'                              => 'Catalogos\UDM\Controller\UDMController',
             'Catalogos\Articulo\Controller\Articulo'                    => 'Catalogos\Articulo\Controller\ArticuloController',
             'Catalogos\Articulovariante\Controller\Articulovariante'    => 'Catalogos\Articulovariante\Controller\ArticulovarianteController',
             'Catalogos\Propiedad\Controller\Propiedad'                  => 'Catalogos\Propiedad\Controller\PropiedadController',
             'Catalogos\Producto\Controller\Producto'                    => 'Catalogos\Producto\Controller\ProductoController',
             'Catalogos\Medico\Controller\Medico'                        => 'Catalogos\Medico\Controller\MedicoController',
+            'Catalogos\Especialidad\Controller\Especialidad'            => 'Catalogos\Especialidad\Controller\EspecialidadController',
+            'Catalogos\Cuarto\Controller\Cuarto'                        => 'Catalogos\Cuarto\Controller\CuartoController',
+            //'Catalogos\Servicio\Controller\Servicio'                    => 'Catalogos\Servicio\Controller\ServicioController',
 
+            // Módulo Pacientes
+            'Pacientes\Paciente\Controller\Paciente'                    => 'Pacientes\Paciente\Controller\PacienteController',
+            'Pacientes\Consultorio\Controller\Consultorio'              => 'Pacientes\Consultorio\Controller\ConsultorioController',
+            'Pacientes\Servicio\Controller\Servicio'                    => 'Pacientes\Servicio\Controller\ServicioController',
+            'Pacientes\Cargoconsulta\Controller\Cargoconsulta'          => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
         ),
     ),
     'view_manager' => array(
@@ -227,6 +309,10 @@ return array(
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',
+        ),
+        //other configuration
+        'strategies' => array(
+            'ViewJsonStrategy',
         ),
     ),
     // Placeholder for console routes

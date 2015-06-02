@@ -1,57 +1,113 @@
 <?php
-$title = 'Artículos';
-$this->headTitle($title);
+    $title = 'Articulos';
+    $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
+<!--<p>
+    <a href="<?php echo $this->url('articulo', array('action'=>'nuevo'));?>">Nueva articulo</a>
+</p>-->
 <div class="row" id="table-header">
     <form class="col s12">
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>    
         <div class="row" style="position: relative">
             <div class="col s6" id="new-container">
-                <a href="<?php echo $this->url('articulo', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Artículo</a>
+                <a href="/catalogos/articulo/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Articulo</a>
             </div>
-            <div class="input-field col s4 offset-s2" id="search-container">
-                <i class="mdi-action-search prefix"></i>
-                <input id="icon_prefix" type="text">
-                <label for="icon_prefix">Buscar</label>
-            </div>
+              <div class="input-field col s4 offset-s2" id="search-container">
+              <i class="mdi-action-search prefix"></i>
+              <input id="icon_prefix" type="text">
+              <label for="icon_prefix">Buscar</label>
+            </div>     
         </div>
     </form>
 </div>
-<table id="tabla-medicos" class="striped">
+<table id="tabla-articulos" class="striped">
     <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Tipo de Presentación</th>
-        <th>Cantidad</th>
-        <th>Opciones</th>
-    </tr>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo</th>
+            <th>Descripcion</th>
+            <th>Opciones</th>
+        </tr>
     </thead>
     <tbody>
-    <?php $direction = 'right'?>
-    <?php foreach ($articulos as $articulo) : ?>
+    <?php foreach($articulos as $articulo) : ?>
         <tr>
             <td><?php echo $articulo->getArticuloNombre() ?></td>
+            <td><?php echo $articulo->getTipo()->getTipoNombre() ?></td>
             <td><?php echo $articulo->getArticuloDescripcion() ?></td>
-            <td><?php echo $articulo->getArticuloTipopresentacion() ?></td>
-            <td><?php echo $articulo->getArticuloCantidadpresentacion() ?></td>
             <td>
-                <a class="tooltipped" data-position="left" data-tooltip="Visualizar" href='<?php echo "/catalogos/medico/ver/".$articulo->getIdArticulo()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
+                <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-medico-".$articulo->getIdArticulo()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
                 &nbsp;&nbsp;
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/medico/editar/".$articulo->getIdArticulo()?>'><i class="tiny mdi-action-assignment"></i></a>
-                &nbsp;&nbsp;
-                <a class="tooltipped" data-position="right" data-tooltip="Eliminar" href='<?php echo "/catalogos/medico/eliminar/".$articulo->getIdArticulo()?>'><i class="tiny mdi-action-delete"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/articulo/editar/".$articulo->getIdArticulo()?>'><i class="tiny mdi-action-assignment"></i></a>
+                &nbsp;&nbsp;    
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-articulo-".$articulo->getIdArticulo()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
+         <!-- Preview Modal Structure -->
+        <div id="view-modal-medico-<?php echo $articulo->getIdArticulo()?>" class="modal ">
+            <div class="modal-content">
+                <h4><?php echo $articulo->getArticuloNombre()?></h4>
+                <div class="row">
+                    <fieldset>
+                        <legend>Datos Generales</legend>
+                        <div class="col s6">
+                             <div class="label-container">
+                                <label>Tipo:</label>
+                                <p><?php echo $articulo->getTipo()->getTipoNombre()?></p>
+                            </div>
+                         </div>
+                        <div class="col s6">
+                             <div class="label-container">
+                                <label>Tipo:</label>
+                                <p><?php echo $articulo->getArticuloDescripcion()?></p>
+                            </div>
+                         </div>
+                    </fieldset>
+                    <!-- Verificamos si el producto tiene propiedades adicionales--> 
+                         <?php if(PropiedadQuery::create()->filterByIdarticulo($articulo->getIdArticulo())->count()) : ?>
+                            <h6>Propiedades</h6>
+                            <?php $propiedades = PropiedadQuery::create()->filterByIdarticulo($articulo->getIdArticulo())->find(); ?>
+                            <?php foreach($propiedades as $propiedad) :?>
+                                
+                            <?php endforeach;?>
+                        <?php endif;?>     
+                  
+                </div>
+            </div>
+        </div>
+         <!-- End preview Modal Structure -->
+        <!-- Delete Modal Structure -->
+        <div id="delete-modal-articulo-<?php echo $articulo->getIdarticulo()?>" class="modal ">
+            <div class="modal-content" id="delete-modal-container">
+                <div class="row" id="delete-modal-header-container">
+                    <div class="col s5 offset-s4">
+                        <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p><?php echo "Esta seguro que desea eliminar el articulo de articulo: '". $articulo->getArticuloNombre(). "' de su catalogo?" ?></p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                <a href="/catalogos/articulo/eliminar/<?php echo $articulo->getIdarticulo()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>       
+            </div>
+        </div>
+        <!-- End Delete Modal Structure -->
     <?php endforeach; ?>
-
     </tbody>
-
 </table>
 <script>
-    $(document).ready(function(){
-
-        $("#tabla-medicos").tablesorter({headers:{4:{sorter:false}}});
-
-    });
+$(document).ready(function(){
+        $("#tabla-articulos").tablesorter({headers:{3:{sorter:false}}});
+        $("#tabla-articulos").filterTable({inputSelector: '#search-container input',minRows:1});
+        $('.modal-trigger').leanModal();
+}); 
 </script>

@@ -1,30 +1,78 @@
 <?php
-
-$title = 'Lista de tipos';
-$this->headTitle($title);
+    $title = 'Tipo de Articulos';
+    $this->headTitle($title);
 ?>
-<h1><?php echo $this->escapeHtml($title); ?></h1>
-<p>
-    <a href="<?php echo $this->url('tipo', array('action'=>'nuevo'));?>">Nuevo Tipo</a>
-</p>
-
-<table class="table">
-    <tr>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php
-    foreach ($tipos as $tipo) : ?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<!--<p>
+    <a href="<?php echo $this->url('tipo', array('action'=>'nuevo'));?>">Nueva tipo</a>
+</p>-->
+<div class="row" id="table-header">
+    <form class="col s12">
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>    
+        <div class="row" style="position: relative">
+            <div class="col s6" id="new-container">
+                <a href="/catalogos/articulo/tipo/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Tipo</a>
+            </div>
+              <div class="input-field col s4 offset-s2" id="search-container">
+              <i class="mdi-action-search prefix"></i>
+              <input id="icon_prefix" type="text">
+              <label for="icon_prefix">Buscar</label>
+            </div>     
+        </div>
+    </form>
+</div>
+<table id="tabla-tipos" class="striped">
+    <thead>
         <tr>
-            <td><?php echo $this->escapeHtml($tipo['tipo_nombre']);?></td>
-            <td><?php echo $this->escapeHtml($tipo['tipo_descripcion']);?></td>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    <?php foreach($tipos as $tipo) : ?>
+        <tr>
+            <td><?php echo $tipo->getTipoNombre() ?></td>
+            <td><?php echo $tipo->getTipoDescripcion() ?></td>
             <td>
-                <a href="<?php echo $this->url('tipo',
-                    array('action'=>'editar', 'id' => $tipo['idtipo']));?>">Editar</a>
-                <a href="<?php echo $this->url('tipo',
-                    array('action'=>'eliminar', 'id' => $tipo['idtipo']));?>">Eliminar</a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/articulo/tipo/editar/".$tipo->getIdTipo()?>'><i class="tiny mdi-action-assignment"></i></a>
+                &nbsp;&nbsp;    
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-tipo-".$tipo->getIdTipo()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
+        <!-- Delete Modal Structure -->
+        <div id="delete-modal-tipo-<?php echo $tipo->getIdtipo()?>" class="modal ">
+            <div class="modal-content" id="delete-modal-container">
+                <div class="row" id="delete-modal-header-container">
+                    <div class="col s5 offset-s4">
+                        <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p><?php echo "Esta seguro que desea eliminar el tipo de articulo: '". $tipo->getTipoNombre(). "' de su catalogo?" ?></p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                <a href="/catalogos/articulo/tipo/eliminar/<?php echo $tipo->getIdtipo()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+              
+            </div>
+        </div>
+        <!-- End Delete Modal Structure -->
     <?php endforeach; ?>
+    </tbody>
 </table>
+<script>
+$(document).ready(function(){
+        $("#tabla-tipos").tablesorter({headers:{2:{sorter:false}}});
+        $("#tabla-tipos").filterTable({inputSelector: '#search-container input',minRows:1});
+        $('.modal-trigger').leanModal();
+}); 
+</script>

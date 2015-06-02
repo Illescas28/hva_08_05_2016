@@ -41,32 +41,33 @@ class PacienteTableMap extends TableMap
         $this->addPrimaryKey('idpaciente', 'Idpaciente', 'INTEGER', true, null, null);
         $this->addColumn('paciente_nombre', 'PacienteNombre', 'VARCHAR', true, 250, null);
         $this->addColumn('paciente_ap', 'PacienteAp', 'VARCHAR', true, 100, null);
-        $this->addColumn('paciente_am', 'PacienteAm', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_calle', 'PacienteCalle', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_noexterior', 'PacienteNoexterior', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_nointerior', 'PacienteNointerior', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_colonia', 'PacienteColonia', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_ciudad', 'PacienteCiudad', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_estado', 'PacienteEstado', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_pais', 'PacientePais', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_telefono', 'PacienteTelefono', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_telefonocelular', 'PacienteTelefonocelular', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_edad', 'PacienteEdad', 'VARCHAR', false, 45, null);
+        $this->addColumn('paciente_am', 'PacienteAm', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_calle', 'PacienteCalle', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_noexterior', 'PacienteNoexterior', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_nointerior', 'PacienteNointerior', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_colonia', 'PacienteColonia', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_codigopostal', 'PacienteCodigopostal', 'VARCHAR', true, 5, null);
+        $this->addColumn('paciente_ciudad', 'PacienteCiudad', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_estado', 'PacienteEstado', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_pais', 'PacientePais', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_telefono', 'PacienteTelefono', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_telefonocelular', 'PacienteTelefonocelular', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_fechanacimiento', 'PacienteFechanacimiento', 'DATE', true, null, null);
         $this->addColumn('paciente_sexo', 'PacienteSexo', 'CHAR', true, null, null);
         $this->getColumn('paciente_sexo', false)->setValueSet(array (
   0 => 'Masculino',
   1 => 'Femenino',
 ));
-        $this->addColumn('paciente_estadocivil', 'PacienteEstadocivil', 'CHAR', false, null, null);
+        $this->addColumn('paciente_estadocivil', 'PacienteEstadocivil', 'CHAR', true, null, null);
         $this->getColumn('paciente_estadocivil', false)->setValueSet(array (
   0 => 'Soltero(a',
 ));
-        $this->addColumn('paciente_ocupacion', 'PacienteOcupacion', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_conyuge', 'PacienteConyuge', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_padre', 'PacientePadre', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_madre', 'PacienteMadre', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_responsable', 'PacienteResponsable', 'VARCHAR', false, 45, null);
-        $this->addColumn('paciente_telefonoresponsable', 'PacienteTelefonoresponsable', 'VARCHAR', false, 45, null);
+        $this->addColumn('paciente_ocupacion', 'PacienteOcupacion', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_conyuge', 'PacienteConyuge', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_padre', 'PacientePadre', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_madre', 'PacienteMadre', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_responsable', 'PacienteResponsable', 'VARCHAR', true, 45, null);
+        $this->addColumn('paciente_telefonoresponsable', 'PacienteTelefonoresponsable', 'VARCHAR', true, 45, null);
         // validators
     } // initialize()
 

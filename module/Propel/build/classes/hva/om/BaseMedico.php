@@ -144,6 +144,18 @@ abstract class BaseMedico extends BaseObject implements Persistent
     protected $medico_ae;
 
     /**
+     * The value for the medico_fotografia field.
+     * @var        string
+     */
+    protected $medico_fotografia;
+
+    /**
+     * The value for the medico_perfilcompleto field.
+     * @var        boolean
+     */
+    protected $medico_perfilcompleto;
+
+    /**
      * @var        Especialidad
      */
     protected $aEspecialidad;
@@ -435,6 +447,28 @@ abstract class BaseMedico extends BaseObject implements Persistent
     {
 
         return $this->medico_ae;
+    }
+
+    /**
+     * Get the [medico_fotografia] column value.
+     *
+     * @return string
+     */
+    public function getMedicoFotografia()
+    {
+
+        return $this->medico_fotografia;
+    }
+
+    /**
+     * Get the [medico_perfilcompleto] column value.
+     *
+     * @return boolean
+     */
+    public function getMedicoPerfilcompleto()
+    {
+
+        return $this->medico_perfilcompleto;
     }
 
     /**
@@ -841,6 +875,56 @@ abstract class BaseMedico extends BaseObject implements Persistent
     } // setMedicoAe()
 
     /**
+     * Set the value of [medico_fotografia] column.
+     *
+     * @param  string $v new value
+     * @return Medico The current object (for fluent API support)
+     */
+    public function setMedicoFotografia($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->medico_fotografia !== $v) {
+            $this->medico_fotografia = $v;
+            $this->modifiedColumns[] = MedicoPeer::MEDICO_FOTOGRAFIA;
+        }
+
+
+        return $this;
+    } // setMedicoFotografia()
+
+    /**
+     * Sets the value of the [medico_perfilcompleto] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param boolean|integer|string $v The new value
+     * @return Medico The current object (for fluent API support)
+     */
+    public function setMedicoPerfilcompleto($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->medico_perfilcompleto !== $v) {
+            $this->medico_perfilcompleto = $v;
+            $this->modifiedColumns[] = MedicoPeer::MEDICO_PERFILCOMPLETO;
+        }
+
+
+        return $this;
+    } // setMedicoPerfilcompleto()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -891,6 +975,8 @@ abstract class BaseMedico extends BaseObject implements Persistent
             $this->medico_dgp = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
             $this->medico_ssa = ($row[$startcol + 17] !== null) ? (string) $row[$startcol + 17] : null;
             $this->medico_ae = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
+            $this->medico_fotografia = ($row[$startcol + 19] !== null) ? (string) $row[$startcol + 19] : null;
+            $this->medico_perfilcompleto = ($row[$startcol + 20] !== null) ? (boolean) $row[$startcol + 20] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -900,7 +986,7 @@ abstract class BaseMedico extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 19; // 19 = MedicoPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 21; // 21 = MedicoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Medico object", $e);
@@ -1280,6 +1366,12 @@ abstract class BaseMedico extends BaseObject implements Persistent
         if ($this->isColumnModified(MedicoPeer::MEDICO_AE)) {
             $modifiedColumns[':p' . $index++]  = '`medico_ae`';
         }
+        if ($this->isColumnModified(MedicoPeer::MEDICO_FOTOGRAFIA)) {
+            $modifiedColumns[':p' . $index++]  = '`medico_fotografia`';
+        }
+        if ($this->isColumnModified(MedicoPeer::MEDICO_PERFILCOMPLETO)) {
+            $modifiedColumns[':p' . $index++]  = '`medico_perfilcompleto`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `medico` (%s) VALUES (%s)',
@@ -1347,6 +1439,12 @@ abstract class BaseMedico extends BaseObject implements Persistent
                         break;
                     case '`medico_ae`':
                         $stmt->bindValue($identifier, $this->medico_ae, PDO::PARAM_STR);
+                        break;
+                    case '`medico_fotografia`':
+                        $stmt->bindValue($identifier, $this->medico_fotografia, PDO::PARAM_STR);
+                        break;
+                    case '`medico_perfilcompleto`':
+                        $stmt->bindValue($identifier, (int) $this->medico_perfilcompleto, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -1591,6 +1689,12 @@ abstract class BaseMedico extends BaseObject implements Persistent
             case 18:
                 return $this->getMedicoAe();
                 break;
+            case 19:
+                return $this->getMedicoFotografia();
+                break;
+            case 20:
+                return $this->getMedicoPerfilcompleto();
+                break;
             default:
                 return null;
                 break;
@@ -1639,6 +1743,8 @@ abstract class BaseMedico extends BaseObject implements Persistent
             $keys[16] => $this->getMedicoDgp(),
             $keys[17] => $this->getMedicoSsa(),
             $keys[18] => $this->getMedicoAe(),
+            $keys[19] => $this->getMedicoFotografia(),
+            $keys[20] => $this->getMedicoPerfilcompleto(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1755,6 +1861,12 @@ abstract class BaseMedico extends BaseObject implements Persistent
             case 18:
                 $this->setMedicoAe($value);
                 break;
+            case 19:
+                $this->setMedicoFotografia($value);
+                break;
+            case 20:
+                $this->setMedicoPerfilcompleto($value);
+                break;
         } // switch()
     }
 
@@ -1798,6 +1910,8 @@ abstract class BaseMedico extends BaseObject implements Persistent
         if (array_key_exists($keys[16], $arr)) $this->setMedicoDgp($arr[$keys[16]]);
         if (array_key_exists($keys[17], $arr)) $this->setMedicoSsa($arr[$keys[17]]);
         if (array_key_exists($keys[18], $arr)) $this->setMedicoAe($arr[$keys[18]]);
+        if (array_key_exists($keys[19], $arr)) $this->setMedicoFotografia($arr[$keys[19]]);
+        if (array_key_exists($keys[20], $arr)) $this->setMedicoPerfilcompleto($arr[$keys[20]]);
     }
 
     /**
@@ -1828,6 +1942,8 @@ abstract class BaseMedico extends BaseObject implements Persistent
         if ($this->isColumnModified(MedicoPeer::MEDICO_DGP)) $criteria->add(MedicoPeer::MEDICO_DGP, $this->medico_dgp);
         if ($this->isColumnModified(MedicoPeer::MEDICO_SSA)) $criteria->add(MedicoPeer::MEDICO_SSA, $this->medico_ssa);
         if ($this->isColumnModified(MedicoPeer::MEDICO_AE)) $criteria->add(MedicoPeer::MEDICO_AE, $this->medico_ae);
+        if ($this->isColumnModified(MedicoPeer::MEDICO_FOTOGRAFIA)) $criteria->add(MedicoPeer::MEDICO_FOTOGRAFIA, $this->medico_fotografia);
+        if ($this->isColumnModified(MedicoPeer::MEDICO_PERFILCOMPLETO)) $criteria->add(MedicoPeer::MEDICO_PERFILCOMPLETO, $this->medico_perfilcompleto);
 
         return $criteria;
     }
@@ -1909,6 +2025,8 @@ abstract class BaseMedico extends BaseObject implements Persistent
         $copyObj->setMedicoDgp($this->getMedicoDgp());
         $copyObj->setMedicoSsa($this->getMedicoSsa());
         $copyObj->setMedicoAe($this->getMedicoAe());
+        $copyObj->setMedicoFotografia($this->getMedicoFotografia());
+        $copyObj->setMedicoPerfilcompleto($this->getMedicoPerfilcompleto());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2844,10 +2962,10 @@ abstract class BaseMedico extends BaseObject implements Persistent
      * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
      * @return PropelObjectCollection|Consulta[] List of Consulta objects
      */
-    public function getConsultasJoinCuarto($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public function getConsultasJoinConsultorio($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $query = ConsultaQuery::create(null, $criteria);
-        $query->joinWith('Cuarto', $join_behavior);
+        $query->joinWith('Consultorio', $join_behavior);
 
         return $this->getConsultas($query, $con);
     }
@@ -3376,6 +3494,8 @@ abstract class BaseMedico extends BaseObject implements Persistent
         $this->medico_dgp = null;
         $this->medico_ssa = null;
         $this->medico_ae = null;
+        $this->medico_fotografia = null;
+        $this->medico_perfilcompleto = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

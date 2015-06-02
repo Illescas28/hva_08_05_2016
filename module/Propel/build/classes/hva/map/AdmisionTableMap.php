@@ -36,7 +36,7 @@ class AdmisionTableMap extends TableMap
         $this->setPhpName('Admision');
         $this->setClassname('Admision');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idadmision', 'Idadmision', 'INTEGER', true, null, null);
         $this->addForeignKey('idpaciente', 'Idpaciente', 'INTEGER', 'paciente', 'idpaciente', true, null, null);

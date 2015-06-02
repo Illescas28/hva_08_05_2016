@@ -6,28 +6,26 @@ use Zend\Form\Form;
 
 class ArticuloForm extends Form
 {
-    public function __construct($name = null)
+    public function __construct(array $tipos)
     {
         // we want to ignore the name passed
         parent::__construct('ArticuloForm');
         $this->setAttribute('method', 'post');
 
         $this->add(array(
-            'name' => 'idarticulo',
-            'type' => 'Hidden',
-        ));
-        $this->add(array(
             'name' => 'idtipo',
-            'type' => 'Text',
+            'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'ID Tipo',
+                'label' => 'Tipo',
+                'empty_option' => 'Seleccione el tipo de articulo *',
+                'value_options' => $tipos,
             ),
         ));
         $this->add(array(
             'name' => 'articulo_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre *',
             ),
         ));
         $this->add(array(
@@ -37,25 +35,6 @@ class ArticuloForm extends Form
                 'label' => 'Descripción',
             ),
         ));
-        $this->add(array(
-            'name' => 'articulo_cantidadpresentacion',
-            'type' => 'Text',
-            'options' => array(
-                'label' => 'Cantidad',
-            ),
-        ));
-
-        $this->add(array(
-            'name' => 'submit',
-            'type' => 'submit',
-            'attributes' => array(
-                'value' => 'Guargar',
-                'id' => 'submitbutton',
-                'class' => 'btn waves-effect waves-light',
-            ),
-            'options' => array(
-                'label' => 'Guardar',
-            ),
-        ));
+        
     }
 }

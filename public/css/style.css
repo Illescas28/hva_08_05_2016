@@ -13,7 +13,7 @@ body{
     -moz-border-radius: 25px;
     -webkit-border-radius: 25px;
     -khtml-border-radius: 25px;
-    
+
 }
 
 /* label color */
@@ -23,11 +23,11 @@ body{
 
 /* label underline focus color */
 #loginForm .input-field input[type=text]:focus, #loginForm .input-field input[type=password]:focus {
-     border-bottom: 1px solid #BDBDBD;
-     box-shadow: 0 1px 0 0 #000000;
-   }
-   
-   /* label focus color */
+    border-bottom: 1px solid #BDBDBD;
+    box-shadow: 0 1px 0 0 #000000;
+}
+
+/* label focus color */
 #loginForm .input-field input[type=text]:focus + label,#loginForm .input-field input[type=password]:focus + label{
     color: #020662;
 }
@@ -45,7 +45,7 @@ body{
 }
 
 #logo-navbar{
- height: 5.833em;      
+    height: 5.833em;
 }
 #workspace-container{
     margin: 0;
@@ -79,9 +79,9 @@ body{
     height: 5.833em;
 }
 
-#topmenu-container ul li a{ 
-  font-size: 13px;
-  color: #E1F5FE;
+#topmenu-container ul li a{
+    font-size: 13px;
+    color: #E1F5FE;
 }
 
 /*Navbar container*/
@@ -108,7 +108,7 @@ body{
 
 h3{
     color: #05086E;
-    font-weight: bold;
+    font-weight: 300;
 }
 
 /*Table styles*/
@@ -116,24 +116,27 @@ table thead{
     color: #05086E;
 }
 
-th.header { 
-    background-image: url(/img/table/bg.gif); 
-    cursor: pointer; 
-    font-weight: bold; 
-    background-repeat: no-repeat; 
-    background-position: center right; 
-    padding-left: 20px; 
-    margin-left: -1px; 
-} 
+th.header {
+    background-image: url(/img/table/bg.gif);
+    cursor: pointer;
+    font-weight: bold;
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding-left: 20px;
+    margin-left: -1px;
+}
 
-th.headerSortUp { 
-    background-image: url(/img/table/asc.gif); 
-} 
+th.headerSortUp {
+    background-image: url(/img/table/asc.gif);
+}
 
-th.headerSortDown { 
-    background-image: url(/img/table/desc.gif); 
-} 
+th.headerSortDown {
+    background-image: url(/img/table/desc.gif);
+}
 
+td.telefono{
+    padding-left: 0px !important;
+}
 table.striped td:not(:last-child){
     padding-left: 20px;
 }
@@ -145,6 +148,8 @@ table.striped tr{
 table.striped td a i.mdi-action-delete{
     color: #b71c1c;
 }
+
+
 
 table.striped td a i.mdi-image-remove-red-eye{
     color: #1b5e20;
@@ -160,7 +165,7 @@ table.striped tbody tr:nth-child(2n+1){
 
 #table-header{
     margin-bottom: 0;
-    
+
 }
 
 #table-header div.row{
@@ -168,13 +173,13 @@ table.striped tbody tr:nth-child(2n+1){
 }
 
 #search-container{
-    
+
     float: right;
 }
 
 #search-container label{
     font-size: 12px;
-    
+
 }
 
 #search-container input[type="text"]:focus{
@@ -202,6 +207,11 @@ table.striped tbody tr:nth-child(2n+1){
 
 /*Modal styles*/
 .modal h4 {
+    color: #00086E;
+    font-weight: 100;
+}
+
+.modal h6 {
     color: #00086E;
     font-weight: 100;
 }
@@ -246,24 +256,53 @@ table.striped tbody tr:nth-child(2n+1){
 
 /* Forms */
 
+form.hva-form i.cerrar{
+    color: #b71c1c;
+    font-size:24px;
+}
+
 form.hva-form .input-field label {
     font-size: 12px;
     top: 1.5rem;
 }
 
+form.hva-form input{
+    margin-bottom: 0 !important;
+}
+
+form.hva-form input.select-dropdown{
+    margin-top: 30px !important;
+}
+
+form.hva-form p.input-error {
+    margin: 0;
+    margin-left: 11px;
+    color: #d32f2f;
+}
+
 form.hva-form input[type="text"]{
-   margin: 15px 0 15px 0;
+    margin: 15px 0 15px 0;
 }
 
 form.hva-form .input-field input[type="text"]:focus, form.hva-form .input-field input[type="password"]:focus, form.hva-form .input-field input[type="email"]:focus, form.hva-form .input-field input[type="url"]:focus, form.hva-form .input-field input[type="date"]:focus, form.hva-form .input-field input[type="tel"]:focus, form.hva-form .input-field input[type="number"]:focus, form.hva-form .input-field input[type="search"]:focus, form.hva-form .input-field textarea.materialize-textarea:focus{
-     border-bottom: 1px solid #039be5;
-     box-shadow: 0 1px 0 0 #000;
+    border-bottom: 1px solid #039be5;
+    box-shadow: 0 1px 0 0 #000;
 }
 
 
 form.hva-form .input-field input[type="text"]:focus + label, form.hva-form .input-field input[type="password"]:focus + label, form.hva-form .input-field input[type="email"]:focus + label, form.hva-form .input-field input[type="url"]:focus + label, form.hva-form .input-field input[type="date"]:focus + label, form.hva-form .input-field input[type="tel"]:focus + label, form.hva-form .input-field input[type="number"]:focus + label, form.hva-form .input-field input[type="search"]:focus + label, form.hva-form .input-field textarea.materialize-textarea:focus + label{
     color: #039be5;
 }
+
+form.hva-form fieldset{
+
+    border: solid 1px #90a4ae;
+}
+
+form.hva-form legend{
+    color: #039be5;
+}
+
 
 /* Delete Modal Styles*/
 #delete-modal-container{
@@ -286,5 +325,44 @@ form.hva-form .input-field input[type="text"]:focus + label, form.hva-form .inpu
 #delete-modal-header-container h4{
     color: white;
     font-weight: bold;
-    
+    display: inline-block;
+
+}
+
+/*Agegar arituclo styles*/
+div[id|=propiedad]{
+    position: relative;
+}
+
+div[id|=propiedad] i.mdi-navigation-cancel{
+    position: absolute;
+    left: 0;
+    color: #b71c1c;
+    font-size: 1.5rem;
+}
+
+div#property_values i.mdi-content-add-circle-outline{
+    color: #1a237e;
+    font-size: 1.5rem;
+}
+
+div#property_values i.mdi-action-delete{
+    color: #b71c1c;
+    font-size: 1.5rem;
+}
+.pointer {
+    cursor: pointer;
+}
+.guardado-ajax{
+    margin-top: 30px;
+    width: 100%;
+}
+.error-modal-ajax{
+    margin-top: 30px;
+    width: 40%;
+}
+.guardado-modal-ajax{
+    margin-top: 30px;
+    width: 60%;
+    float: right;
 }

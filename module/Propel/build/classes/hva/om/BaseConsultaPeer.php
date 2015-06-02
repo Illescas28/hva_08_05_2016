@@ -41,8 +41,8 @@ abstract class BaseConsultaPeer
     /** the column name for the idmedico field */
     const IDMEDICO = 'consulta.idmedico';
 
-    /** the column name for the idcuarto field */
-    const IDCUARTO = 'consulta.idcuarto';
+    /** the column name for the idconsultorio field */
+    const IDCONSULTORIO = 'consulta.idconsultorio';
 
     /** the column name for the consulta_fechaadmision field */
     const CONSULTA_FECHAADMISION = 'consulta.consulta_fechaadmision';
@@ -86,11 +86,11 @@ abstract class BaseConsultaPeer
      * e.g. ConsultaPeer::$fieldNames[ConsultaPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idconsulta', 'Idpaciente', 'Idmedico', 'Idcuarto', 'ConsultaFechaadmision', 'ConsultaFechasalida', 'ConsultaDiagnostico', 'ConsultaObservaciones', 'ConsultaStatus', 'ConsultaTotal', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idcuarto', 'consultaFechaadmision', 'consultaFechasalida', 'consultaDiagnostico', 'consultaObservaciones', 'consultaStatus', 'consultaTotal', ),
-        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA, ConsultaPeer::IDPACIENTE, ConsultaPeer::IDMEDICO, ConsultaPeer::IDCUARTO, ConsultaPeer::CONSULTA_FECHAADMISION, ConsultaPeer::CONSULTA_FECHASALIDA, ConsultaPeer::CONSULTA_DIAGNOSTICO, ConsultaPeer::CONSULTA_OBSERVACIONES, ConsultaPeer::CONSULTA_STATUS, ConsultaPeer::CONSULTA_TOTAL, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA', 'IDPACIENTE', 'IDMEDICO', 'IDCUARTO', 'CONSULTA_FECHAADMISION', 'CONSULTA_FECHASALIDA', 'CONSULTA_DIAGNOSTICO', 'CONSULTA_OBSERVACIONES', 'CONSULTA_STATUS', 'CONSULTA_TOTAL', ),
-        BasePeer::TYPE_FIELDNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idcuarto', 'consulta_fechaadmision', 'consulta_fechasalida', 'consulta_diagnostico', 'consulta_observaciones', 'consulta_status', 'consulta_total', ),
+        BasePeer::TYPE_PHPNAME => array ('Idconsulta', 'Idpaciente', 'Idmedico', 'Idconsultorio', 'ConsultaFechaadmision', 'ConsultaFechasalida', 'ConsultaDiagnostico', 'ConsultaObservaciones', 'ConsultaStatus', 'ConsultaTotal', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idconsultorio', 'consultaFechaadmision', 'consultaFechasalida', 'consultaDiagnostico', 'consultaObservaciones', 'consultaStatus', 'consultaTotal', ),
+        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA, ConsultaPeer::IDPACIENTE, ConsultaPeer::IDMEDICO, ConsultaPeer::IDCONSULTORIO, ConsultaPeer::CONSULTA_FECHAADMISION, ConsultaPeer::CONSULTA_FECHASALIDA, ConsultaPeer::CONSULTA_DIAGNOSTICO, ConsultaPeer::CONSULTA_OBSERVACIONES, ConsultaPeer::CONSULTA_STATUS, ConsultaPeer::CONSULTA_TOTAL, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA', 'IDPACIENTE', 'IDMEDICO', 'IDCONSULTORIO', 'CONSULTA_FECHAADMISION', 'CONSULTA_FECHASALIDA', 'CONSULTA_DIAGNOSTICO', 'CONSULTA_OBSERVACIONES', 'CONSULTA_STATUS', 'CONSULTA_TOTAL', ),
+        BasePeer::TYPE_FIELDNAME => array ('idconsulta', 'idpaciente', 'idmedico', 'idconsultorio', 'consulta_fechaadmision', 'consulta_fechasalida', 'consulta_diagnostico', 'consulta_observaciones', 'consulta_status', 'consulta_total', ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
@@ -101,11 +101,11 @@ abstract class BaseConsultaPeer
      * e.g. ConsultaPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idconsulta' => 0, 'Idpaciente' => 1, 'Idmedico' => 2, 'Idcuarto' => 3, 'ConsultaFechaadmision' => 4, 'ConsultaFechasalida' => 5, 'ConsultaDiagnostico' => 6, 'ConsultaObservaciones' => 7, 'ConsultaStatus' => 8, 'ConsultaTotal' => 9, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idcuarto' => 3, 'consultaFechaadmision' => 4, 'consultaFechasalida' => 5, 'consultaDiagnostico' => 6, 'consultaObservaciones' => 7, 'consultaStatus' => 8, 'consultaTotal' => 9, ),
-        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA => 0, ConsultaPeer::IDPACIENTE => 1, ConsultaPeer::IDMEDICO => 2, ConsultaPeer::IDCUARTO => 3, ConsultaPeer::CONSULTA_FECHAADMISION => 4, ConsultaPeer::CONSULTA_FECHASALIDA => 5, ConsultaPeer::CONSULTA_DIAGNOSTICO => 6, ConsultaPeer::CONSULTA_OBSERVACIONES => 7, ConsultaPeer::CONSULTA_STATUS => 8, ConsultaPeer::CONSULTA_TOTAL => 9, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA' => 0, 'IDPACIENTE' => 1, 'IDMEDICO' => 2, 'IDCUARTO' => 3, 'CONSULTA_FECHAADMISION' => 4, 'CONSULTA_FECHASALIDA' => 5, 'CONSULTA_DIAGNOSTICO' => 6, 'CONSULTA_OBSERVACIONES' => 7, 'CONSULTA_STATUS' => 8, 'CONSULTA_TOTAL' => 9, ),
-        BasePeer::TYPE_FIELDNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idcuarto' => 3, 'consulta_fechaadmision' => 4, 'consulta_fechasalida' => 5, 'consulta_diagnostico' => 6, 'consulta_observaciones' => 7, 'consulta_status' => 8, 'consulta_total' => 9, ),
+        BasePeer::TYPE_PHPNAME => array ('Idconsulta' => 0, 'Idpaciente' => 1, 'Idmedico' => 2, 'Idconsultorio' => 3, 'ConsultaFechaadmision' => 4, 'ConsultaFechasalida' => 5, 'ConsultaDiagnostico' => 6, 'ConsultaObservaciones' => 7, 'ConsultaStatus' => 8, 'ConsultaTotal' => 9, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idconsultorio' => 3, 'consultaFechaadmision' => 4, 'consultaFechasalida' => 5, 'consultaDiagnostico' => 6, 'consultaObservaciones' => 7, 'consultaStatus' => 8, 'consultaTotal' => 9, ),
+        BasePeer::TYPE_COLNAME => array (ConsultaPeer::IDCONSULTA => 0, ConsultaPeer::IDPACIENTE => 1, ConsultaPeer::IDMEDICO => 2, ConsultaPeer::IDCONSULTORIO => 3, ConsultaPeer::CONSULTA_FECHAADMISION => 4, ConsultaPeer::CONSULTA_FECHASALIDA => 5, ConsultaPeer::CONSULTA_DIAGNOSTICO => 6, ConsultaPeer::CONSULTA_OBSERVACIONES => 7, ConsultaPeer::CONSULTA_STATUS => 8, ConsultaPeer::CONSULTA_TOTAL => 9, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDCONSULTA' => 0, 'IDPACIENTE' => 1, 'IDMEDICO' => 2, 'IDCONSULTORIO' => 3, 'CONSULTA_FECHAADMISION' => 4, 'CONSULTA_FECHASALIDA' => 5, 'CONSULTA_DIAGNOSTICO' => 6, 'CONSULTA_OBSERVACIONES' => 7, 'CONSULTA_STATUS' => 8, 'CONSULTA_TOTAL' => 9, ),
+        BasePeer::TYPE_FIELDNAME => array ('idconsulta' => 0, 'idpaciente' => 1, 'idmedico' => 2, 'idconsultorio' => 3, 'consulta_fechaadmision' => 4, 'consulta_fechasalida' => 5, 'consulta_diagnostico' => 6, 'consulta_observaciones' => 7, 'consulta_status' => 8, 'consulta_total' => 9, ),
         BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
     );
 
@@ -237,7 +237,7 @@ abstract class BaseConsultaPeer
             $criteria->addSelectColumn(ConsultaPeer::IDCONSULTA);
             $criteria->addSelectColumn(ConsultaPeer::IDPACIENTE);
             $criteria->addSelectColumn(ConsultaPeer::IDMEDICO);
-            $criteria->addSelectColumn(ConsultaPeer::IDCUARTO);
+            $criteria->addSelectColumn(ConsultaPeer::IDCONSULTORIO);
             $criteria->addSelectColumn(ConsultaPeer::CONSULTA_FECHAADMISION);
             $criteria->addSelectColumn(ConsultaPeer::CONSULTA_FECHASALIDA);
             $criteria->addSelectColumn(ConsultaPeer::CONSULTA_DIAGNOSTICO);
@@ -248,7 +248,7 @@ abstract class BaseConsultaPeer
             $criteria->addSelectColumn($alias . '.idconsulta');
             $criteria->addSelectColumn($alias . '.idpaciente');
             $criteria->addSelectColumn($alias . '.idmedico');
-            $criteria->addSelectColumn($alias . '.idcuarto');
+            $criteria->addSelectColumn($alias . '.idconsultorio');
             $criteria->addSelectColumn($alias . '.consulta_fechaadmision');
             $criteria->addSelectColumn($alias . '.consulta_fechasalida');
             $criteria->addSelectColumn($alias . '.consulta_diagnostico');
@@ -566,7 +566,7 @@ abstract class BaseConsultaPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Cuarto table
+     * Returns the number of rows matching criteria, joining the related Consultorio table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -574,7 +574,7 @@ abstract class BaseConsultaPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinCuarto(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinConsultorio(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -601,7 +601,7 @@ abstract class BaseConsultaPeer
             $con = Propel::getConnection(ConsultaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -719,7 +719,7 @@ abstract class BaseConsultaPeer
 
 
     /**
-     * Selects a collection of Consulta objects pre-filled with their Cuarto objects.
+     * Selects a collection of Consulta objects pre-filled with their Consultorio objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
@@ -727,7 +727,7 @@ abstract class BaseConsultaPeer
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinCuarto(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinConsultorio(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -738,9 +738,9 @@ abstract class BaseConsultaPeer
 
         ConsultaPeer::addSelectColumns($criteria);
         $startcol = ConsultaPeer::NUM_HYDRATE_COLUMNS;
-        CuartoPeer::addSelectColumns($criteria);
+        ConsultorioPeer::addSelectColumns($criteria);
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -760,19 +760,19 @@ abstract class BaseConsultaPeer
                 ConsultaPeer::addInstanceToPool($obj1, $key1);
             } // if $obj1 already loaded
 
-            $key2 = CuartoPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            $key2 = ConsultorioPeer::getPrimaryKeyHashFromRow($row, $startcol);
             if ($key2 !== null) {
-                $obj2 = CuartoPeer::getInstanceFromPool($key2);
+                $obj2 = ConsultorioPeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = CuartoPeer::getOMClass();
+                    $cls = ConsultorioPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol);
-                    CuartoPeer::addInstanceToPool($obj2, $key2);
+                    ConsultorioPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 already loaded
 
-                // Add the $obj1 (Consulta) to $obj2 (Cuarto)
+                // Add the $obj1 (Consulta) to $obj2 (Consultorio)
                 $obj2->addConsulta($obj1);
 
             } // if joined row was not null
@@ -955,7 +955,7 @@ abstract class BaseConsultaPeer
             $con = Propel::getConnection(ConsultaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $criteria->addJoin(ConsultaPeer::IDMEDICO, MedicoPeer::IDMEDICO, $join_behavior);
 
@@ -995,8 +995,8 @@ abstract class BaseConsultaPeer
         ConsultaPeer::addSelectColumns($criteria);
         $startcol2 = ConsultaPeer::NUM_HYDRATE_COLUMNS;
 
-        CuartoPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + CuartoPeer::NUM_HYDRATE_COLUMNS;
+        ConsultorioPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ConsultorioPeer::NUM_HYDRATE_COLUMNS;
 
         MedicoPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + MedicoPeer::NUM_HYDRATE_COLUMNS;
@@ -1004,7 +1004,7 @@ abstract class BaseConsultaPeer
         PacientePeer::addSelectColumns($criteria);
         $startcol5 = $startcol4 + PacientePeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $criteria->addJoin(ConsultaPeer::IDMEDICO, MedicoPeer::IDMEDICO, $join_behavior);
 
@@ -1027,21 +1027,21 @@ abstract class BaseConsultaPeer
                 ConsultaPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-            // Add objects for joined Cuarto rows
+            // Add objects for joined Consultorio rows
 
-            $key2 = CuartoPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            $key2 = ConsultorioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
             if ($key2 !== null) {
-                $obj2 = CuartoPeer::getInstanceFromPool($key2);
+                $obj2 = ConsultorioPeer::getInstanceFromPool($key2);
                 if (!$obj2) {
 
-                    $cls = CuartoPeer::getOMClass();
+                    $cls = ConsultorioPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
-                    CuartoPeer::addInstanceToPool($obj2, $key2);
+                    ConsultorioPeer::addInstanceToPool($obj2, $key2);
                 } // if obj2 loaded
 
-                // Add the $obj1 (Consulta) to the collection in $obj2 (Cuarto)
+                // Add the $obj1 (Consulta) to the collection in $obj2 (Consultorio)
                 $obj2->addConsulta($obj1);
             } // if joined row not null
 
@@ -1090,7 +1090,7 @@ abstract class BaseConsultaPeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related Cuarto table
+     * Returns the number of rows matching criteria, joining the related Consultorio table
      *
      * @param      Criteria $criteria
      * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
@@ -1098,7 +1098,7 @@ abstract class BaseConsultaPeer
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
      * @return int Number of matching rows.
      */
-    public static function doCountJoinAllExceptCuarto(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinAllExceptConsultorio(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
@@ -1178,7 +1178,7 @@ abstract class BaseConsultaPeer
             $con = Propel::getConnection(ConsultaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $criteria->addJoin(ConsultaPeer::IDPACIENTE, PacientePeer::IDPACIENTE, $join_behavior);
 
@@ -1231,7 +1231,7 @@ abstract class BaseConsultaPeer
             $con = Propel::getConnection(ConsultaPeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $criteria->addJoin(ConsultaPeer::IDMEDICO, MedicoPeer::IDMEDICO, $join_behavior);
 
@@ -1249,7 +1249,7 @@ abstract class BaseConsultaPeer
 
 
     /**
-     * Selects a collection of Consulta objects pre-filled with all related objects except Cuarto.
+     * Selects a collection of Consulta objects pre-filled with all related objects except Consultorio.
      *
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
@@ -1258,7 +1258,7 @@ abstract class BaseConsultaPeer
      * @throws PropelException Any exceptions caught during processing will be
      *		 rethrown wrapped into a PropelException.
      */
-    public static function doSelectJoinAllExceptCuarto(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doSelectJoinAllExceptConsultorio(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
         $criteria = clone $criteria;
 
@@ -1370,13 +1370,13 @@ abstract class BaseConsultaPeer
         ConsultaPeer::addSelectColumns($criteria);
         $startcol2 = ConsultaPeer::NUM_HYDRATE_COLUMNS;
 
-        CuartoPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + CuartoPeer::NUM_HYDRATE_COLUMNS;
+        ConsultorioPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ConsultorioPeer::NUM_HYDRATE_COLUMNS;
 
         PacientePeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + PacientePeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $criteria->addJoin(ConsultaPeer::IDPACIENTE, PacientePeer::IDPACIENTE, $join_behavior);
 
@@ -1398,21 +1398,21 @@ abstract class BaseConsultaPeer
                 ConsultaPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-                // Add objects for joined Cuarto rows
+                // Add objects for joined Consultorio rows
 
-                $key2 = CuartoPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                $key2 = ConsultorioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
                 if ($key2 !== null) {
-                    $obj2 = CuartoPeer::getInstanceFromPool($key2);
+                    $obj2 = ConsultorioPeer::getInstanceFromPool($key2);
                     if (!$obj2) {
 
-                        $cls = CuartoPeer::getOMClass();
+                        $cls = ConsultorioPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
-                    CuartoPeer::addInstanceToPool($obj2, $key2);
+                    ConsultorioPeer::addInstanceToPool($obj2, $key2);
                 } // if $obj2 already loaded
 
-                // Add the $obj1 (Consulta) to the collection in $obj2 (Cuarto)
+                // Add the $obj1 (Consulta) to the collection in $obj2 (Consultorio)
                 $obj2->addConsulta($obj1);
 
             } // if joined row is not null
@@ -1468,13 +1468,13 @@ abstract class BaseConsultaPeer
         ConsultaPeer::addSelectColumns($criteria);
         $startcol2 = ConsultaPeer::NUM_HYDRATE_COLUMNS;
 
-        CuartoPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + CuartoPeer::NUM_HYDRATE_COLUMNS;
+        ConsultorioPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + ConsultorioPeer::NUM_HYDRATE_COLUMNS;
 
         MedicoPeer::addSelectColumns($criteria);
         $startcol4 = $startcol3 + MedicoPeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(ConsultaPeer::IDCUARTO, CuartoPeer::IDCUARTO, $join_behavior);
+        $criteria->addJoin(ConsultaPeer::IDCONSULTORIO, ConsultorioPeer::IDCONSULTORIO, $join_behavior);
 
         $criteria->addJoin(ConsultaPeer::IDMEDICO, MedicoPeer::IDMEDICO, $join_behavior);
 
@@ -1496,21 +1496,21 @@ abstract class BaseConsultaPeer
                 ConsultaPeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-                // Add objects for joined Cuarto rows
+                // Add objects for joined Consultorio rows
 
-                $key2 = CuartoPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                $key2 = ConsultorioPeer::getPrimaryKeyHashFromRow($row, $startcol2);
                 if ($key2 !== null) {
-                    $obj2 = CuartoPeer::getInstanceFromPool($key2);
+                    $obj2 = ConsultorioPeer::getInstanceFromPool($key2);
                     if (!$obj2) {
 
-                        $cls = CuartoPeer::getOMClass();
+                        $cls = ConsultorioPeer::getOMClass();
 
                     $obj2 = new $cls();
                     $obj2->hydrate($row, $startcol2);
-                    CuartoPeer::addInstanceToPool($obj2, $key2);
+                    ConsultorioPeer::addInstanceToPool($obj2, $key2);
                 } // if $obj2 already loaded
 
-                // Add the $obj1 (Consulta) to the collection in $obj2 (Cuarto)
+                // Add the $obj1 (Consulta) to the collection in $obj2 (Consultorio)
                 $obj2->addConsulta($obj1);
 
             } // if joined row is not null
@@ -1594,6 +1594,10 @@ abstract class BaseConsultaPeer
             $criteria = clone $values; // rename for clarity
         } else {
             $criteria = $values->buildCriteria(); // build Criteria from Consulta object
+        }
+
+        if ($criteria->containsKey(ConsultaPeer::IDCONSULTA) && $criteria->keyContainsValue(ConsultaPeer::IDCONSULTA) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ConsultaPeer::IDCONSULTA.')');
         }
 
 

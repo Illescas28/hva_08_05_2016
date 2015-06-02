@@ -22,14 +22,7 @@ class ArticuloFilter implements InputFilterAwareInterface
 
         if (!$this->inputFilter) {
             $inputFilter = new InputFilter();
-
-            $inputFilter->add(array(
-                'name'     => 'idarticulo',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
+            
             $inputFilter->add(array(
                 'name'     => 'idtipo',
                 'required' => true,
@@ -37,6 +30,7 @@ class ArticuloFilter implements InputFilterAwareInterface
                     array('name' => 'Int'),
                 ),
             ));
+            
             $inputFilter->add(array(
                 'name'     => 'articulo_nombre',
                 'required' => false,
@@ -74,13 +68,8 @@ class ArticuloFilter implements InputFilterAwareInterface
                     ),
                 ),
             ));
-            $inputFilter->add(array(
-                'name'     => 'articulo_cantidadpresentacion',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
+            
+
 
             $this->inputFilter = $inputFilter;
         }

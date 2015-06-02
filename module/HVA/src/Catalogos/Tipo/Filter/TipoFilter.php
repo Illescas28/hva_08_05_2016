@@ -24,14 +24,6 @@ class TipoFilter implements InputFilterAwareInterface
             $inputFilter = new InputFilter();
 
             $inputFilter->add(array(
-                'name'     => 'idtipo',
-                'required' => false,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
-
-            $inputFilter->add(array(
                 'name'     => 'tipo_nombre',
                 'required' => true,
                 'filters'  => array(

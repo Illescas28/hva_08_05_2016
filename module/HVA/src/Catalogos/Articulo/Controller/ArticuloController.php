@@ -15,152 +15,209 @@ use Catalogos\Articulo\Filter\ArticuloFilter;
 use Articulo;
 use ArticuloQuery;
 use BasePeer;
+use TipoQuery;
+use Propiedad;
+use Propiedadvalor;
 
 class ArticuloController extends AbstractActionController
 {
     public function nuevoAction()
     {
-        $ArticuloForm = new ArticuloForm();
         $request = $this->getRequest();
-        if ($request->isPost()) {
-            $ArticuloFilter = new ArticuloFilter();
-            $ArticuloForm->setInputFilter($ArticuloFilter->getInputFilter());
-            $ArticuloForm->setData($request->getPost());
+        
+        //Almacenamos en un arreglo todas los Tipos
+        $tipoCollection = \TipoQuery::create()->find();
+       
+        $tipoArray = array();
+        foreach ($tipoCollection as $tipo){
+            $tipoArray[$tipo->getIdtipo()] = $tipo->getTipoNombre();
+        }
+       
+        //Intanciamos nuestro formulario de Articulo
+        $articuloForm = new ArticuloForm($tipoArray);
+        
+        if ($request->isPost()) { //Si hicieron POST
+            
+            //Instanciamos nuestro filtro de articulo
+            $articuloFilter = new ArticuloFilter();
 
-            if ($ArticuloForm->isValid()) {
-                $Articulo = new Articulo();
-                foreach($ArticuloForm->getData() as $ArticuloKey => $ArticuloValue){
-                    if($ArticuloKey == 'idtipo'){
-                        $tipoExists =  \TipoQuery::create()->filterByIdtipo($ArticuloKey)->exists();
-                        // Validamos que exista el idtipo.
-                        if(!$tipoExists){
-                            return array(
-                                'ArticuloForm' => $ArticuloForm,
-                                'Error' => 'Invalid idtipo.'
-                            );
-                        }
-                    }
-                    if($ArticuloKey != 'idarticulo' && $ArticuloKey != 'submit'){
-                        $Articulo->setByName($ArticuloKey, $ArticuloValue, BasePeer::TYPE_FIELDNAME);
+            //Le ponemos nuestro filtro a nuesto fromulario
+            $articuloForm->setInputFilter($articuloFilter->getInputFilter());
+            
+            //Le ponemos los datos a nuestro formulario
+            $articuloForm->setData($request->getPost());
+
+            //Validamos nuestro formulario de articulo
+            if($articuloForm->isValid()){ 
+                var_dump($_POST);
+                //Instanciamos un nuevo objeto de nuestro objeto Articulo
+                $articulo = new Articulo();
+                
+                //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Articulo
+                foreach ($articuloForm->getData() as $articuloKey => $articuloValue){
+                    $articulo->setByName($articuloKey, $articuloValue, \BasePeer::TYPE_FIELDNAME);
+                }
+                
+                //Guardamos en nuestra base de datos Articulo
+                $articulo->save();
+                
+                //Verificamos si nos enviaron propiedades
+                foreach($_POST as $key => $value){
+                    if(strstr($key, 'propiedad') && $value['nombre'] != null){                      
+                        //Guardamos las propiedades
+                        $propiedad = new \Propiedad();
+                        $propiedad->setIdarticulo($articulo->getIdarticulo());
+                        $propiedad->setPropiedadNombre($value["nombre"]);
+                        $propiedad->save();
+                        
+                        //Guardamos las variantes de la propiedad
+                        foreach ($value as $varianteKey => $varianteValue){                            
+                            if($varianteKey !== "nombre" && $varianteValue !=null){                           
+                                $variante = new \Propiedadvalor();
+                                $variante->setIdarticulo($articulo->getIdarticulo());
+                                $variante->setIdpropiedad($propiedad->getIdpropiedad());
+                                $variante->setPropiedadvalorNombre($varianteValue);
+                                $variante->save();
+                            }
+                        }          
                     }
                 }
-                $Articulo->save();
+
+                //Agregamos un mensaje
+                $this->flashMessenger()->addMessage('Articulo guardado exitosamente!');
+                
+                //Redireccionamos a nuestro list
                 return $this->redirect()->toRoute('articulo');
+                
             }
+            
         }
-        return array('ArticuloForm' => $ArticuloForm);
+        
+        return new ViewModel(array(
+            'articuloForm' => $articuloForm,
+        ));
+
     }
 
     public function listarAction()
     {
-        $articulosQuery = new \ArticuloQuery();
+        $articuloQuery = new ArticuloQuery();
 
-        $result = $articulosQuery->paginate();
+        $result = $articuloQuery->paginate($page,$limit);
 
         $dataCollection = $result->getResults();
-
+        
+        //Verificamos si el producto tiene porpiedades
+        
         return new ViewModel(array(
             'articulos' => $dataCollection,
+            'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
+        
     }
 
     public function editarAction()
-    {
-        $id = (int) $this->params()->fromRoute('id', 0);
+    {   
+        $request = $this->getRequest();
+        
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        //Verificamos que el Id articulo que se quiere modificar exista
+        if(!ArticuloQuery::create()->filterByIdarticulo($id)->exists()){
+            $id =0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('articulo', array(
                 'action' => 'nuevo'
             ));
         }
 
-        //Instanciamos nuestra articuloQuery
-        $articuloQuery = ArticuloQuery::create();
-
-        //Verificamos que el Id articulo que se quiere modificar exista
-        if($articuloQuery->create()->filterByIdarticulo($id)->exists()){
-
-            $request = $this->getRequest();
-            //Instanciamos nuestra articuloQuery
-            $articuloPKQuery = $articuloQuery->findPk($id);
-            $articuloQueryArray = $articuloPKQuery->toArray(BasePeer::TYPE_FIELDNAME);
-            $ArticuloForm = new ArticuloForm();
-            $ElementsArticuloForm = $ArticuloForm->getElements();
-
-            if ($request->isPost()){
-                $ArticuloArray = array();
-                foreach($ElementsArticuloForm as $key=>$value){
-                    if($key != 'submit'){
-                        $ArticuloArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $articuloQueryArray[$key];
-                    }
-                }
-            }else{
-                foreach($articuloQueryArray as $articuloQueryKey => $articuloQueryValue){
-                    $ArticuloArray[$articuloQueryKey] = $articuloQueryArray[$articuloQueryKey];
-
-                }
+            //Instanciamos nuestro articulo
+            $articulo = ArticuloQuery::create()->findPk($id);
+            
+            //Almacenamos en un arreglo todas las tipoes
+            $tipoCollection = \EspecialidadQuery::create()->find();
+            $tipoArray = array();
+            foreach ($tipoCollection as $tipo){
+                $tipoArray[$tipo->getIdtipo()] = $tipo->getEspecialidadNombre();
             }
+            
+            //Instanciamos nuestro formulario
+            $articuloForm = new ArticuloForm($tipoArray);
+            
+            //Le ponemos los datos de nuestro articulo a nuestro formulario
+            $articuloForm->setData($articulo->toArray(BasePeer::TYPE_FIELDNAME));
+            
+            if ($request->isPost()) { //Si hicieron POST
+               
+                //Instanciamos nuestro filtro
+                $articuloFilter = new ArticuloFilter();
 
-            $ArticuloFilter = new ArticuloFilter();
-            $ArticuloForm->setInputFilter($ArticuloFilter->getInputFilter());
-            $ArticuloForm->setData($ArticuloArray);
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $articuloForm->setInputFilter($articuloFilter->getInputFilter());
 
-            if ($ArticuloForm->isValid()) {
-                foreach($ArticuloForm->getData() as $ArticuloKey => $ArticuloValue){
-                    if($ArticuloKey != 'submit'){
-                        $articuloPKQuery->setByName($ArticuloKey, $ArticuloValue, BasePeer::TYPE_FIELDNAME);
+                //Le ponemos los datos a nuestro formulario
+                $articuloForm->setData($request->getPost());
+                
+                //Validamos nuestro formulario
+                if($articuloForm->isValid()){
+                    
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Articulo
+                    foreach ($articuloForm->getData() as $articuloKey => $articuloValue){
+                        $articulo->setByName($articuloKey, $articuloValue, \BasePeer::TYPE_FIELDNAME);
                     }
-                }
-                // Si no modifican nada, permanecemos en el formulario.
-                if($articuloPKQuery->isModified()){
-                    $articuloPKQuery->save();
-                    return $this->redirect()->toRoute('articulo');
-                }
-            }else{
-                $messageArray = array();
-                foreach ($ArticuloForm->getMessages() as $key => $value){
-                    foreach($value as $val){
-                        //Obtenemos el valor de la columna con error
-                        $message = $key.' '.$val;
-                        array_push($messageArray, $message);
-                    }
-                }
+                    
+                    //Guardamos en nuestra base de datos
+                    $articulo->save();
+                    
+                    //Guardamos las propiedades
+                    echo '<pre>';var_dump($_POST); echo '</pre>';
 
-                return new ViewModel(array(
-                    'Error' => $messageArray,
-                ));
+                    //Agregamos un mensaje
+                    $this->flashMessenger()->addMessage('Articulo guardado exitosamente!');
+
+                    //Redireccionamos a nuestro list
+                    //return $this->redirect()->toRoute('articulo');
+
+                }else{
+                    
+                }  
             }
-        }
+            
+            return new ViewModel(array(
+                'id'  => $id,
+                'articuloForm' => $articuloForm,
+            ));
+        
 
-        return array(
-            'id' => $id,
-            'ArticuloForm' => $ArticuloForm,
-        );
     }
 
     public function eliminarAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        
+        //Verificamos que el Id articulo que se quiere eliminar exista
+        if(!ArticuloQuery::create()->filterByIdarticulo($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('articulo');
         }
+        
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $del = $request->getPost('del', 'No');
+            //Instanciamos nuestro articulo
+            $articulo = ArticuloQuery::create()->findPk($id);
+            
+            $articulo->delete();
+            
+            //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Articulo eliminado exitosamente!');
 
-            if ($del == 'Yes') {
-                $id = (int) $request->getPost('id');
-                ArticuloQuery::create()->filterByIdarticulo($id)->delete();
-            }
-
-            // Redireccionamos a los provedores
+            //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('articulo');
-        }
 
-        $provedorEntity = ArticuloQuery::create()->filterByIdarticulo($id)->findOne();
-        return array(
-            'id'    => $id,
-            'articulo' => $provedorEntity->toArray(BasePeer::TYPE_FIELDNAME)
-        );
     }
 }

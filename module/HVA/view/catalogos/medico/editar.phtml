@@ -1,6 +1,6 @@
 <?php
-$title = 'Dr. '. $medicoForm->get('medico_nombre')->getValue() . ' '. $medicoForm->get('medico_apellidopaterno')->getValue() . ' '. $medicoForm->get('medico_apellidomaterno')->getValue();
-$this->headTitle($title);
+    $title = 'Dr. '. $medicoForm->get('medico_nombre')->getValue() . ' '. $medicoForm->get('medico_apellidopaterno')->getValue() . ' '. $medicoForm->get('medico_apellidomaterno')->getValue();
+    $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <?php $medicoForm->setAttribute('action', '/catalogos/medico/editar/'.$id);?>

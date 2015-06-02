@@ -24,13 +24,13 @@ abstract class BaseMedicoPeer
     const TM_CLASS = 'MedicoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 19;
+    const NUM_COLUMNS = 21;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 19;
+    const NUM_HYDRATE_COLUMNS = 21;
 
     /** the column name for the idmedico field */
     const IDMEDICO = 'medico.idmedico';
@@ -89,6 +89,12 @@ abstract class BaseMedicoPeer
     /** the column name for the medico_ae field */
     const MEDICO_AE = 'medico.medico_ae';
 
+    /** the column name for the medico_fotografia field */
+    const MEDICO_FOTOGRAFIA = 'medico.medico_fotografia';
+
+    /** the column name for the medico_perfilcompleto field */
+    const MEDICO_PERFILCOMPLETO = 'medico.medico_perfilcompleto';
+
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -108,12 +114,12 @@ abstract class BaseMedicoPeer
      * e.g. MedicoPeer::$fieldNames[MedicoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idmedico', 'Idespecialidad', 'MedicoNombre', 'MedicoApellidopaterno', 'MedicoApellidomaterno', 'MedicoCalle', 'MedicoNoexterior', 'MedicoNointerior', 'MedicoColonia', 'MedicoCodigopostal', 'MedicoCiudad', 'MedicoEstado', 'MedicoPais', 'MedicoTelefono', 'MedicoTelefonocelular', 'MedicoClave', 'MedicoDgp', 'MedicoSsa', 'MedicoAe', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idmedico', 'idespecialidad', 'medicoNombre', 'medicoApellidopaterno', 'medicoApellidomaterno', 'medicoCalle', 'medicoNoexterior', 'medicoNointerior', 'medicoColonia', 'medicoCodigopostal', 'medicoCiudad', 'medicoEstado', 'medicoPais', 'medicoTelefono', 'medicoTelefonocelular', 'medicoClave', 'medicoDgp', 'medicoSsa', 'medicoAe', ),
-        BasePeer::TYPE_COLNAME => array (MedicoPeer::IDMEDICO, MedicoPeer::IDESPECIALIDAD, MedicoPeer::MEDICO_NOMBRE, MedicoPeer::MEDICO_APELLIDOPATERNO, MedicoPeer::MEDICO_APELLIDOMATERNO, MedicoPeer::MEDICO_CALLE, MedicoPeer::MEDICO_NOEXTERIOR, MedicoPeer::MEDICO_NOINTERIOR, MedicoPeer::MEDICO_COLONIA, MedicoPeer::MEDICO_CODIGOPOSTAL, MedicoPeer::MEDICO_CIUDAD, MedicoPeer::MEDICO_ESTADO, MedicoPeer::MEDICO_PAIS, MedicoPeer::MEDICO_TELEFONO, MedicoPeer::MEDICO_TELEFONOCELULAR, MedicoPeer::MEDICO_CLAVE, MedicoPeer::MEDICO_DGP, MedicoPeer::MEDICO_SSA, MedicoPeer::MEDICO_AE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDMEDICO', 'IDESPECIALIDAD', 'MEDICO_NOMBRE', 'MEDICO_APELLIDOPATERNO', 'MEDICO_APELLIDOMATERNO', 'MEDICO_CALLE', 'MEDICO_NOEXTERIOR', 'MEDICO_NOINTERIOR', 'MEDICO_COLONIA', 'MEDICO_CODIGOPOSTAL', 'MEDICO_CIUDAD', 'MEDICO_ESTADO', 'MEDICO_PAIS', 'MEDICO_TELEFONO', 'MEDICO_TELEFONOCELULAR', 'MEDICO_CLAVE', 'MEDICO_DGP', 'MEDICO_SSA', 'MEDICO_AE', ),
-        BasePeer::TYPE_FIELDNAME => array ('idmedico', 'idespecialidad', 'medico_nombre', 'medico_apellidopaterno', 'medico_apellidomaterno', 'medico_calle', 'medico_noexterior', 'medico_nointerior', 'medico_colonia', 'medico_codigopostal', 'medico_ciudad', 'medico_estado', 'medico_pais', 'medico_telefono', 'medico_telefonocelular', 'medico_clave', 'medico_dgp', 'medico_ssa', 'medico_ae', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
+        BasePeer::TYPE_PHPNAME => array ('Idmedico', 'Idespecialidad', 'MedicoNombre', 'MedicoApellidopaterno', 'MedicoApellidomaterno', 'MedicoCalle', 'MedicoNoexterior', 'MedicoNointerior', 'MedicoColonia', 'MedicoCodigopostal', 'MedicoCiudad', 'MedicoEstado', 'MedicoPais', 'MedicoTelefono', 'MedicoTelefonocelular', 'MedicoClave', 'MedicoDgp', 'MedicoSsa', 'MedicoAe', 'MedicoFotografia', 'MedicoPerfilcompleto', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idmedico', 'idespecialidad', 'medicoNombre', 'medicoApellidopaterno', 'medicoApellidomaterno', 'medicoCalle', 'medicoNoexterior', 'medicoNointerior', 'medicoColonia', 'medicoCodigopostal', 'medicoCiudad', 'medicoEstado', 'medicoPais', 'medicoTelefono', 'medicoTelefonocelular', 'medicoClave', 'medicoDgp', 'medicoSsa', 'medicoAe', 'medicoFotografia', 'medicoPerfilcompleto', ),
+        BasePeer::TYPE_COLNAME => array (MedicoPeer::IDMEDICO, MedicoPeer::IDESPECIALIDAD, MedicoPeer::MEDICO_NOMBRE, MedicoPeer::MEDICO_APELLIDOPATERNO, MedicoPeer::MEDICO_APELLIDOMATERNO, MedicoPeer::MEDICO_CALLE, MedicoPeer::MEDICO_NOEXTERIOR, MedicoPeer::MEDICO_NOINTERIOR, MedicoPeer::MEDICO_COLONIA, MedicoPeer::MEDICO_CODIGOPOSTAL, MedicoPeer::MEDICO_CIUDAD, MedicoPeer::MEDICO_ESTADO, MedicoPeer::MEDICO_PAIS, MedicoPeer::MEDICO_TELEFONO, MedicoPeer::MEDICO_TELEFONOCELULAR, MedicoPeer::MEDICO_CLAVE, MedicoPeer::MEDICO_DGP, MedicoPeer::MEDICO_SSA, MedicoPeer::MEDICO_AE, MedicoPeer::MEDICO_FOTOGRAFIA, MedicoPeer::MEDICO_PERFILCOMPLETO, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDMEDICO', 'IDESPECIALIDAD', 'MEDICO_NOMBRE', 'MEDICO_APELLIDOPATERNO', 'MEDICO_APELLIDOMATERNO', 'MEDICO_CALLE', 'MEDICO_NOEXTERIOR', 'MEDICO_NOINTERIOR', 'MEDICO_COLONIA', 'MEDICO_CODIGOPOSTAL', 'MEDICO_CIUDAD', 'MEDICO_ESTADO', 'MEDICO_PAIS', 'MEDICO_TELEFONO', 'MEDICO_TELEFONOCELULAR', 'MEDICO_CLAVE', 'MEDICO_DGP', 'MEDICO_SSA', 'MEDICO_AE', 'MEDICO_FOTOGRAFIA', 'MEDICO_PERFILCOMPLETO', ),
+        BasePeer::TYPE_FIELDNAME => array ('idmedico', 'idespecialidad', 'medico_nombre', 'medico_apellidopaterno', 'medico_apellidomaterno', 'medico_calle', 'medico_noexterior', 'medico_nointerior', 'medico_colonia', 'medico_codigopostal', 'medico_ciudad', 'medico_estado', 'medico_pais', 'medico_telefono', 'medico_telefonocelular', 'medico_clave', 'medico_dgp', 'medico_ssa', 'medico_ae', 'medico_fotografia', 'medico_perfilcompleto', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
     );
 
     /**
@@ -123,12 +129,12 @@ abstract class BaseMedicoPeer
      * e.g. MedicoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idmedico' => 0, 'Idespecialidad' => 1, 'MedicoNombre' => 2, 'MedicoApellidopaterno' => 3, 'MedicoApellidomaterno' => 4, 'MedicoCalle' => 5, 'MedicoNoexterior' => 6, 'MedicoNointerior' => 7, 'MedicoColonia' => 8, 'MedicoCodigopostal' => 9, 'MedicoCiudad' => 10, 'MedicoEstado' => 11, 'MedicoPais' => 12, 'MedicoTelefono' => 13, 'MedicoTelefonocelular' => 14, 'MedicoClave' => 15, 'MedicoDgp' => 16, 'MedicoSsa' => 17, 'MedicoAe' => 18, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idmedico' => 0, 'idespecialidad' => 1, 'medicoNombre' => 2, 'medicoApellidopaterno' => 3, 'medicoApellidomaterno' => 4, 'medicoCalle' => 5, 'medicoNoexterior' => 6, 'medicoNointerior' => 7, 'medicoColonia' => 8, 'medicoCodigopostal' => 9, 'medicoCiudad' => 10, 'medicoEstado' => 11, 'medicoPais' => 12, 'medicoTelefono' => 13, 'medicoTelefonocelular' => 14, 'medicoClave' => 15, 'medicoDgp' => 16, 'medicoSsa' => 17, 'medicoAe' => 18, ),
-        BasePeer::TYPE_COLNAME => array (MedicoPeer::IDMEDICO => 0, MedicoPeer::IDESPECIALIDAD => 1, MedicoPeer::MEDICO_NOMBRE => 2, MedicoPeer::MEDICO_APELLIDOPATERNO => 3, MedicoPeer::MEDICO_APELLIDOMATERNO => 4, MedicoPeer::MEDICO_CALLE => 5, MedicoPeer::MEDICO_NOEXTERIOR => 6, MedicoPeer::MEDICO_NOINTERIOR => 7, MedicoPeer::MEDICO_COLONIA => 8, MedicoPeer::MEDICO_CODIGOPOSTAL => 9, MedicoPeer::MEDICO_CIUDAD => 10, MedicoPeer::MEDICO_ESTADO => 11, MedicoPeer::MEDICO_PAIS => 12, MedicoPeer::MEDICO_TELEFONO => 13, MedicoPeer::MEDICO_TELEFONOCELULAR => 14, MedicoPeer::MEDICO_CLAVE => 15, MedicoPeer::MEDICO_DGP => 16, MedicoPeer::MEDICO_SSA => 17, MedicoPeer::MEDICO_AE => 18, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDMEDICO' => 0, 'IDESPECIALIDAD' => 1, 'MEDICO_NOMBRE' => 2, 'MEDICO_APELLIDOPATERNO' => 3, 'MEDICO_APELLIDOMATERNO' => 4, 'MEDICO_CALLE' => 5, 'MEDICO_NOEXTERIOR' => 6, 'MEDICO_NOINTERIOR' => 7, 'MEDICO_COLONIA' => 8, 'MEDICO_CODIGOPOSTAL' => 9, 'MEDICO_CIUDAD' => 10, 'MEDICO_ESTADO' => 11, 'MEDICO_PAIS' => 12, 'MEDICO_TELEFONO' => 13, 'MEDICO_TELEFONOCELULAR' => 14, 'MEDICO_CLAVE' => 15, 'MEDICO_DGP' => 16, 'MEDICO_SSA' => 17, 'MEDICO_AE' => 18, ),
-        BasePeer::TYPE_FIELDNAME => array ('idmedico' => 0, 'idespecialidad' => 1, 'medico_nombre' => 2, 'medico_apellidopaterno' => 3, 'medico_apellidomaterno' => 4, 'medico_calle' => 5, 'medico_noexterior' => 6, 'medico_nointerior' => 7, 'medico_colonia' => 8, 'medico_codigopostal' => 9, 'medico_ciudad' => 10, 'medico_estado' => 11, 'medico_pais' => 12, 'medico_telefono' => 13, 'medico_telefonocelular' => 14, 'medico_clave' => 15, 'medico_dgp' => 16, 'medico_ssa' => 17, 'medico_ae' => 18, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
+        BasePeer::TYPE_PHPNAME => array ('Idmedico' => 0, 'Idespecialidad' => 1, 'MedicoNombre' => 2, 'MedicoApellidopaterno' => 3, 'MedicoApellidomaterno' => 4, 'MedicoCalle' => 5, 'MedicoNoexterior' => 6, 'MedicoNointerior' => 7, 'MedicoColonia' => 8, 'MedicoCodigopostal' => 9, 'MedicoCiudad' => 10, 'MedicoEstado' => 11, 'MedicoPais' => 12, 'MedicoTelefono' => 13, 'MedicoTelefonocelular' => 14, 'MedicoClave' => 15, 'MedicoDgp' => 16, 'MedicoSsa' => 17, 'MedicoAe' => 18, 'MedicoFotografia' => 19, 'MedicoPerfilcompleto' => 20, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idmedico' => 0, 'idespecialidad' => 1, 'medicoNombre' => 2, 'medicoApellidopaterno' => 3, 'medicoApellidomaterno' => 4, 'medicoCalle' => 5, 'medicoNoexterior' => 6, 'medicoNointerior' => 7, 'medicoColonia' => 8, 'medicoCodigopostal' => 9, 'medicoCiudad' => 10, 'medicoEstado' => 11, 'medicoPais' => 12, 'medicoTelefono' => 13, 'medicoTelefonocelular' => 14, 'medicoClave' => 15, 'medicoDgp' => 16, 'medicoSsa' => 17, 'medicoAe' => 18, 'medicoFotografia' => 19, 'medicoPerfilcompleto' => 20, ),
+        BasePeer::TYPE_COLNAME => array (MedicoPeer::IDMEDICO => 0, MedicoPeer::IDESPECIALIDAD => 1, MedicoPeer::MEDICO_NOMBRE => 2, MedicoPeer::MEDICO_APELLIDOPATERNO => 3, MedicoPeer::MEDICO_APELLIDOMATERNO => 4, MedicoPeer::MEDICO_CALLE => 5, MedicoPeer::MEDICO_NOEXTERIOR => 6, MedicoPeer::MEDICO_NOINTERIOR => 7, MedicoPeer::MEDICO_COLONIA => 8, MedicoPeer::MEDICO_CODIGOPOSTAL => 9, MedicoPeer::MEDICO_CIUDAD => 10, MedicoPeer::MEDICO_ESTADO => 11, MedicoPeer::MEDICO_PAIS => 12, MedicoPeer::MEDICO_TELEFONO => 13, MedicoPeer::MEDICO_TELEFONOCELULAR => 14, MedicoPeer::MEDICO_CLAVE => 15, MedicoPeer::MEDICO_DGP => 16, MedicoPeer::MEDICO_SSA => 17, MedicoPeer::MEDICO_AE => 18, MedicoPeer::MEDICO_FOTOGRAFIA => 19, MedicoPeer::MEDICO_PERFILCOMPLETO => 20, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDMEDICO' => 0, 'IDESPECIALIDAD' => 1, 'MEDICO_NOMBRE' => 2, 'MEDICO_APELLIDOPATERNO' => 3, 'MEDICO_APELLIDOMATERNO' => 4, 'MEDICO_CALLE' => 5, 'MEDICO_NOEXTERIOR' => 6, 'MEDICO_NOINTERIOR' => 7, 'MEDICO_COLONIA' => 8, 'MEDICO_CODIGOPOSTAL' => 9, 'MEDICO_CIUDAD' => 10, 'MEDICO_ESTADO' => 11, 'MEDICO_PAIS' => 12, 'MEDICO_TELEFONO' => 13, 'MEDICO_TELEFONOCELULAR' => 14, 'MEDICO_CLAVE' => 15, 'MEDICO_DGP' => 16, 'MEDICO_SSA' => 17, 'MEDICO_AE' => 18, 'MEDICO_FOTOGRAFIA' => 19, 'MEDICO_PERFILCOMPLETO' => 20, ),
+        BasePeer::TYPE_FIELDNAME => array ('idmedico' => 0, 'idespecialidad' => 1, 'medico_nombre' => 2, 'medico_apellidopaterno' => 3, 'medico_apellidomaterno' => 4, 'medico_calle' => 5, 'medico_noexterior' => 6, 'medico_nointerior' => 7, 'medico_colonia' => 8, 'medico_codigopostal' => 9, 'medico_ciudad' => 10, 'medico_estado' => 11, 'medico_pais' => 12, 'medico_telefono' => 13, 'medico_telefonocelular' => 14, 'medico_clave' => 15, 'medico_dgp' => 16, 'medico_ssa' => 17, 'medico_ae' => 18, 'medico_fotografia' => 19, 'medico_perfilcompleto' => 20, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
     );
 
     /**
@@ -221,6 +227,8 @@ abstract class BaseMedicoPeer
             $criteria->addSelectColumn(MedicoPeer::MEDICO_DGP);
             $criteria->addSelectColumn(MedicoPeer::MEDICO_SSA);
             $criteria->addSelectColumn(MedicoPeer::MEDICO_AE);
+            $criteria->addSelectColumn(MedicoPeer::MEDICO_FOTOGRAFIA);
+            $criteria->addSelectColumn(MedicoPeer::MEDICO_PERFILCOMPLETO);
         } else {
             $criteria->addSelectColumn($alias . '.idmedico');
             $criteria->addSelectColumn($alias . '.idespecialidad');
@@ -241,6 +249,8 @@ abstract class BaseMedicoPeer
             $criteria->addSelectColumn($alias . '.medico_dgp');
             $criteria->addSelectColumn($alias . '.medico_ssa');
             $criteria->addSelectColumn($alias . '.medico_ae');
+            $criteria->addSelectColumn($alias . '.medico_fotografia');
+            $criteria->addSelectColumn($alias . '.medico_perfilcompleto');
         }
     }
 

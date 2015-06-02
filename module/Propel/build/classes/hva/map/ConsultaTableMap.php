@@ -36,12 +36,12 @@ class ConsultaTableMap extends TableMap
         $this->setPhpName('Consulta');
         $this->setClassname('Consulta');
         $this->setPackage('hva');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idconsulta', 'Idconsulta', 'INTEGER', true, null, null);
         $this->addForeignKey('idpaciente', 'Idpaciente', 'INTEGER', 'paciente', 'idpaciente', true, null, null);
         $this->addForeignKey('idmedico', 'Idmedico', 'INTEGER', 'medico', 'idmedico', true, null, null);
-        $this->addForeignKey('idcuarto', 'Idcuarto', 'INTEGER', 'cuarto', 'idcuarto', true, null, null);
+        $this->addForeignKey('idconsultorio', 'Idconsultorio', 'INTEGER', 'consultorio', 'idconsultorio', true, null, null);
         $this->addColumn('consulta_fechaadmision', 'ConsultaFechaadmision', 'TIMESTAMP', true, null, null);
         $this->addColumn('consulta_fechasalida', 'ConsultaFechasalida', 'TIMESTAMP', false, null, null);
         $this->addColumn('consulta_diagnostico', 'ConsultaDiagnostico', 'LONGVARCHAR', false, null, null);
@@ -61,7 +61,7 @@ class ConsultaTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Cuarto', 'Cuarto', RelationMap::MANY_TO_ONE, array('idcuarto' => 'idcuarto', ), 'CASCADE', 'CASCADE');
+        $this->addRelation('Consultorio', 'Consultorio', RelationMap::MANY_TO_ONE, array('idconsultorio' => 'idconsultorio', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Medico', 'Medico', RelationMap::MANY_TO_ONE, array('idmedico' => 'idmedico', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Paciente', 'Paciente', RelationMap::MANY_TO_ONE, array('idpaciente' => 'idpaciente', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Cargoconsulta', 'Cargoconsulta', RelationMap::ONE_TO_MANY, array('idconsulta' => 'idconsulta', ), 'CASCADE', 'CASCADE', 'Cargoconsultas');

@@ -3,6 +3,7 @@
 <html lang="en" style="height: 100%">
 <head>
     <meta charset="utf-8">
+
     <?php echo $this->headTitle('HVA '. $this->translate('Hospital Valle de Atemajac'))->setSeparator(' - ')->setAutoEscape(false) ?>
 
     <!--Let browser know website is optimized for mobile-->
@@ -14,17 +15,17 @@
     <!-- Le styles -->
     <!--Import materialize.css-->
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+        ->prependStylesheet($this->basePath('css/jquery-ui.css'))
         ->prependStylesheet($this->basePath('css/style.css'))
         ->prependStylesheet($this->basePath('css/materialize.css'));
     ?>
-
     <!-- Scripts -->
     <?php echo $this->headScript()
+        ->prependFile($this->basePath('js/jquery-ui-1-10-1.js'), 'text/javascript')
         ->prependFile($this->basePath('js/filterTable.js'), 'text/javascript')
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
         ->prependFile($this->basePath('js/materialize.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery.min.js'), 'text/javascript');
-
     ?>
 
 </head>
@@ -37,6 +38,7 @@
         <div class="col s9" id="module_list">
             <ul>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_administracion'>Administración <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_pacientes'>Pacientes <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a id="navbar_caja">Caja</a></li>
                 <li><a>almacen</a></li>
                 <li><a>Artículos</a></li>
@@ -69,34 +71,57 @@
             <?php echo $this->content?>
         </div>
     </div>
-    <div class="row z-depth-1" id="footer-container">
+    <!-- Dropdown Structures -->
+    <ul id='dropdown_administracion' class='dropdown-content'>
+        <li><a href="#!">Bancos</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Compras</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Cuentas por pagar</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Reportes</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Modulos</a></li>
+    </ul>
+    <!-- Dropdown Structures -->
+    <!-- Pacientes -->
+    <ul id='dropdown_pacientes' class='dropdown-content'>
+        <li><a href="<?php echo $this->url('pacientes', array('action'=>'listar'));?>">Listado de Pacientes</a></li>
+        <li class="divider"></li>
+        <li><a href="<?php echo $this->url('pacientes', array('action'=>'actuales'));?>">Pacientes Actuales</a></li>
+        <li class="divider"></li>
+        <li><a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>">Admisión de pacientes</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Pacientes Actuales</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Generación de cargos a</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Programar cita paciente</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Alta y facturación</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Cancelación de facturas</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Histórico de pacientes</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Reporte facturas</a></li>
+        <li class="divider"></li>
+        <li><a href="#!">Reporte quirúrgico</a></li>
+    </ul>
+
+    <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
+        <li><a href="#!">Ver Perfil</a></li>
+        <li class="divider"></li>
+        <li>
+            <a href="/out">Cerrar sesión</a>
+        </li>
+    </ul>
+    <div class="row z-depth-1"> <!--id="footer-container">-->
         <div class="col s12" id="footer">
             <p>Hospital del Valle de Atemajac - &copy Todos los derechos reservados 2015 </p>
         </div>
     </div>
 </div>
-
-<!-- Dropdown Structures -->
-<ul id='dropdown_administracion' class='dropdown-content'>
-    <li><a href="#!">Bancos</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Compras</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Cuentas por pagar</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reportes</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Modulos</a></li>
-</ul>
-
-<ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
-    <li><a href="#!">Ver Perfil</a></li>
-    <li class="divider"></li>
-    <li>
-        <a href="/out">Cerrar sesión</a>
-    </li>
-</ul>
-
 </body>
 </html>
 <script type="text/javascript">
@@ -125,6 +150,4 @@
         gutter: 0, // Spacing from edge
         belowOrigin: false // Displays dropdown below the button
     });
-
-
 </script>

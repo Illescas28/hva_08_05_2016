@@ -42,7 +42,6 @@ class ArticuloTableMap extends TableMap
         $this->addForeignKey('idtipo', 'Idtipo', 'INTEGER', 'tipo', 'idtipo', true, null, null);
         $this->addColumn('articulo_nombre', 'ArticuloNombre', 'VARCHAR', false, 300, null);
         $this->addColumn('articulo_descripcion', 'ArticuloDescripcion', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('articulo_cantidadpresentacion', 'ArticuloCantidadpresentacion', 'INTEGER', false, null, null);
         // validators
     } // initialize()
 

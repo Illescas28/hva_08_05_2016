@@ -10,11 +10,7 @@ class ProveedorForm extends Form
     {
         // we want to ignore the name passed
         parent::__construct('ProveedorForm');
-
-        $this->add(array(
-            'name' => 'idproveedor',
-            'type' => 'Hidden',
-        ));
+        
         $this->add(array(
             'name' => 'proveedor_nombre',
             'type' => 'Text',
@@ -26,7 +22,7 @@ class ProveedorForm extends Form
             'name' => 'proveedor_contacto',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Contácto',
+                'label' => 'Nombre de Contácto',
             ),
         ));
         $this->add(array(
@@ -40,7 +36,7 @@ class ProveedorForm extends Form
             'name' => 'proveedor_direccion2',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Dirección',
+                'label' => 'Dirección 2',
             ),
         ));
         $this->add(array(
@@ -107,17 +103,5 @@ class ProveedorForm extends Form
             ),
         ));
 
-        $this->add(array(
-            'name' => 'submit',
-            'type' => 'submit',
-            'attributes' => array(
-                'value' => 'Guargar',
-                'id' => 'submitbutton',
-                'class' => 'btn waves-effect waves-light',
-            ),
-            'options' => array(
-                'label' => 'Guardar',
-            ),
-        ));
     }
 }

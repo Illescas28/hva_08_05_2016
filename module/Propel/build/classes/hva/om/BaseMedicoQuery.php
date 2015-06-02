@@ -25,6 +25,8 @@
  * @method MedicoQuery orderByMedicoDgp($order = Criteria::ASC) Order by the medico_dgp column
  * @method MedicoQuery orderByMedicoSsa($order = Criteria::ASC) Order by the medico_ssa column
  * @method MedicoQuery orderByMedicoAe($order = Criteria::ASC) Order by the medico_ae column
+ * @method MedicoQuery orderByMedicoFotografia($order = Criteria::ASC) Order by the medico_fotografia column
+ * @method MedicoQuery orderByMedicoPerfilcompleto($order = Criteria::ASC) Order by the medico_perfilcompleto column
  *
  * @method MedicoQuery groupByIdmedico() Group by the idmedico column
  * @method MedicoQuery groupByIdespecialidad() Group by the idespecialidad column
@@ -45,6 +47,8 @@
  * @method MedicoQuery groupByMedicoDgp() Group by the medico_dgp column
  * @method MedicoQuery groupByMedicoSsa() Group by the medico_ssa column
  * @method MedicoQuery groupByMedicoAe() Group by the medico_ae column
+ * @method MedicoQuery groupByMedicoFotografia() Group by the medico_fotografia column
+ * @method MedicoQuery groupByMedicoPerfilcompleto() Group by the medico_perfilcompleto column
  *
  * @method MedicoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method MedicoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -95,6 +99,8 @@
  * @method Medico findOneByMedicoDgp(string $medico_dgp) Return the first Medico filtered by the medico_dgp column
  * @method Medico findOneByMedicoSsa(string $medico_ssa) Return the first Medico filtered by the medico_ssa column
  * @method Medico findOneByMedicoAe(string $medico_ae) Return the first Medico filtered by the medico_ae column
+ * @method Medico findOneByMedicoFotografia(string $medico_fotografia) Return the first Medico filtered by the medico_fotografia column
+ * @method Medico findOneByMedicoPerfilcompleto(boolean $medico_perfilcompleto) Return the first Medico filtered by the medico_perfilcompleto column
  *
  * @method array findByIdmedico(int $idmedico) Return Medico objects filtered by the idmedico column
  * @method array findByIdespecialidad(int $idespecialidad) Return Medico objects filtered by the idespecialidad column
@@ -115,6 +121,8 @@
  * @method array findByMedicoDgp(string $medico_dgp) Return Medico objects filtered by the medico_dgp column
  * @method array findByMedicoSsa(string $medico_ssa) Return Medico objects filtered by the medico_ssa column
  * @method array findByMedicoAe(string $medico_ae) Return Medico objects filtered by the medico_ae column
+ * @method array findByMedicoFotografia(string $medico_fotografia) Return Medico objects filtered by the medico_fotografia column
+ * @method array findByMedicoPerfilcompleto(boolean $medico_perfilcompleto) Return Medico objects filtered by the medico_perfilcompleto column
  *
  * @package    propel.generator.hva.om
  */
@@ -222,7 +230,7 @@ abstract class BaseMedicoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idmedico`, `idespecialidad`, `medico_nombre`, `medico_apellidopaterno`, `medico_apellidomaterno`, `medico_calle`, `medico_noexterior`, `medico_nointerior`, `medico_colonia`, `medico_codigopostal`, `medico_ciudad`, `medico_estado`, `medico_pais`, `medico_telefono`, `medico_telefonocelular`, `medico_clave`, `medico_dgp`, `medico_ssa`, `medico_ae` FROM `medico` WHERE `idmedico` = :p0';
+        $sql = 'SELECT `idmedico`, `idespecialidad`, `medico_nombre`, `medico_apellidopaterno`, `medico_apellidomaterno`, `medico_calle`, `medico_noexterior`, `medico_nointerior`, `medico_colonia`, `medico_codigopostal`, `medico_ciudad`, `medico_estado`, `medico_pais`, `medico_telefono`, `medico_telefonocelular`, `medico_clave`, `medico_dgp`, `medico_ssa`, `medico_ae`, `medico_fotografia`, `medico_perfilcompleto` FROM `medico` WHERE `idmedico` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -888,6 +896,62 @@ abstract class BaseMedicoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MedicoPeer::MEDICO_AE, $medicoAe, $comparison);
+    }
+
+    /**
+     * Filter the query on the medico_fotografia column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMedicoFotografia('fooValue');   // WHERE medico_fotografia = 'fooValue'
+     * $query->filterByMedicoFotografia('%fooValue%'); // WHERE medico_fotografia LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $medicoFotografia The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return MedicoQuery The current query, for fluid interface
+     */
+    public function filterByMedicoFotografia($medicoFotografia = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($medicoFotografia)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $medicoFotografia)) {
+                $medicoFotografia = str_replace('*', '%', $medicoFotografia);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(MedicoPeer::MEDICO_FOTOGRAFIA, $medicoFotografia, $comparison);
+    }
+
+    /**
+     * Filter the query on the medico_perfilcompleto column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMedicoPerfilcompleto(true); // WHERE medico_perfilcompleto = true
+     * $query->filterByMedicoPerfilcompleto('yes'); // WHERE medico_perfilcompleto = true
+     * </code>
+     *
+     * @param     boolean|string $medicoPerfilcompleto The value to use as filter.
+     *              Non-boolean arguments are converted using the following rules:
+     *                * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *                * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     *              Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return MedicoQuery The current query, for fluid interface
+     */
+    public function filterByMedicoPerfilcompleto($medicoPerfilcompleto = null, $comparison = null)
+    {
+        if (is_string($medicoPerfilcompleto)) {
+            $medicoPerfilcompleto = in_array(strtolower($medicoPerfilcompleto), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+        }
+
+        return $this->addUsingAlias(MedicoPeer::MEDICO_PERFILCOMPLETO, $medicoPerfilcompleto, $comparison);
     }
 
     /**
