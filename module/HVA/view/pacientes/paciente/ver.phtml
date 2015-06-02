@@ -2471,6 +2471,22 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     // appends <table> into <body>
     div.appendChild(tabla);
 
+    subTotalResponse(cargoconsultaArray)
+
+}
+
+function subTotalResponse(cargoconsultaArray) {
+
+    var subTotal = 0;
+    var anticipoCantidad = 0;
+    var status = null;
+    // Crea las celdas
+    for (var i = 0; i < cargoconsultaArray.length; i++) {
+
+        subTotal = subTotal+parseFloat(cargoconsultaArray[i]["subtotal"]);
+        status = cargoconsultaArray[i]["status"];
+    }
+
     var divTotalSuperior = document.getElementById("totalSuperior");
     divTotalSuperior.innerHTML = divTotalSuperior;
     var divSubTotal = document.createElement('div');
@@ -2492,80 +2508,6 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     divTotalSuperior.appendChild(divSubTotal);
     divTotalSuperior.appendChild(divAnticipo);
     divTotalSuperior.appendChild(divStatus);
-
-
-    var divTotalInferior = document.getElementById("totalInferior");
-    divTotalInferior.innerHTML = divTotalInferior;
-    var h4 = document.createElement('h4')
-    h4.className = "right-align";
-    var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
-    h4.appendChild(textoServicioTotal)
-    divTotalInferior.appendChild(h4)
-
-    var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipo");
-    divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo;
-    var buttonPagarAnticipo = document.createElement('button')
-    buttonPagarAnticipo.setAttribute ( 'id', 'buttonPagarAnticipo' );
-    buttonPagarAnticipo.style.width = "100%";
-    buttonPagarAnticipo.style.height = "45px";
-    buttonPagarAnticipo.style.marginTop = "20px";
-    buttonPagarAnticipo.className = "btn waves-effect waves-light";
-    buttonPagarAnticipo.setAttribute ( 'type', 'submit' );
-    var textoButtonPagarAnticipo = document.createTextNode("Pagar/Anticipo");
-    buttonPagarAnticipo.appendChild(textoButtonPagarAnticipo)
-    divbotonPagarAnticipo.appendChild(buttonPagarAnticipo)
-
-    var divbotonGenerarFactura = document.getElementById("botonGenerarFactura");
-    divbotonGenerarFactura.innerHTML = divbotonGenerarFactura;
-    var buttonGenerarFactura = document.createElement('button')
-    buttonGenerarFactura.setAttribute ( 'id', 'buttonGenerarFactura' );
-    buttonGenerarFactura.style.width = "100%";
-    buttonGenerarFactura.style.height = "45px";
-    buttonGenerarFactura.style.marginTop = "20px";
-    buttonGenerarFactura.className = "btn waves-effect waves-light disabled";
-    buttonGenerarFactura.setAttribute ( 'type', 'submit' );
-    var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
-    buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
-    divbotonGenerarFactura.appendChild(buttonGenerarFactura)
-
-    var divbotonGenerarNota = document.getElementById("botonGenerarNota");
-    divbotonGenerarNota.innerHTML = divbotonGenerarNota;
-    var buttonGenerarNota = document.createElement('button')
-    buttonGenerarNota.setAttribute ( 'id', 'buttonGenerarNota' );
-    buttonGenerarNota.style.width = "100%";
-    buttonGenerarNota.style.height = "45px";
-    buttonGenerarNota.style.marginTop = "20px";
-    buttonGenerarNota.className = "btn waves-effect waves-light disabled";
-    buttonGenerarNota.setAttribute ( 'type', 'submit' );
-    var textoButtonGenerarNota = document.createTextNode("Generar Nota");
-    buttonGenerarNota.appendChild(textoButtonGenerarNota)
-    divbotonGenerarNota.appendChild(buttonGenerarNota)
-
-    var divbotoVerFactura = document.getElementById("botonVerFactura");
-    divbotoVerFactura.innerHTML = divbotoVerFactura;
-    var buttonVerFactura = document.createElement('button')
-    buttonVerFactura.setAttribute ( 'id', 'buttonVerFactura' );
-    buttonVerFactura.style.width = "100%";
-    buttonVerFactura.style.height = "45px";
-    buttonVerFactura.className = "left btn waves-effect waves-light disabled";
-    buttonVerFactura.setAttribute ( 'type', 'submit' );
-    var textoButtonVerFactura = document.createTextNode("Ver Factura");
-    buttonVerFactura.appendChild(textoButtonVerFactura)
-    divbotoVerFactura.appendChild(buttonVerFactura)
-
-}
-
-function subTotalResponse(cargoconsultaArray) {
-
-    var subTotal = 0;
-    var anticipoCantidad = 0;
-    var status = null;
-    // Crea las celdas
-    for (var i = 0; i < cargoconsultaArray.length; i++) {
-
-        subTotal = subTotal+parseFloat(cargoconsultaArray[i]["subtotal"]);
-        status = cargoconsultaArray[i]["status"];
-    }
 
     var divTotalInferior = document.getElementById("totalInferior");
     divTotalInferior.innerHTML = divTotalInferior;
