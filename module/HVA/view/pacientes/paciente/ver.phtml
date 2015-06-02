@@ -346,240 +346,7 @@ $this->headTitle($title);
 </div>
 <!-- End Create Modal Structure -->
 <div id="cargoconsultaArticuloResult" class="hiddendiv">
-<?php /**
- *  Ya no ocupamos crear la tabla y los modals con php... ahora los creamos con javascript
- *
-<?php // if($cargoconsultaQuery) :?>
-<?php foreach ($cargoconsultaQuery as $cargoconsultaEntity) : ?>
-<?php $total = $cargoconsultaEntity->getMonto()?>
-<?php $total += $cargoconsultaEntity->getMonto()?>
-<div class="row">
-<div class="col s9">
-<span class="left">Total: <?php echo $total?></span>
-<span style="margin-left: 40px;"> Anticipo: <?php ?> MXN</span><a class="tooltipped " data-position="right" data-tooltip="Editar" href='<?php echo "#nuevo-modal-anticipo-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="mdi-action-description" style="margin-left: 5px;"></i></a>
-<span style="margin-left: 40px;">Status: <?php echo $cargoconsultaEntity->getConsulta()->getConsultastatus()?></span>
-</div>
-<div class=" col s3">
-<a class="tooltipped right" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdconsulta()?>'><i class="mdi-content-add-circle-outline prefix"></i>Agregar producto a cuenta</a>
-</div>
-</div>
-<table id="tabla-cargoconsulta" class="striped hoverable">
-<thead>
-<tr>
-<th>Cantidad</th>
-<th>Articulo</th>
-<th>Descripción</th>
-<th>Salida</th>
-<th>Fecha/hora</th>
-<th>Costo</th>
-<th>Subtotal</th>
-<th>Opciones</th>
-</tr>
-</thead>
-<tbody>
-<?php $direction = 'right'?>
-<tr>
-<td><?php echo $cargoconsultaEntity->getCantidad() ?></td>
-<td><?php echo "test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre() ?></td>
-<td><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion() ?></td>
-<td>General</td>
-<td><?php echo $cargoconsultaEntity->getCargoconsultaFecha() ?></td>
-<td><?php echo $cargoconsultaEntity->getMonto() ?></td>
-<td><?php echo $cargoconsultaEntity->getMonto() ?></td>
-<td>
-<a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href='<?php echo "#view-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
-&nbsp;&nbsp;
-<a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-assignment"></i></a>
-&nbsp;&nbsp;
-<a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>'><i class="tiny mdi-action-delete"></i></a>
-</td>
-</tr>
-<!-- View Modal Structure -->
-<div id="view-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
-<div class="modal-content">
-<h4><?php echo "Cargo del paciente: ".$title?></h4>
-<div class="row">
-<fieldset>
-<legend>Datos Generales</legend>
-<div class="col s4">
-<div class="label-container">
-<label>Cantidad:</label>
-<p><?php echo$cargoconsultaEntity->getCantidad()?></p>
-</div>
-<div class="label-container">
-<label>Artículo:</label>
-<p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloNombre()?></p>
-</div>
-<div class="label-container">
-<label>Descripción:</label>
-<p><?php echo "Test";//$cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompra()->getArticulo()->getArticuloDescripcion()?></p>
-</div>
-</div>
-<div class="col s4">
-<div class="label-container">
-<label>Salida:</label>
-<p>General</p>
-</div>
-<div class="label-container">
-<label>Fecha/hora:</label>
-<p><?php echo $cargoconsultaEntity->getCargoconsultaFecha()?></p>
-</div>
-<div class="label-container">
-<label>Costo:</label>
-<p><?php echo $cargoconsultaEntity->getMonto()?></p>
-</div>
-</div>
-<div class="col s4">
-<div class="label-container">
-<label>Sub-total:</label>
-<p><?php echo $cargoconsultaEntity->getMonto()?></p>
-</div>
-</div>
-</fieldset>
-</div>
-</div>
-<div class="modal-footer">
-<a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-<a href=href='<?php echo "#edit-modal-cargoconsulta-".$cargoconsultaEntity->getIdcargoconsulta()?>' class="waves-effect waves-light btn editar"><i class="mdi-action-assignment left"></i>Editar</a>
-</div>
-</div>
-<!-- End View Modal Structure -->
-<!-- Edit Modal Structure -->
-<div id="edit-modal-paciente-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal ">
-<div class="modal-content">
-<?php $cargoconsultaForm->setAttribute('action', '/paciente/ver/'.$pacienteEntity->getIdpaciente());?>
-<?php $cargoconsultaForm->setAttribute('class', 'hva-form');?>
-<?php $cargoconsultaForm->prepare();?>
-<?php echo $this->form()->openTag($cargoconsultaForm); ?>
-<div class="col s4">
-<div class="input-field">
-<?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')->setValue($cargoconsultaForm->getIdconsulta())); ?>
-</div>
-<div class="input-field">
-<?php echo $this->formSelect($cargoconsultaForm->get('idservicio')); ?>
-<?php $showError=$this->formElementErrors($cargoconsultaForm->get('idservicio'));
-if(!empty($showError)):
-?>
-<div class="center-align col" style="color: #e57373">
-<i class="mdi-content-report prefix"></i>
-</div>
-<div class="center-align col s11 offset-s1" style="color: #e57373">
-<?php
-echo $showError;
-?>
-</div>
-<?php  endif;?>
-</div>
-</div>
-<div class="col s4 offset-s4">
-<div class="input-field">
-<?php echo $this->formSelect($consultaForm->get('cargoconsulta_tipo')->setValue('articulo')); ?>
-<?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_tipo'));
-if(!empty($showError)):
-?>
-<div class="center-align col" style="color: #e57373">
-<i class="mdi-content-report prefix"></i>
-</div>
-<div class="center-align col s11 offset-s1" style="color: #e57373">
-<?php
-echo $showError;
-?>
-</div>
-<?php  endif;?>
-</div>
-</div>
-<div class="col s12">
-<div class="input-field">
-<?php echo $this->formText($consultaForm->get('cargoconsulta_fecha')->setValue(date('Y-m-d H:i:s'))); ?>
-<?php echo $this->formLabel($consultaForm->get('cargoconsulta_fecha')); ?>
-<?php $showError=$this->formElementErrors($consultaForm->get('cargoconsulta_fecha'));
-if(!empty($showError)):
-?>
-<div class="center-align col" style="color: #e57373">
-<i class="mdi-content-report prefix"></i>
-</div>
-<div class="center-align col s11 offset-s1" style="color: #e57373">
-<?php
-echo $showError;
-?>
-</div>
-<?php  endif;?>
-</div>
-</div>
-<div class="col s6">
-<div class="input-field">
-<?php echo $this->formText($consultaForm->get('cantidad')); ?>
-<?php echo $this->formLabel($consultaForm->get('cantidad')); ?>
-<?php $showError=$this->formElementErrors($consultaForm->get('cantidad'));
-if(!empty($showError)):
-?>
-<div class="center-align col" style="color: #e57373">
-<i class="mdi-content-report prefix"></i>
-</div>
-<div class="center-align col s11 offset-s1" style="color: #e57373">
-<?php
-echo $showError;
-?>
-</div>
-<?php  endif;?>
-</div>
-</div>
-<div class="col s6">
-<div class="input-field">
-<?php echo $this->formText($consultaForm->get('monto')); ?>
-<?php echo $this->formLabel($consultaForm->get('monto')); ?>
-<?php $showError=$this->formElementErrors($consultaForm->get('monto'));
-if(!empty($showError)):
-?>
-<div class="center-align col" style="color: #e57373">
-<i class="mdi-content-report prefix"></i>
-</div>
-<div class="center-align col s11 offset-s1" style="color: #e57373">
-<?php
-echo $showError;
-?>
-</div>
-<?php  endif;?>
-</div>
-</div>
-<br>
-<br>
-<div class="right col s4">
-<button style="width: 100%; height: 45px; margin-top: 20px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
-<i class="mdi-content-save left"></i>
-</button>
-</div>
-<?php echo $this->form()->closeTag(); ?>
-</div>
-</div>
-<!-- End Edit Modal Structure -->
-<!-- Delete Modal Structure -->
-<div id="delete-modal-cargoconsulta-<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="modal">
-<div class="modal-content" id="delete-modal-container">
-<div class="row" id="delete-modal-header-container">
-<div class="col s4 offset-s4">
-<h4><i class="mdi-alert-warning"></i> ATENCION</h4>
-</div>
-</div>
-<div class="row">
-<div class="col s12">
-<p><?php echo "Esta seguro que desea eliminar al id. ". $cargoconsultaEntity->getIdcargoconsulta() ?></p>
-</div>
-</div>
-
-</div>
-<div class="modal-footer">
-<a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-<a href="/pacientes/cargoconsulta/eliminar/<?php echo $cargoconsultaEntity->getIdcargoconsulta()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
-
-</div>
-</div>
-<!-- End Delete Modal Structure -->
-</tbody>
-</table>
-<?php endforeach; ?>
-<?php // endif; ?>
- */ ?>
+    <!-- Aquí agregamos los elementos con javascript -->
 </div>
 <br>
 <br>
@@ -766,24 +533,6 @@ $("#guardarConsulta").click(function() {
             }
         }
     });
-    /*
-     $.ajax({
-     type: "POST",
-     url: "<?php //$this->url('pacientes', array('action'=>'ver', 'id' => $pacienteEntity->getIdpaciente()));?>",
-     dataType : 'json',
-     data: dataString,
-     success: function(jsonStr) {
-     $("input#idconsulta").val(JSON.stringify(jsonStr.consultaArray.idconsulta));
-
-     if ($('#cargos').hasClass('hiddendiv')){
-     $('#cargos').removeClass('hiddendiv')
-     $('#botonGuardarConsulta').addClass('hiddendiv')
-     $('#cargos').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax">Consulta guardada exitosamente</div>')
-     $('#cargos').removeClass('hiddendiv')
-     }
-     }
-     });
-     */
 
     return false;
 });
@@ -1110,6 +859,10 @@ $("#buscarCargoconsultaServicio").click(function() {
                     divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
                     var inputCantidad = document.createElement('input');
                     inputCantidad.setAttribute ( 'id', 'cantidad' );
+                    inputCantidad.style.width = "20%";
+                    inputCantidad.type = "number";
+                    inputCantidad.min ="1";
+                    inputCantidad.max = "999999999";
 
                     // agregamos las options en nuestro input
                     divinputCantidad.appendChild(inputCantidad);
@@ -1468,6 +1221,7 @@ $("#guardarCargoconsultaServicio").click(function() {
             $.each( cargoconsultaEntity, function( key, value ) {
                 cargoconsultaArray.push({
                     "idcargoconsulta" : value.idcargoconsulta,
+                    "status" : value.status,
                     "cantidad" : value.cantidad,
                     "servicio" : value.servicio,
                     "descripcion" : value.descripcion,
@@ -2279,6 +2033,10 @@ function buscarCargoconsultaServicio(idservicio){
                     divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
                     var inputCantidad = document.createElement('input');
                     inputCantidad.setAttribute ( 'id', 'cantidad' );
+                    inputCantidad.style.width = "20%";
+                    inputCantidad.type = "number";
+                    inputCantidad.min ="1";
+                    inputCantidad.max = "999999999";
                     divinputCantidad.appendChild(inputCantidad);
 
                     // Creamos la entidad textual lista para agregar al cargoconsulta
@@ -2374,6 +2132,10 @@ function buscarCargoconsultaServicio(idservicio){
                         divinputCantidad.setAttribute ( 'id', 'divinputCantidad' );
                         var inputCantidad = document.createElement('input');
                         inputCantidad.setAttribute ( 'id', 'cantidad' );
+                        inputCantidad.style.width = "20%";
+                        inputCantidad.type = "number";
+                        inputCantidad.min ="1";
+                        inputCantidad.max = "999999999";
                         divinputCantidad.appendChild(inputCantidad);
 
                         // Creamos la entidad textual lista para agregar al cargoconsulta
@@ -2581,6 +2343,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
     // appends <table> into <body>
     div.appendChild(tabla);
+
 }
 
 function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
@@ -2619,10 +2382,13 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     tabla.appendChild(tblHead);
 
     var subTotal = 0;
+    var anticipoCantidad = 0;
+    var status = null;
     // Crea las celdas
     for (var i = 0; i < cargoconsultaArray.length; i++) {
 
         subTotal = subTotal+parseFloat(cargoconsultaArray[i]["subtotal"]);
+        status = cargoconsultaArray[i]["status"];
 
         // Crea las hileras de la tabla
         var hilera = document.createElement("tr");
@@ -2707,14 +2473,32 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
 
     var divTotalSuperior = document.getElementById("totalSuperior");
     divTotalSuperior.innerHTML = divTotalSuperior;
-    var textoServicioNombre = document.createTextNode("Total: "+subTotal);
-    divTotalSuperior.appendChild(textoServicioNombre)
+    var divSubTotal = document.createElement('div');
+    divSubTotal.className = "col s3";
+    var divAnticipo = document.createElement('div');
+    divAnticipo.className = "col s3";
+    var divStatus = document.createElement('div');
+    divStatus.className = "col s3";
+    var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
+    var editar = document.createElement("i");
+    editar.className = "tiny mdi-action-assignment pointer";
+    editar.setAttribute ( 'id', 'pagarAnticipo' );
+    var textoAnticipo = document.createTextNode("Anticipo: "+anticipoCantidad+" MXN");
+    var textoStatus = document.createTextNode("Status: "+status);
+    divSubTotal.appendChild(textoSubTotal);
+    divAnticipo.appendChild(textoAnticipo);
+    divAnticipo.appendChild(editar);
+    divStatus.appendChild(textoStatus);
+    divTotalSuperior.appendChild(divSubTotal);
+    divTotalSuperior.appendChild(divAnticipo);
+    divTotalSuperior.appendChild(divStatus);
+
 
     var divTotalInferior = document.getElementById("totalInferior");
     divTotalInferior.innerHTML = divTotalInferior;
     var h4 = document.createElement('h4')
     h4.className = "right-align";
-    var textoServicioTotal = document.createTextNode("Total: "+subTotal);
+    var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
     h4.appendChild(textoServicioTotal)
     divTotalInferior.appendChild(h4)
 
@@ -2771,9 +2555,79 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
 
 }
 
-function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
+function subTotalResponse(cargoconsultaArray) {
+
+    var subTotal = 0;
+    var anticipoCantidad = 0;
+    var status = null;
+    // Crea las celdas
+    for (var i = 0; i < cargoconsultaArray.length; i++) {
+
+        subTotal = subTotal+parseFloat(cargoconsultaArray[i]["subtotal"]);
+        status = cargoconsultaArray[i]["status"];
+    }
+
+    var divTotalInferior = document.getElementById("totalInferior");
+    divTotalInferior.innerHTML = divTotalInferior;
+    var h4 = document.createElement('h4')
+    h4.className = "right-align";
+    var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
+    h4.appendChild(textoServicioTotal)
+    divTotalInferior.appendChild(h4)
+
+    var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipo");
+    divbotonPagarAnticipo.innerHTML = divbotonPagarAnticipo;
+    var buttonPagarAnticipo = document.createElement('button')
+    buttonPagarAnticipo.setAttribute ( 'id', 'buttonPagarAnticipo' );
+    buttonPagarAnticipo.style.width = "100%";
+    buttonPagarAnticipo.style.height = "45px";
+    buttonPagarAnticipo.style.marginTop = "20px";
+    buttonPagarAnticipo.className = "btn waves-effect waves-light";
+    buttonPagarAnticipo.setAttribute ( 'type', 'submit' );
+    var textoButtonPagarAnticipo = document.createTextNode("Pagar/Anticipo");
+    buttonPagarAnticipo.appendChild(textoButtonPagarAnticipo)
+    divbotonPagarAnticipo.appendChild(buttonPagarAnticipo)
+
+    var divbotonGenerarFactura = document.getElementById("botonGenerarFactura");
+    divbotonGenerarFactura.innerHTML = divbotonGenerarFactura;
+    var buttonGenerarFactura = document.createElement('button')
+    buttonGenerarFactura.setAttribute ( 'id', 'buttonGenerarFactura' );
+    buttonGenerarFactura.style.width = "100%";
+    buttonGenerarFactura.style.height = "45px";
+    buttonGenerarFactura.style.marginTop = "20px";
+    buttonGenerarFactura.className = "btn waves-effect waves-light disabled";
+    buttonGenerarFactura.setAttribute ( 'type', 'submit' );
+    var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
+    buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
+    divbotonGenerarFactura.appendChild(buttonGenerarFactura)
+
+    var divbotonGenerarNota = document.getElementById("botonGenerarNota");
+    divbotonGenerarNota.innerHTML = divbotonGenerarNota;
+    var buttonGenerarNota = document.createElement('button')
+    buttonGenerarNota.setAttribute ( 'id', 'buttonGenerarNota' );
+    buttonGenerarNota.style.width = "100%";
+    buttonGenerarNota.style.height = "45px";
+    buttonGenerarNota.style.marginTop = "20px";
+    buttonGenerarNota.className = "btn waves-effect waves-light disabled";
+    buttonGenerarNota.setAttribute ( 'type', 'submit' );
+    var textoButtonGenerarNota = document.createTextNode("Generar Nota");
+    buttonGenerarNota.appendChild(textoButtonGenerarNota)
+    divbotonGenerarNota.appendChild(buttonGenerarNota)
+
+    var divbotoVerFactura = document.getElementById("botonVerFactura");
+    divbotoVerFactura.innerHTML = divbotoVerFactura;
+    var buttonVerFactura = document.createElement('button')
+    buttonVerFactura.setAttribute ( 'id', 'buttonVerFactura' );
+    buttonVerFactura.style.width = "100%";
+    buttonVerFactura.style.height = "45px";
+    buttonVerFactura.className = "left btn waves-effect waves-light disabled";
+    buttonVerFactura.setAttribute ( 'type', 'submit' );
+    var textoButtonVerFactura = document.createTextNode("Ver Factura");
+    buttonVerFactura.appendChild(textoButtonVerFactura)
+    divbotoVerFactura.appendChild(buttonVerFactura)
 
 }
+
 function eliminarTabla(){
     var parrafo = document.getElementById("cargoconsultaArticuloResult");
     parrafo.parentNode.removeChild(parrafo);

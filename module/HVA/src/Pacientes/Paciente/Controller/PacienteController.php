@@ -478,6 +478,7 @@ class PacienteController extends AbstractActionController
                                 if($cargoconsultaEntity->getIdservicio() != null){
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                        'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
                                         'cantidad' => $cargoconsultaEntity->getCantidad(),
                                         'servicio' => $cargoconsultaEntity->getServicio()->getServicioNombre(),
                                         'descripcion' => $cargoconsultaEntity->getServicio()->getServicioDescripcion(),
