@@ -442,6 +442,7 @@ class PacienteController extends AbstractActionController
                                     }
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
+                                        'status' => $cargoconsultaEntity->getConsulta()->getConsultaStatus(),
                                         'cantidad' => $cargoconsultaEntity->getCantidad(),
                                         'articulo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulo()->getArticuloNombre(),
                                         'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),

@@ -1158,6 +1158,7 @@ $("#guardarCargoconsultaArticulo").click(function() {
             $.each( cargoconsultaEntity, function( key, value ) {
                 cargoconsultaArray.push({
                     "idcargoconsulta" : value.idcargoconsulta,
+                    "status" : value.status,
                     "cantidad" : value.cantidad,
                     "articulo" : value.articulo,
                     "descripcion" : value.descripcion,
@@ -2258,6 +2259,11 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
     // Crea las celdas
     for (var i = 0; i < cargoconsultaArray.length; i++) {
+
+        var subTotalArticulo = parseFloat(cargoconsultaArray[i]["subtotal"]);
+        var status = cargoconsultaArray[i]["status"];
+
+        alert(status)
         // Crea las hileras de la tabla
         var hilera = document.createElement("tr");
 
@@ -2344,6 +2350,8 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     // appends <table> into <body>
     div.appendChild(tabla);
 
+    subTotalResponse(status, subTotalArticulo, null)
+
 }
 
 function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
@@ -2381,14 +2389,11 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     // posiciona el <thead> debajo del elemento <tbody>
     tabla.appendChild(tblHead);
 
-    var subTotal = 0;
-    var anticipoCantidad = 0;
-    var status = null;
     // Crea las celdas
     for (var i = 0; i < cargoconsultaArray.length; i++) {
 
-        subTotal = subTotal+parseFloat(cargoconsultaArray[i]["subtotal"]);
-        status = cargoconsultaArray[i]["status"];
+        var subTotalServicio = parseFloat(cargoconsultaArray[i]["subtotal"]);
+        var status = cargoconsultaArray[i]["status"];
 
         // Crea las hileras de la tabla
         var hilera = document.createElement("tr");
@@ -2471,21 +2476,15 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     // appends <table> into <body>
     div.appendChild(tabla);
 
-    subTotalResponse(cargoconsultaArray)
-
+    subTotalResponse(status, null, subTotalServicio)
 }
 
-function subTotalResponse(cargoconsultaArray) {
+var subTotal = 0;
+function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null) {
 
-    var subTotal = 0;
+    subTotal += subTotalArticulo+subTotalServicio;
+
     var anticipoCantidad = 0;
-    var status = null;
-    // Crea las celdas
-    for (var i = 0; i < cargoconsultaArray.length; i++) {
-
-        subTotal = subTotal+parseFloat(cargoconsultaArray[i]["subtotal"]);
-        status = cargoconsultaArray[i]["status"];
-    }
 
     var divTotalSuperior = document.getElementById("totalSuperior");
     divTotalSuperior.innerHTML = divTotalSuperior;
