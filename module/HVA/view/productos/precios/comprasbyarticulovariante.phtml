@@ -1,0 +1,39 @@
+<div id="<?php echo $modalName?>" class="modal">    
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s2">
+                <img width="100" height="100" src="<?php if(is_null($producto["imagen"]) || empty($producto["imagen"]) ){echo '/img/productos/no-image.png';}else{echo $producto['imagen'];}?>">
+            </div>
+            <div class="col s10" style="padding-top: 20px;">
+                <h4><?php echo $producto['nombre']?></h4>
+                <h6><?php echo $producto['descripcion']?></h6>
+            </div>
+        </div>
+        <div class="row">
+            <fieldset>
+                <legend>Historial de compras</legend>
+                <table class="striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Proveedor</th>
+                            <th>Costo unitario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($compras as $compra) : ?>
+                        <tr>
+                            <td><?php echo $compra['fecha']?></td>
+                            <td><?php echo $compra['proveedor']?></td>
+                            <td><?php echo $compra['costo']?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+    </div>
+</div>

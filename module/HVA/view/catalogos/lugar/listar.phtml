@@ -1,52 +1,75 @@
 <?php
-$title = 'Lugares';
-$this->headTitle($title);
+    $title = 'Áreas de trabajo';
+    $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div class="row" id="table-header">
     <form class="col s12">
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>    
         <div class="row" style="position: relative">
             <div class="col s6" id="new-container">
-                <a href="<?php echo $this->url('lugar', array('action'=>'nuevo'));?>"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Lugar</a>
+                <a href="/catalogos/lugar/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nueva área de trabajo</a>
             </div>
-            <div class="input-field col s4 offset-s2" id="search-container">
-                <i class="mdi-action-search prefix"></i>
-                <input id="icon_prefix" type="text">
-                <label for="icon_prefix">Buscar</label>
-            </div>
+              <div class="input-field col s4 offset-s2" id="search-container">
+              <i class="mdi-action-search prefix"></i>
+              <input id="icon_prefix" type="text">
+              <label for="icon_prefix">Buscar</label>
+            </div>     
         </div>
     </form>
 </div>
-<table id="tabla-productos" class="striped">
+<table id="tabla-lugars" class="striped">
     <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Descripción</th>
-    </tr>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Opciones</th>
+        </tr>
     </thead>
     <tbody>
-    <?php $direction = 'right'?>
-    <?php foreach ($lugares as $lugar) : ?>
+    <?php foreach($lugars as $lugar) : ?>
         <tr>
             <td><?php echo $lugar->getLugarNombre() ?></td>
             <td><?php echo $lugar->getLugarDescripcion() ?></td>
             <td>
-                <a class="tooltipped" data-position="left" data-tooltip="Visualizar" href='<?php echo "/catalogos/lugar/ver/".$lugar->getIdLugar()?>'><i class="tiny mdi-image-remove-red-eye"></i></a>
-                &nbsp;&nbsp;
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/lugar/editar/".$lugar->getIdLugar()?>'><i class="tiny mdi-action-assignment"></i></a>
-                &nbsp;&nbsp;
-                <a class="tooltipped" data-position="right" data-tooltip="Eliminar" href='<?php echo "/catalogos/lugar/eliminar/".$lugar->getIdLugar()?>'><i class="tiny mdi-action-delete"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/lugar/editar/".$lugar->getIdlugar()?>'><i class="tiny mdi-action-assignment"></i></a>
+                &nbsp;&nbsp;    
+                <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-lugar-".$lugar->getIdlugar()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
         </tr>
+        <!-- Delete Modal Structure -->
+        <div id="delete-modal-lugar-<?php echo $lugar->getIdLugar()?>" class="modal ">
+            <div class="modal-content" id="delete-modal-container">
+                <div class="row" id="delete-modal-header-container">
+                    <div class="col s5 offset-s4">
+                        <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <p><?php echo "Esta seguro que desea eliminar el área de trabajo: ". $lugar->getLugarNombre(). " de su catalogo?" ?></p>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-footer">
+                <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                <a href="/catalogos/lugar/eliminar/<?php echo $lugar->getIdLugar()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+              
+            </div>
+        </div>
+        <!-- End Delete Modal Structure -->
     <?php endforeach; ?>
-
     </tbody>
-
 </table>
 <script>
-    $(document).ready(function(){
-
-        $("#tabla-productos").tablesorter({headers:{5:{sorter:false}}});
-
-    });
+$(document).ready(function(){
+        $("#tabla-lugars").tablesorter({headers:{2:{sorter:false}}});
+        $("#tabla-lugars").filterTable({inputSelector: '#search-container input',minRows:1});
+        $('.modal-trigger').leanModal();
+}); 
 </script>

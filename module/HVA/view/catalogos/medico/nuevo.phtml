@@ -17,7 +17,7 @@
                 <?php echo $this->formLabel($medicoForm->get('medico_nombre'));  ?>
                 <?php if($errorsArray['medico_nombre']) :?>
                     <?php foreach ($errorsArray['medico_nombre'] as $error) :?>
-                        <p class="input-error"><?php echo $this->translate("Value is required and can't be empty")?></p>
+                        <p idclass="input-error"><?php echo $this->translate("Value is required and can't be empty")?></p>
                     <?php endforeach;?>
                 <?php endif;?>
             </div>

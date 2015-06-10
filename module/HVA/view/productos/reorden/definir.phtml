@@ -1,0 +1,100 @@
+<?php
+$title = 'Definir punto de reorden';
+$this->headTitle($title);
+?>
+<style>
+    
+</style>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+
+<div class="row" id="table-header">
+    <form class="col s12"> 
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>  
+        <div class="row" style="position: relative">
+            <div class="input-field col s4 offset-s2" id="search-container">
+                <i class="mdi-action-search prefix"></i>
+                <input id="icon_prefix" type="text">
+                <label for="icon_prefix">Buscar</label>
+            </div>     
+        </div>
+    </form>
+</div>
+<form action="/productos/reorden/definir" method="POST">
+   <table id="tabla-articulosreorden" class="table-inputs striped"> 
+       <thead>
+            <tr>
+                <th style="width: 180px">Nombre</th>
+                <th style="min-width: 300px">Descripcion</th>
+                <th  style="width:70px">Opciones</th>
+                <th class="checkbox">Aplicar a todos</th>
+                <?php foreach($lugares as $lugar) :?>
+                    <th  style="width: 100px" id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
+                <?php endforeach;?>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($productos as $producto) : ?>
+                
+                <tr id="<?php echo $producto['id'] ?>">
+                    <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
+                    <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
+                    <td class="list">
+                        <li>Mínimo</li>
+                        <li>Reorden</li>
+                        <li>Maximo</li>
+                    </td>
+                    <td class="checkbox">
+                        <p>
+                            <input name="producto-<?php echo $producto['id'].'[todos]'?>" type="checkbox" class="filled-in" id="checkbox-producto-<?php echo $producto['id']?>"/>
+                            <label for="checkbox-producto-<?php echo $producto['id']?>"></label>
+                        </p>
+                    </td>
+                    <?php foreach ($lugares as $lugar) : ?>
+                        <?php $lugarName = $lugar['nombre']; ?>
+                        <td class="list-inputs">
+                        <li><input name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'?>[id]" type="hidden" value="<?php echo $lugar['id']?>"></li>
+                            <li><input value="<?php echo $producto['reorden'][$lugarName]['min']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']' ?>[min]" type="text"></li>
+                            <li><input value="<?php echo $producto['reorden'][$lugarName]['reorden']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'  ?>[reorden]" type="text" value=""></li>
+                            <li><input value="<?php echo $producto['reorden'][$lugarName]['max']?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'     ?>[max]" type="text" value=""></li>
+                        </td>
+                    <?php endforeach;?>
+                </tr>
+            <?php endforeach;?>
+        </tbody>
+   </table>
+    <div class="row">
+        <div class="col s2 offset-s10">
+            <button style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                <i class="mdi-content-save left"></i>
+            </button>
+        </div>
+    </div>
+</form>    
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('input[type=checkbox]').on('click',function(){
+            var tr = $(this).closest('tr');
+            var activeTd  = tr.children('td.list-inputs').first();
+            var disabledTd = activeTd.siblings('.list-inputs');
+            if($(this).is(':checked')){
+               disabledTd.find('input').attr('disabled',true);
+               
+            }else{
+               disabledTd.find('input').attr('disabled',false);
+            }
+            
+        });
+        
+        $('input[type=checkbox]').trigger('click');
+        
+        $("#tabla-articulosreorden").filterTable({inputSelector: '#search-container input',minRows:2});
+            
+    });
+
+
+</script>

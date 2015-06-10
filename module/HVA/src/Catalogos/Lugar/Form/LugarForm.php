@@ -6,42 +6,27 @@ use Zend\Form\Form;
 
 class LugarForm extends Form
 {
-    public function __construct($name = null)
+    public function __construct()
     {
         // we want to ignore the name passed
         parent::__construct('LugarForm');
         $this->setAttribute('method', 'post');
-
-        $this->add(array(
-            'name' => 'idlugar',
-            'type' => 'Hidden',
-        ));
+        
         $this->add(array(
             'name' => 'lugar_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre *',
             ),
         ));
         $this->add(array(
             'name' => 'lugar_descripcion',
-            'type' => 'Text',
+            'type' => 'Textarea',
             'options' => array(
-                'label' => 'Descripción',
+                'label' => 'Descripcion',
             ),
         ));
+        
 
-        $this->add(array(
-            'name' => 'submit',
-            'type' => 'submit',
-            'attributes' => array(
-                'value' => 'Guargar',
-                'id' => 'submitbutton',
-                'class' => 'btn waves-effect waves-light',
-            ),
-            'options' => array(
-                'label' => 'Guardar',
-            ),
-        ));
     }
 }

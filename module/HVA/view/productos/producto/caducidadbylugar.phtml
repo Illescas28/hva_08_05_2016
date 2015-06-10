@@ -1,0 +1,31 @@
+<!-- Modal Structure -->
+<div id="<?php echo $modalName?>" class="modal">
+  <div class="modal-content">
+        <h4><?php echo $modal['lugar_nombre']?></h4>
+        <div class="row">
+            <div class="col s12">
+                <fieldset>
+                    <legend>Producto</legend>
+                    <p style="color: #00086e;margin: 0"><?php echo $modal['nombre']?></p>
+                </fieldset>
+                <fieldset>
+                    <legend>Descripcion</legend>
+                    <p style="color: #00086e;margin: 0"><?php echo $modal['descripcion']?></p>
+                </fieldset>
+                <fieldset>
+                    <legend>Existencias</legend>
+                    <p style="color: #00086e;margin: 0"><?php echo $modal['existencias']?></p>
+                </fieldset>
+                <fieldset>
+                    <legend>Caducidades</legend>
+                    <?php foreach ($modal['caducidad'] as $key => $value) :?>
+                        <p style="color: #00086e;margin: 0"><?php echo (int)$value['cantidad'].' : '.$value['caducidad']?></p>
+                    <?php endforeach;?>
+                </fieldset>
+            </div>
+        </div>
+  </div>
+  <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+    </div>
+</div>

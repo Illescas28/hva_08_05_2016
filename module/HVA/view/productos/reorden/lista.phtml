@@ -1,0 +1,154 @@
+<?php
+$title = 'Productos a reordenar';
+$this->headTitle($title);
+?>
+<style>
+    th.two-columns{
+        width: 160px;
+    }
+    th.two-columns div.row{
+        margin: 0;
+    }
+    th.two-columns p{
+        margin: 0;
+        margin-top: 10px;
+        font-style: italic;
+    }
+    
+    td.two-columns div.col{
+        text-align: center;
+    }
+    
+</style>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row" id="table-header">
+    <form class="col s12"> 
+        <div class="row" style="position: relative">
+            <div class="input-field col s4 offset-s2" id="search-container">
+                <i class="mdi-action-search prefix"></i>
+                <input id="icon_prefix" type="text">
+                <label for="icon_prefix">Buscar</label>
+            </div>     
+        </div>
+    </form>
+</div>
+<table id="tabla-reorden" class="striped">
+    <thead>
+        <tr>
+            <!--columnas fijas-->
+            <th style="width: 180px">Nombre</th>
+            <th style="width: 300px">Descripcion</th>
+            <th>Codigo de barras</th>
+            <th class="number">Precio</th>
+            <!--columnas dinamicas-->
+            <?php foreach($lugares as $lugar) :?>
+            <th class="two-columns">
+                <div class="row">
+                    <div style="text-align: center"class="col s12">
+                        <?php echo $lugar['nombre']?>
+                    </div>
+                    <div class="col s6">
+                        <p>Existencias</p>
+                    </div>
+                    <div class="col s6">
+                         <p>Reorden</p>
+                    </div>
+                </div>                
+            </th>
+            <?php endforeach;?>
+            <th style="text-align: center">Imagen</th>
+            <th >Ver</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($productos as $producto) : ?>
+           
+            <tr id="<?php echo $producto['id'] ?>">
+                <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
+                <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
+                <td style="padding-left: 0"><?php echo $producto['codigo_barras'] ?></td>
+                <td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>
+                <?php foreach($lugares as $lugar) :?>
+                    <?php $lugarNombre = $lugar['nombre']?>
+                    <td class="two-columns">
+                        <div class="row">
+                            <div class="col s6">
+                                <?php if($producto['reorden'][$lugarNombre]['reorden'] >= $producto['reorden'][$lugarNombre]['existencias']) :?>
+                                    <p style="color: red; font-weight: bold"><?php echo $producto['reorden'][$lugarNombre]['existencias']?></p>
+                                <?php else :?>
+                                     <p><?php echo $producto['reorden'][$lugarNombre]['existencias']?></p>
+                                <?php endif;?>
+                            </div>
+                            <div class="col s6">
+                                <p><?php echo $producto['reorden'][$lugarNombre]['reorden']?></p>
+                            </div>
+                        </div>
+                    </td>
+                <?php endforeach;?>
+                <td class="td-image">
+                    <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>
+                        <img class="responsive-img" src="/img/productos/no-image.png" width="80" height="80">
+                    <?php else : ?>
+                        <img class="materialboxed responsive-img" src="<?php echo $producto['imagen'] ?>" width="80" height="80">
+                    <?php endif;?>
+                </td>
+                <td><a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a></td>
+            </tr>
+            <!-- View Modal Structure -->
+                <?php
+                    $array = array();
+                    $propiedades = explode(' - ', $producto['descripcion']);
+                    foreach ($propiedades as $kpropiedad => $vpropiedad){
+                        $propiedaExplode = explode(':', $vpropiedad);
+                        $propiedad = $propiedaExplode[0];
+                        $valor = $propiedaExplode[1]; 
+                        $array[] = array('propiedad' =>  $propiedad, 'valor' => $valor);
+                    }
+                ?>
+                <div id="view-modal-articulo-<?php echo $producto['id']?>" class="modal preview-articulos-registro">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s2">
+                                <img width="100" height="100" src="<?php if(is_null($producto['imagen']) || empty($producto['imagen']) ){echo '/img/productos/no-image.png';}else{echo $producto['imagen'];}?>">
+                            </div>
+                            <div class="col s10" style="padding-top: 20px;">
+                                <h4><?php echo $producto['nombre']?></h4>
+                                <h6><?php echo $producto['codigo_barras']?></h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <?php foreach ($array as $k => $v) :?>
+                            <fieldset>
+                                <legend><?php echo $v['propiedad']?></legend>
+                                <p style="color: #00086e"><?php echo $v['valor']?></p>
+                            </fieldset>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    </div>
+                </div>
+                <!-- END View Modal Structure -->
+        <?php endforeach;?>
+    </tbody>
+</table>
+<script>
+    $(document).ready(function(){
+        var lastIndex= $('thead tr th').last().index();
+        var nextToLastIndex= lastIndex - 1;
+
+        //Obtenemos los ultimos dos index de nuestra tabla para quitarle el sorter
+        var myHeaders = {};
+        myHeaders[2] = {sorter: false };
+        myHeaders[lastIndex] = {sorter: false };
+        myHeaders[nextToLastIndex] = {sorter: false };
+
+        $("#tabla-reorden").tablesorter({headers:myHeaders});
+        $('.tooltipped').tooltip({delay: 50});
+        $("#tabla-reorden").filterTable({inputSelector: '#search-container input',minRows:2});
+        $('.modal-trigger').leanModal();
+        
+    });
+        
+</script>

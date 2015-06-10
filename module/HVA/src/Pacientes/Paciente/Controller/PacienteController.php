@@ -272,7 +272,7 @@ class PacienteController extends AbstractActionController
                             'existencia' => $lugarinventarioCantidad,
                             'articulo' => $articuloNombre,
                             'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
-                            'costo' => $ordencompradetalleEntity->getOrdencompradetallePrecio(),
+                            'precio' => $ordencompradetalleEntity->getArticulovariante()->getArticulovariantePrecio(),
                             'salida' => $lugarNombre,
                         );
                         array_push($ordencompradetalleArray, $ordencompradetalle);
@@ -410,9 +410,9 @@ class PacienteController extends AbstractActionController
                             }
                         }
                         // Validar precio, caducidad y existencia de ordencompradetalle
-                        $existencia = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleExistencia();
+                        $existencia = $cargoconsulta->getLugarinventario()->getLugarinventarioCantidad();
                         $caducidad = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetalleCaducidad();
-                        $precio = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetallePrecio();
+                        $precio = $cargoconsulta->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio();
 
                         if($existencia > 0){
                             if($caducidad < date('Y-m-d')){
@@ -448,7 +448,7 @@ class PacienteController extends AbstractActionController
                                         'descripcion' => utf8_encode($propiedadNombre." ".$propiedadvalorNombre),
                                         'salida' => $cargoconsultaEntity->getLugarinventario()->getLugar()->getLugarNombre(),
                                         'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
-                                        'costo' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getOrdencompradetallePrecio(),
+                                        'precio' => $cargoconsultaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
                                         'subtotal' => $cargoconsultaEntity->getMonto(),
                                     );
                                     array_push($cargoconsultaArray, $cargoconsulta);
@@ -483,7 +483,7 @@ class PacienteController extends AbstractActionController
                                         'cantidad' => $cargoconsultaEntity->getCantidad(),
                                         'servicio' => $cargoconsultaEntity->getServicio()->getServicioNombre(),
                                         'descripcion' => $cargoconsultaEntity->getServicio()->getServicioDescripcion(),
-                                        'costo' => $cargoconsultaEntity->getServicio()->getServicioPrecio(),
+                                        'precio' => $cargoconsultaEntity->getServicio()->getServicioPrecio(),
                                         'subtotal' => $cargoconsultaEntity->getMonto(),
                                         'fechahora' => date('Y-m-d H:i:s'),
                                     );

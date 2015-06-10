@@ -1,0 +1,233 @@
+<?php
+$title = 'Registro de productos';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row" id="table-header">
+    <form class="col s12"> 
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>  
+        <div class="row" style="position: relative">
+            <div class="input-field col s4 offset-s2" id="search-container">
+                <i class="mdi-action-search prefix"></i>
+                <input id="icon_prefix" type="text">
+                <label for="icon_prefix">Buscar</label>
+            </div>     
+        </div>
+    </form>
+</div>
+<form action="/productos/registro" method="POST" enctype="multipart/form-data">
+    <table id="tabla-articulos" class="table-inputs striped">
+        <thead>
+            <tr>
+                <th style="width: 180px">Nombre</th>
+                <th style="width: 300px">Descripcion</th>
+                <th>Codigo de barras</th>
+                <th class="number">Costo</th>
+                <th class="number">Precio</th>
+                <th class="number">IVA</th>
+                <th style="text-align: center">Imagen</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <?php foreach ($productos as $producto) : ?>
+                
+                <tr id="<?php echo $producto['id'] ?>">
+                    <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
+                    <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
+                    <td style="padding-left: 0"class="input-table"><span style="visibility: hidden"><?php echo $producto['codigo_barras'] ?></span><input name="producto-<?php echo $producto['id'] ?>[codigobarras]"id="articulovariante_codigobarras" type="text" value="<?php echo $producto['codigo_barras'] ?>"></td>
+                    <td class="input-table number"><span style="visibility: hidden"><?php echo $producto['costo'] ?></span><input name="producto-<?php echo $producto['id'] ?>[costo]" id="articulovariante_costo" type="text" value="<?php echo number_format((float)$producto['costo'], 2, '.', ''); ?>"></td>
+                    <td class="input-table number"><span style="visibility: hidden"><?php echo $producto['precio'] ?></span><input name="producto-<?php echo $producto['id'] ?>[precio]" id="articulovariante_precio" type="text" value="<?php echo number_format((float)$producto['precio'], 2, '.', ''); ?>"></td>
+                    <td class="number">
+                        <span style="visibility: hidden"><?php if($producto['iva'] == 'exento') {echo 'exento'; } elseif ($producto['iva'] == '0'){echo '0';}else{echo '16';}?></span>
+                        <div class="input-field">
+                            <select name="producto-<?php echo $producto['id'] ?>[iva]">
+                              <option <?php if($producto['iva'] == 'exento') {echo 'selected="selected"'; }?>value="exento">exento</option>
+                              <option <?php if($producto['iva'] == '0') {echo 'selected="selected"'; }?>value="0">0%</option>
+                              <option <?php if($producto['iva'] == '16' ) echo 'selected="selected"'; ?> value="16">16%</option>
+                            </select>
+                         </div>
+                    </td>
+                    <!--<td class="input-table"><input name="producto-<?php echo $producto['id'] ?>[iva]" id="articulovariante_iva" type="text" value="<?php echo $producto['iva'] ?>"></td>-->
+                    <td class="td-image"> 
+                        <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>
+                            <a class="addimg tooltipped" ata-position="left" data-tooltip="Agregar Imagen" href="javascript:void(0)"><i class=" small mdi-image-camera-alt"></i></a>
+                            <input name="producto-<?php echo $producto['id']?>" type="file" style="display: none">
+                             
+                        <?php else : ?>
+                            <img class="materialboxed responsive-img" src="<?php echo $producto['imagen'] ?>" width="80" height="80">
+                            <a class="deleteimg" href="javascript:void(0)"><p>Eliminar</p></a>   
+                        <?php endif; ?>
+
+                    </td>
+                    <td>
+                        <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
+                        &nbsp;&nbsp;
+                        <a class="tooltipped" data-position="left" data-tooltip="Detalles" href="<?php echo "#modal-producto-".$producto['id'].'-compras'?>"><i class="tiny mdi-action-assignment"></i></a>
+                        &nbsp;&nbsp;    
+                        <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-articulo-".$producto['id'] ?>'><i class="tiny mdi-action-delete"></i></a>
+                    </td>
+                </tr>
+                <!-- View Modal Structure -->
+                <?php
+                    $array = array();
+                    $propiedades = explode(' - ', $producto['descripcion']);
+                    foreach ($propiedades as $kpropiedad => $vpropiedad){
+                        $propiedaExplode = explode(':', $vpropiedad);
+                        $propiedad = $propiedaExplode[0];
+                        $valor = $propiedaExplode[1]; 
+                        $array[] = array('propiedad' =>  $propiedad, 'valor' => $valor);
+                    }
+                ?>
+                <div id="view-modal-articulo-<?php echo $producto['id']?>" class="modal preview-articulos-registro">
+                    <div class="modal-content">
+                        <div class="row">
+                            <div class="col s2">
+                                <img width="100" height="100" src="<?php if(is_null($producto['imagen']) || empty($producto['imagen']) ){echo '/img/productos/no-image.png';}else{echo $producto['imagen'];}?>">
+                            </div>
+                            <div class="col s10" style="padding-top: 20px;">
+                                <h4><?php echo $producto['nombre']?></h4>
+                                <h6><?php echo $producto['codigo_barras']?></h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <?php foreach ($array as $k => $v) :?>
+                            <fieldset>
+                                <legend><?php echo $v['propiedad']?></legend>
+                                <p style="color: #00086e"><?php echo $v['valor']?></p>
+                            </fieldset>
+                            <?php endforeach;?>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                    </div>
+                </div>
+                <!-- END View Modal Structure -->
+                <!-- Delete Modal Structure -->
+                <div id="delete-modal-articulo-<?php echo $producto['id']?>" class="modal">
+                    <div class="modal-content" id="delete-modal-container">
+                        <div class="row" id="delete-modal-header-container">
+                            <div class="col s5 offset-s4">
+                                <h4><i class="mdi-alert-warning prefix"></i> ATENCION</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col s12">
+                                <?php 
+                                $deleteMessage = "Esta seguro que desea eliminar el producto '". $producto['nombre']."'";
+                                if(!empty($producto['descripcion'])){
+                                    $deleteMessage .= " con la descripción '".$producto['descripcion']."'";
+                                }
+                                $deleteMessage .='?';
+                                ?>
+                                <p><?php echo $deleteMessage?></p>
+                            </div>
+                        </div>
+                    </div>              
+                    <div class="modal-footer">
+                        <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
+                        <a href="/productos/registro/eliminar/<?php echo $producto['id']?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>       
+                    </div>
+                </div>
+                <!-- END Delete Modal Structure -->
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col s2 offset-s10">
+            <button style="width: 100%; height: 45px; margin-top: 15px"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                <i class="mdi-content-save left"></i>
+            </button>
+        </div>
+    </div>
+</form>
+<script>
+    $(document).ready(function(){
+        $("#tabla-articulos").tablesorter({headers:{6:{sorter:false},7:{sorter:false},2:{sorter:false}}});
+        $('select').material_select();
+        $('.tooltipped').tooltip({delay: 50});
+        $("#tabla-articulos").filterTable({inputSelector: '#search-container input',minRows:2});
+        $('.modal-trigger').leanModal();
+    });
+        
+    $('a.addimg').on('click',function(){
+        var input = $(this).siblings('input');
+        $(input).trigger('click');
+    });
+    
+    $('input[type=file]').on('change',function(){
+        readURL(this);
+    });
+    
+    $('a.deleteimg').on('click',function(){
+        var td = $(this).parent();
+        var id = td.parent().attr('id');
+        td.find('div').remove();
+        td.find('img').remove();
+        td.append('<a class="addimg tooltipped" ata-position="left" data-tooltip="Agregar Imagen" href="javascript:void(0)"><i class=" small mdi-image-camera-alt"></i></a>');
+        td.append('<input  id="producto-img-' + id + '" type="file" name="producto-'+id+'" style="display: none">');
+        td.find('a.addimg').on('click',function(){
+        var input = $(this).siblings('input');
+            $(input).trigger('click');
+        });
+        td.find('input[type=file]').on('change',function(){
+            readURL(this);
+        });
+        $(this).remove();
+    });
+    
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                var td = $(input).parent();
+                var icon = $(input).siblings('a');
+                $(icon).remove();
+                td.append('<img class="materialboxed responsive-img" src="' + e.target.result + '" width="80" height="80px" style="height: 80px;" >');
+                $('<a class="deleteimg" href="javascript:void(0)">').append('<p>Eliminar</p>').appendTo(td);
+                td.find('a.deleteimg').on('click',function(){
+                    var td = $(this).parent();
+                    var id = td.parent().attr('id');
+                    td.find('div').remove();
+                    td.find('img').remove();
+                    td.find('input[type=file]').remove();
+                    td.append('<a class="addimg tooltipped" ata-position="left" data-tooltip="Agregar Imagen" href="javascript:void(0)"><i class=" small mdi-image-camera-alt"></i></a>');
+                   td.append('<input  id="producto-img-' + id + '" type="file" name="producto-'+id+'" style="display: none">');
+                    td.find('a.addimg').on('click',function(){
+                    var input = $(this).siblings('input');
+                        $(input).trigger('click');
+                    });
+                    td.find('input[type=file]').on('change',function(){
+                        readURL(this);
+                    });
+                    $(this).remove();
+                });
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+        
+    }
+    
+    //Modal compras por articulo
+        $('td i.mdi-action-assignment').on('click',function(){
+            var idarticulovariante = $(this).closest('tr').attr('id');
+            var modalName = '#modal-producto-'+idarticulovariante+'-compras';
+            var descripcion = $(this).closest('td').siblings('#descripcion').text();
+            console.log(descripcion);
+            $.get('/productos/precios/comprasbyarticulovariante',
+                {idarticulovariante:idarticulovariante,descripcion:descripcion},
+                function(modal){
+                    $('table').after(modal);
+                    $(modalName).openModal();
+                }
+            );  
+        });
+</script>

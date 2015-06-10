@@ -107,8 +107,17 @@ return array(
                     ),
                 ),
             ),
-
             // Catalogos
+            'upload' => array(
+                'type'    => 'literal',
+                'options' => array(
+                    'route'    => '/upload',
+                    'defaults' => array(
+                        'controller' => 'HVA\Controller\Index',
+                        'action'     => 'upload',
+                    ),
+                ),
+            ),
             'proveedor' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -126,7 +135,7 @@ return array(
             'tipo' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/catalogos/tipo[/:action][/:id][/]',
+                    'route'    => '/catalogos/articulo/tipo[/:action][/:id][/]',
                     'constraints' => array(
                         'action' => 'nuevo|editar|eliminar',
                         'id'     => '[0-9]+',
@@ -137,16 +146,58 @@ return array(
                     ),
                 ),
             ),
-            'lugar' => array(
+            'udm' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/catalogos/lugar[/:action][/:id][/]',
+                    'route'    => '/catalogos/udm[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'ver|nuevo|editar|eliminar',
+                        'action' => 'nuevo|editar|eliminar',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
-                        'controller' => 'Catalogos\Lugar\Controller\Lugar',
+                        'controller' => 'Catalogos\UDM\Controller\UDM',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'articulo' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/articulo[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Articulo\Controller\Articulo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'articulovariante' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/articulovariante[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Articulovariante\Controller\Articulovariante',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'propiedad' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/propiedad[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Propiedad\Controller\Propiedad',
                         'action'     => 'listar',
                     ),
                 ),
@@ -170,7 +221,7 @@ return array(
                 'options' => array(
                     'route'    => '/catalogos/medico[/:action][/:id][/]',
                     'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar|ver',
+                        'action' => 'nuevo|editar|eliminar',
                         'id'     => '[0-9]+',
                     ),
                     'defaults' => array(
@@ -207,8 +258,7 @@ return array(
                     ),
                 ),
             ),
-            /*
-            'servicio' => array(
+            /*'servicio' => array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/catalogos/servicio[/:action][/:id][/]',
@@ -221,8 +271,7 @@ return array(
                         'action'     => 'listar',
                     ),
                 ),
-            ),
-            */
+            ),*/
             'banco' => array(
                 'type'    => 'segment',
                 'options' => array(
@@ -237,10 +286,131 @@ return array(
                     ),
                 ),
             ),
+            'lugar' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/lugar[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Lugar\Controller\Lugar',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            //Productos
+            'productos-registro' => array(
+                'type'    => 'Segment',
+                'options' => array(
+                    'route'    => '/productos/registro[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'controller' => 'Productos\Registro\Controller\Registro',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'productos-existencias' => array(
+                'type'    => 'Literal',
+                'options' => array(
+                    'route'    => '/productos/existencias',
+                    'defaults' => array(
+                        'controller' => 'Productos\Existencias\Controller\Existencias',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'productos-existencias-caducidadbylugar'=>array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/caducidadbylugar',
+                            'defaults' => array(
+                                'controller' => 'Productos\Existencias\Controller\Existencias',
+                                'action'     => 'caducidadbylugar',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'productos-precios' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/productos/precios',
+                    'defaults' => array(
+                        'controller' => 'Productos\Precios\Controller\Precios',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'productos-precios-comprasbyarticulovariante'=>array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/comprasbyarticulovariante',
+                            'defaults' => array(
+                                'controller' => 'Productos\Precios\Controller\Precios',
+                                'action'     => 'comprasbyarticulovariante',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'productos-producto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/productos',
+                    'defaults' => array(
+                        'controller' => 'Productos\Producto\Controller\Producto',
+                        'action'     => 'index',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'productos-producto-caducidadbylugar'=>array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/caducidadbylugar',
+                            'defaults' => array(
+                                'controller' => 'Productos\Producto\Controller\Producto',
+                                'action'     => 'caducidadbylugar',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+            'productos-reorden' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/productos/reorden',
+                    'defaults' => array(
+                        'controller' => 'Productos\Reorden\Controller\Reorden',
+                        'action'     => 'lista',
+                    ),
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'productos-reorden-definir'=>array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/definir',
+                            'defaults' => array(
+                                'controller' => 'Productos\Reorden\Controller\Reorden',
+                                'action'     => 'definir',
+                            ),
+                        ),
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/:action',
+                    'route'    => '/auth',
                     'defaults' => array(
                         'controller' => 'Auth\Controller\Auth',
                         'action'     => 'login',
@@ -287,6 +457,13 @@ return array(
             'Catalogos\Especialidad\Controller\Especialidad'            => 'Catalogos\Especialidad\Controller\EspecialidadController',
             'Catalogos\Cuarto\Controller\Cuarto'                        => 'Catalogos\Cuarto\Controller\CuartoController',
             //'Catalogos\Servicio\Controller\Servicio'                    => 'Catalogos\Servicio\Controller\ServicioController',
+
+            //Modulo Productos
+            'Productos\Registro\Controller\Registro'                   => 'Productos\Registro\Controller\RegistroController',
+            'Productos\Existencias\Controller\Existencias'             => 'Productos\Existencias\Controller\ExistenciasController',
+            'Productos\Producto\Controller\Producto'                   =>   'Productos\Producto\Controller\ProductoController',
+            'Productos\Reorden\Controller\Reorden'                     =>   'Productos\Reorden\Controller\ReordenController',
+            'Productos\Precios\Controller\Precios'                     =>   'Productos\Precios\Controller\PreciosController',
 
             // Módulo Pacientes
             'Pacientes\Paciente\Controller\Paciente'                    => 'Pacientes\Paciente\Controller\PacienteController',

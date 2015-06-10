@@ -16,11 +16,13 @@
                     <?php echo $this->formText($articuloForm->get('articulo_nombre')); ?>
                     <?php echo $this->formLabel($articuloForm->get('articulo_nombre')); ?>
                 </div>
+                <p id="articulo_nombre" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
             <div class="col s4">
                 <div class="input-field">
                     <?php echo $this->formSelect($articuloForm->get('idtipo')); ?>
                 </div>
+                <p id="idtipo" class="input-error"> <i class="tiny mdi-alert-error"></i>Por favor seleccine un tipo de articulo</p>
             </div>
         </div>
         <div class="row">
@@ -35,7 +37,6 @@
 </div>
 <a href="javascript:void(0)" id="new_property" ><i class="mdi-content-add-circle-outline prefix"></i>Agregar propiedad</a>
 <br><br>
-
 <div class="row">
     <fieldset id="properties">
         <legend>Propiedades</legend>
@@ -150,6 +151,25 @@
               var first = $("div#propiedad-"+rowId).find('div#property_values').first();
               first.parent().removeClass('offset-s8').addClass('offset-s4');
           });
+          
+           //Validacion de campos obligatorios 
+        $(document).on('click', 'form button[type=submit]', function(e) {
+            $('p.input-error').hide();
+            var isValid = true;
+            //console.log($('select[name=idtipo]').val());
+            if(!$('input[name=articulo_nombre]').val().length){
+               isValid = false;
+               $('p#articulo_nombre').show();
+               e.preventDefault(); 
+            }
+            
+            if($('select[name=idtipo]').val() ===''){
+                isValid = false;
+                $('p#idtipo').show();
+                e.preventDefault(); 
+            }
+
+        });
           
           
 

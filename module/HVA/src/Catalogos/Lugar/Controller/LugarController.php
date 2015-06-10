@@ -16,153 +16,172 @@ use Lugar;
 use LugarQuery;
 use BasePeer;
 
+
 class LugarController extends AbstractActionController
 {
     public function nuevoAction()
     {
-        $LugarForm = new LugarForm();
         $request = $this->getRequest();
-        if ($request->isPost()) {
-            $LugarFilter = new LugarFilter();
-            $LugarForm->setInputFilter($LugarFilter->getInputFilter());
-            $LugarForm->setData($request->getPost());
+        
+        //Intanciamos nuestro formulario
+        $lugarForm = new LugarForm();
+        
+        if ($request->isPost()) { //Si hicieron POST
+            
+            //Instanciamos nuestro filtro
+            $lugarFilter = new LugarFilter();
 
-            if ($LugarForm->isValid()) {
-                $Lugar = new Lugar();
-                foreach($LugarForm->getData() as $LugarKey => $LugarValue){
-                    if($LugarKey != 'idlugar' && $LugarKey != 'submit'){
-                        $Lugar->setByName($LugarKey, $LugarValue, BasePeer::TYPE_FIELDNAME);
-                    }
+            //Le ponemos nuestro filtro a nuesto fromulario
+            $lugarForm->setInputFilter($lugarFilter->getInputFilter());
+            
+            //Le ponemos los datos a nuestro formulario
+            $lugarForm->setData($request->getPost());
+            
+            //Validamos nuestro formulario
+            if($lugarForm->isValid()){
+   
+                //Instanciamos un nuevo objeto de nuestro objeto lugar
+                $lugar = new Lugar();
+                
+                //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Lugar
+                foreach ($lugarForm->getData() as $lugarKey => $lugarValue){
+                    $lugar->setByName($lugarKey, $lugarValue, \BasePeer::TYPE_FIELDNAME);
                 }
-                $Lugar->save();
+                
+                //Guardamos en nuestra base de datos
+                $lugar->save();
+                
+                //Agregamos un mensaje
+                $this->flashMessenger()->addMessage('Área de trabajo guardada exitosamente!');
+                
+                //Redireccionamos a nuestro list
                 return $this->redirect()->toRoute('lugar');
+                
+            }else{
+                var_dump($lugarForm->getMessages());   
             }
         }
-        return array('lugarForm' => $LugarForm);
-    }
-
-    public function verAction()
-    {
-        $id = (int) $this->params()->fromRoute('id', 0);
-        if ($id) {
-            $lugarQuery = LugarQuery::create()->filterByIdlugar($id)->findOne();
-        }
-
+        
         return new ViewModel(array(
-            'lugar' => $lugarQuery,
+            'lugarForm' => $lugarForm,
         ));
+
     }
 
     public function listarAction()
     {
-        $lugarsQuery = new \LugarQuery();
+        // Instanciamos nuestro formulario lugarForm
+        $lugarForm = new LugarForm();
 
-        $result = $lugarsQuery->paginate();
+        $lugarQuery = new LugarQuery();
+
+        $result = $lugarQuery->paginate($page,$limit);
 
         $dataCollection = $result->getResults();
-
+        
         return new ViewModel(array(
-            'lugares' => $dataCollection,
+            'lugars' => $dataCollection,
+            'flashMessages' => $this->flashMessenger()->getMessages(),
         ));
+        
     }
 
     public function editarAction()
-    {
-        $id = (int) $this->params()->fromRoute('id', 0);
+    {   
+        $request = $this->getRequest();
+        
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        //Verificamos que el Id lugar que se quiere modificar exista
+        if(!LugarQuery::create()->filterByIdlugar($id)->exists()){
+            $id =0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('lugar', array(
                 'action' => 'nuevo'
             ));
         }
 
-        //Instanciamos nuestra lugarQuery
-        $lugarQuery = LugarQuery::create();
+            //Instanciamos nuestro lugar
+            $lugar = lugarQuery::create()->findPk($id);
+            
+            //Instanciamos nuestro formulario
+            $lugarForm = new LugarForm();
+            
+            //Le ponemos los datos de nuestro lugar a nuestro formulario
+            $lugarForm->setData($lugar->toArray(BasePeer::TYPE_FIELDNAME));
+            
+            if ($request->isPost()) { //Si hicieron POST
+               
+                //Instanciamos nuestro filtro
+                $lugarFilter = new LugarFilter();
 
-        //Verificamos que el Id lugar que se quiere modificar exista
-        if($lugarQuery->create()->filterByIdlugar($id)->exists()){
+                //Le ponemos nuestro filtro a nuesto fromulario
+                $lugarForm->setInputFilter($lugarFilter->getInputFilter());
 
-            $request = $this->getRequest();
-            //Instanciamos nuestra lugarQuery
-            $lugarPKQuery = $lugarQuery->findPk($id);
-            $lugarQueryArray = $lugarPKQuery->toArray(BasePeer::TYPE_FIELDNAME);
-            $LugarForm = new LugarForm();
-            $ElementsLugarForm = $LugarForm->getElements();
-
-            if ($request->isPost()){
-                $LugarArray = array();
-                foreach($ElementsLugarForm as $key=>$value){
-                    if($key != 'submit'){
-                        $LugarArray[$key] = $request->getPost()->$key ? $request->getPost()->$key : $lugarQueryArray[$key];
+                //Le ponemos los datos a nuestro formulario
+                $lugarForm->setData($request->getPost());
+                
+                //Validamos nuestro formulario
+                if($lugarForm->isValid()){
+                    
+                    //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Lugar
+                    foreach ($lugarForm->getData() as $lugarKey => $lugarValue){
+                        $lugar->setByName($lugarKey, $lugarValue, \BasePeer::TYPE_FIELDNAME);
                     }
-                }
-            }else{
-                foreach($lugarQueryArray as $lugarQueryKey => $lugarQueryValue){
-                    $LugarArray[$lugarQueryKey] = $lugarQueryArray[$lugarQueryKey];
+                    
+                    //Guardamos en nuestra base de datos
+                    $lugar->save();
 
-                }
-            }
+                    //Agregamos un mensaje
+                    $this->flashMessenger()->addMessage('Área de trabajo modificada exitosamente!');
 
-            $LugarFilter = new LugarFilter();
-            $LugarForm->setInputFilter($LugarFilter->getInputFilter());
-            $LugarForm->setData($LugarArray);
-
-            if ($LugarForm->isValid()) {
-                foreach($LugarForm->getData() as $LugarKey => $LugarValue){
-                    if($LugarKey != 'submit'){
-                        $lugarPKQuery->setByName($LugarKey, $LugarValue, BasePeer::TYPE_FIELDNAME);
-                    }
-                }
-                // Si no modifican nada, permanecemos en el formulario.
-                if($lugarPKQuery->isModified()){
-                    $lugarPKQuery->save();
+                    //Redireccionamos a nuestro list
                     return $this->redirect()->toRoute('lugar');
-                }
-            }else{
-                $messageArray = array();
-                foreach ($LugarForm->getMessages() as $key => $value){
-                    foreach($value as $val){
-                        //Obtenemos el valor de la columna con error
-                        $message = $key.' '.$val;
-                        array_push($messageArray, $message);
-                    }
-                }
 
-                return new ViewModel(array(
-                    'Error' => $messageArray,
-                ));
+                }else{
+                    
+                }  
             }
-        }
+            
+            return new ViewModel(array(
+                'id'  => $id,
+                'lugarForm' => $lugarForm,
+            ));
+        
 
-        return array(
-            'id' => $id,
-            'lugarForm' => $LugarForm,
-        );
     }
 
     public function eliminarAction()
     {
-        $id = (int) $this->params()->fromRoute('id', 0);
+        //Cachamos el valor desde nuestro params
+        $id = (int) $this->params()->fromRoute('id');
+        
+        //Verificamos que el Id lugar que se quiere eliminar exista
+        if(!LugarQuery::create()->filterByIdlugar($id)->exists()){
+            $id=0;
+        }
+        //Si es incorrecto redireccionavos al action nuevo
         if (!$id) {
             return $this->redirect()->toRoute('lugar');
         }
+        
+        
+            
+            //Instanciamos nuestro lugar
+            $lugar = LugarQuery::create()->findPk($id);
+            
+            $lugar->delete();
+            
+            //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Área de trabajo eliminada exitosamente!');
 
-        $request = $this->getRequest();
-        if ($request->isPost()) {
-            $del = $request->getPost('del', 'No');
-
-            if ($del == 'Yes') {
-                $id = (int) $request->getPost('id');
-                LugarQuery::create()->filterByIdlugar($id)->delete();
-            }
-
-            // Redireccionamos a los provedores
+            //Redireccionamos a nuestro list
             return $this->redirect()->toRoute('lugar');
-        }
+            
+        
 
-        $lugarEntity = LugarQuery::create()->filterByIdlugar($id)->findOne();
-        return array(
-            'id'    => $id,
-            'lugar' => $lugarEntity->toArray(BasePeer::TYPE_FIELDNAME)
-        );
     }
 }
+

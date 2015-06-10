@@ -25,7 +25,7 @@ class ProveedorFilter implements InputFilterAwareInterface
 
             $inputFilter->add(array(
                 'name'     => 'proveedor_nombre',
-                'required' => false,
+                'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
                     array('name' => 'StringTrim'),

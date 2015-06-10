@@ -1,6 +1,6 @@
 <?php
-$title = 'Editar lugar';
-$this->headTitle($title);
+    $title = "Área de trabajo: ". $lugarForm->get('lugar_nombre')->getValue();
+    $this->headTitle($title);
 ?>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <?php $lugarForm->setAttribute('action', '/catalogos/lugar/editar/'.$id);?>
@@ -10,14 +10,19 @@ $this->headTitle($title);
 <div class="row">
     <fieldset>
         <legend>Datos Generales</legend>
-        <div class="col s4">
-            <div class="input-field">
-                <?php echo $this->formText($lugarForm->get('lugar_nombre')); ?>
-                <?php echo $this->formLabel($lugarForm->get('lugar_nombre')); ?>
+        <div class="row">
+            <div class="col s6">
+                <div class="input-field">
+                    <?php echo $this->formText($lugarForm->get('lugar_nombre')); ?>
+                    <?php echo $this->formLabel($lugarForm->get('lugar_nombre')); ?>
+                </div>
+                <p id="lugar_nombre" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
-           <div class="input-field">
-                <?php echo $this->formText($lugarForm->get('lugar_descripcion')); ?>
-                <?php echo $this->formLabel($lugarForm->get('lugar_descripcion')); ?>
+            <div class="col s12">
+                <div class="input-field">
+                    <?php echo $this->formText($lugarForm->get('lugar_descripcion')); ?>
+                    <?php echo $this->formLabel($lugarForm->get('lugar_descripcion')); ?>
+                </div>
             </div>
         </div>
     </fieldset>
@@ -31,7 +36,27 @@ $this->headTitle($title);
 </div>
 <?php echo $this->form()->closeTag(); ?>
 <script type="text/javascript">
-    $(document).ready(function() {
-        $('select').material_select();
+    $(document).ready(function() {        
+        //Utilizamos plugin de cache para almacenar los valores del formunlario en cache en caso de error
+        //$('#ArticuloForm'   ).formcache();
+        
+        //Inicializamos el select de materialize
+         $('select').material_select();
+        
+
+           //Validacion de campos obligatorios 
+        $(document).on('click', 'form button[type=submit]', function(e) {
+            $('p.input-error').hide();
+            var isValid = true;
+            //console.log($('select[name=idtipo]').val());
+            if(!$('input[name=lugar_nombre]').val().length){
+               isValid = false;
+               $('p#lugar_nombre').show();
+               e.preventDefault(); 
+            }
+            
+        });
+          
+
     });
 </script>

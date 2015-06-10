@@ -652,7 +652,7 @@ $("#buscarCargoconsultaArticulo").click(function() {
                     "existencia" : value.existencia,
                     "articulo" : value.articulo,
                     "descripcion" : value.descripcion,
-                    "costo" : value.costo,
+                    "precio" : value.precio,
                     "salida" : value.salida
                 });
             });
@@ -872,7 +872,7 @@ $("#buscarCargoconsultaServicio").click(function() {
                     div.innerHTML = div;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
-                    var textoServicioPrecio = document.createTextNode("Costo: "+values.servicio_precio);
+                    var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
                     var textoCargoconsultaFecha = document.createTextNode("Fecha: "+values.cargoconsulta_fecha);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoServicioNombre);
@@ -960,7 +960,7 @@ function generaTablaBuscarConsultaArticulo(ordencompradetalleArray) {
     tabla.className = "hoverable striped";
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
-    var thArray = ['Existencias', 'Articulo', 'Descripción', 'Costo', 'Salida']
+    var thArray = ['Existencias', 'Articulo', 'Descripción', 'Precio', 'Salida']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -1015,7 +1015,7 @@ function generaTablaBuscarConsultaArticulo(ordencompradetalleArray) {
                 hilera.appendChild(celda);
             }
             if(j == 3){
-                var textoCelda = document.createTextNode("$"+ordencompradetalleArray[i]["costo"]);
+                var textoCelda = document.createTextNode("$"+ordencompradetalleArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
@@ -1047,7 +1047,7 @@ function generaTablaBuscarConsultaServicio(servicioArray) {
     tabla.className = "hoverable striped";
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
-    var thArray = ['Servicio', 'Descripción', 'Costo']
+    var thArray = ['Servicio', 'Descripción', 'Precio']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -1164,7 +1164,7 @@ $("#guardarCargoconsultaArticulo").click(function() {
                     "descripcion" : value.descripcion,
                     "salida" : value.salida,
                     "fechahora" : value.fechahora,
-                    "costo" : value.costo,
+                    "precio" : value.precio,
                     "subtotal" : value.subtotal
                 });
             });
@@ -1226,7 +1226,7 @@ $("#guardarCargoconsultaServicio").click(function() {
                     "cantidad" : value.cantidad,
                     "servicio" : value.servicio,
                     "descripcion" : value.descripcion,
-                    "costo" : value.costo,
+                    "precio" : value.precio,
                     "subtotal" : value.subtotal,
                     "fechahora" : value.fechahora
                 });
@@ -1422,7 +1422,7 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Costo', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -1483,7 +1483,7 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
@@ -1550,7 +1550,7 @@ function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Servicio', /*'Descripción',*/ 'Costo', 'Subtotal', 'Fecha/hora', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', /*'Descripción',*/ 'Precio', 'Subtotal', 'Fecha/hora', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -1603,7 +1603,7 @@ function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
             }
             */
             if(j == 2){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
@@ -1701,7 +1701,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     "existencia" : value.existencia,
                     "articulo" : value.articulo,
                     "descripcion" : value.descripcion,
-                    "costo" : value.costo,
+                    "precio" : value.precio,
                     "salida" : value.salida
                 });
             });
@@ -2045,7 +2045,7 @@ function buscarCargoconsultaServicio(idservicio){
                     div.innerHTML = div;
                     var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                     var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
-                    var textoServicioPrecio = document.createTextNode("Costo: "+values.servicio_precio);
+                    var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
                     var textoCargoconsultaFecha = document.createTextNode("Fecha: "+values.cargoconsulta_fecha);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoServicioNombre);
@@ -2144,7 +2144,7 @@ function buscarCargoconsultaServicio(idservicio){
                         div.innerHTML = div;
                         var textoServicioNombre = document.createTextNode("Servicio: "+values.servicio_nombre);
                         var textoServicioDescripcion = document.createTextNode("Descrpción: "+values.servicio_descripcion);
-                        var textoServicioPrecio = document.createTextNode("Costo: "+values.servicio_precio);
+                        var textoServicioPrecio = document.createTextNode("Precio: "+values.servicio_precio);
                         var textoCargoconsultaFecha = document.createTextNode("Fecha: "+values.cargoconsulta_fecha);
                         var textoCantidad = document.createTextNode("Cantidad: ");
                         div.appendChild(textoServicioNombre);
@@ -2233,7 +2233,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Costo', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -2263,7 +2263,6 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
         var subTotalArticulo = parseFloat(cargoconsultaArray[i]["subtotal"]);
         var status = cargoconsultaArray[i]["status"];
 
-        alert(status)
         // Crea las hileras de la tabla
         var hilera = document.createElement("tr");
 
@@ -2299,7 +2298,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
@@ -2365,7 +2364,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Costo', 'Subtotal', 'Fecha/hora', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Precio', 'Subtotal', 'Fecha/hora', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -2420,7 +2419,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 3){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["costo"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }

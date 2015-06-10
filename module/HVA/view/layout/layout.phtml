@@ -3,7 +3,6 @@
 <html lang="en" style="height: 100%">
 <head>
     <meta charset="utf-8">
-
     <?php echo $this->headTitle('HVA '. $this->translate('Hospital Valle de Atemajac'))->setSeparator(' - ')->setAutoEscape(false) ?>
 
     <!--Let browser know website is optimized for mobile-->
@@ -19,9 +18,11 @@
         ->prependStylesheet($this->basePath('css/style.css'))
         ->prependStylesheet($this->basePath('css/materialize.css'));
     ?>
+
     <!-- Scripts -->
     <?php echo $this->headScript()
         ->prependFile($this->basePath('js/jquery-ui-1-10-1.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/formcache.min.js'), 'text/javascript')
         ->prependFile($this->basePath('js/filterTable.js'), 'text/javascript')
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
         ->prependFile($this->basePath('js/materialize.js'), 'text/javascript')
@@ -37,11 +38,11 @@
         </div>
         <div class="col s9" id="module_list">
             <ul>
-                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_administracion'>Administración <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_pacientes'>Pacientes <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_productos'>Productos<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_catalogos'>Catalogos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a id="navbar_caja">Caja</a></li>
                 <li><a>almacen</a></li>
-                <li><a>Artículos</a></li>
                 <li><a>Farmacia</a></li>
                 <li><a>Admisión</a></li>
                 <li><a>Compras</a></li>
@@ -71,68 +72,93 @@
             <?php echo $this->content?>
         </div>
     </div>
-    <!-- Dropdown Structures -->
-    <ul id='dropdown_administracion' class='dropdown-content'>
-        <li><a href="#!">Bancos</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Compras</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Cuentas por pagar</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Reportes</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Modulos</a></li>
-    </ul>
-    <!-- Dropdown Structures -->
-    <!-- Pacientes -->
-    <ul id='dropdown_pacientes' class='dropdown-content'>
-        <li><a href="<?php echo $this->url('pacientes', array('action'=>'listar'));?>">Listado de Pacientes</a></li>
-        <li class="divider"></li>
-        <li><a href="<?php echo $this->url('pacientes', array('action'=>'actuales'));?>">Pacientes Actuales</a></li>
-        <li class="divider"></li>
-        <li><a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>">Admisión de pacientes</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Pacientes Actuales</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Generación de cargos a</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Programar cita paciente</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Alta y facturación</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Cancelación de facturas</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Histórico de pacientes</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Reporte facturas</a></li>
-        <li class="divider"></li>
-        <li><a href="#!">Reporte quirúrgico</a></li>
-    </ul>
-
-    <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
-        <li><a href="#!">Ver Perfil</a></li>
-        <li class="divider"></li>
-        <li>
-            <a href="/out">Cerrar sesión</a>
-        </li>
-    </ul>
-    <div class="row z-depth-1"> <!--id="footer-container">-->
+<!--    <div class="row z-depth-1" id="footer-container">
         <div class="col s12" id="footer">
             <p>Hospital del Valle de Atemajac - &copy Todos los derechos reservados 2015 </p>
         </div>
-    </div>
+    </div>-->
 </div>
+
+<!-- Dropdown Catalogos -->
+<ul id='dropdown_catalogos' class='dropdown-content'>
+    <li><a href="#!">Productos</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Bancos</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Cuartos</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Consultorios</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Especialidades</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Lugares</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Medicos</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Proveedores</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Servicios</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">UDM</a></li>
+    
+</ul>
+<!-- Dropdown  Pacientes -->
+<ul id='dropdown_pacientes' class='dropdown-content'>
+    <li><a href="<?php echo $this->url('pacientes', array('action'=>'listar'));?>">Listado de Pacientes</a></li>
+    <li class="divider"></li>
+    <li><a href="<?php echo $this->url('pacientes', array('action'=>'actuales'));?>">Pacientes Actuales</a></li>
+    <li class="divider"></li>
+    <li><a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>">Admisión de pacientes</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Pacientes Actuales</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Generación de cargos a</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Programar cita paciente</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Alta y facturación</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Cancelación de facturas</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Histórico de pacientes</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Reporte facturas</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Reporte quirúrgico</a></li>
+</ul>
+<!-- Dropdown  Productos -->
+<ul id='dropdown_productos' class='dropdown-content'>
+    <li><a href="/productos">Productos</a></li>
+    <li class="divider"></li>
+    <li><a href="/productos/precios">Definir precios</a></li>
+    <li class="divider"></li>
+    <li><a href="/productos/reorden/definir">Definir punto de reorden</a></li>
+    <li class="divider"></li>
+    <li><a href="/productos/reorden">Productos en punto de reorden</a></li>
+    <li class="divider"></li>
+    <li><a href="/productos/existencias">Definir existencias</a></li>
+    <li class="divider"></li>
+    <li><a href="/productos/registro">Registro de productos</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">Reporte de productos</a></li>
+</ul>
+
+<ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
+    <li><a href="#!">Ver Perfil</a></li>
+    <li class="divider"></li>
+    <li>
+        <a href="/out">Cerrar sesión</a>
+    </li>
+</ul>
+
 </body>
 </html>
 <script type="text/javascript">
-
     var windowsHeigh = $(window).outerHeight(true);
     var containerHeigh = $("#main-container").outerHeight(true);
     if(windowsHeigh>containerHeigh){
         $("div#footer-container").css('position','absolute');
     }
-
-
     $('.navbar_dropdown').dropdown({
         inDuration: 300,
         outDuration: 225,
@@ -141,7 +167,6 @@
         gutter: 0, // Spacing from edge
         belowOrigin: false // Displays dropdown below the button
     });
-
     $('#navbar_profile').dropdown({
         inDuration: 300,
         outDuration: 225,

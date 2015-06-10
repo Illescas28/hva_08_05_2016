@@ -15,7 +15,7 @@ class ProveedorForm extends Form
             'name' => 'proveedor_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre de la empresa *',
             ),
         ));
         $this->add(array(

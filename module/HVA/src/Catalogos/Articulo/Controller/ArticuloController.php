@@ -18,6 +18,8 @@ use BasePeer;
 use TipoQuery;
 use Propiedad;
 use Propiedadvalor;
+use Articulovariante;
+use Articulovariantevalor;
 
 class ArticuloController extends AbstractActionController
 {
@@ -49,7 +51,7 @@ class ArticuloController extends AbstractActionController
 
             //Validamos nuestro formulario de articulo
             if($articuloForm->isValid()){ 
-                var_dump($_POST);
+                
                 //Instanciamos un nuevo objeto de nuestro objeto Articulo
                 $articulo = new Articulo();
                 
@@ -78,25 +80,85 @@ class ArticuloController extends AbstractActionController
                                 $variante->setIdpropiedad($propiedad->getIdpropiedad());
                                 $variante->setPropiedadvalorNombre($varianteValue);
                                 $variante->save();
+                                  
                             }
-                        }          
+                        }                 
                     }
                 }
+                
+                //Despues de haber insertado el esquelo, insertamos en las tablas de variaciones
+                
+                //Comenzamos a itinerar sobre las propiedad para obtener el numero de combinaciones posibles
+                $propiedadCollection = $articulo->getPropiedads();
+                $combinaciones = 0;
+                foreach ($propiedadCollection as $propiedad){
+                    if($combinaciones == 0){
+                         $combinaciones = $propiedad->getPropiedadvalors()->count();
+                    }else{
+                         $combinaciones *= $propiedad->getPropiedadvalors()->count();
+                    }
+                }
+                
+                //De acuerdo al numero de combinaciones posibles insertamos en la tabla articulo variante
+                if($combinaciones>0){
+                    for($i=0;$i<$combinaciones;$i++){
+                        $articulovariante = new \Articulovariante();
+                        $articulovariante->setIdarticulo($articulo->getIdarticulo());
+                        $articulovariante->save();
+                    }
+                }
+                                
+                //Guardamos en un arreglo las propiedades Valores
+                $propiedadValor = array();
+                $propiedadValorCollection = \PropiedadvalorQuery::create()->findByIdarticulo($articulo->getIdarticulo());          
+                foreach ($propiedadValorCollection as $pvk => $pvv){
+                    $idpropiedadNombre = $pvv->getPropiedad()->getPropiedadNombre();
+                    $propiedadValor[$idpropiedadNombre][] = $pvv->toArray();
+                }          
+                
+                $idArticuloVarianteArray = array();
+                $propiedadVarianteCollection = \ArticulovarianteQuery::create()->findByIdarticulo($articulo->getIdarticulo());
+
+                foreach ($propiedadVarianteCollection as $propiedadVariante){
+                    $idArticuloVarianteArray[] = $propiedadVariante->getIdArticuloVariante();
+                }
+
+                $i = 0;
+                foreach ($propiedadValor as $key => $value){
+                    $php .= 'foreach ($propiedadValor[' . $key . '] as $k' . $key . ' => $v' . $key . '){';           
+                }
+                foreach ($propiedadValor as $key => $value){
+                    $php .= '$articulovariantevalor = new \Articulovariantevalor();';
+                    $php .= '$articulovariantevalor->setIdarticulo($articulo->getIdarticulo())';
+                    $php .= '->setIdpropiedad($v'.$key.'["Idpropiedad"])';
+                    $php .= '->setIdpropiedadvalor($v'.$key.'["Idpropiedadvalor"])';
+                    $php .= '->setIdarticulovariante($idArticuloVarianteArray[$i])';
+                    $php .= '->save();';          
+                }
+                $php .= '$i++;';
+                foreach ($propiedadValor as $key => $value){
+                    $php .= '}';           
+                }
+                
+                eval($php);
+                
+                
+                
 
                 //Agregamos un mensaje
                 $this->flashMessenger()->addMessage('Articulo guardado exitosamente!');
                 
                 //Redireccionamos a nuestro list
-                return $this->redirect()->toRoute('articulo');
+                $this->redirect()->toRoute('articulo');
                 
             }
-            
-        }
         
+        }
+
         return new ViewModel(array(
             'articuloForm' => $articuloForm,
         ));
-
+    
     }
 
     public function listarAction()
@@ -136,13 +198,17 @@ class ArticuloController extends AbstractActionController
             //Instanciamos nuestro articulo
             $articulo = ArticuloQuery::create()->findPk($id);
             
-            //Almacenamos en un arreglo todas las tipoes
-            $tipoCollection = \EspecialidadQuery::create()->find();
-            $tipoArray = array();
-            foreach ($tipoCollection as $tipo){
-                $tipoArray[$tipo->getIdtipo()] = $tipo->getEspecialidadNombre();
-            }
+            //propiedades
+            $propiedades = \PropiedadQuery::create()->filterByIdarticulo($articulo->getIdarticulo())->find();
             
+            //Almacenamos en un arreglo todas los Tipos
+            $tipoCollection = \TipoQuery::create()->find();
+
+            $tipoArray = array();
+            foreach ($tipoCollection as $tipo) {
+                $tipoArray[$tipo->getIdtipo()] = $tipo->getTipoNombre();
+            }
+
             //Instanciamos nuestro formulario
             $articuloForm = new ArticuloForm($tipoArray);
             
@@ -150,44 +216,130 @@ class ArticuloController extends AbstractActionController
             $articuloForm->setData($articulo->toArray(BasePeer::TYPE_FIELDNAME));
             
             if ($request->isPost()) { //Si hicieron POST
-               
-                //Instanciamos nuestro filtro
+                
+                //Instanciamos nuestro filtro de articulo
                 $articuloFilter = new ArticuloFilter();
-
+                
                 //Le ponemos nuestro filtro a nuesto fromulario
                 $articuloForm->setInputFilter($articuloFilter->getInputFilter());
-
+                
                 //Le ponemos los datos a nuestro formulario
                 $articuloForm->setData($request->getPost());
                 
-                //Validamos nuestro formulario
+                //Validamos nuestro formulario de articulo
                 if($articuloForm->isValid()){
-                    
                     //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Articulo
                     foreach ($articuloForm->getData() as $articuloKey => $articuloValue){
+                        
                         $articulo->setByName($articuloKey, $articuloValue, \BasePeer::TYPE_FIELDNAME);
+                       
                     }
                     
-                    //Guardamos en nuestra base de datos
+                    //Guardamos en nuestra base de datos Articulo
                     $articulo->save();
                     
-                    //Guardamos las propiedades
-                    echo '<pre>';var_dump($_POST); echo '</pre>';
+                    //Si el articulo tiene propiedades las eliminamos para volverlas a setear
+                    if($propiedades->count()){
+                        foreach ($propiedades as $propiedad){
+                            $propiedad->delete(); //Eliminamos de la base de datos
+                        }
+                    }
+                    
+                    //Verificamos si nos enviaron propiedades
+                    foreach($_POST as $key => $value){
+                        if(strstr($key, 'propiedad') && $value['nombre'] != null){                      
+                            //Guardamos las propiedades
+                            $propiedad = new \Propiedad();
+                            $propiedad->setIdarticulo($articulo->getIdarticulo());
+                            $propiedad->setPropiedadNombre($value["nombre"]);
+                            $propiedad->save();
+
+                            //Guardamos las variantes de la propiedad
+                            foreach ($value as $varianteKey => $varianteValue){                            
+                                if($varianteKey !== "nombre" && $varianteValue !=null){                           
+                                    $variante = new \Propiedadvalor();
+                                    $variante->setIdarticulo($articulo->getIdarticulo());
+                                    $variante->setIdpropiedad($propiedad->getIdpropiedad());
+                                    $variante->setPropiedadvalorNombre($varianteValue);
+                                    $variante->save();
+                                }
+                            }          
+                        }
+                    }
+                    
+                    //Despues de haber insertado el esquelo, insertamos en las tablas de variaciones
+                
+                    //Comenzamos a itinerar sobre las propiedad para obtener el numero de combinaciones posibles
+                    $propiedadCollection = $articulo->getPropiedads();
+                    $combinaciones = 0;
+                    foreach ($propiedadCollection as $propiedad){
+                        if($combinaciones == 0){
+                             $combinaciones = $propiedad->getPropiedadvalors()->count();
+                        }else{
+                             $combinaciones *= $propiedad->getPropiedadvalors()->count();
+                        }
+                    }
+
+                    //De acuerdo al numero de combinaciones posibles insertamos en la tabla articulo variante
+                    
+                    if($combinaciones>0){
+                        for($i=0;$i<$combinaciones;$i++){
+                            $articulovariante = new \Articulovariante();
+                            $articulovariante->setIdarticulo($articulo->getIdarticulo());
+                            $articulovariante->save();
+                        }
+                    }
+
+                    //Guardamos en un arreglo las propiedades Valores
+                    $propiedadValor = array();
+                    $propiedadValorCollection = \PropiedadvalorQuery::create()->findByIdarticulo($articulo->getIdarticulo());          
+                    foreach ($propiedadValorCollection as $pvk => $pvv){
+                        $idpropiedadNombre = $pvv->getPropiedad()->getPropiedadNombre();
+                        $propiedadValor[$idpropiedadNombre][] = $pvv->toArray();
+                    }          
+
+                    $idArticuloVarianteArray = array();
+                    $propiedadVarianteCollection = \ArticulovarianteQuery::create()->findByIdarticulo($articulo->getIdarticulo());
+
+                    foreach ($propiedadVarianteCollection as $propiedadVariante){
+                        $idArticuloVarianteArray[] = $propiedadVariante->getIdArticuloVariante();
+                    }
+
+                    $i = 0;
+                    foreach ($propiedadValor as $key => $value){
+                        $php .= 'foreach ($propiedadValor[' . $key . '] as $k' . $key . ' => $v' . $key . '){';           
+                    }
+                    foreach ($propiedadValor as $key => $value){
+                        $php .= '$articulovariantevalor = new \Articulovariantevalor();';
+                        $php .= '$articulovariantevalor->setIdarticulo($articulo->getIdarticulo())';
+                        $php .= '->setIdpropiedad($v'.$key.'["Idpropiedad"])';
+                        $php .= '->setIdpropiedadvalor($v'.$key.'["Idpropiedadvalor"])';
+                        $php .= '->setIdarticulovariante($idArticuloVarianteArray[$i])';
+                        $php .= '->save();';          
+                    }
+                    $php .= '$i++;';
+                    foreach ($propiedadValor as $key => $value){
+                        $php .= '}';           
+                    }
+
+                    eval($php);
 
                     //Agregamos un mensaje
-                    $this->flashMessenger()->addMessage('Articulo guardado exitosamente!');
+                    $this->flashMessenger()->addMessage('Articulo Modificado exitosamente!');
 
                     //Redireccionamos a nuestro list
-                    //return $this->redirect()->toRoute('articulo');
-
-                }else{
+                    return $this->redirect()->toRoute('articulo');
                     
-                }  
+                }else{
+
+                }
+
             }
             
             return new ViewModel(array(
                 'id'  => $id,
                 'articuloForm' => $articuloForm,
+                'propiedades' => $propiedades,
             ));
         
 
@@ -220,4 +372,5 @@ class ArticuloController extends AbstractActionController
             return $this->redirect()->toRoute('articulo');
 
     }
+    
 }

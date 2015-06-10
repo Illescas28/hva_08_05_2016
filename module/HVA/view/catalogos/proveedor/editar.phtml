@@ -16,6 +16,7 @@
                     <?php echo $this->formText($proveedorForm->get('proveedor_nombre')); ?>
                     <?php echo $this->formLabel($proveedorForm->get('proveedor_nombre')); ?>
                 </div>
+                 <p id="proveedor_nombre" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             </div>
         </div>
         <div class="col s4">
@@ -23,6 +24,7 @@
                 <?php echo $this->formText($proveedorForm->get('proveedor_contacto')); ?>
                 <?php echo $this->formLabel($proveedorForm->get('proveedor_contacto')); ?>
             </div>
+            <p id="proveedor_contacto" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             <div class="input-field">
                 <?php echo $this->formText($proveedorForm->get('proveedor_direccion')); ?>
                 <?php echo $this->formLabel($proveedorForm->get('proveedor_direccion')); ?>
@@ -45,10 +47,12 @@
                 <?php echo $this->formText($proveedorForm->get('proveedor_ciudad')); ?>
                 <?php echo $this->formLabel($proveedorForm->get('proveedor_ciudad')); ?>
             </div>
+            <p id="proveedor_ciudad" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             <div class="input-field">
                 <?php echo $this->formText($proveedorForm->get('proveedor_estado')); ?>
                 <?php echo $this->formLabel($proveedorForm->get('proveedor_estado')); ?>
             </div>
+            <p id="proveedor_estado" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
             <div class="input-field">
                 <?php echo $this->formText($proveedorForm->get('proveedor_pais')); ?>
                 <?php echo $this->formLabel($proveedorForm->get('proveedor_pais')); ?>
@@ -62,6 +66,8 @@
             <div class="input-field">
                 <?php echo $this->formText($proveedorForm->get('proveedor_telefono')); ?>
                 <?php echo $this->formLabel($proveedorForm->get('proveedor_telefono')); ?>
+                <p id="proveedor_telefono" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>
+                
             </div>
             <div class="input-field">
                 <?php echo $this->formText($proveedorForm->get('proveedor_telefonocelular')); ?>
@@ -82,3 +88,45 @@
     </div>
 </div>
 <?php echo $this->form()->closeTag(); ?>
+<script type="text/javascript">
+    $(document).ready(function() {        
+        //Inicializamos el select de materialize
+         $('select').material_select();
+        
+
+           //Validacion de campos obligatorios 
+        $(document).on('click', 'form button[type=submit]', function(e) {
+            $('p.input-error').hide();
+            var isValid = true;
+            //console.log($('select[name=idtipo]').val());
+            if(!$('input[name=proveedor_nombre]').val().length){
+               isValid = false;
+               $('p#proveedor_nombre').show();
+               e.preventDefault(); 
+            }
+            if(!$('input[name=proveedor_telefono]').val().length){
+               isValid = false;
+               $('p#proveedor_telefono').show();
+               e.preventDefault(); 
+            }
+            if(!$('input[name=proveedor_contacto]').val().length){
+               isValid = false;
+               $('p#proveedor_contacto').show();
+               e.preventDefault(); 
+            }
+            if(!$('input[name=proveedor_ciudad]').val().length){
+               isValid = false;
+               $('p#proveedor_ciudad').show();
+               e.preventDefault(); 
+            }
+            if(!$('input[name=proveedor_estado]').val().length){
+               isValid = false;
+               $('p#proveedor_estado').show();
+               e.preventDefault(); 
+            }
+            
+        });
+          
+
+    });
+</script>
