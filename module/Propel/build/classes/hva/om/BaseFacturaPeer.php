@@ -24,16 +24,22 @@ abstract class BaseFacturaPeer
     const TM_CLASS = 'FacturaTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 15;
+    const NUM_COLUMNS = 17;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 15;
+    const NUM_HYDRATE_COLUMNS = 17;
 
     /** the column name for the idfactura field */
     const IDFACTURA = 'factura.idfactura';
+
+    /** the column name for the idadmision field */
+    const IDADMISION = 'factura.idadmision';
+
+    /** the column name for the idventa field */
+    const IDVENTA = 'factura.idventa';
 
     /** the column name for the iddatosfacturacion field */
     const IDDATOSFACTURACION = 'factura.iddatosfacturacion';
@@ -108,12 +114,12 @@ abstract class BaseFacturaPeer
      * e.g. FacturaPeer::$fieldNames[FacturaPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idfactura', 'Iddatosfacturacion', 'Idconsulta', 'FacturaUrlXml', 'FacturaUrlPdf', 'FacturaFecha', 'FacturaSellosat', 'FacturaCertificadosat', 'FacturaCadenaoriginal', 'FacturaCfdi', 'FacturaMensaje', 'FacturaQrcode', 'FacturaTipodepago', 'FacturaStatus', 'FacturaTipo', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura', 'iddatosfacturacion', 'idconsulta', 'facturaUrlXml', 'facturaUrlPdf', 'facturaFecha', 'facturaSellosat', 'facturaCertificadosat', 'facturaCadenaoriginal', 'facturaCfdi', 'facturaMensaje', 'facturaQrcode', 'facturaTipodepago', 'facturaStatus', 'facturaTipo', ),
-        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA, FacturaPeer::IDDATOSFACTURACION, FacturaPeer::IDCONSULTA, FacturaPeer::FACTURA_URL_XML, FacturaPeer::FACTURA_URL_PDF, FacturaPeer::FACTURA_FECHA, FacturaPeer::FACTURA_SELLOSAT, FacturaPeer::FACTURA_CERTIFICADOSAT, FacturaPeer::FACTURA_CADENAORIGINAL, FacturaPeer::FACTURA_CFDI, FacturaPeer::FACTURA_MENSAJE, FacturaPeer::FACTURA_QRCODE, FacturaPeer::FACTURA_TIPODEPAGO, FacturaPeer::FACTURA_STATUS, FacturaPeer::FACTURA_TIPO, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA', 'IDDATOSFACTURACION', 'IDCONSULTA', 'FACTURA_URL_XML', 'FACTURA_URL_PDF', 'FACTURA_FECHA', 'FACTURA_SELLOSAT', 'FACTURA_CERTIFICADOSAT', 'FACTURA_CADENAORIGINAL', 'FACTURA_CFDI', 'FACTURA_MENSAJE', 'FACTURA_QRCODE', 'FACTURA_TIPODEPAGO', 'FACTURA_STATUS', 'FACTURA_TIPO', ),
-        BasePeer::TYPE_FIELDNAME => array ('idfactura', 'iddatosfacturacion', 'idconsulta', 'factura_url_xml', 'factura_url_pdf', 'factura_fecha', 'factura_sellosat', 'factura_certificadosat', 'factura_cadenaoriginal', 'factura_cfdi', 'factura_mensaje', 'factura_qrcode', 'factura_tipodepago', 'factura_status', 'factura_tipo', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        BasePeer::TYPE_PHPNAME => array ('Idfactura', 'Idadmision', 'Idventa', 'Iddatosfacturacion', 'Idconsulta', 'FacturaUrlXml', 'FacturaUrlPdf', 'FacturaFecha', 'FacturaSellosat', 'FacturaCertificadosat', 'FacturaCadenaoriginal', 'FacturaCfdi', 'FacturaMensaje', 'FacturaQrcode', 'FacturaTipodepago', 'FacturaStatus', 'FacturaTipo', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura', 'idadmision', 'idventa', 'iddatosfacturacion', 'idconsulta', 'facturaUrlXml', 'facturaUrlPdf', 'facturaFecha', 'facturaSellosat', 'facturaCertificadosat', 'facturaCadenaoriginal', 'facturaCfdi', 'facturaMensaje', 'facturaQrcode', 'facturaTipodepago', 'facturaStatus', 'facturaTipo', ),
+        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA, FacturaPeer::IDADMISION, FacturaPeer::IDVENTA, FacturaPeer::IDDATOSFACTURACION, FacturaPeer::IDCONSULTA, FacturaPeer::FACTURA_URL_XML, FacturaPeer::FACTURA_URL_PDF, FacturaPeer::FACTURA_FECHA, FacturaPeer::FACTURA_SELLOSAT, FacturaPeer::FACTURA_CERTIFICADOSAT, FacturaPeer::FACTURA_CADENAORIGINAL, FacturaPeer::FACTURA_CFDI, FacturaPeer::FACTURA_MENSAJE, FacturaPeer::FACTURA_QRCODE, FacturaPeer::FACTURA_TIPODEPAGO, FacturaPeer::FACTURA_STATUS, FacturaPeer::FACTURA_TIPO, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA', 'IDADMISION', 'IDVENTA', 'IDDATOSFACTURACION', 'IDCONSULTA', 'FACTURA_URL_XML', 'FACTURA_URL_PDF', 'FACTURA_FECHA', 'FACTURA_SELLOSAT', 'FACTURA_CERTIFICADOSAT', 'FACTURA_CADENAORIGINAL', 'FACTURA_CFDI', 'FACTURA_MENSAJE', 'FACTURA_QRCODE', 'FACTURA_TIPODEPAGO', 'FACTURA_STATUS', 'FACTURA_TIPO', ),
+        BasePeer::TYPE_FIELDNAME => array ('idfactura', 'idadmision', 'idventa', 'iddatosfacturacion', 'idconsulta', 'factura_url_xml', 'factura_url_pdf', 'factura_fecha', 'factura_sellosat', 'factura_certificadosat', 'factura_cadenaoriginal', 'factura_cfdi', 'factura_mensaje', 'factura_qrcode', 'factura_tipodepago', 'factura_status', 'factura_tipo', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /**
@@ -123,12 +129,12 @@ abstract class BaseFacturaPeer
      * e.g. FacturaPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idfactura' => 0, 'Iddatosfacturacion' => 1, 'Idconsulta' => 2, 'FacturaUrlXml' => 3, 'FacturaUrlPdf' => 4, 'FacturaFecha' => 5, 'FacturaSellosat' => 6, 'FacturaCertificadosat' => 7, 'FacturaCadenaoriginal' => 8, 'FacturaCfdi' => 9, 'FacturaMensaje' => 10, 'FacturaQrcode' => 11, 'FacturaTipodepago' => 12, 'FacturaStatus' => 13, 'FacturaTipo' => 14, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura' => 0, 'iddatosfacturacion' => 1, 'idconsulta' => 2, 'facturaUrlXml' => 3, 'facturaUrlPdf' => 4, 'facturaFecha' => 5, 'facturaSellosat' => 6, 'facturaCertificadosat' => 7, 'facturaCadenaoriginal' => 8, 'facturaCfdi' => 9, 'facturaMensaje' => 10, 'facturaQrcode' => 11, 'facturaTipodepago' => 12, 'facturaStatus' => 13, 'facturaTipo' => 14, ),
-        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA => 0, FacturaPeer::IDDATOSFACTURACION => 1, FacturaPeer::IDCONSULTA => 2, FacturaPeer::FACTURA_URL_XML => 3, FacturaPeer::FACTURA_URL_PDF => 4, FacturaPeer::FACTURA_FECHA => 5, FacturaPeer::FACTURA_SELLOSAT => 6, FacturaPeer::FACTURA_CERTIFICADOSAT => 7, FacturaPeer::FACTURA_CADENAORIGINAL => 8, FacturaPeer::FACTURA_CFDI => 9, FacturaPeer::FACTURA_MENSAJE => 10, FacturaPeer::FACTURA_QRCODE => 11, FacturaPeer::FACTURA_TIPODEPAGO => 12, FacturaPeer::FACTURA_STATUS => 13, FacturaPeer::FACTURA_TIPO => 14, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA' => 0, 'IDDATOSFACTURACION' => 1, 'IDCONSULTA' => 2, 'FACTURA_URL_XML' => 3, 'FACTURA_URL_PDF' => 4, 'FACTURA_FECHA' => 5, 'FACTURA_SELLOSAT' => 6, 'FACTURA_CERTIFICADOSAT' => 7, 'FACTURA_CADENAORIGINAL' => 8, 'FACTURA_CFDI' => 9, 'FACTURA_MENSAJE' => 10, 'FACTURA_QRCODE' => 11, 'FACTURA_TIPODEPAGO' => 12, 'FACTURA_STATUS' => 13, 'FACTURA_TIPO' => 14, ),
-        BasePeer::TYPE_FIELDNAME => array ('idfactura' => 0, 'iddatosfacturacion' => 1, 'idconsulta' => 2, 'factura_url_xml' => 3, 'factura_url_pdf' => 4, 'factura_fecha' => 5, 'factura_sellosat' => 6, 'factura_certificadosat' => 7, 'factura_cadenaoriginal' => 8, 'factura_cfdi' => 9, 'factura_mensaje' => 10, 'factura_qrcode' => 11, 'factura_tipodepago' => 12, 'factura_status' => 13, 'factura_tipo' => 14, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        BasePeer::TYPE_PHPNAME => array ('Idfactura' => 0, 'Idadmision' => 1, 'Idventa' => 2, 'Iddatosfacturacion' => 3, 'Idconsulta' => 4, 'FacturaUrlXml' => 5, 'FacturaUrlPdf' => 6, 'FacturaFecha' => 7, 'FacturaSellosat' => 8, 'FacturaCertificadosat' => 9, 'FacturaCadenaoriginal' => 10, 'FacturaCfdi' => 11, 'FacturaMensaje' => 12, 'FacturaQrcode' => 13, 'FacturaTipodepago' => 14, 'FacturaStatus' => 15, 'FacturaTipo' => 16, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idfactura' => 0, 'idadmision' => 1, 'idventa' => 2, 'iddatosfacturacion' => 3, 'idconsulta' => 4, 'facturaUrlXml' => 5, 'facturaUrlPdf' => 6, 'facturaFecha' => 7, 'facturaSellosat' => 8, 'facturaCertificadosat' => 9, 'facturaCadenaoriginal' => 10, 'facturaCfdi' => 11, 'facturaMensaje' => 12, 'facturaQrcode' => 13, 'facturaTipodepago' => 14, 'facturaStatus' => 15, 'facturaTipo' => 16, ),
+        BasePeer::TYPE_COLNAME => array (FacturaPeer::IDFACTURA => 0, FacturaPeer::IDADMISION => 1, FacturaPeer::IDVENTA => 2, FacturaPeer::IDDATOSFACTURACION => 3, FacturaPeer::IDCONSULTA => 4, FacturaPeer::FACTURA_URL_XML => 5, FacturaPeer::FACTURA_URL_PDF => 6, FacturaPeer::FACTURA_FECHA => 7, FacturaPeer::FACTURA_SELLOSAT => 8, FacturaPeer::FACTURA_CERTIFICADOSAT => 9, FacturaPeer::FACTURA_CADENAORIGINAL => 10, FacturaPeer::FACTURA_CFDI => 11, FacturaPeer::FACTURA_MENSAJE => 12, FacturaPeer::FACTURA_QRCODE => 13, FacturaPeer::FACTURA_TIPODEPAGO => 14, FacturaPeer::FACTURA_STATUS => 15, FacturaPeer::FACTURA_TIPO => 16, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDFACTURA' => 0, 'IDADMISION' => 1, 'IDVENTA' => 2, 'IDDATOSFACTURACION' => 3, 'IDCONSULTA' => 4, 'FACTURA_URL_XML' => 5, 'FACTURA_URL_PDF' => 6, 'FACTURA_FECHA' => 7, 'FACTURA_SELLOSAT' => 8, 'FACTURA_CERTIFICADOSAT' => 9, 'FACTURA_CADENAORIGINAL' => 10, 'FACTURA_CFDI' => 11, 'FACTURA_MENSAJE' => 12, 'FACTURA_QRCODE' => 13, 'FACTURA_TIPODEPAGO' => 14, 'FACTURA_STATUS' => 15, 'FACTURA_TIPO' => 16, ),
+        BasePeer::TYPE_FIELDNAME => array ('idfactura' => 0, 'idadmision' => 1, 'idventa' => 2, 'iddatosfacturacion' => 3, 'idconsulta' => 4, 'factura_url_xml' => 5, 'factura_url_pdf' => 6, 'factura_fecha' => 7, 'factura_sellosat' => 8, 'factura_certificadosat' => 9, 'factura_cadenaoriginal' => 10, 'factura_cfdi' => 11, 'factura_mensaje' => 12, 'factura_qrcode' => 13, 'factura_tipodepago' => 14, 'factura_status' => 15, 'factura_tipo' => 16, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /** The enumerated values for this table */
@@ -264,6 +270,8 @@ abstract class BaseFacturaPeer
     {
         if (null === $alias) {
             $criteria->addSelectColumn(FacturaPeer::IDFACTURA);
+            $criteria->addSelectColumn(FacturaPeer::IDADMISION);
+            $criteria->addSelectColumn(FacturaPeer::IDVENTA);
             $criteria->addSelectColumn(FacturaPeer::IDDATOSFACTURACION);
             $criteria->addSelectColumn(FacturaPeer::IDCONSULTA);
             $criteria->addSelectColumn(FacturaPeer::FACTURA_URL_XML);
@@ -280,6 +288,8 @@ abstract class BaseFacturaPeer
             $criteria->addSelectColumn(FacturaPeer::FACTURA_TIPO);
         } else {
             $criteria->addSelectColumn($alias . '.idfactura');
+            $criteria->addSelectColumn($alias . '.idadmision');
+            $criteria->addSelectColumn($alias . '.idventa');
             $criteria->addSelectColumn($alias . '.iddatosfacturacion');
             $criteria->addSelectColumn($alias . '.idconsulta');
             $criteria->addSelectColumn($alias . '.factura_url_xml');

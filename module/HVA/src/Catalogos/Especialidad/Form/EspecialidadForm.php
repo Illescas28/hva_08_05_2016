@@ -16,14 +16,14 @@ class EspecialidadForm extends Form
             'name' => 'especialidad_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre *',
             ),
         ));
         $this->add(array(
             'name' => 'especialidad_descripcion',
             'type' => 'Textarea',
             'options' => array(
-                'label' => 'Descripcion',
+                'label' => 'Descripción',
             ),
         ));
 

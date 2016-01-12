@@ -11,9 +11,9 @@ return array(
     'router' => array(
         'routes' => array(
             'home' => array(
-                'type' => 'Zend\Mvc\Router\Http\Literal',
+                'type' => 'segment',
                 'options' => array(
-                    'route'    => '/',
+                    'route'    => '/[:action]',
                     'defaults' => array(
                         'controller' => 'HVA\Controller\Index',
                         'action'     => 'index',
@@ -40,13 +40,40 @@ return array(
                         'type'    => 'Segment',
                         'options' => array(
                             'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
                             'defaults' => array(
                             ),
                         ),
+                    ),
+                ),
+            ),
+            //Facturacion
+            'facturacion-facturar' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/facturacion/facturar[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Facturacion\Controller\Facturar',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'facturacion-emitidas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/facturacion/emitidas[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Facturacion\Controller\emitidas',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'facturacion-canceladas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/facturacion/canceladas[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Facturacion\Controller\Canceladas',
+                        'action'     => 'listar',
                     ),
                 ),
             ),
@@ -54,11 +81,7 @@ return array(
             'pacientes' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/paciente[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|ver|actuales|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
+                    'route'    => '/pacientes[/:action][/:id][/]',
                     'defaults' => array(
                         'controller' => 'Pacientes\Paciente\Controller\Paciente',
                         'action'     => 'listar',
@@ -69,10 +92,6 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/consultorio[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|ver|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Pacientes\Consultorio\Controller\Consultorio',
                         'action'     => 'listar',
@@ -83,10 +102,6 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/servicios[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|ver|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Pacientes\Servicio\Controller\Servicio',
                         'action'     => 'listar',
@@ -97,65 +112,99 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/cargoconsulta[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|ver|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Pacientes\Cargoconsulta\Controller\Cargoconsulta',
                         'action'     => 'listar',
                     ),
                 ),
             ),
-            // Catalogos
-            'upload' => array(
-                'type'    => 'literal',
+            'consultaanticipo' => array(
+                'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/upload',
+                    'route'    => '/pacientes/consultaanticipo[/:action][/:id][/]',
                     'defaults' => array(
-                        'controller' => 'HVA\Controller\Index',
-                        'action'     => 'upload',
+                        'controller' => 'Pacientes\Consultaanticipo\Controller\Consultaanticipo',
+                        'action'     => 'listar',
                     ),
                 ),
             ),
+            'pacientes-historico' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/historico[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Historico\Controller\Historico',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            /*
+            'pacientes-historicos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/historicos[/:action][/:id][/]',
+                    'constraints' => array(
+                        'action' => 'nuevo|ver|editar|eliminar',
+                        'id'     => '[0-9]+',
+                    ),
+                    'defaults' => array(
+                        'action' => 'listar',
+                        'controller' => 'Pacientes\Historicos\Controller\Historicos',
+                    ),
+                ),
+            ),
+            */
+            // Módulo Venta
+            'venta' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/venta[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Venta\Paciente\Controller\Paciente',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            /*
+             * Citas 
+             */
+            'citas-agendar' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/agendarcita[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Citas\Controller\Agendarcita',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'citas' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/citas[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Citas\Controller\Citas',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'admisionanticipo' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/pacientes/admisionanticipo[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Pacientes\Admisionanticipo\Controller\Admisionanticipo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            // Catalogos
             'proveedor' => array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/catalogos/proveedor[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Proveedor\Controller\Proveedor',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'tipo' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/articulo/tipo[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Tipo\Controller\Tipo',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'udm' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/udm[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\UDM\Controller\UDM',
                         'action'     => 'listar',
                     ),
                 ),
@@ -164,54 +213,8 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/catalogos/articulo[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Articulo\Controller\Articulo',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'articulovariante' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/articulovariante[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Articulovariante\Controller\Articulovariante',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'propiedad' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/propiedad[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Propiedad\Controller\Propiedad',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            'producto' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/producto[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Producto\Controller\Producto',
                         'action'     => 'listar',
                     ),
                 ),
@@ -220,10 +223,6 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/catalogos/medico[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Medico\Controller\Medico',
                         'action'     => 'listar',
@@ -234,10 +233,6 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/catalogos/especialidad[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Especialidad\Controller\Especialidad',
                         'action'     => 'listar',
@@ -248,40 +243,8 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/catalogos/cuarto[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Cuarto\Controller\Cuarto',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),
-            /*'servicio' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/servicio[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Servicio\Controller\Servicio',
-                        'action'     => 'listar',
-                    ),
-                ),
-            ),*/
-            'banco' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/catalogos/banco[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
-                    'defaults' => array(
-                        'controller' => 'Catalogos\Banco\Controller\Banco',
                         'action'     => 'listar',
                     ),
                 ),
@@ -290,12 +253,19 @@ return array(
                 'type'    => 'segment',
                 'options' => array(
                     'route'    => '/catalogos/lugar[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'nuevo|editar|eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Catalogos\Lugar\Controller\Lugar',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            //Empleados
+            'empleados' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/empleado[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Empleado\Controller\Empleado',
                         'action'     => 'listar',
                     ),
                 ),
@@ -305,10 +275,6 @@ return array(
                 'type'    => 'Segment',
                 'options' => array(
                     'route'    => '/productos/registro[/:action][/:id][/]',
-                    'constraints' => array(
-                        'action' => 'eliminar',
-                        'id'     => '[0-9]+',
-                    ),
                     'defaults' => array(
                         'controller' => 'Productos\Registro\Controller\Registro',
                         'action'     => 'index',
@@ -382,6 +348,16 @@ return array(
                             ),
                         ),
                     ),
+                    'productos-producto-serverside'=>array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/serverside',
+                            'defaults' => array(
+                                'controller' => 'Productos\Producto\Controller\Producto',
+                                'action'     => 'serverside',
+                            ),
+                        ),
+                    ),
                 ),
             ),
             'productos-reorden' => array(
@@ -407,13 +383,130 @@ return array(
                     ),
                 ),
             ),
+            //Compras
+            'compras' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/compras[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Compras\Controller\Compras',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            
+            //Empleados
+            'empleados' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/empleados[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Empleados\Controller\Empleados',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            //Almacen
+            'almacen-transferencias' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/almacen/transferencias[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Almacen\Controller\Transferencias',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            //Caja chica
+            'cajachica-concepto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cajachica/concepto[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Cajachica\Controller\Concepto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'cajachica-movimientos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cajachica/movimientos[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Cajachica\Controller\Concepto',
+                        'action'     => 'movimientos',
+                    ),
+                ),
+            ),
+            'cajachica-movimientos-conceptos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/cajachica/movimientos/getconceptos',
+                    'defaults' => array(
+                        'controller' => 'Cajachica\Controller\Concepto',
+                        'action'     => 'getconceptos',
+                    ),
+                ),
+            ),
+            //Bancos
+            'bancos-concepto' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/bancos/concepto[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Bancos\Controller\Concepto',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
+            'bancos-movimientos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/bancos/movimientos[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Bancos\Controller\Movimientos',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            //Reportes
+            'reportes-ingresos' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/reportes/ingresos[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Reportes\Controller\Ingresos',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
+            'reportes-general' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/reportes/general[/:action][/:id]',
+                    'defaults' => array(
+                        'controller' => 'Reportes\Controller\General',
+                        'action'     => 'index',
+                    ),
+                ),
+            ),
             'auth' => array(
                 'type'    => 'segment',
                 'options' => array(
-                    'route'    => '/auth',
+                    'route'    => '/auth[/:action]',
                     'defaults' => array(
                         'controller' => 'Auth\Controller\Auth',
                         'action'     => 'login',
+                    ),
+                ),
+            ),
+            'notasremision' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/notasremision[/:action]',
+                    'defaults' => array(
+                        'controller' => 'Notasremision\Controller\Notasremision',
+                        'action'     => 'index',
                     ),
                 ),
             ),
@@ -447,6 +540,7 @@ return array(
             'Auth\Controller\Auth' => 'Auth\Controller\AuthController',
 
             // Módulo Catalogos
+
             'Catalogos\Proveedor\Controller\Proveedor'                  => 'Catalogos\Proveedor\Controller\ProveedorController',
             'Catalogos\Tipo\Controller\Tipo'                            => 'Catalogos\Tipo\Controller\TipoController',
             'Catalogos\Articulo\Controller\Articulo'                    => 'Catalogos\Articulo\Controller\ArticuloController',
@@ -457,20 +551,60 @@ return array(
             'Catalogos\Especialidad\Controller\Especialidad'            => 'Catalogos\Especialidad\Controller\EspecialidadController',
             'Catalogos\Cuarto\Controller\Cuarto'                        => 'Catalogos\Cuarto\Controller\CuartoController',
             //'Catalogos\Servicio\Controller\Servicio'                    => 'Catalogos\Servicio\Controller\ServicioController',
+            'Catalogos\Empleado\Controller\Empleado'                    =>  'Catalogos\Empleado\Controller\EmpleadoController',
+            'Catalogos\Lugar\Controller\Lugar'                          =>  'Catalogos\Lugar\Controller\LugarController',
+            'Catalogos\Banco\Controller\Banco'                          =>  'Catalogos\Banco\Controller\BancoController',
+
 
             //Modulo Productos
-            'Productos\Registro\Controller\Registro'                   => 'Productos\Registro\Controller\RegistroController',
-            'Productos\Existencias\Controller\Existencias'             => 'Productos\Existencias\Controller\ExistenciasController',
-            'Productos\Producto\Controller\Producto'                   =>   'Productos\Producto\Controller\ProductoController',
-            'Productos\Reorden\Controller\Reorden'                     =>   'Productos\Reorden\Controller\ReordenController',
-            'Productos\Precios\Controller\Precios'                     =>   'Productos\Precios\Controller\PreciosController',
-
+            'Productos\Registro\Controller\Registro'                            => 'Productos\Registro\Controller\RegistroController',
+            'Productos\Existencias\Controller\Existencias'                      => 'Productos\Existencias\Controller\ExistenciasController',
+            'Productos\Producto\Controller\Producto'                            =>   'Productos\Producto\Controller\ProductoController',
+            'Productos\Reorden\Controller\Reorden'                              =>   'Productos\Reorden\Controller\ReordenController',
+            'Productos\Precios\Controller\Precios'                              =>   'Productos\Precios\Controller\PreciosController',
+            'Pacientes\Consultaanticipo\Controller\Consultaanticipo'            => 'Pacientes\Consultaanticipo\Controller\ConsultaanticipoController',
+            'Pacientes\Admisionanticipo\Controller\Admisionanticipo'            => 'Pacientes\Admisionanticipo\Controller\AdmisionanticipoController',
+            'Pacientes\Historico\Controller\Historico'                          => 'Pacientes\Historico\Controller\HistoricoController',
             // Módulo Pacientes
-            'Pacientes\Paciente\Controller\Paciente'                    => 'Pacientes\Paciente\Controller\PacienteController',
-            'Pacientes\Consultorio\Controller\Consultorio'              => 'Pacientes\Consultorio\Controller\ConsultorioController',
-            'Pacientes\Servicio\Controller\Servicio'                    => 'Pacientes\Servicio\Controller\ServicioController',
-            'Pacientes\Cargoconsulta\Controller\Cargoconsulta'          => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
-        ),
+            'Pacientes\Paciente\Controller\Paciente'                            => 'Pacientes\Paciente\Controller\PacienteController',
+            'Pacientes\Consultorio\Controller\Consultorio'                      => 'Pacientes\Consultorio\Controller\ConsultorioController',
+            'Pacientes\Servicio\Controller\Servicio'                            => 'Pacientes\Servicio\Controller\ServicioController',
+            'Pacientes\Cargoconsulta\Controller\Cargoconsulta'                  => 'Pacientes\Cargoconsulta\Controller\CargoconsultaController',
+            'Pacientes\Citas\Controller\Citas'                                  => 'Pacientes\Citas\Controller\CitasController',
+            'Pacientes\Citas\Controller\Agendarcita'                            => 'Pacientes\Citas\Controller\AgendarcitaController',
+
+            'Pacientes\Historicos\Controller\Historicos'                        => 'Pacientes\Historicos\Controller\HistoricosController',
+            
+
+
+            // Módulo Venta
+            'Venta\Paciente\Controller\Paciente'                                => 'Venta\Paciente\Controller\PacienteController',
+
+            //Modulo Compras
+            'Compras\Controller\Compras'                                        => 'Compras\Controller\ComprasController',
+            
+            //Modulo Empleado
+            'Empleados\Controller\Empleados'                                    => 'Empleados\Controller\EmpleadosController',
+            'Empleados\Controller\Roles'                                        => 'Empleados\Controller\RolesController',
+            //Modulo de almacen
+            'Almacen\Controller\Transferencias'                                 => 'Almacen\Controller\TransferenciasController',
+            //Modulo Caja chica
+            'Cajachica\Controller\Concepto'                                     => 'Cajachica\Controller\ConceptoController',
+            //Modulo Bancos
+            'Bancos\Controller\Concepto'                                        => 'Bancos\Controller\ConceptoController',
+            'Bancos\Controller\Movimientos'                                     => 'Bancos\Controller\MovimientosController',
+            //Reportes
+            'Reportes\Controller\Ingresos'                                      => 'Reportes\Controller\IngresosController',
+            'Reportes\Controller\General'                                       => 'Reportes\Controller\GeneralController',
+            
+            //Facturacion
+            'Facturacion\Controller\Facturar'                                  => 'Facturacion\Controller\FacturarController',
+            'Facturacion\Controller\emitidas'                                   => 'Facturacion\Controller\EmitidasController',
+            'Facturacion\Controller\Canceladas'                                 => 'Facturacion\Controller\CanceladasController',
+            
+            //Notas remision
+            'Notasremision\Controller\Notasremision'                                     => 'Notasremision\Controller\NotasremisionController',
+            ),
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,
@@ -482,6 +616,7 @@ return array(
             'layout/layout'                 => __DIR__ . '/../view/layout/layout.phtml',
             'hva/index/index'               => __DIR__ . '/../view/hva/index/index.phtml',
             'error/404'                     => __DIR__ . '/../view/error/404.phtml',
+            'error/403'                     => __DIR__ . '/../view/error/403.phtml',
             'error/index'                   => __DIR__ . '/../view/error/index.phtml',
         ),
         'template_path_stack' => array(

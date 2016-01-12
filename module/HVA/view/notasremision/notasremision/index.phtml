@@ -1,0 +1,81 @@
+<?php
+    $title = 'Notas de remisión';
+    $this->headTitle($title);
+?>
+
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row" id="table-header">
+    <form class="col s12">
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>    
+        <div class="row" style="position: relative">
+              <div class="input-field col s4 offset-s2" id="search-container">
+              <i class="mdi-action-search prefix"></i>
+              <input id="icon_prefix" type="text">
+              <label for="icon_prefix">Buscar</label>
+            </div>     
+        </div>
+    </form>
+</div>
+<table id="tabla-empleados" class="table striped">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>#Movimiento</th>
+            <th>Paciente</th>
+            <th>Medico</th>
+            <th>Fecha de pago</th>
+            <th>Tipo de pago</th>
+            <th>Total</th>
+            <th>Tipo</th>
+            <th>opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($collection as $entity) :?>
+        <tr id="<?php echo $entity['id']?>">
+            <td><?php echo $entity['fecha']?></td>
+            <td><?php echo $entity['id']?></td>
+            <td><?php echo $entity['paciente']?></td>
+            <td><?php echo $entity['medico']?></td>
+            <td><?php echo $entity['pagada']?></td>
+            <td><?php echo $entity['tipo_pago']?></td>
+            <td class="money"><?php echo $entity['total']?></td>
+            <td><?php echo $entity['tipo']?></td>
+            <td>
+                <a class="nota_pdf" href="javascript:void(0)"><img src="/img/icons/pdf_icon.png"></a>
+            </td>
+        </tr>
+        <?php endforeach;?>
+    </tbody>
+</table>
+<script src="/js/download.js"></script>
+<script>
+$(document).ready(function(){
+         $("#tabla-empleados").tablesorter({headers:{8:{sorter:false}}});
+         $("#tabla-empleados").filterTable({inputSelector: '#search-container input',minRows:1});
+         $('.modal-trigger').leanModal();
+         $('.money').filter(function(){
+             var text = $(this).text();
+             var money = accounting.formatMoney(text);
+             $(this).text(money);
+         });
+         
+         $('a.nota_pdf').on('click',function(){
+             var id = $(this).closest('tr').attr('id');
+             //Hacemos la peticion ajax
+             $.ajax({
+                url:'/notasremision/generar',
+                dataType: 'JSON',
+                data:{id:id},
+                success:function(data){
+                     download('data:application/xml;base64,'+data.base64,data.base64_name,'application/xml');
+                }
+             });
+         });
+        
+}); 
+</script>

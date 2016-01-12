@@ -51,6 +51,7 @@ class OrdencompraTableMap extends TableMap
   2 => 'inventario',
 ));
         $this->addColumn('ordencompra_fechaapagar', 'OrdencompraFechaapagar', 'DATE', true, null, null);
+        $this->addColumn('ordencompra_iva', 'OrdencompraIva', 'DECIMAL', true, 10, null);
         // validators
     } // initialize()
 
@@ -61,6 +62,7 @@ class OrdencompraTableMap extends TableMap
     {
         $this->addRelation('Proveedor', 'Proveedor', RelationMap::MANY_TO_ONE, array('idproveedor' => 'idproveedor', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Ordencompradetalle', 'Ordencompradetalle', RelationMap::ONE_TO_MANY, array('idordencompra' => 'idordencompra', ), 'CASCADE', 'CASCADE', 'Ordencompradetalles');
+        $this->addRelation('Traspaso', 'Traspaso', RelationMap::ONE_TO_MANY, array('idordencompra' => 'idordencompra', ), 'CASCADE', 'CASCADE', 'Traspasos');
     } // buildRelations()
 
 } // OrdencompraTableMap

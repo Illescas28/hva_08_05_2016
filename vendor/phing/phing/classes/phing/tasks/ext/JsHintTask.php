@@ -180,7 +180,7 @@ class JsHintTask extends Task
 
         $this->_checkJsHintIsInstalled();
 
-        $command = 'jshint --reporter=' . $this->reporter . ' ' . implode(' ', $fileList);
+        $command = sprintf('jshint --reporter=%s "%s"', $this->reporter, implode('" "', $fileList));
         $output = array();
         exec($command, $output);
         $output = implode(PHP_EOL, $output);
@@ -192,8 +192,7 @@ class JsHintTask extends Task
         foreach ($xml->file as $file) {
             $fileAttributes = $file->attributes();
             $fileName = (string) $fileAttributes['name'];
-            $fileError = $file->{$this->xmlAttributes['fileError']};
-            foreach ($fileError as $error) {
+            foreach ($file->error as $error) {
                 $errAttr = (array) $error->attributes();
                 $attrs = current($errAttr);
 

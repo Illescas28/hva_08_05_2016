@@ -18,6 +18,9 @@ class ServicioForm extends Form
             'options' => array(
                 'label' => 'Nombre',
             ),
+            'attributes' => array(
+                'required' => 'required',
+            ),
         ));
         $this->add(array(
             'name' => 'servicio_descripcion',
@@ -25,22 +28,9 @@ class ServicioForm extends Form
             'options' => array(
                 'label' => 'Descripción',
             ),
-        ));
-        $this->add(array(
-            'name' => 'servicio_costo',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Float',
-                    'options' => array(
-                        'min' => 0,
-                        'locale' => 'es_MX',
-                    ),
-                ),
+            'attributes' => array(
+                'required' => 'required',
             ),
-            'options' => array(
-                'label' => 'Costo'
-            )
         ));
         $this->add(array(
             'name' => 'servicio_precio',
@@ -56,22 +46,22 @@ class ServicioForm extends Form
             ),
             'options' => array(
                 'label' => 'Precio'
-            )
+            ),
+            'attributes' => array(
+                'required' => 'required',
+            ),
         ));
         $this->add(array(
             'name' => 'servicio_iva',
-            'required' => true,
-            'validators' => array(
-                array(
-                    'name' => 'Float',
-                    'options' => array(
-                        'min' => 0,
-                        'locale' => 'es_MX',
-                    ),
-                ),
-            ),
+            'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'IVA'
+                'label' => 'Status',
+                'empty_option' => 'Seleccione impuesto',
+                'value_options' => array('0' => '0','16' => '16'),
+            ),
+            'attributes' => array(
+                'id' => 'servicio_iva',
+                 'required' => 'required',
             )
         ));
     }

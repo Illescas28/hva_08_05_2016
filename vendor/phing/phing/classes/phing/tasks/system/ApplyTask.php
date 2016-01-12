@@ -21,6 +21,7 @@
 require_once 'phing/Task.php';
 include_once 'phing/types/FileList.php';
 include_once 'phing/types/FileSet.php';
+include_once 'phing/types/DirSet.php';
 
 /**
  * Executes a command on the (filtered) file list/set.
@@ -197,6 +198,18 @@ class ApplyTask extends Task
 
 
     /**
+     * Nested adder, adds a set of dirs (nested dirset attribute).
+     *
+     * @param DirSet $dirSet
+     * @return void
+     */
+    public function addDirSet(DirSet $dirSet)
+    {
+        $this->filesets[] = $dirSet;
+    }
+
+
+    /**
      * Sets the command executable information
      *
      * @param string $executable Executable path
@@ -356,7 +369,7 @@ class ApplyTask extends Task
 
 
     /**
-     * Specify OS (or muliple OS) that must match in order to execute this command.
+     * Specify OS (or multiple OS) that must match in order to execute this command.
      *
      * @param string $os Operating system string (e.g. "Linux")
      *

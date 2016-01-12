@@ -7,6 +7,8 @@
  *
  *
  * @method FacturaQuery orderByIdfactura($order = Criteria::ASC) Order by the idfactura column
+ * @method FacturaQuery orderByIdadmision($order = Criteria::ASC) Order by the idadmision column
+ * @method FacturaQuery orderByIdventa($order = Criteria::ASC) Order by the idventa column
  * @method FacturaQuery orderByIddatosfacturacion($order = Criteria::ASC) Order by the iddatosfacturacion column
  * @method FacturaQuery orderByIdconsulta($order = Criteria::ASC) Order by the idconsulta column
  * @method FacturaQuery orderByFacturaUrlXml($order = Criteria::ASC) Order by the factura_url_xml column
@@ -23,6 +25,8 @@
  * @method FacturaQuery orderByFacturaTipo($order = Criteria::ASC) Order by the factura_tipo column
  *
  * @method FacturaQuery groupByIdfactura() Group by the idfactura column
+ * @method FacturaQuery groupByIdadmision() Group by the idadmision column
+ * @method FacturaQuery groupByIdventa() Group by the idventa column
  * @method FacturaQuery groupByIddatosfacturacion() Group by the iddatosfacturacion column
  * @method FacturaQuery groupByIdconsulta() Group by the idconsulta column
  * @method FacturaQuery groupByFacturaUrlXml() Group by the factura_url_xml column
@@ -53,6 +57,8 @@
  * @method Factura findOne(PropelPDO $con = null) Return the first Factura matching the query
  * @method Factura findOneOrCreate(PropelPDO $con = null) Return the first Factura matching the query, or a new Factura object populated from the query conditions when no match is found
  *
+ * @method Factura findOneByIdadmision(int $idadmision) Return the first Factura filtered by the idadmision column
+ * @method Factura findOneByIdventa(int $idventa) Return the first Factura filtered by the idventa column
  * @method Factura findOneByIddatosfacturacion(int $iddatosfacturacion) Return the first Factura filtered by the iddatosfacturacion column
  * @method Factura findOneByIdconsulta(int $idconsulta) Return the first Factura filtered by the idconsulta column
  * @method Factura findOneByFacturaUrlXml(string $factura_url_xml) Return the first Factura filtered by the factura_url_xml column
@@ -69,6 +75,8 @@
  * @method Factura findOneByFacturaTipo(string $factura_tipo) Return the first Factura filtered by the factura_tipo column
  *
  * @method array findByIdfactura(int $idfactura) Return Factura objects filtered by the idfactura column
+ * @method array findByIdadmision(int $idadmision) Return Factura objects filtered by the idadmision column
+ * @method array findByIdventa(int $idventa) Return Factura objects filtered by the idventa column
  * @method array findByIddatosfacturacion(int $iddatosfacturacion) Return Factura objects filtered by the iddatosfacturacion column
  * @method array findByIdconsulta(int $idconsulta) Return Factura objects filtered by the idconsulta column
  * @method array findByFacturaUrlXml(string $factura_url_xml) Return Factura objects filtered by the factura_url_xml column
@@ -190,7 +198,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idfactura`, `iddatosfacturacion`, `idconsulta`, `factura_url_xml`, `factura_url_pdf`, `factura_fecha`, `factura_sellosat`, `factura_certificadosat`, `factura_cadenaoriginal`, `factura_cfdi`, `factura_mensaje`, `factura_qrcode`, `factura_tipodepago`, `factura_status`, `factura_tipo` FROM `factura` WHERE `idfactura` = :p0';
+        $sql = 'SELECT `idfactura`, `idadmision`, `idventa`, `iddatosfacturacion`, `idconsulta`, `factura_url_xml`, `factura_url_pdf`, `factura_fecha`, `factura_sellosat`, `factura_certificadosat`, `factura_cadenaoriginal`, `factura_cfdi`, `factura_mensaje`, `factura_qrcode`, `factura_tipodepago`, `factura_status`, `factura_tipo` FROM `factura` WHERE `idfactura` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -319,6 +327,90 @@ abstract class BaseFacturaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(FacturaPeer::IDFACTURA, $idfactura, $comparison);
+    }
+
+    /**
+     * Filter the query on the idadmision column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdadmision(1234); // WHERE idadmision = 1234
+     * $query->filterByIdadmision(array(12, 34)); // WHERE idadmision IN (12, 34)
+     * $query->filterByIdadmision(array('min' => 12)); // WHERE idadmision >= 12
+     * $query->filterByIdadmision(array('max' => 12)); // WHERE idadmision <= 12
+     * </code>
+     *
+     * @param     mixed $idadmision The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return FacturaQuery The current query, for fluid interface
+     */
+    public function filterByIdadmision($idadmision = null, $comparison = null)
+    {
+        if (is_array($idadmision)) {
+            $useMinMax = false;
+            if (isset($idadmision['min'])) {
+                $this->addUsingAlias(FacturaPeer::IDADMISION, $idadmision['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idadmision['max'])) {
+                $this->addUsingAlias(FacturaPeer::IDADMISION, $idadmision['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(FacturaPeer::IDADMISION, $idadmision, $comparison);
+    }
+
+    /**
+     * Filter the query on the idventa column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdventa(1234); // WHERE idventa = 1234
+     * $query->filterByIdventa(array(12, 34)); // WHERE idventa IN (12, 34)
+     * $query->filterByIdventa(array('min' => 12)); // WHERE idventa >= 12
+     * $query->filterByIdventa(array('max' => 12)); // WHERE idventa <= 12
+     * </code>
+     *
+     * @param     mixed $idventa The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return FacturaQuery The current query, for fluid interface
+     */
+    public function filterByIdventa($idventa = null, $comparison = null)
+    {
+        if (is_array($idventa)) {
+            $useMinMax = false;
+            if (isset($idventa['min'])) {
+                $this->addUsingAlias(FacturaPeer::IDVENTA, $idventa['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idventa['max'])) {
+                $this->addUsingAlias(FacturaPeer::IDVENTA, $idventa['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(FacturaPeer::IDVENTA, $idventa, $comparison);
     }
 
     /**
@@ -805,7 +897,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      *
      * @return FacturaQuery The current query, for fluid interface
      */
-    public function joinConsulta($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinConsulta($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         $tableMap = $this->getTableMap();
         $relationMap = $tableMap->getRelation('Consulta');
@@ -840,7 +932,7 @@ abstract class BaseFacturaQuery extends ModelCriteria
      *
      * @return   ConsultaQuery A secondary query class using the current class as primary query
      */
-    public function useConsultaQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useConsultaQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
     {
         return $this
             ->joinConsulta($relationAlias, $joinType)

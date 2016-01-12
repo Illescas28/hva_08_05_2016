@@ -1,5 +1,7 @@
 <?php echo $this->doctype(); ?>
+<style>
 
+</style>
 <html lang="en" style="height: 100%">
 <head>
     <meta charset="utf-8">
@@ -13,20 +15,37 @@
 
     <!-- Le styles -->
     <!--Import materialize.css-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.1.0/css/buttons.dataTables.min.css">
     <?php echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
         ->prependStylesheet($this->basePath('css/jquery-ui.css'))
+        ->prependStylesheet($this->basePath('css/lolliclock.css'))
+        //->prependStylesheet($this->basePath('css/timepicki.css'))
         ->prependStylesheet($this->basePath('css/style.css'))
-        ->prependStylesheet($this->basePath('css/materialize.css'));
+        ->prependStylesheet($this->basePath('css/materialize.css'))
+        ->prependStylesheet($this->basePath('css/multiple.css'))
+                ->prependStylesheet($this->basePath('css/token_input/token-input.css'));
+    
+    
     ?>
 
     <!-- Scripts -->
     <?php echo $this->headScript()
+        
+        ->prependFile($this->basePath('js/jquery.tokeninput.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery-ui-1-10-1.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/lolliclock.js'), 'text/javascript')
+        //->prependFile($this->basePath('js/timepicki.js'), 'text/javascript')
         ->prependFile($this->basePath('js/formcache.min.js'), 'text/javascript')
         ->prependFile($this->basePath('js/filterTable.js'), 'text/javascript')
         ->prependFile($this->basePath('js/tablesorter.js'), 'text/javascript')
         ->prependFile($this->basePath('js/materialize.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/comprasreports.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/multiple.js'), 'text/javascript')
+        ->prependFile($this->basePath('js/accounting.js'), 'text/javascript')
         ->prependFile($this->basePath('js/jquery.min.js'), 'text/javascript');
+    
+    
     ?>
 
 </head>
@@ -39,22 +58,25 @@
         <div class="col s9" id="module_list">
             <ul>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_pacientes'>Pacientes <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_ventas'>Venta al publico<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_productos'>Productos<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_compras'>Compras<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_almacen'>Almacen <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_bancos'>Bancos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_caja'>Caja<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>  
                 <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_catalogos'>Catalogos <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
-                <li><a id="navbar_caja">Caja</a></li>
-                <li><a>almacen</a></li>
-                <li><a>Farmacia</a></li>
-                <li><a>Admisión</a></li>
-                <li><a>Compras</a></li>
-                <li><a>Inventario</a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_empleados'>Empleados <i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_facturacion'>Facturacion<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
+                <li><a href="/notasremision" >Notas de remisión</a></li>
+                <li><a class="navbar_dropdown" href="javascript: void(0)" data-activates='dropdown_reportes'>Reportes<i class="mdi-hardware-keyboard-arrow-down"></i></a></li>
             </ul>
         </div>
         <div class="col s2" id="navbar_profile-container">
             <a href="javascript:void(0)" id="navbar_profile" data-activates='dropdown_profile'>
                 <div class="row" style="margin-bottom: 9px;">
                     <div class="col s4" style="margin-top: 15px;">
-                        <?php if(file_exists($_SERVER["DOCUMENT_ROOT"]."/img/profile/img_profile_".$_SESSION["empleado_session"]["empleado_info"]["idempleado"].".png")) :?>
-                            <img style="height: 32px;" class="responsive-img circle" src="/img/profile/img_profile_<?php echo $_SESSION["empleado_session"]["empleado_info"]["idempleado"]?>.png">
+                        <?php if(!is_null($_SESSION["empleado_session"]["empleado_info"]["empleado_imagen"])) :?>
+                            <img style="height: 32px; width: 100%" class="responsive-img circle" src="<?php echo $_SESSION["empleado_session"]["empleado_info"]["empleado_imagen"]?>">
                         <?php else :?>
                             <img class="responsive-img circle" src="/img/profile/default_user.jpg">
                         <?php endif;?>
@@ -78,29 +100,47 @@
         </div>
     </div>-->
 </div>
+    
+    <!-- Dropdown Facturacion -->
+<ul id='dropdown_facturacion' class='dropdown-content'>
+    <li><a href="/facturacion/emitidas">Facturas emitidas</a></li>
+    <li class="divider"></li>
+    <li><a href="/facturacion/canceladas">Facturas canceladas</a></li>
+    <li class="divider"></li>
+    <li><a href="/facturacion/facturar">Generar factura</a></li>
+</ul>
 
 <!-- Dropdown Catalogos -->
+<ul id='dropdown_reportes' class='dropdown-content'>
+    <li><a href="/reportes/ingresos">Reporte de ingresos</a></li>
+    <li class="divider"></li>
+    <li><a href="/pacientes/historico">Reporte de consultas/admisiones</a></li>
+    <li class="divider"></li>
+    <li><a href="/reportes/general">Reporte general</a></li>
+    <li class="divider"></li>
+</ul>
+
+<ul id='dropdown_ventas' class='dropdown-content'>
+    <li><a href="/venta">Mis ventas</a></li>
+    <li class="divider"></li>
+    <li><a href="/venta/asignar">Nueva venta</a></li>
+    <li class="divider"></li>
+</ul>
+
 <ul id='dropdown_catalogos' class='dropdown-content'>
-    <li><a href="#!">Productos</a></li>
+    <li style="min-width: 150px"><a href="/catalogos/articulo">Productos</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Bancos</a></li>
+    <li><a href="/catalogos/proveedor">Proveedores</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Cuartos</a></li>
+    <li><a href="/catalogos/cuarto">Cuartos</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Consultorios</a></li>
+    <li><a href="/consultorio">Consultorios</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Especialidades</a></li>
+    <li><a href="/catalogos/especialidad">Especialidades</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Lugares</a></li>
+    <li><a href="/catalogos/medico">Medicos</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Medicos</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Proveedores</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Servicios</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">UDM</a></li>
-    
+    <li><a href="/servicios">Servicios</a></li>
 </ul>
 <!-- Dropdown  Pacientes -->
 <ul id='dropdown_pacientes' class='dropdown-content'>
@@ -110,21 +150,11 @@
     <li class="divider"></li>
     <li><a href="<?php echo $this->url('pacientes', array('action'=>'nuevo'));?>">Admisión de pacientes</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Pacientes Actuales</a></li>
+    <li><a href="/pacientes/historicos">Historico de pacientes</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Generación de cargos a</a></li>
+    <li><a href="/pacientes/citas">Citas</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Programar cita paciente</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Alta y facturación</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Cancelación de facturas</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Histórico de pacientes</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte facturas</a></li>
-    <li class="divider"></li>
-    <li><a href="#!">Reporte quirúrgico</a></li>
+    <li><a href="/pacientes/agendarcita">Agendar cita</a></li>
 </ul>
 <!-- Dropdown  Productos -->
 <ul id='dropdown_productos' class='dropdown-content'>
@@ -139,18 +169,53 @@
     <li><a href="/productos/existencias">Definir existencias</a></li>
     <li class="divider"></li>
     <li><a href="/productos/registro">Registro de productos</a></li>
+</ul>
+<!-- Dropdown  Compras -->
+<ul id='dropdown_compras' class='dropdown-content'>
+    <li><a href="/compras">Compras</a></li>
     <li class="divider"></li>
-    <li><a href="#!">Reporte de productos</a></li>
+    <li><a href="/compras/nuevo">Nueva compra</a></li>
+</ul>
+<!-- Dropdown  Almacen -->
+<ul id='dropdown_almacen' class='dropdown-content'>
+    <li><a href="/catalogos/lugar">Almacenes</a></li>
+    <li class="divider"></li>
+    <li><a href="/catalogos/lugar/nuevo">Nuevo almacen</a></li>
+    <li class="divider"></li>
+    <li><a href="/almacen/transferencias">Transferencias</a></li>
+    <li class="divider"></li>
+    <li><a href="/almacen/transferencias/nuevo">Nueva transferencia</a></li>
+</ul>
+<!-- Dropdown  bancos -->
+<ul id='dropdown_bancos' class='dropdown-content'>
+    <li><a href="/bancos/concepto">Conceptos</a></li>
+    <li class="divider"></li>
+    <li><a href="/bancos/concepto/nuevo">Nuevo concepto</a></li>
+    <li class="divider"></li>
+    <li><a href="/bancos/movimientos">Movimientos</a></li>
+</ul>
+<!-- Dropdown  Almacen -->
+<ul id='dropdown_caja' class='dropdown-content'>
+    <li><a href="/cajachica/concepto">Conceptos</a></li>
+    <li class="divider"></li>
+    <li><a href="/cajachica/concepto/nuevo">Nuevo concepto</a></li>
+    <li class="divider"></li>
+    <li><a href="/cajachica/movimientos">Movimientos</a></li>
+</ul>
+<!-- Dropdown  Empleados -->
+<ul id='dropdown_empleados' class='dropdown-content'>
+    <li><a href="/empleados">Empleados</a></li>
+    <li class="divider"></li>
+    <li><a href="/empleados/nuevo">Nuevo empleado</a></li>
 </ul>
 
 <ul id='dropdown_profile' class='dropdown-content' style="top: 14px;">
     <li><a href="#!">Ver Perfil</a></li>
     <li class="divider"></li>
     <li>
-        <a href="/out">Cerrar sesión</a>
+        <a href="/auth/out">Cerrar sesión</a>
     </li>
 </ul>
-
 </body>
 </html>
 <script type="text/javascript">

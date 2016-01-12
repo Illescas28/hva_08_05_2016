@@ -16,7 +16,10 @@ class CuartoForm extends Form
             'name' => 'cuarto_nombre',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Nombre',
+                'label' => 'Nombre *',
+            ),
+            'attributes' => array(
+                'required' => 'required'
             ),
         ));
         $this->add(array(
@@ -31,7 +34,7 @@ class CuartoForm extends Form
             'name' => 'cuarto_enuso',
             'type' => 'Checkbox',
             'options' => array(
-                'label' => 'En uso?',
+                'label' => '¿En uso?',
             ),
         ));
         

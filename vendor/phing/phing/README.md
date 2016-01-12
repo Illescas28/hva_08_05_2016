@@ -36,6 +36,13 @@ The Latest Version
   Details of the latest version can be found on the Phing homepage
   <https://www.phing.info/>.
 
+Supported PHP versions
+----------------------
+
+  We aim to keep Phing 2.x compatible with PHP 5.2 and higher. However,
+  as this is getting increasingly hard to test, we encourage users to
+  upgrade to PHP 5.3 or higher.
+
 Installation
 ------------
 
@@ -72,7 +79,7 @@ Installation
 Running the (unit) tests
 ------------------------
 
-  To succesfully run all Phing tests, the following conditions have to be met:
+  To successfully run all Phing tests, the following conditions have to be met:
 
   * PEAR installed, channel "pear.phing.info" discovered
   * Packages "python-docutils" and "subversion" installed

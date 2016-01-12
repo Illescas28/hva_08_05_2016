@@ -47,23 +47,23 @@ class ConsultaForm extends Form
         ));
 
         $this->add(array(
-            'name' => 'consulta_fechaadmision',
+            'name' => 'consulta_fecha',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Fecha de consulta',
             ),
             'attributes' => array(
-                'id' => 'consulta_fechaadmision'
+                'id' => 'consulta_fecha'
             )
         ));
         $this->add(array(
-            'name' => 'consulta_fechasalida',
+            'name' => 'consulta_hora',
             'type' => 'Text',
             'options' => array(
-                'label' => 'Fecha de salida',
+                'label' => 'Hora de consulta',
             ),
             'attributes' => array(
-                'id' => 'consulta_fechasalida'
+                'id' => 'consulta_hora'
             )
         ));
         $this->add(array(
@@ -90,8 +90,8 @@ class ConsultaForm extends Form
             'name' => 'consulta_status',
             'type' => 'Zend\Form\Element\Select',
             'options' => array(
-                'label' => 'Estado Civil',
-                'empty_option' => 'Seleccione su estado civil',
+                'label' => 'Status',
+                'empty_option' => 'Seleccione su status',
                 'value_options' => array('pagada' => 'pagada','no pagada' => 'no pagada','pendiente' => 'pendiente'),
             ),
             'attributes' => array(
@@ -115,6 +115,48 @@ class ConsultaForm extends Form
             ),
             'attributes' => array(
                 'id' => 'consulta_total'
+            )
+        ));
+        $this->add(array(
+            'name' => 'consulta_tipodepago',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Tipo de pago',
+                'empty_option' => 'Seleccione tipo de pago',
+                'value_options' => array('efectivo', 'tarjeta debito','tarjeta credito','cheque','no identificado'),
+            ),
+            'attributes' => array(
+                'id' => 'consulta_tipodepago'
+            )
+        ));
+        $this->add(array(
+            'name' => 'consulta_referenciapago',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Referencia de pago (4 últimos dígitos)',
+            ),
+            'attributes' => array(
+                'id' => 'consulta_referenciapago'
+            )
+        ));
+        $this->add(array(
+            'name' => 'consulta_facturada',
+            'type' => 'Text',
+            'options' => array(
+                'label' => '¿Facturada?',
+            ),
+            'attributes' => array(
+                'id' => 'consulta_facturada'
+            )
+        ));
+        $this->add(array(
+            'name' => 'consulta_registrada',
+            'type' => 'Text',
+            'options' => array(
+                'label' => '¿Registrada?',
+            ),
+            'attributes' => array(
+                'id' => 'consulta_registrada'
             )
         ));
     }

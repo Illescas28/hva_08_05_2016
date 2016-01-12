@@ -24,13 +24,13 @@ abstract class BaseOrdencompradetallePeer
     const TM_CLASS = 'OrdencompradetalleTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 11;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 11;
 
     /** the column name for the idordencompradetalle field */
     const IDORDENCOMPRADETALLE = 'ordencompradetalle.idordencompradetalle';
@@ -56,6 +56,15 @@ abstract class BaseOrdencompradetallePeer
     /** the column name for the ordencompradetalle_caducidad field */
     const ORDENCOMPRADETALLE_CADUCIDAD = 'ordencompradetalle.ordencompradetalle_caducidad';
 
+    /** the column name for the ordencompradetalle_productosporcaja field */
+    const ORDENCOMPRADETALLE_PRODUCTOSPORCAJA = 'ordencompradetalle.ordencompradetalle_productosporcaja';
+
+    /** the column name for the ordencompradetalle_costocaja field */
+    const ORDENCOMPRADETALLE_COSTOCAJA = 'ordencompradetalle.ordencompradetalle_costocaja';
+
+    /** the column name for the ordencompradetalle_iva field */
+    const ORDENCOMPRADETALLE_IVA = 'ordencompradetalle.ordencompradetalle_iva';
+
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
 
@@ -75,12 +84,12 @@ abstract class BaseOrdencompradetallePeer
      * e.g. OrdencompradetallePeer::$fieldNames[OrdencompradetallePeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idordencompradetalle', 'Idordencompra', 'Idarticulovariante', 'OrdencompradetalleCantidad', 'OrdencompradetalleCosto', 'OrdencompradetallePrecio', 'OrdencompradetalleImporte', 'OrdencompradetalleCaducidad', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompradetalle', 'idordencompra', 'idarticulovariante', 'ordencompradetalleCantidad', 'ordencompradetalleCosto', 'ordencompradetallePrecio', 'ordencompradetalleImporte', 'ordencompradetalleCaducidad', ),
-        BasePeer::TYPE_COLNAME => array (OrdencompradetallePeer::IDORDENCOMPRADETALLE, OrdencompradetallePeer::IDORDENCOMPRA, OrdencompradetallePeer::IDARTICULOVARIANTE, OrdencompradetallePeer::ORDENCOMPRADETALLE_CANTIDAD, OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO, OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO, OrdencompradetallePeer::ORDENCOMPRADETALLE_IMPORTE, OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRADETALLE', 'IDORDENCOMPRA', 'IDARTICULOVARIANTE', 'ORDENCOMPRADETALLE_CANTIDAD', 'ORDENCOMPRADETALLE_COSTO', 'ORDENCOMPRADETALLE_PRECIO', 'ORDENCOMPRADETALLE_IMPORTE', 'ORDENCOMPRADETALLE_CADUCIDAD', ),
-        BasePeer::TYPE_FIELDNAME => array ('idordencompradetalle', 'idordencompra', 'idarticulovariante', 'ordencompradetalle_cantidad', 'ordencompradetalle_costo', 'ordencompradetalle_precio', 'ordencompradetalle_importe', 'ordencompradetalle_caducidad', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+        BasePeer::TYPE_PHPNAME => array ('Idordencompradetalle', 'Idordencompra', 'Idarticulovariante', 'OrdencompradetalleCantidad', 'OrdencompradetalleCosto', 'OrdencompradetallePrecio', 'OrdencompradetalleImporte', 'OrdencompradetalleCaducidad', 'OrdencompradetalleProductosporcaja', 'OrdencompradetalleCostocaja', 'OrdencompradetalleIva', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompradetalle', 'idordencompra', 'idarticulovariante', 'ordencompradetalleCantidad', 'ordencompradetalleCosto', 'ordencompradetallePrecio', 'ordencompradetalleImporte', 'ordencompradetalleCaducidad', 'ordencompradetalleProductosporcaja', 'ordencompradetalleCostocaja', 'ordencompradetalleIva', ),
+        BasePeer::TYPE_COLNAME => array (OrdencompradetallePeer::IDORDENCOMPRADETALLE, OrdencompradetallePeer::IDORDENCOMPRA, OrdencompradetallePeer::IDARTICULOVARIANTE, OrdencompradetallePeer::ORDENCOMPRADETALLE_CANTIDAD, OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO, OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO, OrdencompradetallePeer::ORDENCOMPRADETALLE_IMPORTE, OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD, OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, OrdencompradetallePeer::ORDENCOMPRADETALLE_IVA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRADETALLE', 'IDORDENCOMPRA', 'IDARTICULOVARIANTE', 'ORDENCOMPRADETALLE_CANTIDAD', 'ORDENCOMPRADETALLE_COSTO', 'ORDENCOMPRADETALLE_PRECIO', 'ORDENCOMPRADETALLE_IMPORTE', 'ORDENCOMPRADETALLE_CADUCIDAD', 'ORDENCOMPRADETALLE_PRODUCTOSPORCAJA', 'ORDENCOMPRADETALLE_COSTOCAJA', 'ORDENCOMPRADETALLE_IVA', ),
+        BasePeer::TYPE_FIELDNAME => array ('idordencompradetalle', 'idordencompra', 'idarticulovariante', 'ordencompradetalle_cantidad', 'ordencompradetalle_costo', 'ordencompradetalle_precio', 'ordencompradetalle_importe', 'ordencompradetalle_caducidad', 'ordencompradetalle_productosporcaja', 'ordencompradetalle_costocaja', 'ordencompradetalle_iva', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -90,12 +99,12 @@ abstract class BaseOrdencompradetallePeer
      * e.g. OrdencompradetallePeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idordencompradetalle' => 0, 'Idordencompra' => 1, 'Idarticulovariante' => 2, 'OrdencompradetalleCantidad' => 3, 'OrdencompradetalleCosto' => 4, 'OrdencompradetallePrecio' => 5, 'OrdencompradetalleImporte' => 6, 'OrdencompradetalleCaducidad' => 7, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompradetalle' => 0, 'idordencompra' => 1, 'idarticulovariante' => 2, 'ordencompradetalleCantidad' => 3, 'ordencompradetalleCosto' => 4, 'ordencompradetallePrecio' => 5, 'ordencompradetalleImporte' => 6, 'ordencompradetalleCaducidad' => 7, ),
-        BasePeer::TYPE_COLNAME => array (OrdencompradetallePeer::IDORDENCOMPRADETALLE => 0, OrdencompradetallePeer::IDORDENCOMPRA => 1, OrdencompradetallePeer::IDARTICULOVARIANTE => 2, OrdencompradetallePeer::ORDENCOMPRADETALLE_CANTIDAD => 3, OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO => 4, OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO => 5, OrdencompradetallePeer::ORDENCOMPRADETALLE_IMPORTE => 6, OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD => 7, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRADETALLE' => 0, 'IDORDENCOMPRA' => 1, 'IDARTICULOVARIANTE' => 2, 'ORDENCOMPRADETALLE_CANTIDAD' => 3, 'ORDENCOMPRADETALLE_COSTO' => 4, 'ORDENCOMPRADETALLE_PRECIO' => 5, 'ORDENCOMPRADETALLE_IMPORTE' => 6, 'ORDENCOMPRADETALLE_CADUCIDAD' => 7, ),
-        BasePeer::TYPE_FIELDNAME => array ('idordencompradetalle' => 0, 'idordencompra' => 1, 'idarticulovariante' => 2, 'ordencompradetalle_cantidad' => 3, 'ordencompradetalle_costo' => 4, 'ordencompradetalle_precio' => 5, 'ordencompradetalle_importe' => 6, 'ordencompradetalle_caducidad' => 7, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
+        BasePeer::TYPE_PHPNAME => array ('Idordencompradetalle' => 0, 'Idordencompra' => 1, 'Idarticulovariante' => 2, 'OrdencompradetalleCantidad' => 3, 'OrdencompradetalleCosto' => 4, 'OrdencompradetallePrecio' => 5, 'OrdencompradetalleImporte' => 6, 'OrdencompradetalleCaducidad' => 7, 'OrdencompradetalleProductosporcaja' => 8, 'OrdencompradetalleCostocaja' => 9, 'OrdencompradetalleIva' => 10, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idordencompradetalle' => 0, 'idordencompra' => 1, 'idarticulovariante' => 2, 'ordencompradetalleCantidad' => 3, 'ordencompradetalleCosto' => 4, 'ordencompradetallePrecio' => 5, 'ordencompradetalleImporte' => 6, 'ordencompradetalleCaducidad' => 7, 'ordencompradetalleProductosporcaja' => 8, 'ordencompradetalleCostocaja' => 9, 'ordencompradetalleIva' => 10, ),
+        BasePeer::TYPE_COLNAME => array (OrdencompradetallePeer::IDORDENCOMPRADETALLE => 0, OrdencompradetallePeer::IDORDENCOMPRA => 1, OrdencompradetallePeer::IDARTICULOVARIANTE => 2, OrdencompradetallePeer::ORDENCOMPRADETALLE_CANTIDAD => 3, OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO => 4, OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO => 5, OrdencompradetallePeer::ORDENCOMPRADETALLE_IMPORTE => 6, OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD => 7, OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA => 8, OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA => 9, OrdencompradetallePeer::ORDENCOMPRADETALLE_IVA => 10, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDORDENCOMPRADETALLE' => 0, 'IDORDENCOMPRA' => 1, 'IDARTICULOVARIANTE' => 2, 'ORDENCOMPRADETALLE_CANTIDAD' => 3, 'ORDENCOMPRADETALLE_COSTO' => 4, 'ORDENCOMPRADETALLE_PRECIO' => 5, 'ORDENCOMPRADETALLE_IMPORTE' => 6, 'ORDENCOMPRADETALLE_CADUCIDAD' => 7, 'ORDENCOMPRADETALLE_PRODUCTOSPORCAJA' => 8, 'ORDENCOMPRADETALLE_COSTOCAJA' => 9, 'ORDENCOMPRADETALLE_IVA' => 10, ),
+        BasePeer::TYPE_FIELDNAME => array ('idordencompradetalle' => 0, 'idordencompra' => 1, 'idarticulovariante' => 2, 'ordencompradetalle_cantidad' => 3, 'ordencompradetalle_costo' => 4, 'ordencompradetalle_precio' => 5, 'ordencompradetalle_importe' => 6, 'ordencompradetalle_caducidad' => 7, 'ordencompradetalle_productosporcaja' => 8, 'ordencompradetalle_costocaja' => 9, 'ordencompradetalle_iva' => 10, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -177,6 +186,9 @@ abstract class BaseOrdencompradetallePeer
             $criteria->addSelectColumn(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO);
             $criteria->addSelectColumn(OrdencompradetallePeer::ORDENCOMPRADETALLE_IMPORTE);
             $criteria->addSelectColumn(OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD);
+            $criteria->addSelectColumn(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA);
+            $criteria->addSelectColumn(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA);
+            $criteria->addSelectColumn(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVA);
         } else {
             $criteria->addSelectColumn($alias . '.idordencompradetalle');
             $criteria->addSelectColumn($alias . '.idordencompra');
@@ -186,6 +198,9 @@ abstract class BaseOrdencompradetallePeer
             $criteria->addSelectColumn($alias . '.ordencompradetalle_precio');
             $criteria->addSelectColumn($alias . '.ordencompradetalle_importe');
             $criteria->addSelectColumn($alias . '.ordencompradetalle_caducidad');
+            $criteria->addSelectColumn($alias . '.ordencompradetalle_productosporcaja');
+            $criteria->addSelectColumn($alias . '.ordencompradetalle_costocaja');
+            $criteria->addSelectColumn($alias . '.ordencompradetalle_iva');
         }
     }
 

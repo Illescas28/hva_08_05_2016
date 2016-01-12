@@ -14,6 +14,7 @@
  * @method OrdencompraQuery orderByOrdencompraImporte($order = Criteria::ASC) Order by the ordencompra_importe column
  * @method OrdencompraQuery orderByOrdencompraStatus($order = Criteria::ASC) Order by the ordencompra_status column
  * @method OrdencompraQuery orderByOrdencompraFechaapagar($order = Criteria::ASC) Order by the ordencompra_fechaapagar column
+ * @method OrdencompraQuery orderByOrdencompraIva($order = Criteria::ASC) Order by the ordencompra_iva column
  *
  * @method OrdencompraQuery groupByIdordencompra() Group by the idordencompra column
  * @method OrdencompraQuery groupByIdproveedor() Group by the idproveedor column
@@ -23,6 +24,7 @@
  * @method OrdencompraQuery groupByOrdencompraImporte() Group by the ordencompra_importe column
  * @method OrdencompraQuery groupByOrdencompraStatus() Group by the ordencompra_status column
  * @method OrdencompraQuery groupByOrdencompraFechaapagar() Group by the ordencompra_fechaapagar column
+ * @method OrdencompraQuery groupByOrdencompraIva() Group by the ordencompra_iva column
  *
  * @method OrdencompraQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method OrdencompraQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -36,6 +38,10 @@
  * @method OrdencompraQuery rightJoinOrdencompradetalle($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Ordencompradetalle relation
  * @method OrdencompraQuery innerJoinOrdencompradetalle($relationAlias = null) Adds a INNER JOIN clause to the query using the Ordencompradetalle relation
  *
+ * @method OrdencompraQuery leftJoinTraspaso($relationAlias = null) Adds a LEFT JOIN clause to the query using the Traspaso relation
+ * @method OrdencompraQuery rightJoinTraspaso($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Traspaso relation
+ * @method OrdencompraQuery innerJoinTraspaso($relationAlias = null) Adds a INNER JOIN clause to the query using the Traspaso relation
+ *
  * @method Ordencompra findOne(PropelPDO $con = null) Return the first Ordencompra matching the query
  * @method Ordencompra findOneOrCreate(PropelPDO $con = null) Return the first Ordencompra matching the query, or a new Ordencompra object populated from the query conditions when no match is found
  *
@@ -46,6 +52,7 @@
  * @method Ordencompra findOneByOrdencompraImporte(string $ordencompra_importe) Return the first Ordencompra filtered by the ordencompra_importe column
  * @method Ordencompra findOneByOrdencompraStatus(string $ordencompra_status) Return the first Ordencompra filtered by the ordencompra_status column
  * @method Ordencompra findOneByOrdencompraFechaapagar(string $ordencompra_fechaapagar) Return the first Ordencompra filtered by the ordencompra_fechaapagar column
+ * @method Ordencompra findOneByOrdencompraIva(string $ordencompra_iva) Return the first Ordencompra filtered by the ordencompra_iva column
  *
  * @method array findByIdordencompra(int $idordencompra) Return Ordencompra objects filtered by the idordencompra column
  * @method array findByIdproveedor(int $idproveedor) Return Ordencompra objects filtered by the idproveedor column
@@ -55,6 +62,7 @@
  * @method array findByOrdencompraImporte(string $ordencompra_importe) Return Ordencompra objects filtered by the ordencompra_importe column
  * @method array findByOrdencompraStatus(string $ordencompra_status) Return Ordencompra objects filtered by the ordencompra_status column
  * @method array findByOrdencompraFechaapagar(string $ordencompra_fechaapagar) Return Ordencompra objects filtered by the ordencompra_fechaapagar column
+ * @method array findByOrdencompraIva(string $ordencompra_iva) Return Ordencompra objects filtered by the ordencompra_iva column
  *
  * @package    propel.generator.hva.om
  */
@@ -162,7 +170,7 @@ abstract class BaseOrdencompraQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idordencompra`, `idproveedor`, `ordencompra_nofactura`, `ordencompra_facturapdf`, `ordencompra_fecha`, `ordencompra_importe`, `ordencompra_status`, `ordencompra_fechaapagar` FROM `ordencompra` WHERE `idordencompra` = :p0';
+        $sql = 'SELECT `idordencompra`, `idproveedor`, `ordencompra_nofactura`, `ordencompra_facturapdf`, `ordencompra_fecha`, `ordencompra_importe`, `ordencompra_status`, `ordencompra_fechaapagar`, `ordencompra_iva` FROM `ordencompra` WHERE `idordencompra` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -553,6 +561,48 @@ abstract class BaseOrdencompraQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the ordencompra_iva column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByOrdencompraIva(1234); // WHERE ordencompra_iva = 1234
+     * $query->filterByOrdencompraIva(array(12, 34)); // WHERE ordencompra_iva IN (12, 34)
+     * $query->filterByOrdencompraIva(array('min' => 12)); // WHERE ordencompra_iva >= 12
+     * $query->filterByOrdencompraIva(array('max' => 12)); // WHERE ordencompra_iva <= 12
+     * </code>
+     *
+     * @param     mixed $ordencompraIva The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return OrdencompraQuery The current query, for fluid interface
+     */
+    public function filterByOrdencompraIva($ordencompraIva = null, $comparison = null)
+    {
+        if (is_array($ordencompraIva)) {
+            $useMinMax = false;
+            if (isset($ordencompraIva['min'])) {
+                $this->addUsingAlias(OrdencompraPeer::ORDENCOMPRA_IVA, $ordencompraIva['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ordencompraIva['max'])) {
+                $this->addUsingAlias(OrdencompraPeer::ORDENCOMPRA_IVA, $ordencompraIva['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(OrdencompraPeer::ORDENCOMPRA_IVA, $ordencompraIva, $comparison);
+    }
+
+    /**
      * Filter the query by a related Proveedor object
      *
      * @param   Proveedor|PropelObjectCollection $proveedor The related object(s) to use as filter
@@ -700,6 +750,80 @@ abstract class BaseOrdencompraQuery extends ModelCriteria
         return $this
             ->joinOrdencompradetalle($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Ordencompradetalle', 'OrdencompradetalleQuery');
+    }
+
+    /**
+     * Filter the query by a related Traspaso object
+     *
+     * @param   Traspaso|PropelObjectCollection $traspaso  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return                 OrdencompraQuery The current query, for fluid interface
+     * @throws PropelException - if the provided filter is invalid.
+     */
+    public function filterByTraspaso($traspaso, $comparison = null)
+    {
+        if ($traspaso instanceof Traspaso) {
+            return $this
+                ->addUsingAlias(OrdencompraPeer::IDORDENCOMPRA, $traspaso->getIdordencompra(), $comparison);
+        } elseif ($traspaso instanceof PropelObjectCollection) {
+            return $this
+                ->useTraspasoQuery()
+                ->filterByPrimaryKeys($traspaso->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterByTraspaso() only accepts arguments of type Traspaso or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the Traspaso relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return OrdencompraQuery The current query, for fluid interface
+     */
+    public function joinTraspaso($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('Traspaso');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'Traspaso');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the Traspaso relation Traspaso object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   TraspasoQuery A secondary query class using the current class as primary query
+     */
+    public function useTraspasoQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinTraspaso($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Traspaso', 'TraspasoQuery');
     }
 
     /**

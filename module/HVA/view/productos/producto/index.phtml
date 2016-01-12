@@ -1,149 +1,178 @@
+
 <?php
 $title = 'Productos';
 $this->headTitle($title);
 ?>
 <style>
     /*Icons in td*/
-    
+
 </style>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div class="row" id="table-header">
     <form class="col s12"> 
-        <?php if(count($flashMessages)) :?>
-            <?php foreach ($flashMessages as $message) :?>
-                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
-            <?php endforeach;?>
-        <?php endif;?>  
-        <div class="row" style="position: relative">
-            <div class="input-field col s4 offset-s2" id="search-container">
-                <i class="mdi-action-search prefix"></i>
-                <input id="icon_prefix" type="text">
-                <label for="icon_prefix">Buscar</label>
-            </div>     
-        </div>
+        <?php if (count($flashMessages)) : ?>
+            <?php foreach ($flashMessages as $message) : ?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message ?></div>
+            <?php endforeach; ?>
+        <?php endif; ?>  
+        <!--        <div class="row" style="position: relative">
+                    <div class="input-field col s4 offset-s2" id="search-container">
+                        <i class="mdi-action-search prefix"></i>
+                        <input id="icon_prefix" type="text">
+                        <label for="icon_prefix">Buscar</label>
+                    </div>     
+                </div>-->
     </form>
 </div>
-<table id="tabla-productos" class="striped">
+<table id="tabla-productos" class="striped" style="width: 100%">
     <thead>
-        <tr>
-            <!--columnas fijas-->
+<!--        <tr>
+            columnas fijas
             <th style="width: 180px">Nombre</th>
             <th style="width: 300px">Descripcion</th>
             <th>Codigo de barras</th>
             <th class="number">Precio</th>
-            <!--columnas dinamicas-->
-            <?php foreach($lugares as $lugar) :?>
-            <th id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
-            <?php endforeach;?>
-            <th style="text-align: center">Imagen</th>
+            columnas dinamicas
+        <?php //foreach($lugares as $lugar) :?>
+            <th id="<?php // echo $lugar['id'] ?>"><?php //echo $lugar['nombre'] ?></th>
+        <?php //endforeach;?>
+            
             <th>Ver</th>
-        </tr>
+        </tr>-->
     </thead>
     <tbody>
-        <?php foreach ($productos as $producto) : ?>
-        
-            <tr id="<?php echo $producto['id'] ?>">
-                <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
-                <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
-                <td style="padding-left: 0"><?php echo $producto['codigo_barras'] ?></td>
-                <td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>
-                    <?php foreach ($lugares as $lugar) : ?>
-                        <?php $lugarNombre = $lugar['nombre']?>
-                <td class="number"><?php echo $producto['lugar'][$lugarNombre]?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>
-                    <?php endforeach;?>
-                <td class="td-image">
-                    <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>
-                        <img class="responsive-img" src="/img/productos/no-image.png" width="80" height="80">
-                    <?php else : ?>
-                        <img class="materialboxed responsive-img" src="<?php echo $producto['imagen'] ?>" width="80" height="80">
-                    <?php endif;?>
-                </td>
-                <td><a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a></td>
-            </tr>
-            <!-- View Modal Structure -->
-                <?php
-                    $array = array();
-                    $propiedades = explode(' - ', $producto['descripcion']);
-                    foreach ($propiedades as $kpropiedad => $vpropiedad){
-                        $propiedaExplode = explode(':', $vpropiedad);
-                        $propiedad = $propiedaExplode[0];
-                        $valor = $propiedaExplode[1]; 
-                        $array[] = array('propiedad' =>  $propiedad, 'valor' => $valor);
-                    }
-                ?>
-                <div id="view-modal-articulo-<?php echo $producto['id']?>" class="modal preview-articulos-registro">
-                    <div class="modal-content">
-                        <div class="row">
-                            <div class="col s2">
-                                <img width="100" height="100" src="<?php if(is_null($producto['imagen']) || empty($producto['imagen']) ){echo '/img/productos/no-image.png';}else{echo $producto['imagen'];}?>">
-                            </div>
-                            <div class="col s10" style="padding-top: 20px;">
-                                <h4><?php echo $producto['nombre']?></h4>
-                                <h6><?php echo $producto['codigo_barras']?></h6>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <?php foreach ($array as $k => $v) :?>
-                            <fieldset>
-                                <legend><?php echo $v['propiedad']?></legend>
-                                <p style="color: #00086e"><?php echo $v['valor']?></p>
-                            </fieldset>
-                            <?php endforeach;?>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                    </div>
-                </div>
-                <!-- END View Modal Structure -->
-        <?php endforeach;?>
+
     </tbody>
 </table>
+
+<script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/accounting.js/0.4.1/accounting.min.js"></script>
+
 <script>
-    $(document).ready(function(){
-        
-        var lastIndex= $('thead tr th').last().index();
-        var nextToLastIndex= lastIndex - 1;
+    $(document).ready(function () {
+
+        var lastIndex = $('thead tr th').last().index();
+        var nextToLastIndex = lastIndex - 1;
 
         //Obtenemos los ultimos dos index de nuestra tabla para quitarle el sorter
         var myHeaders = {};
-        myHeaders[2] = {sorter: false };
-        myHeaders[lastIndex] = {sorter: false };
-        myHeaders[nextToLastIndex] = {sorter: false };
+        myHeaders[2] = {sorter: false};
+        myHeaders[lastIndex] = {sorter: false};
+        myHeaders[nextToLastIndex] = {sorter: false};
 
-        $("#tabla-productos").tablesorter({headers:myHeaders});
+        //$("#tabla-productos").tablesorter({headers:myHeaders});
         $('select').material_select();
         $('.tooltipped').tooltip({delay: 50});
-        $("#tabla-productos").filterTable({inputSelector: '#search-container input',minRows:2});
+        //$("#tabla-productos").filterTable({inputSelector: '#search-container input',minRows:2});
         $('.modal-trigger').leanModal();
-        
-        
+
+
         //Variables globales de la tabla
         var columnCount = $('th').length;
-       
-        //Modal caducidades
-        $('td i.mdi-action-assignment').on('click',function(){
-            
-            var idarticulovariante = $(this).closest('tr').attr('id');
-            var index = $(this).closest('td').index() + 1;
-            var descripcion = $(this).closest('td').siblings('#descripcion').text();
-            var idlugar = $('th:nth-child('+index+')').attr('id');
-            var modalName = '#modal-producto-'+idarticulovariante+'-lugar-'+idlugar;
-            var existencias = $(this).closest('td').text();
-            var lugarNombre = $('th:nth-child('+index+')').text();
 
-            $.get(window.location.pathname+'/caducidadbylugar',
-                {idarticulovariante:idarticulovariante,idlugar:idlugar,descripcion:descripcion,existencias:existencias,lugarNombre:lugarNombre},
-                function(modal){
-                    $('table').after(modal);
-                    $(modalName).openModal();
-                }
-            );  
 
-        }); 
-        
-        
-        
+
+        /*
+         * SERVER SIDE
+         */
+        var $table;
+
+        $.ajax({
+            url: '/json/lang_es_datatable.json',
+            dataType: 'json',
+            async: false,
+            success: function (data) {
+                $table = $('table').DataTable({
+                    serverSide: true,
+                    language: data,
+                    processing: true,
+                    iDisplayLength: 10,
+                    "bLengthChange": false,
+                    order: [],
+                    ordering: false,
+                    ajax: {
+                        url: '/productos/serverside',
+                        type: 'POST',
+                    },
+                    drawCallback: function (settings) {
+
+                        if (typeof $table != 'undefined') {
+                            $('table#tabla-productos thead tr').remove();
+                            $('table#tabla-productos tbody tr').remove();
+                            $table.clear();
+
+                        }
+
+                        var productos = settings.json.data;
+                        var lugares = settings.json.lugares;
+
+                        //Nuestra cabeceras
+                        var thead = $('<tr>');
+                        thead.append('<th style="">Nombre</th>');
+                        thead.append('<th style="">Descripcion</th>');
+                        thead.append('<th>Codigo de barras</th>');
+                        thead.append('<th class="number">Precio</th>');
+                        $.each(lugares, function () {
+                            thead.append('<th id="' + this.id + '">' + this.nombre + '</th>')
+                        });
+
+
+                        $('table#tabla-productos thead').append(thead);
+
+                        //Tbody
+           
+                        $.each(productos, function () {
+                            var producto = this;
+                            var tr = $('<tr>').attr('id', this.idarticulovariante);
+                            tr.append('<td class="collapse" title="' + this.articulo_nombre + '">' + this.articulo_nombre + '</td>');
+                            tr.append('<td id="descripcion" class="collapse" title="' + this.descripcion + '">' + this.descripcion + '</td>');
+                            tr.append('<td style="padding-left: 0">' + this.articulovariante_codigobarras + '</td>')
+                            tr.append('<td class="number">' + accounting.formatMoney(this.articulovariante_precio) + '</td>')
+                            $.each(lugares, function () {
+                                var lugar_nombre = this.nombre;
+                                if (producto.lugar[lugar_nombre] != null) {
+                                    tr.append('<td class="numer">' + producto.lugar[lugar_nombre] + '<a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>');
+                                } else {
+                                    tr.append('<td class="numer">X<a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>');
+                                }
+
+                            });
+
+                           // tr.append('<td><a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="#view-modal-articulo-' + this.id + '"><i class="tiny mdi-image-remove-red-eye"></i></a></td>')
+
+
+                            $('table#tabla-productos tbody').append(tr);
+
+
+                        });
+
+                        $('table#tabla-productos tbody i.mdi-action-assignment').on('click', function () {
+                            
+                            var idarticulovariante = $(this).closest('tr').attr('id');
+                            var index = $(this).closest('td').index() + 1;
+                            var descripcion = $(this).closest('td').siblings('#descripcion').text();
+                            var idlugar = $('th:nth-child(' + index + ')').attr('id');
+                            var modalName = '#modal-producto-' + idarticulovariante + '-lugar-' + idlugar;
+                            var existencias = $(this).closest('td').text();
+                            var lugarNombre = $('th:nth-child(' + index + ')').text();
+
+                            $.get(window.location.pathname + '/caducidadbylugar',
+                                    {idarticulovariante: idarticulovariante, idlugar: idlugar, descripcion: descripcion, existencias: existencias, lugarNombre: lugarNombre},
+                            function (modal) {
+                                $('table').after(modal);
+                                $(modalName).openModal();
+                            }
+                            );
+
+                        });
+                        
+                       
+                    },
+                });
+            }
+
+        });
+
     });
-        
+
 </script>

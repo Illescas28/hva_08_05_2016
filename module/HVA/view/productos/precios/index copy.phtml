@@ -1,0 +1,142 @@
+<?php
+$title = 'Definir precios';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div class="row" id="table-header">
+    <form class="col s12"> 
+        <?php if(count($flashMessages)) :?>
+            <?php foreach ($flashMessages as $message) :?>
+                <div class="card-panel #00086E-text green accent-2"><?php echo $message?></div>
+            <?php endforeach;?>
+        <?php endif;?>  
+        <div class="row" style="position: relative">
+            <div class="input-field col s4 offset-s2" id="search-container">
+                <i class="mdi-action-search prefix"></i>
+                <input id="icon_prefix" type="text">
+                <label for="icon_prefix">Buscar</label>
+            </div>     
+        </div>
+    </form>
+</div>
+<form action="/productos/precios" method="POST">
+    <table id="tabla-articulos" class="table-inputs striped">
+        <thead>
+            <tr>
+                <th style="width: 180px">Nombre</th>
+                <th style="width: 300px">Descripcion</th>
+                <th>Codigo de barras</th>
+                <th class="number">Costo</th>
+                <th class="number">Precio</th>
+                <th class="number">IVA</th>
+<!--                <th style="text-align: center">Imagen</th>-->
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+             <?php foreach ($productos as $producto) : ?>
+            <tr id="<?php echo $producto['id'] ?>">
+                <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
+                <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
+                <td style="padding-left: 0"><?php echo $producto['codigo_barras'] ?></td>
+                <td class="input-table number"><span style="visibility: hidden"><?php echo $producto['costo'] ?></span><input name="producto-<?php echo $producto['id'] ?>[costo]" id="articulovariante_costo" type="text" value="<?php echo number_format((float)$producto['costo'], 2, '.', ''); ?>"></td>
+                <td class="input-table number"><span style="visibility: hidden"><?php echo $producto['precio'] ?></span><input name="producto-<?php echo $producto['id'] ?>[precio]" id="articulovariante_precio" type="text" value="<?php echo number_format((float)$producto['precio'], 2, '.', ''); ?>"></td>
+                <td class="number">
+                    <span style="visibility: hidden"><?php if($producto['iva'] == 'exento') {echo 'exento'; } elseif ($producto['iva'] == '0'){echo '0';}else{echo '16';}?></span>
+                    <div class="input-field" style="padding-top: 1px;">
+                        <select name="producto-<?php echo $producto['id'] ?>[iva]">
+                          <option <?php if($producto['iva'] == '0') {echo 'selected="selected"'; }?>value="0">0%</option>
+                          <option <?php if($producto['iva'] == '16' ) echo 'selected="selected"'; ?> value="16">16%</option>
+                        </select>
+                     </div>
+                </td>
+<!--                <td class="td-image">
+                    <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>
+                        <img class="responsive-img" src="/img/productos/no-image.png" width="80" height="80">
+                    <?php else : ?>
+                        <img class="materialboxed responsive-img" src="<?php echo $producto['imagen'] ?>" width="80" height="80">
+                    <?php endif;?>
+                </td>-->
+                <td style="padding-left: 50px; padding-right: 50px">
+                    <a style="padding-left: 50%"class="tooltipped" data-position="left" data-tooltip="Detalles" href="<?php echo "#modal-producto-".$producto['id'].'-compras'?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    <a id="guradar-precios" style="width: 100%; height: 15px; margin-top: 15px"class="btn waves-effect waves-light">Guardar
+                        <i class="mdi-content-save left"></i>
+                    </a>
+                </td>
+            </tr>
+             <?php endforeach; ?>
+        </tbody>
+    </table>
+</form>
+<script>
+    $(document).ready(function(){
+        $('select').material_select();
+        $('.tooltipped').tooltip({delay: 50});
+        $("#tabla-articulos").tablesorter({headers:{6:{sorter:false},7:{sorter:false},2:{sorter:false}}});
+        $("#tabla-articulos").filterTable({inputSelector: '#search-container input',minRows:2});
+        $('.modal-trigger').leanModal();
+        
+        //Modal compras por articulo
+        $('td i.mdi-image-remove-red-eye').on('click',function(){
+            var idarticulovariante = $(this).closest('tr').attr('id');
+            var modalName = '#modal-producto-'+idarticulovariante+'-compras';
+            var descripcion = $(this).closest('td').siblings('#descripcion').text();
+            $.get(window.location.pathname+'/comprasbyarticulovariante',
+                {idarticulovariante:idarticulovariante,descripcion:descripcion},
+                function(modal){
+                    $('table').after(modal);
+                    $(modalName).openModal();
+                }
+            );  
+        });
+        
+                      function isNumberKey(evt)
+                      {
+                      var charCode = (evt.which) ? evt.which : event.keyCode
+                      if (charCode > 31 && (charCode < 46 || charCode > 57))
+                      return false;
+                      
+                      return true;
+                      }
+
+        $('tr td:nth-child(4) input,tr td:nth-child(5) input').on('keypress',function(e){
+            var isNumber = isNumberKey(e);
+            if(!isNumber){
+                e.preventDefault();
+            }
+        });
+        
+        $('a#guradar-precios').on('click',function(){
+            var formData = new FormData();
+            
+            var tr = $(this).closest('tr');
+            var idproducto = $(tr).attr('id');
+            var costo = $(tr).find('td').eq(3).find('input').val();
+            var precio = $(tr).find('td').eq(4).find('input').val();
+            var iva = $(tr).find('td').eq(5).find('select').val();
+            
+            formData.append('idproducto',idproducto);
+            formData.append('articulovariante_costo',costo);
+            formData.append('articulovariante_precio',precio);
+            formData.append('articulovariante_iva',iva);
+            
+            $.ajax({
+                type: "POST",
+                url: "/productos/precios",
+                contentType: false,
+                processData: false,
+                data: formData,
+                success: function(data) {
+
+                    alert("Guardado Exitosamente");
+
+                },
+
+            });
+            
+            
+        });
+        
+    });
+    
+</script>

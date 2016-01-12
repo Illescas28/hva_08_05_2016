@@ -1,0 +1,51 @@
+<?php
+$title = 'Historial de pacientes';
+$this->headTitle($title);
+?>
+<h3><?php echo $this->escapeHtml($title); ?></h3>
+<div>
+    <div class="row" id="table-header">
+        <form class="col s12">
+            <div class="row" style="position: relative">
+                <div class="input-field col s4 offset-s2" id="search-container">
+                    <i class="mdi-action-search prefix"></i>
+                    <input id="icon_prefix" type="text">
+                    <label for="icon_prefix">Buscar</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <table id="tabla-paciente" class="striped hoverable">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido paterno</th>
+            <th>Apellido materno</th>
+            <th>Fecha de nacimiento</th>
+            <th>Dirección</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <?php $direction = 'right'?>
+        <?php foreach ($pacientes as $pacienteEntity) :?>
+            <tr>
+                <td><?php echo $pacienteEntity->getPacienteNombre() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteAp() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteAm() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteFechanacimiento() ?></td>
+                <td><?php echo $pacienteEntity->getPacienteCalle()." ".$pacienteEntity->getPacienteNoexterior()." ".$pacienteEntity->getPacienteNointerior()." ".$pacienteEntity->getPacienteColonia() ?></td>
+                <td>
+                    <a href="<?php echo $this->url('pacientes', array('action'=>'historicodetalles', 'id'=> $pacienteEntity->getIdpaciente()));?>">Expediente</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#tabla-paciente").tablesorter({headers:{5:{sorter:false}}});
+        $("#tabla-paciente").filterTable({inputSelector: '#search-container input',minRows:2});
+    });
+</script>

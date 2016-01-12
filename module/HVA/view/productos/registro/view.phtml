@@ -1,0 +1,22 @@
+<div id="view-modal-producto-<?php echo $producto->getIdarticulovariante() ?>" class="modal preview-articulos-registro">
+    <div class="modal-content">
+        <div class="row">
+            <div class="col s10" style="padding-top: 20px;">
+                <h4><?php echo $producto->getArticulo()->getArticuloNombre()?></h4>
+                <h6><?php echo $producto->getArticulovarianteCodigobarras() ?></h6>
+            </div>
+        </div>
+        <div class="row">
+            <?php $v = new Articulovariantevalor()?>
+            <?php foreach ($articulo_variante_valor as $k => $v) : ?>
+                <fieldset>
+                    <legend><?php echo $v->getPropiedad()->getPropiedadNombre() ?></legend>
+                    <p style="color: #00086e"><?php echo $v->getPropiedadvalor()->getPropiedadvalorNombre() ?></p>
+                </fieldset>
+        <?php endforeach; ?>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-action modal-close waves-effect waves-light btn cerrar"><i class="mdi-navigation-close left"></i>Cerrar</a>
+    </div>
+</div>

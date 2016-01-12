@@ -11,85 +11,82 @@ class RegistroController extends AbstractActionController
 {   
     public $target_dir = "/img/productos/";
     
-    public function indexAction()
-    {
+    public function viewAction(){
         
-        $request = $this->request;
-        
-        if($request->isPost()){//Si envian el formulario
-            //Comenzamos a itinerar sobre nuestro los elementos enviados
-            foreach ($request->getPost() as $key => $value){
-               if(strpos($key, 'producto') !== false){
-                    $idArticuloVariante = explode("-", $key);
-                    $idArticuloVariante = $idArticuloVariante[1];
-                    
-                    //Creamos una instacia de nuestro articulovariante
-                    $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
-                    
-                    $articuloVariante->setArticulovarianteCodigobarras($value["codigobarras"]);
-                    $articuloVariante->setArticulovarianteCosto($value["costo"]);
-                    $articuloVariante->setArticulovariantePrecio($value["precio"]);
-                    $articuloVariante->setArticulovarianteIva($value["iva"]);
-                    
-                    if($articuloVariante->isModified()){
-                        $articuloVariante->save();
-                    }
-               }
-            }
-            
-            //Ahora las imagenes
-            foreach ($_FILES as $key => $value){
-                if(strpos($key, 'producto') !== false){
-                    
-                        $idArticuloVariante = explode("-", $key);
-                        $idArticuloVariante = $idArticuloVariante[1];
-                        
-                        //Creamos una instacia de nuestro articulovariante
-                        $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
-                        
-                        if(!empty($value['name'])){
-                            $target_file = $this->target_dir . basename($value["name"]);
-                            $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-                            $new_name_file = $this->target_dir.'img_producto_'.$idArticuloVariante.'.'.$imageFileType;
-                            if (move_uploaded_file($_FILES[$key]["tmp_name"], $_SERVER["DOCUMENT_ROOT"].$new_name_file)) {
-                                $articuloVariante->setArticulovarianteImagen($new_name_file);
-                                $articuloVariante->save();
-                            }
-                        }else{
-                            $oldulr = $_SERVER["DOCUMENT_ROOT"].$articuloVariante->getArticulovarianteImagen();
-                            $articuloVariante->setArticulovarianteImagen('');   
-                            if($articuloVariante->isModified()){
-                                $articuloVariante->save();
-                             
-                            }
-                        }
-                }
-                
-            }
-            //Agregamos un mensaje
-            $this->flashMessenger()->addMessage('Registro de productos guardados exitosamente!');
-        }
+         $idarticulovariante = $this->params()->fromQuery('idarticulovariante');
+         $modalName = 'modal-producto-'.$idarticulovariante;
+         
+         $fullName = '';
+         
+         $articuloVariante = \ArticulovarianteQuery::create()->findPk($idarticulovariante);
+         $fullName.=$articuloVariante->getArticulo()->getArticuloNombre();
+         
+         $articulo_variante_valor = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($idarticulovariante)->find();
+         $variantes_counr = $articulo_variante_valor->count();
+         $count = 1;
+         $variante = new \Articulovariantevalor();
+         foreach ($articulo_variante_valor as $key => $variante){
+              
+              $fullName.=' '.$variante->getPropiedad()->getPropiedadNombre() . ': '.$variante->getPropiedadvalor()->getPropiedadvalorNombre();
+              if($count<$variantes_counr){
+                $fullName.=' -'; 
+              }
+              $count++;
+              
+         }
 
-        //Obtenemos nuestros productos
-        $articuloCollection = \ArticuloQuery::create()->find();
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true);
+        $viewModel->setVariables(array(
+            'modalName' => $modalName,
+            'producto'     => $articuloVariante,
+            'fullName' => $fullName,
+            'articulo_variante_valor' => $articulo_variante_valor,
+        ));
+        return $viewModel;
+    }
+    
+    public function serversideAction(){
         
-        //De cada articulo obtenemos sus variaciones (articulovariante)
-        $productos = array();
-        foreach ($articuloCollection as $ka => $av){
-            $tmp['nombre'] = $av->getArticuloNombre();
-            $articulovarianteCollection = $av->getArticulovariantes();
-            //Comenzamos a itinerar sobre las variaciones
-            foreach ($articulovarianteCollection as $kav => $vav){
-               
-                $tmp['id'] = $vav->getIdarticulovariante();
-                $tmp['codigo_barras'] = !is_null($vav->getArticuloVarianteCodigobarras()) ? $vav->getArticuloVarianteCodigobarras() : '';
-                $tmp['costo'] = !is_null($vav->getArticuloVarianteCosto()) ? $vav->getArticuloVarianteCosto() : 0.00;
-                $tmp['precio'] = !is_null($vav->getArticuloVariantePrecio()) ? $vav->getArticuloVariantePrecio() : 0.00;
-                $tmp['iva'] = !is_null($vav->getArticuloVarianteIva()) ? $vav->getArticuloVarianteIva() : 0;
-                $tmp['imagen'] = $vav->getArticuloVarianteImagen();
-                //Por cada valor obtenemos su variaciones
-                $articuloVarianteValorCollection = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($vav->getIdarticulovariante())->find();
-                //Comenzamos a itinerar sobre articulovariantevalor para obtener sus resultado
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            
+            $post_data = $request->getPost();
+            $lugarCollectionArray = array();
+          
+           
+            //Comenzamos hacer la query
+            $query = new \ArticulovarianteQuery();
+            
+            //JOIN
+            $query->joinArticulo()->withColumn('articulo_nombre');
+  
+            //SEARCH
+            if(!empty($post_data['search']['value'])){
+                $search_value = $post_data['search']['value'];
+                $c = new \Criteria();
+                
+                $c1= $c->getNewCriterion('articulo.articulo_nombre', '%'.$search_value.'%', \Criteria::LIKE);
+
+                $query->addAnd($c1);
+
+            }
+
+           
+            //PAGINACION
+            $recordsFiltered = $query->count();
+            $query->setOffset((int)$post_data['start']);
+            $query->setLimit((int)$post_data['length']);
+            
+            $productos = array();
+            $articuloVariante = new \Articulovariante();
+            foreach ($query->find() as $articuloVariante){
+                
+                $tmp = $articuloVariante->toArray(\BasePeer::TYPE_FIELDNAME);
+        
+                //DESCRIPCION
+                $articuloVarianteValorCollection = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($articuloVariante->getIdarticulovariante())->find();
                 $tmp['descripcion'] = '';
                 $propiedadCount = 0;
                 foreach ($articuloVarianteValorCollection as $kavv => $vavv){
@@ -99,20 +96,144 @@ class RegistroController extends AbstractActionController
                     if($propiedadCount<$articuloVarianteValorCollection->count()){
                         $tmp['descripcion'].=' - ';
                     }
-                } 
+                }
+                // END DESCRIPCION
+
                 array_push($productos, $tmp);
-            }  
+
+            }
+            
+
+            //El arreglo que regresamos
+            $json_data = array(
+                "draw"            => (int)$post_data['draw'],
+                //"recordsTotal"    => 100,
+                "recordsFiltered" => $recordsFiltered,
+                "data"            => $productos,
+               
+            );
+            
+            return $this->getResponse()->setContent(json_encode($json_data));
+           
         }
+    }
+
+    
+    public function indexAction()
+    {
+        
+        $request = $this->request;
+
+        if($request->isPost()){//Si envian el formulario
+
+             $post_data = $request->getPost();
+
+             $id = $post_data['idproducto'];           
+            if($id){
+                
+                //Creamos una instacia de nuestro articulovariante
+                $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($id);
+                $articuloVariante->setArticulovarianteCodigobarras($request->getPost()->articulovariante_codigobarras);
+                $articuloVariante->setArticulovarianteCosto($request->getPost()->articulovariante_costo);
+                $articuloVariante->setArticulovariantePrecio($request->getPost()->articulovariante_precio);
+                $articuloVariante->setArticulovarianteIva($request->getPost()->articulovariante_iva);
+                if($articuloVariante->isModified()){
+                    $articuloVariante->save();
+                }
+            }else{
+                //Comenzamos a itinerar sobre nuestro los elementos enviados
+                foreach ($request->getPost() as $key => $value){
+                    if(strpos($key, 'producto') !== false){
+                        $idArticuloVariante = explode("-", $key);
+                        $idArticuloVariante = $idArticuloVariante[1];
+
+                        //Creamos una instacia de nuestro articulovariante
+                        $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($idArticuloVariante);
+
+                        $articuloVariante->setArticulovarianteCodigobarras($value["codigobarras"]);
+                        $articuloVariante->setArticulovarianteCosto($value["costo"]);
+                        $articuloVariante->setArticulovariantePrecio($value["precio"]);
+                        $articuloVariante->setArticulovarianteIva($value["iva"]);
+
+                        if($articuloVariante->isModified()){
+                            $articuloVariante->save();
+                        }
+                    }
+                }
+            }
+            
+            //Ahora las imagen
+            if(!empty($_FILES)){
+                $upload_folder ='/img/productos/';
+
+                $imagen = $_FILES['articulovariante_imagen'];
+                $tipo_archivo = $_FILES['articulovariante_imagen']['type']; $tipo_archivo = explode('/', $tipo_archivo); $tipo_archivo = $tipo_archivo[1];
+                $nombre_archivo = 'producto_'.$post_data['idproducto'].'.'.$tipo_archivo;
+                $tmp_archivo = $imagen['tmp_name'];
+                $archivador = $upload_folder.$nombre_archivo;
+                if(move_uploaded_file($tmp_archivo, $_SERVER["DOCUMENT_ROOT"].$archivador)){
+                    $articuloVariante->setArticulovarianteImagen($archivador);
+                    $articuloVariante->save();
+                }
+
+            }
+            else{
+                $oldulr = $_SERVER["DOCUMENT_ROOT"].$articuloVariante->getArticulovarianteImagen();
+                unlink($oldulr);
+                $articuloVariante->setArticulovarianteImagen('');   
+                if($articuloVariante->isModified()){
+                    $articuloVariante->save();
+
+                }
+            }
+            //Agregamos un mensaje
+            //$this->flashMessenger()->addMessage('Registro de productos guardados exitosamente!');
+        }
+
         //var_dump($this->flashMessenger()->getMessages());
         return new ViewModel(array(
             'flashMessages' => $this->flashMessenger()->getMessages(),
-            'productos' => $productos,
         ));
 
     }
     
     public function eliminarAction()
     {
+        
+        if ($this->params()->fromQuery('html')) {
+
+            $idarticulovariante = $this->params()->fromQuery('idarticulovariante');
+            $modalName = 'delete-modal-articulo-' . $idarticulovariante;
+
+            $fullName = '';
+
+            $articuloVariante = \ArticulovarianteQuery::create()->findPk($idarticulovariante);
+            $fullName.=$articuloVariante->getArticulo()->getArticuloNombre();
+
+            $articulo_variante_valor = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($idarticulovariante)->find();
+            $variantes_counr = $articulo_variante_valor->count();
+            $count = 1;
+            $variante = new \Articulovariantevalor();
+            foreach ($articulo_variante_valor as $key => $variante) {
+
+                $fullName.=' ' . $variante->getPropiedad()->getPropiedadNombre() . ': ' . $variante->getPropiedadvalor()->getPropiedadvalorNombre();
+                if ($count < $variantes_counr) {
+                    $fullName.=' -';
+                }
+                $count++;
+            }
+
+            $viewModel = new ViewModel();
+            $viewModel->setTerminal(true);
+            $viewModel->setVariables(array(
+                'modalName' => $modalName,
+                'producto' => $articuloVariante,
+                'fullName' => $fullName,
+                'articulo_variante_valor' => $articulo_variante_valor,
+            ));
+            return $viewModel;
+        }
+
         //Cachamos el valor desde nuestro params
         $id = (int) $this->params()->fromRoute('id');
         

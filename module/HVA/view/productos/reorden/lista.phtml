@@ -56,7 +56,7 @@ $this->headTitle($title);
                 </div>                
             </th>
             <?php endforeach;?>
-            <th style="text-align: center">Imagen</th>
+          
             <th >Ver</th>
         </tr>
     </thead>
@@ -85,13 +85,6 @@ $this->headTitle($title);
                         </div>
                     </td>
                 <?php endforeach;?>
-                <td class="td-image">
-                    <?php if (is_null($producto['imagen']) || empty($producto['imagen'])) : ?>
-                        <img class="responsive-img" src="/img/productos/no-image.png" width="80" height="80">
-                    <?php else : ?>
-                        <img class="materialboxed responsive-img" src="<?php echo $producto['imagen'] ?>" width="80" height="80">
-                    <?php endif;?>
-                </td>
                 <td><a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a></td>
             </tr>
             <!-- View Modal Structure -->

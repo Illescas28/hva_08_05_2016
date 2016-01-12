@@ -165,9 +165,9 @@ class ArticuloController extends AbstractActionController
     {
         $articuloQuery = new ArticuloQuery();
 
-        $result = $articuloQuery->paginate($page,$limit);
+       // $result = $articuloQuery->find();
 
-        $dataCollection = $result->getResults();
+        $dataCollection = $articuloQuery->find();
         
         //Verificamos si el producto tiene porpiedades
         

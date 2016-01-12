@@ -31,11 +31,22 @@ require_once 'phing/Task.php';
 class PhpCodeSnifferTask extends Task
 {
 
+    /**
+     * A php source code filename or directory
+     *
+     * @var PhingFile
+     */
     protected $file; // the source file (from xml attribute)
+
+    /**
+     * All fileset objects assigned to this task
+     *
+     * @var FileSet[]
+     */
     protected $filesets = array(); // all fileset objects assigned to this task
 
     // parameters for php code sniffer
-    protected $standard = 'Generic';
+    protected $standards = array('Generic');
     protected $sniffs = array();
     protected $showWarnings = true;
     protected $showSources = false;
@@ -71,6 +82,13 @@ class PhpCodeSnifferTask extends Task
     private $haltonerror = false;
     private $haltonwarning = false;
     private $skipversioncheck = false;
+    private $propertyName = null;
+
+    /**
+     * Cache data storage
+     * @var DataStore
+     */
+    protected $cache;
 
     /**
      * Load the necessary environment for running PHP_CodeSniffer.
@@ -104,13 +122,19 @@ class PhpCodeSnifferTask extends Task
     /**
      * Sets the coding standard to test for
      *
-     * @param string $standard The coding standard
+     * @param string $standards The coding standards
      *
      * @return void
      */
-    public function setStandard($standard)
+    public function setStandard($standards)
     {
-        $this->standard = $standard;
+        $this->standards = array();
+        $token = ' ,;';
+        $ext = strtok($standards, $token);
+        while ($ext !== false) {
+            $this->standards[] = $ext;
+            $ext = strtok($token);
+        }
     }
 
     /**
@@ -338,6 +362,66 @@ class PhpCodeSnifferTask extends Task
     }
 
     /**
+     * Sets the name of the property to use
+     * @param $propertyName
+     */
+    public function setPropertyName($propertyName)
+    {
+        $this->propertyName = $propertyName;
+    }
+
+    /**
+     * Returns the name of the property to use
+     */
+    public function getPropertyName()
+    {
+        return $this->propertyName;
+    }
+
+    /**
+     * Whether to store last-modified times in cache
+     *
+     * @param PhingFile $file
+     */
+    public function setCacheFile(PhingFile $file)
+    {
+        $this->cache = new DataStore($file);
+    }
+
+    /**
+     * Return the list of files to parse
+     *
+     * @return string[] list of absolute files to parse
+     */
+    protected function getFilesToParse()
+    {
+        $filesToParse = array();
+
+        if ($this->file instanceof PhingFile) {
+            $filesToParse[] = $this->file->getPath();
+        } else {
+            // append any files in filesets
+            foreach ($this->filesets as $fs) {
+                $dir = $fs->getDir($this->project)->getAbsolutePath();
+                foreach ($fs->getDirectoryScanner($this->project)->getIncludedFiles() as $filename) {
+                    $fileAbsolutePath = $dir . DIRECTORY_SEPARATOR . $filename;
+                    if ($this->cache) {
+                        $lastMTime = $this->cache->get($fileAbsolutePath);
+                        $currentMTime = filemtime($fileAbsolutePath);
+                        if ($lastMTime >= $currentMTime) {
+                            continue;
+                        } else {
+                            $this->cache->put($fileAbsolutePath, $currentMTime);
+                        }
+                    }
+                    $filesToParse[] = $fileAbsolutePath;
+                }
+            }
+        }
+        return $filesToParse;
+    }
+
+    /**
      * Executes PHP code sniffer against PhingFile or a FileSet
      */
     public function main()
@@ -381,21 +465,7 @@ class PhpCodeSnifferTask extends Task
             $this->formatters[] = $fmt;
         }
 
-        $fileList = array();
-
-        if (!isset($this->file)) {
-            $project = $this->getProject();
-            foreach ($this->filesets as $fs) {
-                $ds = $fs->getDirectoryScanner($project);
-                $files = $ds->getIncludedFiles();
-                $dir = $fs->getDir($this->project)->getAbsolutePath();
-                foreach ($files as $file) {
-                    $fileList[] = $dir . DIRECTORY_SEPARATOR . $file;
-                }
-            }
-        } else {
-            $fileList[] = $this->file->getPath();
-        }
+        $fileList = $this->getFilesToParse();
 
         $cwd = getcwd();
 
@@ -422,31 +492,37 @@ class PhpCodeSnifferTask extends Task
          * Verifying if standard is installed only after setting config data.
          * Custom standard paths could be provided via installed_paths config parameter.
          */
-        if (PHP_CodeSniffer::isInstalledStandard($this->standard) === false) {
-            // They didn't select a valid coding standard, so help them
-            // out by letting them know which standards are installed.
-            $installedStandards = PHP_CodeSniffer::getInstalledStandards();
-            $numStandards = count($installedStandards);
-            $errMsg = '';
+        foreach($this->standards as $standard) {
+            if (PHP_CodeSniffer::isInstalledStandard($standard) === false) {
+                // They didn't select a valid coding standard, so help them
+                // out by letting them know which standards are installed.
+                $installedStandards = PHP_CodeSniffer::getInstalledStandards();
+                $numStandards = count($installedStandards);
+                $errMsg = '';
 
-            if ($numStandards === 0) {
-                $errMsg = 'No coding standards are installed.';
-            } else {
-                $lastStandard = array_pop($installedStandards);
-
-                if ($numStandards === 1) {
-                    $errMsg = 'The only coding standard installed is ' . $lastStandard;
+                if ($numStandards === 0) {
+                    $errMsg = 'No coding standards are installed.';
                 } else {
-                    $standardList = implode(', ', $installedStandards);
-                    $standardList .= ' and ' . $lastStandard;
-                    $errMsg = 'The installed coding standards are ' . $standardList;
-                }
-            }
+                    $lastStandard = array_pop($installedStandards);
 
-            throw new BuildException(
-                'ERROR: the "' . $this->standard . '" coding standard is not installed. ' . $errMsg,
-                $this->getLocation()
-            );
+                    if ($numStandards === 1) {
+                        $errMsg = 'The only coding standard installed is ' . $lastStandard;
+                    } else {
+                        $standardList = implode(', ', $installedStandards);
+                        $standardList .= ' and ' . $lastStandard;
+                        $errMsg = 'The installed coding standards are ' . $standardList;
+                    }
+                }
+
+                throw new BuildException(
+                    'ERROR: the "' . $standard . '" coding standard is not installed. ' . $errMsg,
+                    $this->getLocation()
+                );
+            }
+        }
+
+        if (!$this->showWarnings) {
+            $codeSniffer->cli->warningSeverity = 0;
         }
 
         // nasty integration hack
@@ -459,9 +535,22 @@ class PhpCodeSnifferTask extends Task
             $_SERVER['argc']++;
         }
 
-        $codeSniffer->process($fileList, $this->standard, $this->sniffs, $this->noSubdirectories);
+        if ($this->cache) {
+            require_once 'phing/tasks/ext/phpcs/Reports_PhingRemoveFromCache.php';
+            PHP_CodeSniffer_Reports_PhingRemoveFromCache::setCache($this->cache);
+            // add a fake report to remove from cache
+            $_SERVER['argv'][] = '--report-phingRemoveFromCache=';
+            $_SERVER['argc']++;
+        }
+
+        $codeSniffer->process($fileList, $this->standards, $this->sniffs, $this->noSubdirectories);
         $_SERVER['argv'] = array();
         $_SERVER['argc'] = 0;
+
+        if ($this->cache) {
+            PHP_CodeSniffer_Reports_PhingRemoveFromCache::setCache(null);
+            $this->cache->commit();
+        }
 
         $this->printErrorReport($codeSniffer);
 
@@ -469,7 +558,7 @@ class PhpCodeSnifferTask extends Task
         if ($this->docGenerator !== '' && $this->docFile !== null) {
             ob_start();
 
-            $codeSniffer->generateDocs($this->standard, $this->sniffs, $this->docGenerator);
+            $codeSniffer->generateDocs($this->standards, $this->sniffs, $this->docGenerator);
 
             $output = ob_get_contents();
             ob_end_clean();
@@ -482,7 +571,7 @@ class PhpCodeSnifferTask extends Task
                 throw new BuildException('Error writing doc to ' . $outputFile);
             }
         } elseif ($this->docGenerator !== '' && $this->docFile === null) {
-            $codeSniffer->generateDocs($this->standard, $this->sniffs, $this->docGenerator);
+            $codeSniffer->generateDocs($this->standards, $this->sniffs, $this->docGenerator);
         }
 
         if ($this->haltonerror && $codeSniffer->reporting->totalErrors > 0) {
@@ -506,16 +595,18 @@ class PhpCodeSnifferTask extends Task
      */
     protected function printErrorReport($phpcs)
     {
-        if ($this->showSniffs) {
-            $sniffs = $phpcs->getSniffs();
-            $sniffStr = '';
-            foreach ($sniffs as $sniff) {
-                if (is_string($sniff)) {
-                    $sniffStr .= '- ' . $sniff . PHP_EOL;
-                } else {
-                    $sniffStr .= '- ' . get_class($sniff) . PHP_EOL;
-                }
+        $sniffs = $phpcs->getSniffs();
+        $sniffStr = '';
+        foreach ($sniffs as $sniff) {
+            if (is_string($sniff)) {
+                $sniffStr .= '- ' . $sniff . PHP_EOL;
+            } else {
+                $sniffStr .= '- ' . get_class($sniff) . PHP_EOL;
             }
+        }
+        $this->project->setProperty($this->getPropertyName(), (string) $sniffStr);
+
+        if ($this->showSniffs) {
             $this->log('The list of used sniffs (#' . count($sniffs) . '): ' . PHP_EOL . $sniffStr, Project::MSG_INFO);
         }
 

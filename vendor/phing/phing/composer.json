@@ -2,7 +2,7 @@
     "name": "phing/phing",
     "description": "PHing Is Not GNU make; it's a PHP project build system or build tool based on Apache Ant.",
     "keywords": ["build", "tool", "task", "phing"],
-    "homepage": "http://www.phing.info/",
+    "homepage": "https://www.phing.info/",
     "license": "LGPL-3.0",
     "authors": [
         {
@@ -11,41 +11,35 @@
         },
         {
             "name": "Phing Community",
-            "homepage": "http://www.phing.info/trac/wiki/Development/Contributors"
+            "homepage": "https://www.phing.info/trac/wiki/Development/Contributors"
         }
     ],
     "support": {
-        "issues": "http://www.phing.info/trac/report",
+        "issues": "https://www.phing.info/trac/report",
         "irc": "irc://irc.freenode.net/phing"
     },
     "require": {
         "php": ">=5.2.0"
     },
-    "repositories": [
-        {
-            "type": "pear",
-            "url": "http://pear.php.net"
-        }
-    ],
     "minimum-stability": "beta",
     "require-dev": {
-        "phpunit/phpunit": ">=3.7",
+        "ext-pdo_sqlite": "*",
+        "lastcraft/simpletest": "@dev",
+        "pear/archive_tar": "1.4.x",
+        "pear/http_request2": "dev-trunk",
+        "pear/net_growl": "dev-trunk",
+        "pear/pear-core-minimal": "1.10.1",
+        "pear/versioncontrol_git": "@dev",
+        "pear/versioncontrol_svn": "~0.5",
+        "pdepend/pdepend": "2.x",
         "phpdocumentor/phpdocumentor": "2.x",
-	"phploc/phploc": "2.x",
-	"sebastian/phpcpd": "2.x",
-	"pear/pear_exception": "~1.0",
-	"pear/versioncontrol_svn": "~0.5",
-	"pear/versioncontrol_git": "@dev",
-	"pdepend/pdepend": "2.x",
-        "pear-pear.php.net/HTTP_Request2": "2.2.x",
-        "pear-pear.php.net/Net_Growl": "2.7.x",
-	"pear-pear.php.net/PEAR_PackageFileManager": "1.7.x",
-	"pear-pear.php.net/PEAR_PackageFileManager2": "1.0.x",
-	"pear-pear.php.net/XML_Serializer": "0.20.x",
-	"squizlabs/php_codesniffer": "~2.2",
-	"lastcraft/simpletest": "@dev",
-	"ext-pdo_sqlite": "*",
-        "phpmd/phpmd": "~2.2"
+        "phploc/phploc": "~2.0.6",
+        "phpmd/phpmd": "~2.2",
+        "phpunit/phpunit": ">=3.7",
+        "sebastian/phpcpd": "2.x",
+        "sebastian/git": "~1.0",
+        "squizlabs/php_codesniffer": "~2.2",
+        "symfony/yaml": "~2.7"
     },
     "autoload": {
         "classmap": ["classes/phing/"]
@@ -59,7 +53,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.10.x-dev"
+            "dev-master": "2.13.x-dev"
         }
     },
     "suggest": {

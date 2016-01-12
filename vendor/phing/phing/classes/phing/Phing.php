@@ -51,7 +51,7 @@ include_once 'phing/system/util/Register.php';
  * and cleaning up in the end.
  *
  * If you are invoking Phing from an external application, this is still
- * the class to use.  Your applicaiton can invoke the start() method, passing
+ * the class to use.  Your application can invoke the start() method, passing
  * any commandline arguments or additional properties.
  *
  * @author    Andreas Aderhold <andi@binarycloud.com>
@@ -88,10 +88,23 @@ class Phing
     /** Names of classes to add as listeners to project */
     private $listeners = array();
 
+    /**
+     * keep going mode
+     * @var bool $keepGoingMode
+     */
+    private $keepGoingMode = false;
+
     private $loggerClassname = null;
 
     /** The class to handle input (can be only one). */
     private $inputHandlerClassname;
+
+    /**
+     * Whether or not log output should be reduced to the minimum.
+     *
+     * @var bool $silent
+     */
+    private $silent = false;
 
     /** Indicates if this phing should be run */
     private $readyToRun = false;
@@ -140,6 +153,9 @@ class Phing
      * @see restoreIni()
      */
     private static $origIniSettings = array();
+
+    /** Whether or not output to the log is to be unadorned. */
+    private $emacsMode = false;
 
     /**
      * Entry point allowing for more options from other front ends.
@@ -348,6 +364,15 @@ class Phing
             unset($args[$key]);
         }
 
+        if (
+            false !== ($key = array_search('-emacs', $args, true))
+            ||
+            false !== ($key = array_search('-e', $args, true))
+        ) {
+            $this->emacsMode = true;
+            unset($args[$key]);
+        }
+
         if (false !== ($key = array_search('-verbose', $args, true))) {
             self::$msgOutputLevel = Project::MSG_VERBOSE;
             unset($args[$key]);
@@ -355,6 +380,15 @@ class Phing
 
         if (false !== ($key = array_search('-debug', $args, true))) {
             self::$msgOutputLevel = Project::MSG_DEBUG;
+            unset($args[$key]);
+        }
+
+        if (
+            false !== ($key = array_search('-silent', $args, true))
+            ||
+            false !== ($key = array_search('-S', $args, true))
+        ) {
+            $this->silent = true;
             unset($args[$key]);
         }
 
@@ -448,6 +482,8 @@ class Phing
                         $this->setProperty($prop, $value);
                     }
                 }
+            } elseif ($arg == "-keep-going" || $arg == "-k") {
+                $this->keepGoingMode = true;
             } elseif ($arg == "-longtargets") {
                 self::$definedProps->setProperty('phing.showlongtargets', 1);
             } elseif ($arg == "-projecthelp" || $arg == "-targets" || $arg == "-list" || $arg == "-l" || $arg == "-p") {
@@ -594,6 +630,8 @@ class Phing
             $project->fireBuildFinished($exc);
             throw $exc;
         }
+
+        $project->setKeepGoingMode($this->keepGoingMode);
 
         $project->setUserProperty("phing.version", $this->getPhingVersion());
 
@@ -762,7 +800,11 @@ class Phing
      */
     private function createLogger()
     {
-        if ($this->loggerClassname !== null) {
+        if ($this->silent) {
+            require_once 'phing/listener/SilentLogger.php';
+            $logger = new SilentLogger();
+            self::$msgOutputLevel = Project::MSG_WARN;
+        } elseif ($this->loggerClassname !== null) {
             self::import($this->loggerClassname);
             // get class name part
             $classname = self::import($this->loggerClassname);
@@ -777,6 +819,7 @@ class Phing
         $logger->setMessageOutputLevel(self::$msgOutputLevel);
         $logger->setOutputStream(self::$out);
         $logger->setErrorStream(self::$err);
+        $logger->setEmacsMode($this->emacsMode);
 
         return $logger;
     }
@@ -833,7 +876,7 @@ class Phing
     public static function handlePhpError($level, $message, $file, $line)
     {
 
-        // don't want to print supressed errors
+        // don't want to print suppressed errors
         if (error_reporting() > 0) {
 
             if (self::$phpErrorCapture) {
@@ -922,14 +965,19 @@ class Phing
         $msg .= "  -l -list               list available targets in this project" . PHP_EOL;
         $msg .= "  -v -version            print the version information and exit" . PHP_EOL;
         $msg .= "  -q -quiet              be extra quiet" . PHP_EOL;
+        $msg .= "  -S -silent             print nothing but task outputs and build failures" . PHP_EOL;
         $msg .= "  -verbose               be extra verbose" . PHP_EOL;
         $msg .= "  -debug                 print debugging information" . PHP_EOL;
+        $msg .= "  -emacs, -e             produce logging information without adornments" . PHP_EOL;
         $msg .= "  -diagnostics           print diagnostics information" . PHP_EOL;
         $msg .= "  -longtargets           show target descriptions during build" . PHP_EOL;
         $msg .= "  -logfile <file>        use given file for log" . PHP_EOL;
         $msg .= "  -logger <classname>    the class which is to perform logging" . PHP_EOL;
+        $msg .= "  -listener <classname>  add an instance of class as a project listener" . PHP_EOL;
         $msg .= "  -f -buildfile <file>   use given buildfile" . PHP_EOL;
         $msg .= "  -D<property>=<value>   use value for given property" . PHP_EOL;
+        $msg .= "  -keep-going, -k        execute all targets that do not depend" . PHP_EOL;
+        $msg .= "                         on failed target(s)" . PHP_EOL;
         $msg .= "  -propertyfile <file>   load all properties from file" . PHP_EOL;
         $msg .= "  -find <file>           search for buildfile towards the root of the" . PHP_EOL;
         $msg .= "                         filesystem and use it" . PHP_EOL;

@@ -66,6 +66,8 @@ class DefaultLogger implements StreamRequiredBuildLogger
      */
     protected $err;
 
+    protected $emacsMode = false;
+
     /**
      *  Construct a new default logger.
      */
@@ -122,6 +124,17 @@ class DefaultLogger implements StreamRequiredBuildLogger
     }
 
     /**
+     * Sets this logger to produce emacs (and other editor) friendly output.
+     *
+     * @param bool $emacsMode <code>true</code> if output is to be unadorned so that
+     *                  emacs and other editors can parse files names, etc.
+     */
+    public function setEmacsMode($emacsMode)
+    {
+        $this->emacsMode = $emacsMode;
+    }
+
+    /**
      *  Sets the start-time when the build started. Used for calculating
      *  the build-time.
      *
@@ -142,7 +155,7 @@ class DefaultLogger implements StreamRequiredBuildLogger
 
     /**
      *  Prints whether the build succeeded or failed, and any errors that
-     *  occured during the build. Also outputs the total build-time.
+     *  occurred during the build. Also outputs the total build-time.
      *
      * @param BuildEvent $event
      * @internal param The $object BuildEvent
@@ -246,7 +259,6 @@ class DefaultLogger implements StreamRequiredBuildLogger
      *  Print a message to the stdout.
      *
      * @param BuildEvent $event
-     * @internal param The $object BuildEvent
      * @see    BuildEvent::getMessage()
      */
     public function messageLogged(BuildEvent $event)
@@ -254,7 +266,7 @@ class DefaultLogger implements StreamRequiredBuildLogger
         $priority = $event->getPriority();
         if ($priority <= $this->msgOutputLevel) {
             $msg = "";
-            if ($event->getTask() !== null) {
+            if ($event->getTask() !== null && !$this->emacsMode) {
                 $name = $event->getTask();
                 $name = $name->getTaskName();
                 $msg = str_pad("[$name] ", self::LEFT_COLUMN_SIZE, " ", STR_PAD_LEFT);
