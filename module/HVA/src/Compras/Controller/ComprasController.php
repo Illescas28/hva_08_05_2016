@@ -331,7 +331,7 @@ class ComprasController extends AbstractActionController {
                         
             //Guaradamos nuestra variable de orden
             $orden = $request->getPost('orden');
-            echo '<pre>';var_dump($orden); echo '</pre>';exit();
+           
             
             $idorden = $orden['idorden'];
             $orden_compra = \OrdencompraQuery::create()->findPk($idorden);
@@ -381,7 +381,7 @@ class ComprasController extends AbstractActionController {
             //Itenaramos sobre los items
             foreach ($orden['orden_items'] as $item){
                 
-                $exist =  $ordenCompraDetalle = \OrdencompradetalleQuery::create()->filterByIdordencompradetalle($item["idordendetalle"])->exists();
+                //$exist =  $ordenCompraDetalle = \OrdencompradetalleQuery::create()->filterByIdordencompradetalle($item["idordendetalle"])->exists();
                 
                 if(isset($item['idordendetalle'])){
                     
@@ -427,7 +427,7 @@ class ComprasController extends AbstractActionController {
                     //Actualizamos el lugar inventario
                     $lugarInventario = \LugarinventarioQuery::create()->findOneByIdordencompradetalle($item["idordendetalle"]);
                     $lugarInventario->setLugarinventarioCantidad(($ordenCompraDetalle->getOrdencompradetalleCantidad()*$ordenCompraDetalle->getOrdencompradetalleProductosporcaja()));
-                    $lugarInventario->setIdlugar($orden['orden_lugar']);
+                    $lugarInventario->setIdlugar($item['ordencompradetalle_lugar']);
                     $lugarInventario->save();
                     
                 }else{
@@ -471,7 +471,7 @@ class ComprasController extends AbstractActionController {
                     
                     //Los insertamos en nuestro almacen general
                     $lugarInventario = new \Lugarinventario();
-                    $lugarInventario->setIdlugar($orden['orden_lugar']) //Equivale al almacen general
+                    $lugarInventario->setIdlugar($item['ordencompradetalle_lugar']) //Equivale al almacen general
                                     ->setIdOrdencompradetalle($ordenCompraDetalle->getIdordencompradetalle())
                                     ->setLugarinventarioCantidad(($ordenCompraDetalle->getOrdencompradetalleCantidad()*$ordenCompraDetalle->getOrdencompradetalleProductosporcaja()))
                                     ->save();

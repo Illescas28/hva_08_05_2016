@@ -172,8 +172,6 @@
 
     $(document).ready(function(){
 
-        $('select').material_select();
-        
         //Inicializamos el autocomplete de fecha a pagar
         $('input#orden_fechaapagar').datepicker({
             changeDay: true,
@@ -392,7 +390,7 @@
                })
  
                $('tbody').append(tr);
-              $('select').material_select();   
+  
                 //Evento caducidad
                $('input.input-datepicker').on('focus',function(){
                    //Cambiamos los estilos;
@@ -425,7 +423,7 @@
                 
                 //updateTotal();
                 //updateIVA();
-                 $('select').material_select(); 
+      
             }else{
                 alert('No hay productos por agregar');
             }
