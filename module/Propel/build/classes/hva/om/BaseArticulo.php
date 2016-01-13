@@ -54,6 +54,17 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     protected $articulo_descripcion;
 
     /**
+     * The value for the idproveedor field.
+     * @var        int
+     */
+    protected $idproveedor;
+
+    /**
+     * @var        Proveedor
+     */
+    protected $aProveedor;
+
+    /**
      * @var        Tipo
      */
     protected $aTipo;
@@ -171,6 +182,17 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [idproveedor] column value.
+     *
+     * @return int
+     */
+    public function getIdproveedor()
+    {
+
+        return $this->idproveedor;
+    }
+
+    /**
      * Set the value of [idarticulo] column.
      *
      * @param  int $v new value
@@ -259,6 +281,31 @@ abstract class BaseArticulo extends BaseObject implements Persistent
     } // setArticuloDescripcion()
 
     /**
+     * Set the value of [idproveedor] column.
+     *
+     * @param  int $v new value
+     * @return Articulo The current object (for fluent API support)
+     */
+    public function setIdproveedor($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (int) $v;
+        }
+
+        if ($this->idproveedor !== $v) {
+            $this->idproveedor = $v;
+            $this->modifiedColumns[] = ArticuloPeer::IDPROVEEDOR;
+        }
+
+        if ($this->aProveedor !== null && $this->aProveedor->getIdproveedor() !== $v) {
+            $this->aProveedor = null;
+        }
+
+
+        return $this;
+    } // setIdproveedor()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -294,6 +341,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $this->idtipo = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->articulo_nombre = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->articulo_descripcion = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->idproveedor = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -303,7 +351,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 4; // 4 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 5; // 5 = ArticuloPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Articulo object", $e);
@@ -328,6 +376,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
         if ($this->aTipo !== null && $this->idtipo !== $this->aTipo->getIdtipo()) {
             $this->aTipo = null;
+        }
+        if ($this->aProveedor !== null && $this->idproveedor !== $this->aProveedor->getIdproveedor()) {
+            $this->aProveedor = null;
         }
     } // ensureConsistency
 
@@ -368,6 +419,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
+            $this->aProveedor = null;
             $this->aTipo = null;
             $this->collArticulovariantes = null;
 
@@ -495,6 +547,13 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
+            if ($this->aProveedor !== null) {
+                if ($this->aProveedor->isModified() || $this->aProveedor->isNew()) {
+                    $affectedRows += $this->aProveedor->save($con);
+                }
+                $this->setProveedor($this->aProveedor);
+            }
+
             if ($this->aTipo !== null) {
                 if ($this->aTipo->isModified() || $this->aTipo->isNew()) {
                     $affectedRows += $this->aTipo->save($con);
@@ -619,6 +678,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) {
             $modifiedColumns[':p' . $index++]  = '`articulo_descripcion`';
         }
+        if ($this->isColumnModified(ArticuloPeer::IDPROVEEDOR)) {
+            $modifiedColumns[':p' . $index++]  = '`idproveedor`';
+        }
 
         $sql = sprintf(
             'INSERT INTO `articulo` (%s) VALUES (%s)',
@@ -641,6 +703,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                         break;
                     case '`articulo_descripcion`':
                         $stmt->bindValue($identifier, $this->articulo_descripcion, PDO::PARAM_STR);
+                        break;
+                    case '`idproveedor`':
+                        $stmt->bindValue($identifier, $this->idproveedor, PDO::PARAM_INT);
                         break;
                 }
             }
@@ -741,6 +806,12 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
+            if ($this->aProveedor !== null) {
+                if (!$this->aProveedor->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aProveedor->getValidationFailures());
+                }
+            }
+
             if ($this->aTipo !== null) {
                 if (!$this->aTipo->validate($columns)) {
                     $failureMap = array_merge($failureMap, $this->aTipo->getValidationFailures());
@@ -832,6 +903,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             case 3:
                 return $this->getArticuloDescripcion();
                 break;
+            case 4:
+                return $this->getIdproveedor();
+                break;
             default:
                 return null;
                 break;
@@ -865,6 +939,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $keys[1] => $this->getIdtipo(),
             $keys[2] => $this->getArticuloNombre(),
             $keys[3] => $this->getArticuloDescripcion(),
+            $keys[4] => $this->getIdproveedor(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -872,6 +947,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->aProveedor) {
+                $result['Proveedor'] = $this->aProveedor->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
             if (null !== $this->aTipo) {
                 $result['Tipo'] = $this->aTipo->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
@@ -933,6 +1011,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             case 3:
                 $this->setArticuloDescripcion($value);
                 break;
+            case 4:
+                $this->setIdproveedor($value);
+                break;
         } // switch()
     }
 
@@ -961,6 +1042,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setIdtipo($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setArticuloNombre($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setArticuloDescripcion($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setIdproveedor($arr[$keys[4]]);
     }
 
     /**
@@ -976,6 +1058,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticuloPeer::IDTIPO)) $criteria->add(ArticuloPeer::IDTIPO, $this->idtipo);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_NOMBRE)) $criteria->add(ArticuloPeer::ARTICULO_NOMBRE, $this->articulo_nombre);
         if ($this->isColumnModified(ArticuloPeer::ARTICULO_DESCRIPCION)) $criteria->add(ArticuloPeer::ARTICULO_DESCRIPCION, $this->articulo_descripcion);
+        if ($this->isColumnModified(ArticuloPeer::IDPROVEEDOR)) $criteria->add(ArticuloPeer::IDPROVEEDOR, $this->idproveedor);
 
         return $criteria;
     }
@@ -1042,6 +1125,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         $copyObj->setIdtipo($this->getIdtipo());
         $copyObj->setArticuloNombre($this->getArticuloNombre());
         $copyObj->setArticuloDescripcion($this->getArticuloDescripcion());
+        $copyObj->setIdproveedor($this->getIdproveedor());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1122,6 +1206,58 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         }
 
         return self::$peer;
+    }
+
+    /**
+     * Declares an association between this object and a Proveedor object.
+     *
+     * @param                  Proveedor $v
+     * @return Articulo The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setProveedor(Proveedor $v = null)
+    {
+        if ($v === null) {
+            $this->setIdproveedor(NULL);
+        } else {
+            $this->setIdproveedor($v->getIdproveedor());
+        }
+
+        $this->aProveedor = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the Proveedor object, it will not be re-added.
+        if ($v !== null) {
+            $v->addArticulo($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated Proveedor object
+     *
+     * @param PropelPDO $con Optional Connection object.
+     * @param $doQuery Executes a query to get the object if required
+     * @return Proveedor The associated Proveedor object.
+     * @throws PropelException
+     */
+    public function getProveedor(PropelPDO $con = null, $doQuery = true)
+    {
+        if ($this->aProveedor === null && ($this->idproveedor !== null) && $doQuery) {
+            $this->aProveedor = ProveedorQuery::create()->findPk($this->idproveedor, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aProveedor->addArticulos($this);
+             */
+        }
+
+        return $this->aProveedor;
     }
 
     /**
@@ -2210,6 +2346,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
         $this->idtipo = null;
         $this->articulo_nombre = null;
         $this->articulo_descripcion = null;
+        $this->idproveedor = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;
@@ -2252,6 +2389,9 @@ abstract class BaseArticulo extends BaseObject implements Persistent
                     $o->clearAllReferences($deep);
                 }
             }
+            if ($this->aProveedor instanceof Persistent) {
+              $this->aProveedor->clearAllReferences($deep);
+            }
             if ($this->aTipo instanceof Persistent) {
               $this->aTipo->clearAllReferences($deep);
             }
@@ -2275,6 +2415,7 @@ abstract class BaseArticulo extends BaseObject implements Persistent
             $this->collPropiedadvalors->clearIterator();
         }
         $this->collPropiedadvalors = null;
+        $this->aProveedor = null;
         $this->aTipo = null;
     }
 

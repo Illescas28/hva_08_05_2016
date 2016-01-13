@@ -11,14 +11,12 @@
  * @method AdmisionanticipoQuery orderByAdmisionanticipoFecha($order = Criteria::ASC) Order by the admisionanticipo_fecha column
  * @method AdmisionanticipoQuery orderByAdmisionanticipoCantidad($order = Criteria::ASC) Order by the admisionanticipo_cantidad column
  * @method AdmisionanticipoQuery orderByAdmisionanticipoNota($order = Criteria::ASC) Order by the admisionanticipo_nota column
- * @method AdmisionanticipoQuery orderByAdmisionanticipoTipo($order = Criteria::ASC) Order by the admisionanticipo_tipo column
  *
  * @method AdmisionanticipoQuery groupByIdadmisionanticipo() Group by the idadmisionanticipo column
  * @method AdmisionanticipoQuery groupByIdadmision() Group by the idadmision column
  * @method AdmisionanticipoQuery groupByAdmisionanticipoFecha() Group by the admisionanticipo_fecha column
  * @method AdmisionanticipoQuery groupByAdmisionanticipoCantidad() Group by the admisionanticipo_cantidad column
  * @method AdmisionanticipoQuery groupByAdmisionanticipoNota() Group by the admisionanticipo_nota column
- * @method AdmisionanticipoQuery groupByAdmisionanticipoTipo() Group by the admisionanticipo_tipo column
  *
  * @method AdmisionanticipoQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method AdmisionanticipoQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -35,14 +33,12 @@
  * @method Admisionanticipo findOneByAdmisionanticipoFecha(string $admisionanticipo_fecha) Return the first Admisionanticipo filtered by the admisionanticipo_fecha column
  * @method Admisionanticipo findOneByAdmisionanticipoCantidad(string $admisionanticipo_cantidad) Return the first Admisionanticipo filtered by the admisionanticipo_cantidad column
  * @method Admisionanticipo findOneByAdmisionanticipoNota(string $admisionanticipo_nota) Return the first Admisionanticipo filtered by the admisionanticipo_nota column
- * @method Admisionanticipo findOneByAdmisionanticipoTipo(string $admisionanticipo_tipo) Return the first Admisionanticipo filtered by the admisionanticipo_tipo column
  *
  * @method array findByIdadmisionanticipo(int $idadmisionanticipo) Return Admisionanticipo objects filtered by the idadmisionanticipo column
  * @method array findByIdadmision(int $idadmision) Return Admisionanticipo objects filtered by the idadmision column
  * @method array findByAdmisionanticipoFecha(string $admisionanticipo_fecha) Return Admisionanticipo objects filtered by the admisionanticipo_fecha column
  * @method array findByAdmisionanticipoCantidad(string $admisionanticipo_cantidad) Return Admisionanticipo objects filtered by the admisionanticipo_cantidad column
  * @method array findByAdmisionanticipoNota(string $admisionanticipo_nota) Return Admisionanticipo objects filtered by the admisionanticipo_nota column
- * @method array findByAdmisionanticipoTipo(string $admisionanticipo_tipo) Return Admisionanticipo objects filtered by the admisionanticipo_tipo column
  *
  * @package    propel.generator.hva.om
  */
@@ -150,7 +146,7 @@ abstract class BaseAdmisionanticipoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idadmisionanticipo`, `idadmision`, `admisionanticipo_fecha`, `admisionanticipo_cantidad`, `admisionanticipo_nota`, `admisionanticipo_tipo` FROM `admisionanticipo` WHERE `idadmisionanticipo` = :p0';
+        $sql = 'SELECT `idadmisionanticipo`, `idadmision`, `admisionanticipo_fecha`, `admisionanticipo_cantidad`, `admisionanticipo_nota` FROM `admisionanticipo` WHERE `idadmisionanticipo` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -437,35 +433,6 @@ abstract class BaseAdmisionanticipoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(AdmisionanticipoPeer::ADMISIONANTICIPO_NOTA, $admisionanticipoNota, $comparison);
-    }
-
-    /**
-     * Filter the query on the admisionanticipo_tipo column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByAdmisionanticipoTipo('fooValue');   // WHERE admisionanticipo_tipo = 'fooValue'
-     * $query->filterByAdmisionanticipoTipo('%fooValue%'); // WHERE admisionanticipo_tipo LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $admisionanticipoTipo The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return AdmisionanticipoQuery The current query, for fluid interface
-     */
-    public function filterByAdmisionanticipoTipo($admisionanticipoTipo = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($admisionanticipoTipo)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $admisionanticipoTipo)) {
-                $admisionanticipoTipo = str_replace('*', '%', $admisionanticipoTipo);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(AdmisionanticipoPeer::ADMISIONANTICIPO_TIPO, $admisionanticipoTipo, $comparison);
     }
 
     /**

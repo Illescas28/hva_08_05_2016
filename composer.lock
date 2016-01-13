@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "48340ec49813a783d96bda1444373a4a",
-    "content-hash": "10c514f3d9689e1f76faed3fb4272c1d",
+    "hash": "29484a797572a28ff24271fe7e5b1f87",
+    "content-hash": "36a7d31ffeeb457e3adc26422c0d312f",
     "packages": [
         {
             "name": "phing/phing",

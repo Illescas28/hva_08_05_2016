@@ -39,19 +39,17 @@ class FacturaTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('idfactura', 'Idfactura', 'INTEGER', true, null, null);
-        $this->addColumn('idadmision', 'Idadmision', 'INTEGER', false, null, null);
-        $this->addColumn('idventa', 'Idventa', 'INTEGER', false, null, null);
         $this->addForeignKey('iddatosfacturacion', 'Iddatosfacturacion', 'INTEGER', 'pacientefacturacion', 'idpacientefacturacion', true, null, null);
-        $this->addForeignKey('idconsulta', 'Idconsulta', 'INTEGER', 'consulta', 'idconsulta', false, null, null);
+        $this->addForeignKey('idconsulta', 'Idconsulta', 'INTEGER', 'consulta', 'idconsulta', true, null, null);
         $this->addColumn('factura_url_xml', 'FacturaUrlXml', 'VARCHAR', true, 45, null);
         $this->addColumn('factura_url_pdf', 'FacturaUrlPdf', 'VARCHAR', true, 45, null);
         $this->addColumn('factura_fecha', 'FacturaFecha', 'TIMESTAMP', true, null, null);
         $this->addColumn('factura_sellosat', 'FacturaSellosat', 'LONGVARCHAR', true, null, null);
         $this->addColumn('factura_certificadosat', 'FacturaCertificadosat', 'LONGVARCHAR', true, null, null);
-        $this->addColumn('factura_cadenaoriginal', 'FacturaCadenaoriginal', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('factura_cfdi', 'FacturaCfdi', 'LONGVARCHAR', false, null, null);
-        $this->addColumn('factura_mensaje', 'FacturaMensaje', 'LONGVARCHAR', true, null, null);
-        $this->addColumn('factura_qrcode', 'FacturaQrcode', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('factura_cadenaoriginal', 'FacturaCadenaoriginal', 'VARCHAR', true, 45, null);
+        $this->addColumn('factura_cfdi', 'FacturaCfdi', 'VARCHAR', true, 45, null);
+        $this->addColumn('factura_mensaje', 'FacturaMensaje', 'VARCHAR', true, 45, null);
+        $this->addColumn('factura_qrcode', 'FacturaQrcode', 'VARCHAR', true, 45, null);
         $this->addColumn('factura_tipodepago', 'FacturaTipodepago', 'CHAR', false, null, null);
         $this->getColumn('factura_tipodepago', false)->setValueSet(array (
   0 => 'unico',

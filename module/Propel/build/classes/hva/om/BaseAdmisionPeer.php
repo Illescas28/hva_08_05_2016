@@ -83,12 +83,10 @@ abstract class BaseAdmisionPeer
     const ADMISION_STATUS_PENDIENTE = 'pendiente';
 
     /** The enumerated values for the admision_tipodepago field */
-    const ADMISION_TIPODEPAGO_EFECTIVO = 'Efectivo';
-    const ADMISION_TIPODEPAGO_TARJETA_DE_DEBITO = 'Tarjeta de debito';
-    const ADMISION_TIPODEPAGO_TARJETA_DE_CREDITO = 'Tarjeta de credito';
-    const ADMISION_TIPODEPAGO_CHEQUE = 'Cheque';
-    const ADMISION_TIPODEPAGO_NO_IDENTIFICADO = 'No identificado';
-    const ADMISION_TIPODEPAGO_SPEI = 'SPEI';
+    const ADMISION_TIPODEPAGO_EFECTIVO = 'efectivo';
+    const ADMISION_TIPODEPAGO_TARJETA_DEBITO = 'tarjeta debito';
+    const ADMISION_TIPODEPAGO_TARJETA_CREDITO = 'tarjeta credito';
+    const ADMISION_TIPODEPAGO_CHEQUE = 'cheque';
 
     /** The default string format for model objects of the related table **/
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -141,11 +139,9 @@ abstract class BaseAdmisionPeer
         ),
         AdmisionPeer::ADMISION_TIPODEPAGO => array(
             AdmisionPeer::ADMISION_TIPODEPAGO_EFECTIVO,
-            AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_DE_DEBITO,
-            AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_DE_CREDITO,
+            AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_DEBITO,
+            AdmisionPeer::ADMISION_TIPODEPAGO_TARJETA_CREDITO,
             AdmisionPeer::ADMISION_TIPODEPAGO_CHEQUE,
-            AdmisionPeer::ADMISION_TIPODEPAGO_NO_IDENTIFICADO,
-            AdmisionPeer::ADMISION_TIPODEPAGO_SPEI,
         ),
     );
 

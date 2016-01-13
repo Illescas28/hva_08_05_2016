@@ -54,10 +54,28 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     protected $ordencompradetalle_cantidad;
 
     /**
+     * The value for the ordencompradetalle_productosporcaja field.
+     * @var        string
+     */
+    protected $ordencompradetalle_productosporcaja;
+
+    /**
+     * The value for the ordencompradetalle_costocaja field.
+     * @var        string
+     */
+    protected $ordencompradetalle_costocaja;
+
+    /**
      * The value for the ordencompradetalle_costo field.
      * @var        string
      */
     protected $ordencompradetalle_costo;
+
+    /**
+     * The value for the ordencompradetalle_preciocaja field.
+     * @var        string
+     */
+    protected $ordencompradetalle_preciocaja;
 
     /**
      * The value for the ordencompradetalle_precio field.
@@ -78,22 +96,16 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     protected $ordencompradetalle_caducidad;
 
     /**
-     * The value for the ordencompradetalle_productosporcaja field.
-     * @var        string
-     */
-    protected $ordencompradetalle_productosporcaja;
-
-    /**
-     * The value for the ordencompradetalle_costocaja field.
-     * @var        string
-     */
-    protected $ordencompradetalle_costocaja;
-
-    /**
      * The value for the ordencompradetalle_iva field.
      * @var        string
      */
     protected $ordencompradetalle_iva;
+
+    /**
+     * The value for the ordencompradetalle_ivacero field.
+     * @var        string
+     */
+    protected $ordencompradetalle_ivacero;
 
     /**
      * @var        Articulovariante
@@ -182,6 +194,28 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [ordencompradetalle_productosporcaja] column value.
+     *
+     * @return string
+     */
+    public function getOrdencompradetalleProductosporcaja()
+    {
+
+        return $this->ordencompradetalle_productosporcaja;
+    }
+
+    /**
+     * Get the [ordencompradetalle_costocaja] column value.
+     *
+     * @return string
+     */
+    public function getOrdencompradetalleCostocaja()
+    {
+
+        return $this->ordencompradetalle_costocaja;
+    }
+
+    /**
      * Get the [ordencompradetalle_costo] column value.
      *
      * @return string
@@ -190,6 +224,17 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     {
 
         return $this->ordencompradetalle_costo;
+    }
+
+    /**
+     * Get the [ordencompradetalle_preciocaja] column value.
+     *
+     * @return string
+     */
+    public function getOrdencompradetallePreciocaja()
+    {
+
+        return $this->ordencompradetalle_preciocaja;
     }
 
     /**
@@ -255,28 +300,6 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [ordencompradetalle_productosporcaja] column value.
-     *
-     * @return string
-     */
-    public function getOrdencompradetalleProductosporcaja()
-    {
-
-        return $this->ordencompradetalle_productosporcaja;
-    }
-
-    /**
-     * Get the [ordencompradetalle_costocaja] column value.
-     *
-     * @return string
-     */
-    public function getOrdencompradetalleCostocaja()
-    {
-
-        return $this->ordencompradetalle_costocaja;
-    }
-
-    /**
      * Get the [ordencompradetalle_iva] column value.
      *
      * @return string
@@ -285,6 +308,17 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     {
 
         return $this->ordencompradetalle_iva;
+    }
+
+    /**
+     * Get the [ordencompradetalle_ivacero] column value.
+     *
+     * @return string
+     */
+    public function getOrdencompradetalleIvacero()
+    {
+
+        return $this->ordencompradetalle_ivacero;
     }
 
     /**
@@ -380,6 +414,48 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     } // setOrdencompradetalleCantidad()
 
     /**
+     * Set the value of [ordencompradetalle_productosporcaja] column.
+     *
+     * @param  string $v new value
+     * @return Ordencompradetalle The current object (for fluent API support)
+     */
+    public function setOrdencompradetalleProductosporcaja($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->ordencompradetalle_productosporcaja !== $v) {
+            $this->ordencompradetalle_productosporcaja = $v;
+            $this->modifiedColumns[] = OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA;
+        }
+
+
+        return $this;
+    } // setOrdencompradetalleProductosporcaja()
+
+    /**
+     * Set the value of [ordencompradetalle_costocaja] column.
+     *
+     * @param  string $v new value
+     * @return Ordencompradetalle The current object (for fluent API support)
+     */
+    public function setOrdencompradetalleCostocaja($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->ordencompradetalle_costocaja !== $v) {
+            $this->ordencompradetalle_costocaja = $v;
+            $this->modifiedColumns[] = OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA;
+        }
+
+
+        return $this;
+    } // setOrdencompradetalleCostocaja()
+
+    /**
      * Set the value of [ordencompradetalle_costo] column.
      *
      * @param  string $v new value
@@ -399,6 +475,27 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
 
         return $this;
     } // setOrdencompradetalleCosto()
+
+    /**
+     * Set the value of [ordencompradetalle_preciocaja] column.
+     *
+     * @param  string $v new value
+     * @return Ordencompradetalle The current object (for fluent API support)
+     */
+    public function setOrdencompradetallePreciocaja($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->ordencompradetalle_preciocaja !== $v) {
+            $this->ordencompradetalle_preciocaja = $v;
+            $this->modifiedColumns[] = OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIOCAJA;
+        }
+
+
+        return $this;
+    } // setOrdencompradetallePreciocaja()
 
     /**
      * Set the value of [ordencompradetalle_precio] column.
@@ -466,48 +563,6 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
     } // setOrdencompradetalleCaducidad()
 
     /**
-     * Set the value of [ordencompradetalle_productosporcaja] column.
-     *
-     * @param  string $v new value
-     * @return Ordencompradetalle The current object (for fluent API support)
-     */
-    public function setOrdencompradetalleProductosporcaja($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->ordencompradetalle_productosporcaja !== $v) {
-            $this->ordencompradetalle_productosporcaja = $v;
-            $this->modifiedColumns[] = OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA;
-        }
-
-
-        return $this;
-    } // setOrdencompradetalleProductosporcaja()
-
-    /**
-     * Set the value of [ordencompradetalle_costocaja] column.
-     *
-     * @param  string $v new value
-     * @return Ordencompradetalle The current object (for fluent API support)
-     */
-    public function setOrdencompradetalleCostocaja($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (string) $v;
-        }
-
-        if ($this->ordencompradetalle_costocaja !== $v) {
-            $this->ordencompradetalle_costocaja = $v;
-            $this->modifiedColumns[] = OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA;
-        }
-
-
-        return $this;
-    } // setOrdencompradetalleCostocaja()
-
-    /**
      * Set the value of [ordencompradetalle_iva] column.
      *
      * @param  string $v new value
@@ -527,6 +582,27 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
 
         return $this;
     } // setOrdencompradetalleIva()
+
+    /**
+     * Set the value of [ordencompradetalle_ivacero] column.
+     *
+     * @param  string $v new value
+     * @return Ordencompradetalle The current object (for fluent API support)
+     */
+    public function setOrdencompradetalleIvacero($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->ordencompradetalle_ivacero !== $v) {
+            $this->ordencompradetalle_ivacero = $v;
+            $this->modifiedColumns[] = OrdencompradetallePeer::ORDENCOMPRADETALLE_IVACERO;
+        }
+
+
+        return $this;
+    } // setOrdencompradetalleIvacero()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -564,13 +640,15 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
             $this->idordencompra = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->idarticulovariante = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
             $this->ordencompradetalle_cantidad = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->ordencompradetalle_costo = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->ordencompradetalle_precio = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->ordencompradetalle_importe = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->ordencompradetalle_caducidad = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->ordencompradetalle_productosporcaja = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->ordencompradetalle_costocaja = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
-            $this->ordencompradetalle_iva = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->ordencompradetalle_productosporcaja = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->ordencompradetalle_costocaja = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->ordencompradetalle_costo = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->ordencompradetalle_preciocaja = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->ordencompradetalle_precio = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->ordencompradetalle_importe = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->ordencompradetalle_caducidad = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->ordencompradetalle_iva = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+            $this->ordencompradetalle_ivacero = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -580,7 +658,7 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 11; // 11 = OrdencompradetallePeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 13; // 13 = OrdencompradetallePeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Ordencompradetalle object", $e);
@@ -850,8 +928,17 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_CANTIDAD)) {
             $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_cantidad`';
         }
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA)) {
+            $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_productosporcaja`';
+        }
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA)) {
+            $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_costocaja`';
+        }
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO)) {
             $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_costo`';
+        }
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIOCAJA)) {
+            $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_preciocaja`';
         }
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO)) {
             $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_precio`';
@@ -862,14 +949,11 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD)) {
             $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_caducidad`';
         }
-        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA)) {
-            $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_productosporcaja`';
-        }
-        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA)) {
-            $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_costocaja`';
-        }
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVA)) {
             $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_iva`';
+        }
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVACERO)) {
+            $modifiedColumns[':p' . $index++]  = '`ordencompradetalle_ivaCero`';
         }
 
         $sql = sprintf(
@@ -894,8 +978,17 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
                     case '`ordencompradetalle_cantidad`':
                         $stmt->bindValue($identifier, $this->ordencompradetalle_cantidad, PDO::PARAM_STR);
                         break;
+                    case '`ordencompradetalle_productosporcaja`':
+                        $stmt->bindValue($identifier, $this->ordencompradetalle_productosporcaja, PDO::PARAM_STR);
+                        break;
+                    case '`ordencompradetalle_costocaja`':
+                        $stmt->bindValue($identifier, $this->ordencompradetalle_costocaja, PDO::PARAM_STR);
+                        break;
                     case '`ordencompradetalle_costo`':
                         $stmt->bindValue($identifier, $this->ordencompradetalle_costo, PDO::PARAM_STR);
+                        break;
+                    case '`ordencompradetalle_preciocaja`':
+                        $stmt->bindValue($identifier, $this->ordencompradetalle_preciocaja, PDO::PARAM_STR);
                         break;
                     case '`ordencompradetalle_precio`':
                         $stmt->bindValue($identifier, $this->ordencompradetalle_precio, PDO::PARAM_STR);
@@ -906,14 +999,11 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
                     case '`ordencompradetalle_caducidad`':
                         $stmt->bindValue($identifier, $this->ordencompradetalle_caducidad, PDO::PARAM_STR);
                         break;
-                    case '`ordencompradetalle_productosporcaja`':
-                        $stmt->bindValue($identifier, $this->ordencompradetalle_productosporcaja, PDO::PARAM_STR);
-                        break;
-                    case '`ordencompradetalle_costocaja`':
-                        $stmt->bindValue($identifier, $this->ordencompradetalle_costocaja, PDO::PARAM_STR);
-                        break;
                     case '`ordencompradetalle_iva`':
                         $stmt->bindValue($identifier, $this->ordencompradetalle_iva, PDO::PARAM_STR);
+                        break;
+                    case '`ordencompradetalle_ivaCero`':
+                        $stmt->bindValue($identifier, $this->ordencompradetalle_ivacero, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1088,25 +1178,31 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
                 return $this->getOrdencompradetalleCantidad();
                 break;
             case 4:
-                return $this->getOrdencompradetalleCosto();
-                break;
-            case 5:
-                return $this->getOrdencompradetallePrecio();
-                break;
-            case 6:
-                return $this->getOrdencompradetalleImporte();
-                break;
-            case 7:
-                return $this->getOrdencompradetalleCaducidad();
-                break;
-            case 8:
                 return $this->getOrdencompradetalleProductosporcaja();
                 break;
-            case 9:
+            case 5:
                 return $this->getOrdencompradetalleCostocaja();
                 break;
+            case 6:
+                return $this->getOrdencompradetalleCosto();
+                break;
+            case 7:
+                return $this->getOrdencompradetallePreciocaja();
+                break;
+            case 8:
+                return $this->getOrdencompradetallePrecio();
+                break;
+            case 9:
+                return $this->getOrdencompradetalleImporte();
+                break;
             case 10:
+                return $this->getOrdencompradetalleCaducidad();
+                break;
+            case 11:
                 return $this->getOrdencompradetalleIva();
+                break;
+            case 12:
+                return $this->getOrdencompradetalleIvacero();
                 break;
             default:
                 return null;
@@ -1141,13 +1237,15 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
             $keys[1] => $this->getIdordencompra(),
             $keys[2] => $this->getIdarticulovariante(),
             $keys[3] => $this->getOrdencompradetalleCantidad(),
-            $keys[4] => $this->getOrdencompradetalleCosto(),
-            $keys[5] => $this->getOrdencompradetallePrecio(),
-            $keys[6] => $this->getOrdencompradetalleImporte(),
-            $keys[7] => $this->getOrdencompradetalleCaducidad(),
-            $keys[8] => $this->getOrdencompradetalleProductosporcaja(),
-            $keys[9] => $this->getOrdencompradetalleCostocaja(),
-            $keys[10] => $this->getOrdencompradetalleIva(),
+            $keys[4] => $this->getOrdencompradetalleProductosporcaja(),
+            $keys[5] => $this->getOrdencompradetalleCostocaja(),
+            $keys[6] => $this->getOrdencompradetalleCosto(),
+            $keys[7] => $this->getOrdencompradetallePreciocaja(),
+            $keys[8] => $this->getOrdencompradetallePrecio(),
+            $keys[9] => $this->getOrdencompradetalleImporte(),
+            $keys[10] => $this->getOrdencompradetalleCaducidad(),
+            $keys[11] => $this->getOrdencompradetalleIva(),
+            $keys[12] => $this->getOrdencompradetalleIvacero(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1211,25 +1309,31 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
                 $this->setOrdencompradetalleCantidad($value);
                 break;
             case 4:
-                $this->setOrdencompradetalleCosto($value);
-                break;
-            case 5:
-                $this->setOrdencompradetallePrecio($value);
-                break;
-            case 6:
-                $this->setOrdencompradetalleImporte($value);
-                break;
-            case 7:
-                $this->setOrdencompradetalleCaducidad($value);
-                break;
-            case 8:
                 $this->setOrdencompradetalleProductosporcaja($value);
                 break;
-            case 9:
+            case 5:
                 $this->setOrdencompradetalleCostocaja($value);
                 break;
+            case 6:
+                $this->setOrdencompradetalleCosto($value);
+                break;
+            case 7:
+                $this->setOrdencompradetallePreciocaja($value);
+                break;
+            case 8:
+                $this->setOrdencompradetallePrecio($value);
+                break;
+            case 9:
+                $this->setOrdencompradetalleImporte($value);
+                break;
             case 10:
+                $this->setOrdencompradetalleCaducidad($value);
+                break;
+            case 11:
                 $this->setOrdencompradetalleIva($value);
+                break;
+            case 12:
+                $this->setOrdencompradetalleIvacero($value);
                 break;
         } // switch()
     }
@@ -1259,13 +1363,15 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setIdordencompra($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setIdarticulovariante($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setOrdencompradetalleCantidad($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setOrdencompradetalleCosto($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setOrdencompradetallePrecio($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setOrdencompradetalleImporte($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setOrdencompradetalleCaducidad($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setOrdencompradetalleProductosporcaja($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setOrdencompradetalleCostocaja($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setOrdencompradetalleIva($arr[$keys[10]]);
+        if (array_key_exists($keys[4], $arr)) $this->setOrdencompradetalleProductosporcaja($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setOrdencompradetalleCostocaja($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setOrdencompradetalleCosto($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setOrdencompradetallePreciocaja($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setOrdencompradetallePrecio($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setOrdencompradetalleImporte($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setOrdencompradetalleCaducidad($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setOrdencompradetalleIva($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setOrdencompradetalleIvacero($arr[$keys[12]]);
     }
 
     /**
@@ -1281,13 +1387,15 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
         if ($this->isColumnModified(OrdencompradetallePeer::IDORDENCOMPRA)) $criteria->add(OrdencompradetallePeer::IDORDENCOMPRA, $this->idordencompra);
         if ($this->isColumnModified(OrdencompradetallePeer::IDARTICULOVARIANTE)) $criteria->add(OrdencompradetallePeer::IDARTICULOVARIANTE, $this->idarticulovariante);
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_CANTIDAD)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_CANTIDAD, $this->ordencompradetalle_cantidad);
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $this->ordencompradetalle_productosporcaja);
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $this->ordencompradetalle_costocaja);
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO, $this->ordencompradetalle_costo);
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIOCAJA)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIOCAJA, $this->ordencompradetalle_preciocaja);
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIO, $this->ordencompradetalle_precio);
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_IMPORTE)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_IMPORTE, $this->ordencompradetalle_importe);
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_CADUCIDAD, $this->ordencompradetalle_caducidad);
-        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $this->ordencompradetalle_productosporcaja);
-        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $this->ordencompradetalle_costocaja);
         if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVA)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVA, $this->ordencompradetalle_iva);
+        if ($this->isColumnModified(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVACERO)) $criteria->add(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVACERO, $this->ordencompradetalle_ivacero);
 
         return $criteria;
     }
@@ -1354,13 +1462,15 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
         $copyObj->setIdordencompra($this->getIdordencompra());
         $copyObj->setIdarticulovariante($this->getIdarticulovariante());
         $copyObj->setOrdencompradetalleCantidad($this->getOrdencompradetalleCantidad());
+        $copyObj->setOrdencompradetalleProductosporcaja($this->getOrdencompradetalleProductosporcaja());
+        $copyObj->setOrdencompradetalleCostocaja($this->getOrdencompradetalleCostocaja());
         $copyObj->setOrdencompradetalleCosto($this->getOrdencompradetalleCosto());
+        $copyObj->setOrdencompradetallePreciocaja($this->getOrdencompradetallePreciocaja());
         $copyObj->setOrdencompradetallePrecio($this->getOrdencompradetallePrecio());
         $copyObj->setOrdencompradetalleImporte($this->getOrdencompradetalleImporte());
         $copyObj->setOrdencompradetalleCaducidad($this->getOrdencompradetalleCaducidad());
-        $copyObj->setOrdencompradetalleProductosporcaja($this->getOrdencompradetalleProductosporcaja());
-        $copyObj->setOrdencompradetalleCostocaja($this->getOrdencompradetalleCostocaja());
         $copyObj->setOrdencompradetalleIva($this->getOrdencompradetalleIva());
+        $copyObj->setOrdencompradetalleIvacero($this->getOrdencompradetalleIvacero());
 
         if ($deepCopy && !$this->startCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -1804,13 +1914,15 @@ abstract class BaseOrdencompradetalle extends BaseObject implements Persistent
         $this->idordencompra = null;
         $this->idarticulovariante = null;
         $this->ordencompradetalle_cantidad = null;
+        $this->ordencompradetalle_productosporcaja = null;
+        $this->ordencompradetalle_costocaja = null;
         $this->ordencompradetalle_costo = null;
+        $this->ordencompradetalle_preciocaja = null;
         $this->ordencompradetalle_precio = null;
         $this->ordencompradetalle_importe = null;
         $this->ordencompradetalle_caducidad = null;
-        $this->ordencompradetalle_productosporcaja = null;
-        $this->ordencompradetalle_costocaja = null;
         $this->ordencompradetalle_iva = null;
+        $this->ordencompradetalle_ivacero = null;
         $this->alreadyInSave = false;
         $this->alreadyInValidation = false;
         $this->alreadyInClearAllReferencesDeep = false;

@@ -13,7 +13,7 @@
     <column name="admision_status" phpName="AdmisionStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false" defaultValue="pendiente"/>
     <column name="admision_total" phpName="AdmisionTotal" type="DECIMAL" size="10" scale="2" required="false"/>
     <column name="admision_pagadaen" phpName="AdmisionPagadaen" type="TIMESTAMP" required="false"/>
-    <column name="admision_tipodepago" phpName="AdmisionTipodepago" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
+    <column name="admision_tipodepago" phpName="AdmisionTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
     <column name="admision_referenciapago" phpName="AdmisionReferenciapago" type="VARCHAR" size="45" required="false"/>
     <column name="admision_facturada" phpName="AdmisionFacturada" type="BOOLEAN" size="1" required="false"/>
     <column name="admision_registrada" phpName="AdmisionRegistrada" type="BOOLEAN" size="1" required="false"/>
@@ -45,7 +45,6 @@
     <column name="admisionanticipo_fecha" phpName="AdmisionanticipoFecha" type="TIMESTAMP" required="true"/>
     <column name="admisionanticipo_cantidad" phpName="AdmisionanticipoCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="admisionanticipo_nota" phpName="AdmisionanticipoNota" type="LONGVARCHAR" required="false"/>
-    <column name="admisionanticipo_tipo" phpName="AdmisionanticipoTipo" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="true"/>
     <foreign-key foreignTable="admision" name="idadmision_admisionanticipo" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idadmision" foreign="idadmision"/>
     </foreign-key>
@@ -61,11 +60,18 @@
     <column name="idtipo" phpName="Idtipo" type="INTEGER" required="true"/>
     <column name="articulo_nombre" phpName="ArticuloNombre" type="VARCHAR" size="300" required="false"/>
     <column name="articulo_descripcion" phpName="ArticuloDescripcion" type="LONGVARCHAR" required="false"/>
+    <column name="idproveedor" phpName="Idproveedor" type="INTEGER" required="false"/>
+    <foreign-key foreignTable="proveedor" name="idproveedor_articulo" onDelete="RESTRICT" onUpdate="RESTRICT">
+      <reference local="idproveedor" foreign="idproveedor"/>
+    </foreign-key>
     <foreign-key foreignTable="tipo" name="idtipo_articulo" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idtipo" foreign="idtipo"/>
     </foreign-key>
     <index name="idtipo">
       <index-column name="idtipo"/>
+    </index>
+    <index name="idproveedor_articulo">
+      <index-column name="idproveedor"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -328,7 +334,7 @@
     <column name="consulta_observaciones" phpName="ConsultaObservaciones" type="LONGVARCHAR" required="false"/>
     <column name="consulta_status" phpName="ConsultaStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false" defaultValue="pendiente"/>
     <column name="consulta_total" phpName="ConsultaTotal" type="DECIMAL" size="10" scale="2" required="false"/>
-    <column name="consulta_tipodepago" phpName="ConsultaTipodepago" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
+    <column name="consulta_tipodepago" phpName="ConsultaTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
     <column name="consulta_referenciapago" phpName="ConsultaReferenciapago" type="VARCHAR" size="45" required="false"/>
     <column name="consulta_facturada" phpName="ConsultaFacturada" type="BOOLEAN" size="1" required="false"/>
     <column name="consulta_registrada" phpName="ConsultaRegistrada" type="BOOLEAN" size="1" required="false"/>
@@ -360,7 +366,6 @@
     <column name="consultaanticipo_fecha" phpName="ConsultaanticipoFecha" type="TIMESTAMP" required="true"/>
     <column name="consultaanticipo_cantidad" phpName="ConsultaanticipoCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="consultaanticipo_nota" phpName="ConsultaanticipoNota" type="LONGVARCHAR" required="false"/>
-    <column name="consultaanticipo_tipo" phpName="ConsultaanticipoTipo" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="true"/>
     <foreign-key foreignTable="consulta" name="idconsulta_consultaanticipo" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idconsulta" foreign="idconsulta"/>
     </foreign-key>
@@ -446,19 +451,17 @@
   </table>
   <table name="factura" phpName="Factura" idMethod="native">
     <column name="idfactura" phpName="Idfactura" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
-    <column name="idadmision" phpName="Idadmision" type="INTEGER" required="false"/>
-    <column name="idventa" phpName="Idventa" type="INTEGER" required="false"/>
     <column name="iddatosfacturacion" phpName="Iddatosfacturacion" type="INTEGER" required="true"/>
-    <column name="idconsulta" phpName="Idconsulta" type="INTEGER" required="false"/>
+    <column name="idconsulta" phpName="Idconsulta" type="INTEGER" required="true"/>
     <column name="factura_url_xml" phpName="FacturaUrlXml" type="VARCHAR" size="45" required="true"/>
     <column name="factura_url_pdf" phpName="FacturaUrlPdf" type="VARCHAR" size="45" required="true"/>
     <column name="factura_fecha" phpName="FacturaFecha" type="TIMESTAMP" required="true"/>
     <column name="factura_sellosat" phpName="FacturaSellosat" type="LONGVARCHAR" required="true"/>
     <column name="factura_certificadosat" phpName="FacturaCertificadosat" type="LONGVARCHAR" required="true"/>
-    <column name="factura_cadenaoriginal" phpName="FacturaCadenaoriginal" type="LONGVARCHAR" required="false"/>
-    <column name="factura_cfdi" phpName="FacturaCfdi" type="LONGVARCHAR" required="false"/>
-    <column name="factura_mensaje" phpName="FacturaMensaje" type="LONGVARCHAR" required="true"/>
-    <column name="factura_qrcode" phpName="FacturaQrcode" type="LONGVARCHAR" required="false"/>
+    <column name="factura_cadenaoriginal" phpName="FacturaCadenaoriginal" type="VARCHAR" size="45" required="true"/>
+    <column name="factura_cfdi" phpName="FacturaCfdi" type="VARCHAR" size="45" required="true"/>
+    <column name="factura_mensaje" phpName="FacturaMensaje" type="VARCHAR" size="45" required="true"/>
+    <column name="factura_qrcode" phpName="FacturaQrcode" type="VARCHAR" size="45" required="true"/>
     <column name="factura_tipodepago" phpName="FacturaTipodepago" type="CHAR" sqlType="enum('unico','parcial')" required="false"/>
     <column name="factura_status" phpName="FacturaStatus" type="CHAR" sqlType="enum('creada','cancelada')" required="false"/>
     <column name="factura_tipo" phpName="FacturaTipo" type="CHAR" sqlType="enum('ingreso','egreso')" required="false"/>
@@ -601,7 +604,7 @@
     <column name="ordencompra_importe" phpName="OrdencompraImporte" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompra_status" phpName="OrdencompraStatus" type="CHAR" sqlType="enum('pagada','no pagada','inventario')" required="true"/>
     <column name="ordencompra_fechaapagar" phpName="OrdencompraFechaapagar" type="DATE" required="true"/>
-    <column name="ordencompra_iva" phpName="OrdencompraIva" type="DECIMAL" size="10" scale="5" required="true"/>
+    <column name="ordencompra_iva" phpName="OrdencompraIva" type="DECIMAL" size="10" scale="2" required="false"/>
     <foreign-key foreignTable="proveedor" name="idproveedor_ordencompra" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idproveedor" foreign="idproveedor"/>
     </foreign-key>
@@ -617,13 +620,15 @@
     <column name="idordencompra" phpName="Idordencompra" type="INTEGER" required="true"/>
     <column name="idarticulovariante" phpName="Idarticulovariante" type="INTEGER" required="true"/>
     <column name="ordencompradetalle_cantidad" phpName="OrdencompradetalleCantidad" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="ordencompradetalle_productosporcaja" phpName="OrdencompradetalleProductosporcaja" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="ordencompradetalle_costocaja" phpName="OrdencompradetalleCostocaja" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompradetalle_costo" phpName="OrdencompradetalleCosto" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="ordencompradetalle_preciocaja" phpName="OrdencompradetallePreciocaja" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompradetalle_precio" phpName="OrdencompradetallePrecio" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompradetalle_importe" phpName="OrdencompradetalleImporte" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompradetalle_caducidad" phpName="OrdencompradetalleCaducidad" type="DATE" required="false"/>
-    <column name="ordencompradetalle_productosporcaja" phpName="OrdencompradetalleProductosporcaja" type="DECIMAL" size="10" scale="2" required="true"/>
-    <column name="ordencompradetalle_costocaja" phpName="OrdencompradetalleCostocaja" type="DECIMAL" size="10" scale="2" required="true"/>
     <column name="ordencompradetalle_iva" phpName="OrdencompradetalleIva" type="DECIMAL" size="10" scale="2" required="true"/>
+    <column name="ordencompradetalle_ivaCero" phpName="OrdencompradetalleIvacero" type="DECIMAL" size="10" scale="2" required="false"/>
     <foreign-key foreignTable="articulovariante" name="idarticulovariante_ordencompradetalle" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idarticulovariante" foreign="idarticulovariante"/>
     </foreign-key>
@@ -749,11 +754,10 @@
     </vendor>
   </table>
   <table name="referenciaabono" phpName="Referenciaabono" idMethod="native">
-    <column name="idreferenciaabono" phpName="Idreferenciaabono" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="idreferenciaabono" phpName="Idreferenciaabono" type="INTEGER" primaryKey="true" required="true"/>
     <column name="idbanco" phpName="Idbanco" type="INTEGER" required="false"/>
-    <column name="referenciaabono_archivo" phpName="ReferenciaabonoArchivo" type="LONGVARCHAR" required="false"/>
-    <column name="referenciaabono_tipo" phpName="ReferenciaabonoTipo" type="CHAR" sqlType="enum('consulta','admision','venta')" required="true"/>
-    <column name="referenciaabono_referencia" phpName="ReferenciaabonoReferencia" type="INTEGER" required="true"/>
+    <column name="referenciaabono_tipo" phpName="ReferenciaabonoTipo" type="CHAR" sqlType="enum('consulta','admision','venta')" required="false"/>
+    <column name="referenciaabono_referencia" phpName="ReferenciaabonoReferencia" type="INTEGER" required="false"/>
     <foreign-key foreignTable="banco" name="idbanco_referenciaabono" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idbanco" foreign="idbanco"/>
     </foreign-key>
@@ -811,8 +815,7 @@
     </vendor>
   </table>
   <table name="traspaso" phpName="Traspaso" idMethod="native">
-    <column name="idinventariolugar" phpName="Idinventariolugar" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="idordencompra" phpName="Idordencompra" type="INTEGER" required="true"/>
+    <column name="idinventariolugar" phpName="Idinventariolugar" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idlugarremitente" phpName="Idlugarremitente" type="INTEGER" primaryKey="true" required="true"/>
     <column name="idlugardestinatario" phpName="Idlugardestinatario" type="INTEGER" primaryKey="true" required="true"/>
     <column name="traspaso_fecha" phpName="TraspasoFecha" type="TIMESTAMP" required="true"/>
@@ -823,17 +826,11 @@
     <foreign-key foreignTable="lugar" name="idlugarremitente_traspaso" onDelete="CASCADE" onUpdate="CASCADE">
       <reference local="idlugarremitente" foreign="idlugar"/>
     </foreign-key>
-    <foreign-key foreignTable="ordencompra" name="idordencompra_traspaso" onDelete="CASCADE" onUpdate="CASCADE">
-      <reference local="idordencompra" foreign="idordencompra"/>
-    </foreign-key>
     <index name="idlugarremitente">
       <index-column name="idlugarremitente"/>
     </index>
     <index name="idlugardestinantario">
       <index-column name="idlugardestinatario"/>
-    </index>
-    <index name="idordencompra">
-      <index-column name="idordencompra"/>
     </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
@@ -872,7 +869,7 @@
     <column name="idventa" phpName="Idventa" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="idpaciente" phpName="Idpaciente" type="INTEGER" required="true"/>
     <column name="venta_fecha" phpName="VentaFecha" type="TIMESTAMP" required="true"/>
-    <column name="venta_tipodepago" phpName="VentaTipodepago" type="CHAR" sqlType="enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI')" required="false"/>
+    <column name="venta_tipodepago" phpName="VentaTipodepago" type="CHAR" sqlType="enum('efectivo','tarjeta debito','tarjeta credito','cheque')" required="false"/>
     <column name="venta_status" phpName="VentaStatus" type="CHAR" sqlType="enum('pagada','no pagada','pendiente')" required="false"/>
     <column name="venta_facturada" phpName="VentaFacturada" type="BOOLEAN" size="1" required="false"/>
     <column name="venta_registrada" phpName="VentaRegistrada" type="BOOLEAN" size="1" required="false"/>

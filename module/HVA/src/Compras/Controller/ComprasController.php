@@ -191,7 +191,6 @@ class ComprasController extends AbstractActionController {
         $request = $this->request;
         
         $orden = $request->getPost('orden');
-       
         
         //Cre un nuevo objeto de ordencompra
         $ordenCompra = new \Ordencompra();
@@ -204,9 +203,7 @@ class ComprasController extends AbstractActionController {
             $ordencompra_fechapagar = new \DateTime();
             $ordencompra_fechapagar = $ordencompra_fechapagar->createFromFormat('d/m/Y', $orden['orden_fechaapagar']);     
         }
-        
-       
-        
+
         $ordencompra_importe = $orden['orden_importe'];
         $ordencompra_importe_split = explode('$ ', $ordencompra_importe);
         $ordencompra_importe = $ordencompra_importe_split[1];
@@ -260,9 +257,10 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetalleProductosporcaja($item['ordencompradetalle_productosporcaja'])
                                    ->setOrdencompradetalleCostocaja($item['ordencompradetalle_costocaja'])
                                    ->setOrdencompradetalleCosto($item['ordencompradetalle_costo'])
-                                   ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
                                    ->setOrdencompradetalleImporte($item_importe)
-                                   ->setOrdencompradetalleIva($item_iva);
+                                   ->setOrdencompradetalleIva($item_iva)
+                                   ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
+                                   ->setOrdencompradetallePreciocaja($item['ordencompradetalle_preciocaja']);
                 
                 if(!empty($item['ordencompradetalle_caducidad'])){
                     
@@ -276,7 +274,7 @@ class ComprasController extends AbstractActionController {
                 $ordenCompraDetalle->save();
                 //Tambien actualizamos el precio del articulo variante
                 $articulo_variante = \ArticulovarianteQuery::create()->findPk($item['idarticulovariante']);
-                $articulo_variante->setArticulovariantePrecio($item['ordencompradetalle_precio']);
+                $articulo_variante->setArticulovariantePrecio($item['ordencompradetalle_preciocaja']);
                 $articulo_variante->setArticulovarianteCosto($item['ordencompradetalle_costo']);
                 $articulo_variante->save();
                 
@@ -407,9 +405,11 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetalleProductosporcaja($item['ordencompradetalle_productosporcaja'])
                                    ->setOrdencompradetalleCostocaja($item['ordencompradetalle_costocaja'])
                                    ->setOrdencompradetalleCosto($item['ordencompradetalle_costo'])
-                                   ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
                                    ->setOrdencompradetalleImporte($item_importe)
-                                   ->setOrdencompradetalleIva($item_iva);
+                                   ->setOrdencompradetalleIva($item_iva)
+                                   ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
+                                   ->setOrdencompradetallePreciocaja($item['ordencompradetalle_preciocaja']);
+                    
                      
                      if(!empty($item['ordencompradetalle_caducidad'])){
                         $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
@@ -451,9 +451,10 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetalleProductosporcaja($item['ordencompradetalle_productosporcaja'])
                                    ->setOrdencompradetalleCostocaja($item['ordencompradetalle_costocaja'])
                                    ->setOrdencompradetalleCosto($item['ordencompradetalle_costo'])
-                                   ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
                                    ->setOrdencompradetalleImporte($item_importe)
-                                   ->setOrdencompradetalleIva($item_iva);
+                                   ->setOrdencompradetalleIva($item_iva)
+                                   ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
+                                   ->setOrdencompradetallePreciocaja($item['ordencompradetalle_preciocaja']);
 
                     if(!empty($item['ordencompradetalle_caducidad'])){
                         $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
@@ -533,6 +534,7 @@ class ComprasController extends AbstractActionController {
             $tmp['cantidad'] = $item->getOrdencompradetalleCantidad();
             $tmp['costo']   = $item->getOrdencompradetalleCosto();
             $tmp['precio']  = $item->getOrdencompradetallePrecio();
+            $tmp['preciocaja']  = $item->getOrdencompradetallePreciocaja();
             $tmp['importe']   = $item->getOrdencompradetalleImporte();
             $tmp['caducidad']   = $item->getOrdencompradetalleCaducidad();
             $tmp['productosporcaja']   = $item->getOrdencompradetalleProductosporcaja();

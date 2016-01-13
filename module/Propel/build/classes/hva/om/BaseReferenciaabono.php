@@ -42,12 +42,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
     protected $idbanco;
 
     /**
-     * The value for the referenciaabono_archivo field.
-     * @var        string
-     */
-    protected $referenciaabono_archivo;
-
-    /**
      * The value for the referenciaabono_tipo field.
      * @var        string
      */
@@ -104,17 +98,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
     {
 
         return $this->idbanco;
-    }
-
-    /**
-     * Get the [referenciaabono_archivo] column value.
-     *
-     * @return string
-     */
-    public function getReferenciaabonoArchivo()
-    {
-
-        return $this->referenciaabono_archivo;
     }
 
     /**
@@ -184,27 +167,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
 
         return $this;
     } // setIdbanco()
-
-    /**
-     * Set the value of [referenciaabono_archivo] column.
-     *
-     * @param  string $v new value
-     * @return Referenciaabono The current object (for fluent API support)
-     */
-    public function setReferenciaabonoArchivo($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->referenciaabono_archivo !== $v) {
-            $this->referenciaabono_archivo = $v;
-            $this->modifiedColumns[] = ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO;
-        }
-
-
-        return $this;
-    } // setReferenciaabonoArchivo()
 
     /**
      * Set the value of [referenciaabono_tipo] column.
@@ -282,9 +244,8 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
 
             $this->idreferenciaabono = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
             $this->idbanco = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->referenciaabono_archivo = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
-            $this->referenciaabono_tipo = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->referenciaabono_referencia = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
+            $this->referenciaabono_tipo = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
+            $this->referenciaabono_referencia = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -294,7 +255,7 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 5; // 5 = ReferenciaabonoPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 4; // 4 = ReferenciaabonoPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Referenciaabono object", $e);
@@ -516,10 +477,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[] = ReferenciaabonoPeer::IDREFERENCIAABONO;
-        if (null !== $this->idreferenciaabono) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ReferenciaabonoPeer::IDREFERENCIAABONO . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(ReferenciaabonoPeer::IDREFERENCIAABONO)) {
@@ -527,9 +484,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
         }
         if ($this->isColumnModified(ReferenciaabonoPeer::IDBANCO)) {
             $modifiedColumns[':p' . $index++]  = '`idbanco`';
-        }
-        if ($this->isColumnModified(ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO)) {
-            $modifiedColumns[':p' . $index++]  = '`referenciaabono_archivo`';
         }
         if ($this->isColumnModified(ReferenciaabonoPeer::REFERENCIAABONO_TIPO)) {
             $modifiedColumns[':p' . $index++]  = '`referenciaabono_tipo`';
@@ -554,9 +508,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
                     case '`idbanco`':
                         $stmt->bindValue($identifier, $this->idbanco, PDO::PARAM_INT);
                         break;
-                    case '`referenciaabono_archivo`':
-                        $stmt->bindValue($identifier, $this->referenciaabono_archivo, PDO::PARAM_STR);
-                        break;
                     case '`referenciaabono_tipo`':
                         $stmt->bindValue($identifier, $this->referenciaabono_tipo, PDO::PARAM_STR);
                         break;
@@ -570,13 +521,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', $e);
-        }
-        $this->setIdreferenciaabono($pk);
 
         $this->setNew(false);
     }
@@ -716,12 +660,9 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
                 return $this->getIdbanco();
                 break;
             case 2:
-                return $this->getReferenciaabonoArchivo();
-                break;
-            case 3:
                 return $this->getReferenciaabonoTipo();
                 break;
-            case 4:
+            case 3:
                 return $this->getReferenciaabonoReferencia();
                 break;
             default:
@@ -755,9 +696,8 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
         $result = array(
             $keys[0] => $this->getIdreferenciaabono(),
             $keys[1] => $this->getIdbanco(),
-            $keys[2] => $this->getReferenciaabonoArchivo(),
-            $keys[3] => $this->getReferenciaabonoTipo(),
-            $keys[4] => $this->getReferenciaabonoReferencia(),
+            $keys[2] => $this->getReferenciaabonoTipo(),
+            $keys[3] => $this->getReferenciaabonoReferencia(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -809,12 +749,9 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
                 $this->setIdbanco($value);
                 break;
             case 2:
-                $this->setReferenciaabonoArchivo($value);
-                break;
-            case 3:
                 $this->setReferenciaabonoTipo($value);
                 break;
-            case 4:
+            case 3:
                 $this->setReferenciaabonoReferencia($value);
                 break;
         } // switch()
@@ -843,9 +780,8 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
 
         if (array_key_exists($keys[0], $arr)) $this->setIdreferenciaabono($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setIdbanco($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setReferenciaabonoArchivo($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setReferenciaabonoTipo($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setReferenciaabonoReferencia($arr[$keys[4]]);
+        if (array_key_exists($keys[2], $arr)) $this->setReferenciaabonoTipo($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setReferenciaabonoReferencia($arr[$keys[3]]);
     }
 
     /**
@@ -859,7 +795,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
 
         if ($this->isColumnModified(ReferenciaabonoPeer::IDREFERENCIAABONO)) $criteria->add(ReferenciaabonoPeer::IDREFERENCIAABONO, $this->idreferenciaabono);
         if ($this->isColumnModified(ReferenciaabonoPeer::IDBANCO)) $criteria->add(ReferenciaabonoPeer::IDBANCO, $this->idbanco);
-        if ($this->isColumnModified(ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO)) $criteria->add(ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO, $this->referenciaabono_archivo);
         if ($this->isColumnModified(ReferenciaabonoPeer::REFERENCIAABONO_TIPO)) $criteria->add(ReferenciaabonoPeer::REFERENCIAABONO_TIPO, $this->referenciaabono_tipo);
         if ($this->isColumnModified(ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA)) $criteria->add(ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA, $this->referenciaabono_referencia);
 
@@ -926,7 +861,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setIdbanco($this->getIdbanco());
-        $copyObj->setReferenciaabonoArchivo($this->getReferenciaabonoArchivo());
         $copyObj->setReferenciaabonoTipo($this->getReferenciaabonoTipo());
         $copyObj->setReferenciaabonoReferencia($this->getReferenciaabonoReferencia());
 
@@ -1046,7 +980,6 @@ abstract class BaseReferenciaabono extends BaseObject implements Persistent
     {
         $this->idreferenciaabono = null;
         $this->idbanco = null;
-        $this->referenciaabono_archivo = null;
         $this->referenciaabono_tipo = null;
         $this->referenciaabono_referencia = null;
         $this->alreadyInSave = false;

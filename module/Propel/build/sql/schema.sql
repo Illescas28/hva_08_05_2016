@@ -22,7 +22,7 @@ CREATE TABLE `admision`
     `admision_status` enum('pagada','no pagada','pendiente') DEFAULT 'pendiente',
     `admision_total` DECIMAL(10,2),
     `admision_pagadaen` DATETIME,
-    `admision_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
+    `admision_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
     `admision_referenciapago` VARCHAR(45),
     `admision_facturada` TINYINT(1),
     `admision_registrada` TINYINT(1),
@@ -60,7 +60,6 @@ CREATE TABLE `admisionanticipo`
     `admisionanticipo_fecha` DATETIME NOT NULL,
     `admisionanticipo_cantidad` DECIMAL(10,2) NOT NULL,
     `admisionanticipo_nota` TEXT,
-    `admisionanticipo_tipo` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI') NOT NULL,
     PRIMARY KEY (`idadmisionanticipo`),
     INDEX `idadmision` (`idadmision`),
     CONSTRAINT `idadmision_admisionanticipo`
@@ -82,8 +81,13 @@ CREATE TABLE `articulo`
     `idtipo` INTEGER NOT NULL,
     `articulo_nombre` VARCHAR(300),
     `articulo_descripcion` TEXT,
+    `idproveedor` INTEGER,
     PRIMARY KEY (`idarticulo`),
     INDEX `idtipo` (`idtipo`),
+    INDEX `idproveedor_articulo` (`idproveedor`),
+    CONSTRAINT `idproveedor_articulo`
+        FOREIGN KEY (`idproveedor`)
+        REFERENCES `proveedor` (`idproveedor`),
     CONSTRAINT `idtipo_articulo`
         FOREIGN KEY (`idtipo`)
         REFERENCES `tipo` (`idtipo`)
@@ -421,7 +425,7 @@ CREATE TABLE `consulta`
     `consulta_observaciones` TEXT,
     `consulta_status` enum('pagada','no pagada','pendiente') DEFAULT 'pendiente',
     `consulta_total` DECIMAL(10,2),
-    `consulta_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
+    `consulta_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
     `consulta_referenciapago` VARCHAR(45),
     `consulta_facturada` TINYINT(1),
     `consulta_registrada` TINYINT(1),
@@ -459,7 +463,6 @@ CREATE TABLE `consultaanticipo`
     `consultaanticipo_fecha` DATETIME NOT NULL,
     `consultaanticipo_cantidad` DECIMAL(10,2) NOT NULL,
     `consultaanticipo_nota` TEXT,
-    `consultaanticipo_tipo` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI') NOT NULL,
     PRIMARY KEY (`idconsultaanticipo`),
     INDEX `idconsulta` (`idconsulta`),
     CONSTRAINT `idconsulta_consultaanticipo`
@@ -581,19 +584,17 @@ DROP TABLE IF EXISTS `factura`;
 CREATE TABLE `factura`
 (
     `idfactura` INTEGER NOT NULL AUTO_INCREMENT,
-    `idadmision` INTEGER,
-    `idventa` INTEGER,
     `iddatosfacturacion` INTEGER NOT NULL,
-    `idconsulta` INTEGER,
+    `idconsulta` INTEGER NOT NULL,
     `factura_url_xml` VARCHAR(45) NOT NULL,
     `factura_url_pdf` VARCHAR(45) NOT NULL,
     `factura_fecha` DATETIME NOT NULL,
     `factura_sellosat` TEXT NOT NULL,
     `factura_certificadosat` TEXT NOT NULL,
-    `factura_cadenaoriginal` TEXT,
-    `factura_cfdi` TEXT,
-    `factura_mensaje` TEXT NOT NULL,
-    `factura_qrcode` TEXT,
+    `factura_cadenaoriginal` VARCHAR(45) NOT NULL,
+    `factura_cfdi` VARCHAR(45) NOT NULL,
+    `factura_mensaje` VARCHAR(45) NOT NULL,
+    `factura_qrcode` VARCHAR(45) NOT NULL,
     `factura_tipodepago` enum('unico','parcial'),
     `factura_status` enum('creada','cancelada'),
     `factura_tipo` enum('ingreso','egreso'),
@@ -778,7 +779,7 @@ CREATE TABLE `ordencompra`
     `ordencompra_importe` DECIMAL(10,2) NOT NULL,
     `ordencompra_status` enum('pagada','no pagada','inventario') NOT NULL,
     `ordencompra_fechaapagar` DATE NOT NULL,
-    `ordencompra_iva` DECIMAL(10,5) NOT NULL,
+    `ordencompra_iva` DECIMAL(10,2),
     PRIMARY KEY (`idordencompra`),
     INDEX `idproveedor` (`idproveedor`),
     CONSTRAINT `idproveedor_ordencompra`
@@ -800,13 +801,15 @@ CREATE TABLE `ordencompradetalle`
     `idordencompra` INTEGER NOT NULL,
     `idarticulovariante` INTEGER NOT NULL,
     `ordencompradetalle_cantidad` DECIMAL(10,2) NOT NULL,
+    `ordencompradetalle_productosporcaja` DECIMAL(10,2) NOT NULL,
+    `ordencompradetalle_costocaja` DECIMAL(10,2) NOT NULL,
     `ordencompradetalle_costo` DECIMAL(10,2) NOT NULL,
+    `ordencompradetalle_preciocaja` DECIMAL(10,2) NOT NULL,
     `ordencompradetalle_precio` DECIMAL(10,2) NOT NULL,
     `ordencompradetalle_importe` DECIMAL(10,2) NOT NULL,
     `ordencompradetalle_caducidad` DATE,
-    `ordencompradetalle_productosporcaja` DECIMAL(10,2) NOT NULL,
-    `ordencompradetalle_costocaja` DECIMAL(10,2) NOT NULL,
     `ordencompradetalle_iva` DECIMAL(10,2) NOT NULL,
+    `ordencompradetalle_ivaCero` DECIMAL(10,2),
     PRIMARY KEY (`idordencompradetalle`),
     INDEX `irordencompra` (`idordencompra`),
     INDEX `idarticulovariante` (`idarticulovariante`),
@@ -968,11 +971,10 @@ DROP TABLE IF EXISTS `referenciaabono`;
 
 CREATE TABLE `referenciaabono`
 (
-    `idreferenciaabono` INTEGER NOT NULL AUTO_INCREMENT,
+    `idreferenciaabono` INTEGER NOT NULL,
     `idbanco` INTEGER,
-    `referenciaabono_archivo` TEXT,
-    `referenciaabono_tipo` enum('consulta','admision','venta') NOT NULL,
-    `referenciaabono_referencia` INTEGER NOT NULL,
+    `referenciaabono_tipo` enum('consulta','admision','venta'),
+    `referenciaabono_referencia` INTEGER,
     PRIMARY KEY (`idreferenciaabono`),
     INDEX `idbanco` (`idbanco`),
     CONSTRAINT `idbanco_referenciaabono`
@@ -1060,8 +1062,7 @@ DROP TABLE IF EXISTS `traspaso`;
 
 CREATE TABLE `traspaso`
 (
-    `idinventariolugar` INTEGER NOT NULL,
-    `idordencompra` INTEGER NOT NULL,
+    `idinventariolugar` INTEGER NOT NULL AUTO_INCREMENT,
     `idlugarremitente` INTEGER NOT NULL,
     `idlugardestinatario` INTEGER NOT NULL,
     `traspaso_fecha` DATETIME NOT NULL,
@@ -1069,7 +1070,6 @@ CREATE TABLE `traspaso`
     PRIMARY KEY (`idinventariolugar`,`idlugarremitente`,`idlugardestinatario`),
     INDEX `idlugarremitente` (`idlugarremitente`),
     INDEX `idlugardestinantario` (`idlugardestinatario`),
-    INDEX `idordencompra` (`idordencompra`),
     CONSTRAINT `idlugardestinatario_traspaso`
         FOREIGN KEY (`idlugardestinatario`)
         REFERENCES `lugar` (`idlugar`)
@@ -1078,11 +1078,6 @@ CREATE TABLE `traspaso`
     CONSTRAINT `idlugarremitente_traspaso`
         FOREIGN KEY (`idlugarremitente`)
         REFERENCES `lugar` (`idlugar`)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
-    CONSTRAINT `idordencompra_traspaso`
-        FOREIGN KEY (`idordencompra`)
-        REFERENCES `ordencompra` (`idordencompra`)
         ON UPDATE CASCADE
         ON DELETE CASCADE
 ) ENGINE=InnoDB;
@@ -1139,7 +1134,7 @@ CREATE TABLE `venta`
     `idventa` INTEGER NOT NULL AUTO_INCREMENT,
     `idpaciente` INTEGER NOT NULL,
     `venta_fecha` DATETIME NOT NULL,
-    `venta_tipodepago` enum('Efectivo','Tarjeta de debito','Tarjeta de credito','Cheque','No identificado','SPEI'),
+    `venta_tipodepago` enum('efectivo','tarjeta debito','tarjeta credito','cheque'),
     `venta_status` enum('pagada','no pagada','pendiente'),
     `venta_facturada` TINYINT(1),
     `venta_registrada` TINYINT(1),

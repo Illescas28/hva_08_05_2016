@@ -10,25 +10,29 @@
  * @method OrdencompradetalleQuery orderByIdordencompra($order = Criteria::ASC) Order by the idordencompra column
  * @method OrdencompradetalleQuery orderByIdarticulovariante($order = Criteria::ASC) Order by the idarticulovariante column
  * @method OrdencompradetalleQuery orderByOrdencompradetalleCantidad($order = Criteria::ASC) Order by the ordencompradetalle_cantidad column
+ * @method OrdencompradetalleQuery orderByOrdencompradetalleProductosporcaja($order = Criteria::ASC) Order by the ordencompradetalle_productosporcaja column
+ * @method OrdencompradetalleQuery orderByOrdencompradetalleCostocaja($order = Criteria::ASC) Order by the ordencompradetalle_costocaja column
  * @method OrdencompradetalleQuery orderByOrdencompradetalleCosto($order = Criteria::ASC) Order by the ordencompradetalle_costo column
+ * @method OrdencompradetalleQuery orderByOrdencompradetallePreciocaja($order = Criteria::ASC) Order by the ordencompradetalle_preciocaja column
  * @method OrdencompradetalleQuery orderByOrdencompradetallePrecio($order = Criteria::ASC) Order by the ordencompradetalle_precio column
  * @method OrdencompradetalleQuery orderByOrdencompradetalleImporte($order = Criteria::ASC) Order by the ordencompradetalle_importe column
  * @method OrdencompradetalleQuery orderByOrdencompradetalleCaducidad($order = Criteria::ASC) Order by the ordencompradetalle_caducidad column
- * @method OrdencompradetalleQuery orderByOrdencompradetalleProductosporcaja($order = Criteria::ASC) Order by the ordencompradetalle_productosporcaja column
- * @method OrdencompradetalleQuery orderByOrdencompradetalleCostocaja($order = Criteria::ASC) Order by the ordencompradetalle_costocaja column
  * @method OrdencompradetalleQuery orderByOrdencompradetalleIva($order = Criteria::ASC) Order by the ordencompradetalle_iva column
+ * @method OrdencompradetalleQuery orderByOrdencompradetalleIvacero($order = Criteria::ASC) Order by the ordencompradetalle_ivaCero column
  *
  * @method OrdencompradetalleQuery groupByIdordencompradetalle() Group by the idordencompradetalle column
  * @method OrdencompradetalleQuery groupByIdordencompra() Group by the idordencompra column
  * @method OrdencompradetalleQuery groupByIdarticulovariante() Group by the idarticulovariante column
  * @method OrdencompradetalleQuery groupByOrdencompradetalleCantidad() Group by the ordencompradetalle_cantidad column
+ * @method OrdencompradetalleQuery groupByOrdencompradetalleProductosporcaja() Group by the ordencompradetalle_productosporcaja column
+ * @method OrdencompradetalleQuery groupByOrdencompradetalleCostocaja() Group by the ordencompradetalle_costocaja column
  * @method OrdencompradetalleQuery groupByOrdencompradetalleCosto() Group by the ordencompradetalle_costo column
+ * @method OrdencompradetalleQuery groupByOrdencompradetallePreciocaja() Group by the ordencompradetalle_preciocaja column
  * @method OrdencompradetalleQuery groupByOrdencompradetallePrecio() Group by the ordencompradetalle_precio column
  * @method OrdencompradetalleQuery groupByOrdencompradetalleImporte() Group by the ordencompradetalle_importe column
  * @method OrdencompradetalleQuery groupByOrdencompradetalleCaducidad() Group by the ordencompradetalle_caducidad column
- * @method OrdencompradetalleQuery groupByOrdencompradetalleProductosporcaja() Group by the ordencompradetalle_productosporcaja column
- * @method OrdencompradetalleQuery groupByOrdencompradetalleCostocaja() Group by the ordencompradetalle_costocaja column
  * @method OrdencompradetalleQuery groupByOrdencompradetalleIva() Group by the ordencompradetalle_iva column
+ * @method OrdencompradetalleQuery groupByOrdencompradetalleIvacero() Group by the ordencompradetalle_ivaCero column
  *
  * @method OrdencompradetalleQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method OrdencompradetalleQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -52,25 +56,29 @@
  * @method Ordencompradetalle findOneByIdordencompra(int $idordencompra) Return the first Ordencompradetalle filtered by the idordencompra column
  * @method Ordencompradetalle findOneByIdarticulovariante(int $idarticulovariante) Return the first Ordencompradetalle filtered by the idarticulovariante column
  * @method Ordencompradetalle findOneByOrdencompradetalleCantidad(string $ordencompradetalle_cantidad) Return the first Ordencompradetalle filtered by the ordencompradetalle_cantidad column
+ * @method Ordencompradetalle findOneByOrdencompradetalleProductosporcaja(string $ordencompradetalle_productosporcaja) Return the first Ordencompradetalle filtered by the ordencompradetalle_productosporcaja column
+ * @method Ordencompradetalle findOneByOrdencompradetalleCostocaja(string $ordencompradetalle_costocaja) Return the first Ordencompradetalle filtered by the ordencompradetalle_costocaja column
  * @method Ordencompradetalle findOneByOrdencompradetalleCosto(string $ordencompradetalle_costo) Return the first Ordencompradetalle filtered by the ordencompradetalle_costo column
+ * @method Ordencompradetalle findOneByOrdencompradetallePreciocaja(string $ordencompradetalle_preciocaja) Return the first Ordencompradetalle filtered by the ordencompradetalle_preciocaja column
  * @method Ordencompradetalle findOneByOrdencompradetallePrecio(string $ordencompradetalle_precio) Return the first Ordencompradetalle filtered by the ordencompradetalle_precio column
  * @method Ordencompradetalle findOneByOrdencompradetalleImporte(string $ordencompradetalle_importe) Return the first Ordencompradetalle filtered by the ordencompradetalle_importe column
  * @method Ordencompradetalle findOneByOrdencompradetalleCaducidad(string $ordencompradetalle_caducidad) Return the first Ordencompradetalle filtered by the ordencompradetalle_caducidad column
- * @method Ordencompradetalle findOneByOrdencompradetalleProductosporcaja(string $ordencompradetalle_productosporcaja) Return the first Ordencompradetalle filtered by the ordencompradetalle_productosporcaja column
- * @method Ordencompradetalle findOneByOrdencompradetalleCostocaja(string $ordencompradetalle_costocaja) Return the first Ordencompradetalle filtered by the ordencompradetalle_costocaja column
  * @method Ordencompradetalle findOneByOrdencompradetalleIva(string $ordencompradetalle_iva) Return the first Ordencompradetalle filtered by the ordencompradetalle_iva column
+ * @method Ordencompradetalle findOneByOrdencompradetalleIvacero(string $ordencompradetalle_ivaCero) Return the first Ordencompradetalle filtered by the ordencompradetalle_ivaCero column
  *
  * @method array findByIdordencompradetalle(int $idordencompradetalle) Return Ordencompradetalle objects filtered by the idordencompradetalle column
  * @method array findByIdordencompra(int $idordencompra) Return Ordencompradetalle objects filtered by the idordencompra column
  * @method array findByIdarticulovariante(int $idarticulovariante) Return Ordencompradetalle objects filtered by the idarticulovariante column
  * @method array findByOrdencompradetalleCantidad(string $ordencompradetalle_cantidad) Return Ordencompradetalle objects filtered by the ordencompradetalle_cantidad column
+ * @method array findByOrdencompradetalleProductosporcaja(string $ordencompradetalle_productosporcaja) Return Ordencompradetalle objects filtered by the ordencompradetalle_productosporcaja column
+ * @method array findByOrdencompradetalleCostocaja(string $ordencompradetalle_costocaja) Return Ordencompradetalle objects filtered by the ordencompradetalle_costocaja column
  * @method array findByOrdencompradetalleCosto(string $ordencompradetalle_costo) Return Ordencompradetalle objects filtered by the ordencompradetalle_costo column
+ * @method array findByOrdencompradetallePreciocaja(string $ordencompradetalle_preciocaja) Return Ordencompradetalle objects filtered by the ordencompradetalle_preciocaja column
  * @method array findByOrdencompradetallePrecio(string $ordencompradetalle_precio) Return Ordencompradetalle objects filtered by the ordencompradetalle_precio column
  * @method array findByOrdencompradetalleImporte(string $ordencompradetalle_importe) Return Ordencompradetalle objects filtered by the ordencompradetalle_importe column
  * @method array findByOrdencompradetalleCaducidad(string $ordencompradetalle_caducidad) Return Ordencompradetalle objects filtered by the ordencompradetalle_caducidad column
- * @method array findByOrdencompradetalleProductosporcaja(string $ordencompradetalle_productosporcaja) Return Ordencompradetalle objects filtered by the ordencompradetalle_productosporcaja column
- * @method array findByOrdencompradetalleCostocaja(string $ordencompradetalle_costocaja) Return Ordencompradetalle objects filtered by the ordencompradetalle_costocaja column
  * @method array findByOrdencompradetalleIva(string $ordencompradetalle_iva) Return Ordencompradetalle objects filtered by the ordencompradetalle_iva column
+ * @method array findByOrdencompradetalleIvacero(string $ordencompradetalle_ivaCero) Return Ordencompradetalle objects filtered by the ordencompradetalle_ivaCero column
  *
  * @package    propel.generator.hva.om
  */
@@ -178,7 +186,7 @@ abstract class BaseOrdencompradetalleQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idordencompradetalle`, `idordencompra`, `idarticulovariante`, `ordencompradetalle_cantidad`, `ordencompradetalle_costo`, `ordencompradetalle_precio`, `ordencompradetalle_importe`, `ordencompradetalle_caducidad`, `ordencompradetalle_productosporcaja`, `ordencompradetalle_costocaja`, `ordencompradetalle_iva` FROM `ordencompradetalle` WHERE `idordencompradetalle` = :p0';
+        $sql = 'SELECT `idordencompradetalle`, `idordencompra`, `idarticulovariante`, `ordencompradetalle_cantidad`, `ordencompradetalle_productosporcaja`, `ordencompradetalle_costocaja`, `ordencompradetalle_costo`, `ordencompradetalle_preciocaja`, `ordencompradetalle_precio`, `ordencompradetalle_importe`, `ordencompradetalle_caducidad`, `ordencompradetalle_iva`, `ordencompradetalle_ivaCero` FROM `ordencompradetalle` WHERE `idordencompradetalle` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -440,6 +448,90 @@ abstract class BaseOrdencompradetalleQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the ordencompradetalle_productosporcaja column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByOrdencompradetalleProductosporcaja(1234); // WHERE ordencompradetalle_productosporcaja = 1234
+     * $query->filterByOrdencompradetalleProductosporcaja(array(12, 34)); // WHERE ordencompradetalle_productosporcaja IN (12, 34)
+     * $query->filterByOrdencompradetalleProductosporcaja(array('min' => 12)); // WHERE ordencompradetalle_productosporcaja >= 12
+     * $query->filterByOrdencompradetalleProductosporcaja(array('max' => 12)); // WHERE ordencompradetalle_productosporcaja <= 12
+     * </code>
+     *
+     * @param     mixed $ordencompradetalleProductosporcaja The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return OrdencompradetalleQuery The current query, for fluid interface
+     */
+    public function filterByOrdencompradetalleProductosporcaja($ordencompradetalleProductosporcaja = null, $comparison = null)
+    {
+        if (is_array($ordencompradetalleProductosporcaja)) {
+            $useMinMax = false;
+            if (isset($ordencompradetalleProductosporcaja['min'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $ordencompradetalleProductosporcaja['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ordencompradetalleProductosporcaja['max'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $ordencompradetalleProductosporcaja['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $ordencompradetalleProductosporcaja, $comparison);
+    }
+
+    /**
+     * Filter the query on the ordencompradetalle_costocaja column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByOrdencompradetalleCostocaja(1234); // WHERE ordencompradetalle_costocaja = 1234
+     * $query->filterByOrdencompradetalleCostocaja(array(12, 34)); // WHERE ordencompradetalle_costocaja IN (12, 34)
+     * $query->filterByOrdencompradetalleCostocaja(array('min' => 12)); // WHERE ordencompradetalle_costocaja >= 12
+     * $query->filterByOrdencompradetalleCostocaja(array('max' => 12)); // WHERE ordencompradetalle_costocaja <= 12
+     * </code>
+     *
+     * @param     mixed $ordencompradetalleCostocaja The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return OrdencompradetalleQuery The current query, for fluid interface
+     */
+    public function filterByOrdencompradetalleCostocaja($ordencompradetalleCostocaja = null, $comparison = null)
+    {
+        if (is_array($ordencompradetalleCostocaja)) {
+            $useMinMax = false;
+            if (isset($ordencompradetalleCostocaja['min'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $ordencompradetalleCostocaja['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ordencompradetalleCostocaja['max'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $ordencompradetalleCostocaja['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $ordencompradetalleCostocaja, $comparison);
+    }
+
+    /**
      * Filter the query on the ordencompradetalle_costo column
      *
      * Example usage:
@@ -479,6 +571,48 @@ abstract class BaseOrdencompradetalleQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTO, $ordencompradetalleCosto, $comparison);
+    }
+
+    /**
+     * Filter the query on the ordencompradetalle_preciocaja column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByOrdencompradetallePreciocaja(1234); // WHERE ordencompradetalle_preciocaja = 1234
+     * $query->filterByOrdencompradetallePreciocaja(array(12, 34)); // WHERE ordencompradetalle_preciocaja IN (12, 34)
+     * $query->filterByOrdencompradetallePreciocaja(array('min' => 12)); // WHERE ordencompradetalle_preciocaja >= 12
+     * $query->filterByOrdencompradetallePreciocaja(array('max' => 12)); // WHERE ordencompradetalle_preciocaja <= 12
+     * </code>
+     *
+     * @param     mixed $ordencompradetallePreciocaja The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return OrdencompradetalleQuery The current query, for fluid interface
+     */
+    public function filterByOrdencompradetallePreciocaja($ordencompradetallePreciocaja = null, $comparison = null)
+    {
+        if (is_array($ordencompradetallePreciocaja)) {
+            $useMinMax = false;
+            if (isset($ordencompradetallePreciocaja['min'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIOCAJA, $ordencompradetallePreciocaja['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ordencompradetallePreciocaja['max'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIOCAJA, $ordencompradetallePreciocaja['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRECIOCAJA, $ordencompradetallePreciocaja, $comparison);
     }
 
     /**
@@ -609,90 +743,6 @@ abstract class BaseOrdencompradetalleQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the ordencompradetalle_productosporcaja column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByOrdencompradetalleProductosporcaja(1234); // WHERE ordencompradetalle_productosporcaja = 1234
-     * $query->filterByOrdencompradetalleProductosporcaja(array(12, 34)); // WHERE ordencompradetalle_productosporcaja IN (12, 34)
-     * $query->filterByOrdencompradetalleProductosporcaja(array('min' => 12)); // WHERE ordencompradetalle_productosporcaja >= 12
-     * $query->filterByOrdencompradetalleProductosporcaja(array('max' => 12)); // WHERE ordencompradetalle_productosporcaja <= 12
-     * </code>
-     *
-     * @param     mixed $ordencompradetalleProductosporcaja The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return OrdencompradetalleQuery The current query, for fluid interface
-     */
-    public function filterByOrdencompradetalleProductosporcaja($ordencompradetalleProductosporcaja = null, $comparison = null)
-    {
-        if (is_array($ordencompradetalleProductosporcaja)) {
-            $useMinMax = false;
-            if (isset($ordencompradetalleProductosporcaja['min'])) {
-                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $ordencompradetalleProductosporcaja['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($ordencompradetalleProductosporcaja['max'])) {
-                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $ordencompradetalleProductosporcaja['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_PRODUCTOSPORCAJA, $ordencompradetalleProductosporcaja, $comparison);
-    }
-
-    /**
-     * Filter the query on the ordencompradetalle_costocaja column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByOrdencompradetalleCostocaja(1234); // WHERE ordencompradetalle_costocaja = 1234
-     * $query->filterByOrdencompradetalleCostocaja(array(12, 34)); // WHERE ordencompradetalle_costocaja IN (12, 34)
-     * $query->filterByOrdencompradetalleCostocaja(array('min' => 12)); // WHERE ordencompradetalle_costocaja >= 12
-     * $query->filterByOrdencompradetalleCostocaja(array('max' => 12)); // WHERE ordencompradetalle_costocaja <= 12
-     * </code>
-     *
-     * @param     mixed $ordencompradetalleCostocaja The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return OrdencompradetalleQuery The current query, for fluid interface
-     */
-    public function filterByOrdencompradetalleCostocaja($ordencompradetalleCostocaja = null, $comparison = null)
-    {
-        if (is_array($ordencompradetalleCostocaja)) {
-            $useMinMax = false;
-            if (isset($ordencompradetalleCostocaja['min'])) {
-                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $ordencompradetalleCostocaja['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($ordencompradetalleCostocaja['max'])) {
-                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $ordencompradetalleCostocaja['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_COSTOCAJA, $ordencompradetalleCostocaja, $comparison);
-    }
-
-    /**
      * Filter the query on the ordencompradetalle_iva column
      *
      * Example usage:
@@ -732,6 +782,48 @@ abstract class BaseOrdencompradetalleQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVA, $ordencompradetalleIva, $comparison);
+    }
+
+    /**
+     * Filter the query on the ordencompradetalle_ivaCero column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByOrdencompradetalleIvacero(1234); // WHERE ordencompradetalle_ivaCero = 1234
+     * $query->filterByOrdencompradetalleIvacero(array(12, 34)); // WHERE ordencompradetalle_ivaCero IN (12, 34)
+     * $query->filterByOrdencompradetalleIvacero(array('min' => 12)); // WHERE ordencompradetalle_ivaCero >= 12
+     * $query->filterByOrdencompradetalleIvacero(array('max' => 12)); // WHERE ordencompradetalle_ivaCero <= 12
+     * </code>
+     *
+     * @param     mixed $ordencompradetalleIvacero The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return OrdencompradetalleQuery The current query, for fluid interface
+     */
+    public function filterByOrdencompradetalleIvacero($ordencompradetalleIvacero = null, $comparison = null)
+    {
+        if (is_array($ordencompradetalleIvacero)) {
+            $useMinMax = false;
+            if (isset($ordencompradetalleIvacero['min'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVACERO, $ordencompradetalleIvacero['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ordencompradetalleIvacero['max'])) {
+                $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVACERO, $ordencompradetalleIvacero['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(OrdencompradetallePeer::ORDENCOMPRADETALLE_IVACERO, $ordencompradetalleIvacero, $comparison);
     }
 
     /**

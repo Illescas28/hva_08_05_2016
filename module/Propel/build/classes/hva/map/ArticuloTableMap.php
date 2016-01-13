@@ -42,6 +42,7 @@ class ArticuloTableMap extends TableMap
         $this->addForeignKey('idtipo', 'Idtipo', 'INTEGER', 'tipo', 'idtipo', true, null, null);
         $this->addColumn('articulo_nombre', 'ArticuloNombre', 'VARCHAR', false, 300, null);
         $this->addColumn('articulo_descripcion', 'ArticuloDescripcion', 'LONGVARCHAR', false, null, null);
+        $this->addForeignKey('idproveedor', 'Idproveedor', 'INTEGER', 'proveedor', 'idproveedor', false, null, null);
         // validators
     } // initialize()
 
@@ -50,6 +51,7 @@ class ArticuloTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Proveedor', 'Proveedor', RelationMap::MANY_TO_ONE, array('idproveedor' => 'idproveedor', ), null, null);
         $this->addRelation('Tipo', 'Tipo', RelationMap::MANY_TO_ONE, array('idtipo' => 'idtipo', ), 'CASCADE', 'CASCADE');
         $this->addRelation('Articulovariante', 'Articulovariante', RelationMap::ONE_TO_MANY, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE', 'Articulovariantes');
         $this->addRelation('Articulovariantevalor', 'Articulovariantevalor', RelationMap::ONE_TO_MANY, array('idarticulo' => 'idarticulo', ), 'CASCADE', 'CASCADE', 'Articulovariantevalors');

@@ -42,13 +42,15 @@ class OrdencompradetalleTableMap extends TableMap
         $this->addForeignKey('idordencompra', 'Idordencompra', 'INTEGER', 'ordencompra', 'idordencompra', true, null, null);
         $this->addForeignKey('idarticulovariante', 'Idarticulovariante', 'INTEGER', 'articulovariante', 'idarticulovariante', true, null, null);
         $this->addColumn('ordencompradetalle_cantidad', 'OrdencompradetalleCantidad', 'DECIMAL', true, 10, null);
+        $this->addColumn('ordencompradetalle_productosporcaja', 'OrdencompradetalleProductosporcaja', 'DECIMAL', true, 10, null);
+        $this->addColumn('ordencompradetalle_costocaja', 'OrdencompradetalleCostocaja', 'DECIMAL', true, 10, null);
         $this->addColumn('ordencompradetalle_costo', 'OrdencompradetalleCosto', 'DECIMAL', true, 10, null);
+        $this->addColumn('ordencompradetalle_preciocaja', 'OrdencompradetallePreciocaja', 'DECIMAL', true, 10, null);
         $this->addColumn('ordencompradetalle_precio', 'OrdencompradetallePrecio', 'DECIMAL', true, 10, null);
         $this->addColumn('ordencompradetalle_importe', 'OrdencompradetalleImporte', 'DECIMAL', true, 10, null);
         $this->addColumn('ordencompradetalle_caducidad', 'OrdencompradetalleCaducidad', 'DATE', false, null, null);
-        $this->addColumn('ordencompradetalle_productosporcaja', 'OrdencompradetalleProductosporcaja', 'DECIMAL', true, 10, null);
-        $this->addColumn('ordencompradetalle_costocaja', 'OrdencompradetalleCostocaja', 'DECIMAL', true, 10, null);
         $this->addColumn('ordencompradetalle_iva', 'OrdencompradetalleIva', 'DECIMAL', true, 10, null);
+        $this->addColumn('ordencompradetalle_ivaCero', 'OrdencompradetalleIvacero', 'DECIMAL', false, 10, null);
         // validators
     } // initialize()
 

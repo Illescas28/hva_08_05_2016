@@ -24,22 +24,19 @@ abstract class BaseReferenciaabonoPeer
     const TM_CLASS = 'ReferenciaabonoTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 5;
+    const NUM_COLUMNS = 4;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 5;
+    const NUM_HYDRATE_COLUMNS = 4;
 
     /** the column name for the idreferenciaabono field */
     const IDREFERENCIAABONO = 'referenciaabono.idreferenciaabono';
 
     /** the column name for the idbanco field */
     const IDBANCO = 'referenciaabono.idbanco';
-
-    /** the column name for the referenciaabono_archivo field */
-    const REFERENCIAABONO_ARCHIVO = 'referenciaabono.referenciaabono_archivo';
 
     /** the column name for the referenciaabono_tipo field */
     const REFERENCIAABONO_TIPO = 'referenciaabono.referenciaabono_tipo';
@@ -71,12 +68,12 @@ abstract class BaseReferenciaabonoPeer
      * e.g. ReferenciaabonoPeer::$fieldNames[ReferenciaabonoPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono', 'Idbanco', 'ReferenciaabonoArchivo', 'ReferenciaabonoTipo', 'ReferenciaabonoReferencia', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabonoArchivo', 'referenciaabonoTipo', 'referenciaabonoReferencia', ),
-        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO, ReferenciaabonoPeer::IDBANCO, ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO, ReferenciaabonoPeer::REFERENCIAABONO_TIPO, ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO', 'IDBANCO', 'REFERENCIAABONO_ARCHIVO', 'REFERENCIAABONO_TIPO', 'REFERENCIAABONO_REFERENCIA', ),
-        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabono_archivo', 'referenciaabono_tipo', 'referenciaabono_referencia', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono', 'Idbanco', 'ReferenciaabonoTipo', 'ReferenciaabonoReferencia', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabonoTipo', 'referenciaabonoReferencia', ),
+        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO, ReferenciaabonoPeer::IDBANCO, ReferenciaabonoPeer::REFERENCIAABONO_TIPO, ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO', 'IDBANCO', 'REFERENCIAABONO_TIPO', 'REFERENCIAABONO_REFERENCIA', ),
+        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono', 'idbanco', 'referenciaabono_tipo', 'referenciaabono_referencia', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /**
@@ -86,12 +83,12 @@ abstract class BaseReferenciaabonoPeer
      * e.g. ReferenciaabonoPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono' => 0, 'Idbanco' => 1, 'ReferenciaabonoArchivo' => 2, 'ReferenciaabonoTipo' => 3, 'ReferenciaabonoReferencia' => 4, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabonoArchivo' => 2, 'referenciaabonoTipo' => 3, 'referenciaabonoReferencia' => 4, ),
-        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO => 0, ReferenciaabonoPeer::IDBANCO => 1, ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO => 2, ReferenciaabonoPeer::REFERENCIAABONO_TIPO => 3, ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA => 4, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO' => 0, 'IDBANCO' => 1, 'REFERENCIAABONO_ARCHIVO' => 2, 'REFERENCIAABONO_TIPO' => 3, 'REFERENCIAABONO_REFERENCIA' => 4, ),
-        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabono_archivo' => 2, 'referenciaabono_tipo' => 3, 'referenciaabono_referencia' => 4, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, )
+        BasePeer::TYPE_PHPNAME => array ('Idreferenciaabono' => 0, 'Idbanco' => 1, 'ReferenciaabonoTipo' => 2, 'ReferenciaabonoReferencia' => 3, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabonoTipo' => 2, 'referenciaabonoReferencia' => 3, ),
+        BasePeer::TYPE_COLNAME => array (ReferenciaabonoPeer::IDREFERENCIAABONO => 0, ReferenciaabonoPeer::IDBANCO => 1, ReferenciaabonoPeer::REFERENCIAABONO_TIPO => 2, ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA => 3, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDREFERENCIAABONO' => 0, 'IDBANCO' => 1, 'REFERENCIAABONO_TIPO' => 2, 'REFERENCIAABONO_REFERENCIA' => 3, ),
+        BasePeer::TYPE_FIELDNAME => array ('idreferenciaabono' => 0, 'idbanco' => 1, 'referenciaabono_tipo' => 2, 'referenciaabono_referencia' => 3, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, )
     );
 
     /** The enumerated values for this table */
@@ -221,13 +218,11 @@ abstract class BaseReferenciaabonoPeer
         if (null === $alias) {
             $criteria->addSelectColumn(ReferenciaabonoPeer::IDREFERENCIAABONO);
             $criteria->addSelectColumn(ReferenciaabonoPeer::IDBANCO);
-            $criteria->addSelectColumn(ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO);
             $criteria->addSelectColumn(ReferenciaabonoPeer::REFERENCIAABONO_TIPO);
             $criteria->addSelectColumn(ReferenciaabonoPeer::REFERENCIAABONO_REFERENCIA);
         } else {
             $criteria->addSelectColumn($alias . '.idreferenciaabono');
             $criteria->addSelectColumn($alias . '.idbanco');
-            $criteria->addSelectColumn($alias . '.referenciaabono_archivo');
             $criteria->addSelectColumn($alias . '.referenciaabono_tipo');
             $criteria->addSelectColumn($alias . '.referenciaabono_referencia');
         }
@@ -821,10 +816,6 @@ abstract class BaseReferenciaabonoPeer
             $criteria = clone $values; // rename for clarity
         } else {
             $criteria = $values->buildCriteria(); // build Criteria from Referenciaabono object
-        }
-
-        if ($criteria->containsKey(ReferenciaabonoPeer::IDREFERENCIAABONO) && $criteria->keyContainsValue(ReferenciaabonoPeer::IDREFERENCIAABONO) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ReferenciaabonoPeer::IDREFERENCIAABONO.')');
         }
 
 

@@ -76,14 +76,14 @@
                     </div>
                      <p id="orden_folio" class="input-error"> <i class="tiny mdi-alert-error"></i>Este campo no puede ir vacio</p>  
                 </div>
-                <div class="col s6">
-                    <div class="input-field">
-                        <select name="orden_status" id="orden_status">
+                <div class="col s6" style="margin-top: 13px;">
+                    <label for="orden_status" class="active">Pagada</label>
+                    <select name="orden_status" id="orden_status" style="display: block">
                             <option value="pagada">Si</option>
                             <option value="no pagada">No</option>
                         </select>
-                        <label for="orden_status" class="active">Pagada</label>
-                    </div>
+                        
+                    
                 </div>
                 <div class="col s12" style="display: none">
                     <div class="input-field">
@@ -122,10 +122,11 @@
                 <th>Cajas</th>
                 <th>Productos</th>
                 <th>Costo caja</th>
+                <th>Precio caja</th>
                 <th style="width: 280px">Producto</th>
                 <th>Caducidad</th>
                 <th>Costo unitario</th>
-                <th>Precio venta</th>
+                <th>Precio unitario</th>
                 <th>IVA</th>
                 <th>Subtotal</th>
                 <th>Almacen</th>
@@ -139,7 +140,10 @@
                 <p style="font-size: 16px; float: right; padding-right: 24px;">Subtotal: <span id="order-subtotal">0.00</span>
             </div>
             <div class="col s12 orderiva-container" style="background: #e1f5fe"> 
-                <p style="font-size: 16px; float: right; padding-right: 24px;">IVA: <span id="iva">0.00</span>
+                <p style="font-size: 16px; float: right; padding-right: 24px;">IVA 16%: <span id="iva">0.00</span>
+            </div>
+            <div class="col s12 orderiva-container" style="background: #e1f5fe"> 
+                <p style="font-size: 16px; float: right; padding-right: 24px;">IVA 0%: <span id="iva0">0.00</span>
             </div>
             <div class="col s12 ordertotal-container">
                 <p style="font-size: 16px; float: right; padding-right: 24px;">Total: <span id="total">0.00</span>
@@ -256,10 +260,11 @@
                 var td_cantidad = $('<td id="cantidad"><span style="visibility:hidden">1</span><input type="number" min="1" value="1"></td>').appendTo(tr);
                 var td_prodcaja = $('<td id="prodcaja"><input type="text"></td>').appendTo(tr);
                 var td_costocaja = $('<td id="costocaja"><input type="text"></td>').appendTo(tr);
+                var td_preciocaja = $('<td id="preciocaja" ><span style="visibility: hidden"></span><input type="text"></td>').appendTo(tr);
                 var td_producto = $('<td id="producto" style="padding-left: 12px;">'+$('#productos_autocomplete').val()+'</td>').appendTo(tr);
                 var td_caducidad = $('<td class="datepicker" id="caducidad" style="padding-left: 12px;"><span style="visibility: hidden"></span><input class="input-datepicker" type="text"></td>').appendTo(tr);
-                var td_costo = $('<td id="costo" ><span style="visibility: hidden"></span><input type="text"  value="'+$('#producto_costo').val()+'" readonly></td>').appendTo(tr);
-                var td_precio = $('<td id="precio" ><span style="visibility: hidden"></span><input type="text" value="'+$('#producto_precio').val()+'"></td>').appendTo(tr);
+                var td_costo = $('<td id="costo" >'+formatMoney(0,'$')+'</td>').appendTo(tr);
+                var td_precio = $('<td id="precio" >'+formatMoney(0,'$')+'</td>').appendTo(tr);
                 var td_iva = $('<td data-iva="'+$('#producto_iva').val()+'" id="iva" style="padding-left: 12px;">'+formatMoney(0,'$')+'</td>').appendTo(tr);
                 var td_subtotal = $('<td id="subtotal" style="padding-left: 12px;">'+formatMoney(0,'$')+'</td>').appendTo(tr);
                 // ALMACEN POR REGISTRO
@@ -279,7 +284,8 @@
                    //modifcamos el subtotal
                    var costo = parseInt($(this).closest('tr').find('#costo input').val());
                    var prodcaja = parseInt($(this).closest('tr').find('#prodcaja input').val());
-                   var costocaja = parseInt($(this).closest('tr').find('#costocaja input').val());
+                   var costocaja = parseFloat($(this).closest('tr').find('#costocaja input').val());
+                   var preciocaja = parseFloat($(this).closest('tr').find('#preciocaja input').val());
                    var costounit = costocaja / prodcaja;
                    var cantidad = parseInt($(this).val());
                    
@@ -296,6 +302,7 @@
                    $(this).closest('tr').find('#iva').text(formatMoney(iva_producto,'$'));
                   
                    //$(this).closest('tr').find('#subtotal').text(formatMoney(new_subtotal,'$'));
+
                    
                    updateIVA();
                    updateSubtotal();
@@ -303,15 +310,29 @@
                   
  
                 });
+                
+                //EVENTO PRECIOCAJA
+                td_preciocaja.find('input').on('change',function(){
+
+                    var preciocaja = parseFloat($(this).val());
+                    var prodcaja = parseInt($(this).closest('tr').find('#prodcaja input').val());
+                    
+                    //CALUCLO DE PRECIO UNITARIO
+                   var precio_unit = preciocaja/prodcaja;
+                   $(this).closest('tr').find('#precio').text(formatMoney(precio_unit,'$'));
+                   
+                    
+                });
                             
                 td_prodcaja.find('input').on('change',function(){
                     
                     //modifcamos el subtotal
                     var cantidad = parseInt($(this).closest('tr').find('#cantidad input').val());
-                    var costo = parseInt($(this).closest('tr').find('#costo input').val());
+                    var costo = parseFloat($(this).closest('tr').find('#costo input').val());
                     var prodcaja = parseInt($(this).closest('tr').find('#prodcaja input').val());
-                    var costocaja = parseInt($(this).closest('tr').find('#costocaja input').val());
-                     var costounit = costocaja / prodcaja;
+                    var costocaja = parseFloat($(this).closest('tr').find('#costocaja input').val());
+                    var preciocaja = parseFloat($(this).closest('tr').find('#preciocaja input').val());
+                    var costounit = costocaja / prodcaja;
                     
                     var new_subtotal2 =   (cantidad*costocaja)/(cantidad*$(this).val());
                     var new_subtotal = new_subtotal2 *$(this).val()*cantidad;
@@ -324,7 +345,10 @@
                    //SET IVA
                    $(this).closest('tr').find('#iva').text(formatMoney(iva_producto,'$'));
                      
-                    
+                    //CALUCLO DE PRECIO UNITARIO
+                   var precio_unit = preciocaja/prodcaja;
+                   $(this).closest('tr').find('#precio').text(formatMoney(precio_unit,'$'));
+                   
                     //$(this).closest('tr').find('#subtotal').text(formatMoney(new_subtotal,'$'));
                     
                      updateIVA();
@@ -337,9 +361,9 @@
                 td_costocaja.find('input').on('change',function(){
                     //modifcamos el subtotal
                     var cantidad = parseInt($(this).closest('tr').find('#cantidad input').val());
-                    var costo = parseInt($(this).closest('tr').find('#costo input').val());
+                    var costo = parseFloat($(this).closest('tr').find('#costo input').val());
                     var prodcaja = parseInt($(this).closest('tr').find('#prodcaja input').val());
-                    var costocaja = parseInt($(this).closest('tr').find('#costocaja input').val());
+                    var costocaja = parseFloat($(this).closest('tr').find('#costocaja input').val());
                     var costounit = costocaja / prodcaja;
 
                     var new_subtotal2 =   ($(this).val()*cantidad)/(prodcaja*cantidad);
@@ -502,9 +526,10 @@
                             ordencompradetalle_caducidad        : $(element).find('td#caducidad').find('input').val(),
                             ordencompradetalle_cantidad         : parseInt($(element).find('td#cantidad').find('input').val()),
                             ordencompradetalle_productosporcaja : parseInt($(element).find('td#prodcaja').find('input').val()),
-                            ordencompradetalle_costocaja        : parseInt($(element).find('td#costocaja').find('input').val()),
-                            ordencompradetalle_costo            : (parseInt($(element).find('td#cantidad').find('input').val())*parseInt($(element).find('td#costocaja').find('input').val()))/(parseInt($(element).find('td#cantidad').find('input').val())*parseInt($(element).find('td#prodcaja').find('input').val())),
-                            ordencompradetalle_precio           : $(element).find('td#precio').find('input').val(),
+                            ordencompradetalle_costocaja        : parseFloat($(element).find('td#costocaja').find('input').val()),
+                            ordencompradetalle_preciocaja       : parseFloat($(element).find('td#preciocaja').find('input').val()),
+                            ordencompradetalle_costo            : (parseFloat($(element).find('td#cantidad').find('input').val())*parseFloat($(element).find('td#costocaja').find('input').val()))/(parseInt($(element).find('td#cantidad').find('input').val())*parseInt($(element).find('td#prodcaja').find('input').val())),
+                            ordencompradetalle_precio           : (parseFloat($(element).find('td#preciocaja').find('input').val())/parseFloat($(element).find('td#prodcaja').find('input').val())),
                             ordencompradetalle_importe          : $(element).find('td#subtotal').text(),
                             ordencompradetalle_iva              : $(element).find('td#iva').text(),
                             ordencompradetalle_lugar            : $(element).find('td#almacen select').val(),

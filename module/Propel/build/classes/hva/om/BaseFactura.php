@@ -36,18 +36,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
     protected $idfactura;
 
     /**
-     * The value for the idadmision field.
-     * @var        int
-     */
-    protected $idadmision;
-
-    /**
-     * The value for the idventa field.
-     * @var        int
-     */
-    protected $idventa;
-
-    /**
      * The value for the iddatosfacturacion field.
      * @var        int
      */
@@ -170,28 +158,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
     {
 
         return $this->idfactura;
-    }
-
-    /**
-     * Get the [idadmision] column value.
-     *
-     * @return int
-     */
-    public function getIdadmision()
-    {
-
-        return $this->idadmision;
-    }
-
-    /**
-     * Get the [idventa] column value.
-     *
-     * @return int
-     */
-    public function getIdventa()
-    {
-
-        return $this->idventa;
     }
 
     /**
@@ -397,48 +363,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
 
         return $this;
     } // setIdfactura()
-
-    /**
-     * Set the value of [idadmision] column.
-     *
-     * @param  int $v new value
-     * @return Factura The current object (for fluent API support)
-     */
-    public function setIdadmision($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->idadmision !== $v) {
-            $this->idadmision = $v;
-            $this->modifiedColumns[] = FacturaPeer::IDADMISION;
-        }
-
-
-        return $this;
-    } // setIdadmision()
-
-    /**
-     * Set the value of [idventa] column.
-     *
-     * @param  int $v new value
-     * @return Factura The current object (for fluent API support)
-     */
-    public function setIdventa($v)
-    {
-        if ($v !== null && is_numeric($v)) {
-            $v = (int) $v;
-        }
-
-        if ($this->idventa !== $v) {
-            $this->idventa = $v;
-            $this->modifiedColumns[] = FacturaPeer::IDVENTA;
-        }
-
-
-        return $this;
-    } // setIdventa()
 
     /**
      * Set the value of [iddatosfacturacion] column.
@@ -777,22 +701,20 @@ abstract class BaseFactura extends BaseObject implements Persistent
         try {
 
             $this->idfactura = ($row[$startcol + 0] !== null) ? (int) $row[$startcol + 0] : null;
-            $this->idadmision = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
-            $this->idventa = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
-            $this->iddatosfacturacion = ($row[$startcol + 3] !== null) ? (int) $row[$startcol + 3] : null;
-            $this->idconsulta = ($row[$startcol + 4] !== null) ? (int) $row[$startcol + 4] : null;
-            $this->factura_url_xml = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->factura_url_pdf = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->factura_fecha = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->factura_sellosat = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->factura_certificadosat = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
-            $this->factura_cadenaoriginal = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
-            $this->factura_cfdi = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
-            $this->factura_mensaje = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
-            $this->factura_qrcode = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
-            $this->factura_tipodepago = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
-            $this->factura_status = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
-            $this->factura_tipo = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
+            $this->iddatosfacturacion = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
+            $this->idconsulta = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
+            $this->factura_url_xml = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
+            $this->factura_url_pdf = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->factura_fecha = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->factura_sellosat = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->factura_certificadosat = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->factura_cadenaoriginal = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->factura_cfdi = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->factura_mensaje = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->factura_qrcode = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+            $this->factura_tipodepago = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+            $this->factura_status = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
+            $this->factura_tipo = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -802,7 +724,7 @@ abstract class BaseFactura extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 17; // 17 = FacturaPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 15; // 15 = FacturaPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Factura object", $e);
@@ -1044,12 +966,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
         if ($this->isColumnModified(FacturaPeer::IDFACTURA)) {
             $modifiedColumns[':p' . $index++]  = '`idfactura`';
         }
-        if ($this->isColumnModified(FacturaPeer::IDADMISION)) {
-            $modifiedColumns[':p' . $index++]  = '`idadmision`';
-        }
-        if ($this->isColumnModified(FacturaPeer::IDVENTA)) {
-            $modifiedColumns[':p' . $index++]  = '`idventa`';
-        }
         if ($this->isColumnModified(FacturaPeer::IDDATOSFACTURACION)) {
             $modifiedColumns[':p' . $index++]  = '`iddatosfacturacion`';
         }
@@ -1105,12 +1021,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
                 switch ($columnName) {
                     case '`idfactura`':
                         $stmt->bindValue($identifier, $this->idfactura, PDO::PARAM_INT);
-                        break;
-                    case '`idadmision`':
-                        $stmt->bindValue($identifier, $this->idadmision, PDO::PARAM_INT);
-                        break;
-                    case '`idventa`':
-                        $stmt->bindValue($identifier, $this->idventa, PDO::PARAM_INT);
                         break;
                     case '`iddatosfacturacion`':
                         $stmt->bindValue($identifier, $this->iddatosfacturacion, PDO::PARAM_INT);
@@ -1310,51 +1220,45 @@ abstract class BaseFactura extends BaseObject implements Persistent
                 return $this->getIdfactura();
                 break;
             case 1:
-                return $this->getIdadmision();
-                break;
-            case 2:
-                return $this->getIdventa();
-                break;
-            case 3:
                 return $this->getIddatosfacturacion();
                 break;
-            case 4:
+            case 2:
                 return $this->getIdconsulta();
                 break;
-            case 5:
+            case 3:
                 return $this->getFacturaUrlXml();
                 break;
-            case 6:
+            case 4:
                 return $this->getFacturaUrlPdf();
                 break;
-            case 7:
+            case 5:
                 return $this->getFacturaFecha();
                 break;
-            case 8:
+            case 6:
                 return $this->getFacturaSellosat();
                 break;
-            case 9:
+            case 7:
                 return $this->getFacturaCertificadosat();
                 break;
-            case 10:
+            case 8:
                 return $this->getFacturaCadenaoriginal();
                 break;
-            case 11:
+            case 9:
                 return $this->getFacturaCfdi();
                 break;
-            case 12:
+            case 10:
                 return $this->getFacturaMensaje();
                 break;
-            case 13:
+            case 11:
                 return $this->getFacturaQrcode();
                 break;
-            case 14:
+            case 12:
                 return $this->getFacturaTipodepago();
                 break;
-            case 15:
+            case 13:
                 return $this->getFacturaStatus();
                 break;
-            case 16:
+            case 14:
                 return $this->getFacturaTipo();
                 break;
             default:
@@ -1387,22 +1291,20 @@ abstract class BaseFactura extends BaseObject implements Persistent
         $keys = FacturaPeer::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getIdfactura(),
-            $keys[1] => $this->getIdadmision(),
-            $keys[2] => $this->getIdventa(),
-            $keys[3] => $this->getIddatosfacturacion(),
-            $keys[4] => $this->getIdconsulta(),
-            $keys[5] => $this->getFacturaUrlXml(),
-            $keys[6] => $this->getFacturaUrlPdf(),
-            $keys[7] => $this->getFacturaFecha(),
-            $keys[8] => $this->getFacturaSellosat(),
-            $keys[9] => $this->getFacturaCertificadosat(),
-            $keys[10] => $this->getFacturaCadenaoriginal(),
-            $keys[11] => $this->getFacturaCfdi(),
-            $keys[12] => $this->getFacturaMensaje(),
-            $keys[13] => $this->getFacturaQrcode(),
-            $keys[14] => $this->getFacturaTipodepago(),
-            $keys[15] => $this->getFacturaStatus(),
-            $keys[16] => $this->getFacturaTipo(),
+            $keys[1] => $this->getIddatosfacturacion(),
+            $keys[2] => $this->getIdconsulta(),
+            $keys[3] => $this->getFacturaUrlXml(),
+            $keys[4] => $this->getFacturaUrlPdf(),
+            $keys[5] => $this->getFacturaFecha(),
+            $keys[6] => $this->getFacturaSellosat(),
+            $keys[7] => $this->getFacturaCertificadosat(),
+            $keys[8] => $this->getFacturaCadenaoriginal(),
+            $keys[9] => $this->getFacturaCfdi(),
+            $keys[10] => $this->getFacturaMensaje(),
+            $keys[11] => $this->getFacturaQrcode(),
+            $keys[12] => $this->getFacturaTipodepago(),
+            $keys[13] => $this->getFacturaStatus(),
+            $keys[14] => $this->getFacturaTipo(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1454,51 +1356,45 @@ abstract class BaseFactura extends BaseObject implements Persistent
                 $this->setIdfactura($value);
                 break;
             case 1:
-                $this->setIdadmision($value);
-                break;
-            case 2:
-                $this->setIdventa($value);
-                break;
-            case 3:
                 $this->setIddatosfacturacion($value);
                 break;
-            case 4:
+            case 2:
                 $this->setIdconsulta($value);
                 break;
-            case 5:
+            case 3:
                 $this->setFacturaUrlXml($value);
                 break;
-            case 6:
+            case 4:
                 $this->setFacturaUrlPdf($value);
                 break;
-            case 7:
+            case 5:
                 $this->setFacturaFecha($value);
                 break;
-            case 8:
+            case 6:
                 $this->setFacturaSellosat($value);
                 break;
-            case 9:
+            case 7:
                 $this->setFacturaCertificadosat($value);
                 break;
-            case 10:
+            case 8:
                 $this->setFacturaCadenaoriginal($value);
                 break;
-            case 11:
+            case 9:
                 $this->setFacturaCfdi($value);
                 break;
-            case 12:
+            case 10:
                 $this->setFacturaMensaje($value);
                 break;
-            case 13:
+            case 11:
                 $this->setFacturaQrcode($value);
                 break;
-            case 14:
+            case 12:
                 $this->setFacturaTipodepago($value);
                 break;
-            case 15:
+            case 13:
                 $this->setFacturaStatus($value);
                 break;
-            case 16:
+            case 14:
                 $this->setFacturaTipo($value);
                 break;
         } // switch()
@@ -1526,22 +1422,20 @@ abstract class BaseFactura extends BaseObject implements Persistent
         $keys = FacturaPeer::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setIdfactura($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setIdadmision($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setIdventa($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setIddatosfacturacion($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setIdconsulta($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setFacturaUrlXml($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setFacturaUrlPdf($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setFacturaFecha($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setFacturaSellosat($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setFacturaCertificadosat($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setFacturaCadenaoriginal($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setFacturaCfdi($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setFacturaMensaje($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setFacturaQrcode($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setFacturaTipodepago($arr[$keys[14]]);
-        if (array_key_exists($keys[15], $arr)) $this->setFacturaStatus($arr[$keys[15]]);
-        if (array_key_exists($keys[16], $arr)) $this->setFacturaTipo($arr[$keys[16]]);
+        if (array_key_exists($keys[1], $arr)) $this->setIddatosfacturacion($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setIdconsulta($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setFacturaUrlXml($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setFacturaUrlPdf($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setFacturaFecha($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setFacturaSellosat($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setFacturaCertificadosat($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setFacturaCadenaoriginal($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setFacturaCfdi($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setFacturaMensaje($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setFacturaQrcode($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setFacturaTipodepago($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setFacturaStatus($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setFacturaTipo($arr[$keys[14]]);
     }
 
     /**
@@ -1554,8 +1448,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
         $criteria = new Criteria(FacturaPeer::DATABASE_NAME);
 
         if ($this->isColumnModified(FacturaPeer::IDFACTURA)) $criteria->add(FacturaPeer::IDFACTURA, $this->idfactura);
-        if ($this->isColumnModified(FacturaPeer::IDADMISION)) $criteria->add(FacturaPeer::IDADMISION, $this->idadmision);
-        if ($this->isColumnModified(FacturaPeer::IDVENTA)) $criteria->add(FacturaPeer::IDVENTA, $this->idventa);
         if ($this->isColumnModified(FacturaPeer::IDDATOSFACTURACION)) $criteria->add(FacturaPeer::IDDATOSFACTURACION, $this->iddatosfacturacion);
         if ($this->isColumnModified(FacturaPeer::IDCONSULTA)) $criteria->add(FacturaPeer::IDCONSULTA, $this->idconsulta);
         if ($this->isColumnModified(FacturaPeer::FACTURA_URL_XML)) $criteria->add(FacturaPeer::FACTURA_URL_XML, $this->factura_url_xml);
@@ -1633,8 +1525,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setIdadmision($this->getIdadmision());
-        $copyObj->setIdventa($this->getIdventa());
         $copyObj->setIddatosfacturacion($this->getIddatosfacturacion());
         $copyObj->setIdconsulta($this->getIdconsulta());
         $copyObj->setFacturaUrlXml($this->getFacturaUrlXml());
@@ -1817,8 +1707,6 @@ abstract class BaseFactura extends BaseObject implements Persistent
     public function clear()
     {
         $this->idfactura = null;
-        $this->idadmision = null;
-        $this->idventa = null;
         $this->iddatosfacturacion = null;
         $this->idconsulta = null;
         $this->factura_url_xml = null;
