@@ -215,6 +215,11 @@ class ArticuloController extends AbstractActionController
             //Le ponemos los datos de nuestro articulo a nuestro formulario
             $articuloForm->setData($articulo->toArray(BasePeer::TYPE_FIELDNAME));
             
+            $proveedor = 'N/D';
+            if(!is_null($articulo->getIdproveedor())){
+                $proveedor = $articulo->getProveedor()->getProveedorNombre();
+            }
+            
             if ($request->isPost()) { //Si hicieron POST
                 
                 //Instanciamos nuestro filtro de articulo
@@ -228,6 +233,7 @@ class ArticuloController extends AbstractActionController
                 
                 //Validamos nuestro formulario de articulo
                 if($articuloForm->isValid()){
+                    
                     //Recorremos nuestro formulario y seteamos los valores a nuestro objeto Articulo
                     foreach ($articuloForm->getData() as $articuloKey => $articuloValue){
                         
@@ -237,6 +243,9 @@ class ArticuloController extends AbstractActionController
                     
                     //Guardamos en nuestra base de datos Articulo
                     $articulo->save();
+                    
+                    
+                    /*
                     
                     //Si el articulo tiene propiedades las eliminamos para volverlas a setear
                     if($propiedades->count()){
@@ -323,7 +332,8 @@ class ArticuloController extends AbstractActionController
                     }
 
                     eval($php);
-
+                     
+                    */
                     //Agregamos un mensaje
                     $this->flashMessenger()->addMessage('Articulo Modificado exitosamente!');
 
@@ -340,6 +350,7 @@ class ArticuloController extends AbstractActionController
                 'id'  => $id,
                 'articuloForm' => $articuloForm,
                 'propiedades' => $propiedades,
+                'proveedor' => $proveedor
             ));
         
 

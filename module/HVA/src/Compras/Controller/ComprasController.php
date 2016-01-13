@@ -262,6 +262,11 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
                                    ->setOrdencompradetallePreciocaja($item['ordencompradetalle_preciocaja']);
                 
+                
+                $articulo_variante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($item['idarticulovariante']);
+                $articulo_variante->getArticulo()->setIdproveedor($ordenCompra->getIdproveedor());
+                $articulo_variante->save();
+                
                 if(!empty($item['ordencompradetalle_caducidad'])){
                     
                     $caducidad = \DateTime::createFromFormat('m/Y', $item['ordencompradetalle_caducidad']);
@@ -411,6 +416,10 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetallePreciocaja($item['ordencompradetalle_preciocaja']);
                     
                      
+                    $articulo_variante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($item['idarticulovariante']);
+                    $articulo_variante->getArticulo()->setIdproveedor($orden_compra->getIdproveedor());
+                    $articulo_variante->save();
+                
                      if(!empty($item['ordencompradetalle_caducidad'])){
                         $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);
                     }
@@ -455,6 +464,10 @@ class ComprasController extends AbstractActionController {
                                    ->setOrdencompradetalleIva($item_iva)
                                    ->setOrdencompradetallePrecio($item['ordencompradetalle_precio'])
                                    ->setOrdencompradetallePreciocaja($item['ordencompradetalle_preciocaja']);
+                    
+                    $articulo_variante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($item['idarticulovariante']);
+                    $articulo_variante->getArticulo()->setIdproveedor($orden_compra->getIdproveedor());
+                    $articulo_variante->save();
 
                     if(!empty($item['ordencompradetalle_caducidad'])){
                         $ordenCompraDetalle->setOrdencompradetalleCaducidad($item['ordencompradetalle_caducidad']);

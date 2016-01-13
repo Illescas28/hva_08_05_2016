@@ -11,7 +11,7 @@
     <fieldset>
         <legend>Datos Generales</legend>
         <div class="row">
-            <div class="col s8">
+            <div class="col s4">
                 <div class="input-field">
                     <?php echo $this->formText($articuloForm->get('articulo_nombre')); ?>
                     <?php echo $this->formLabel($articuloForm->get('articulo_nombre')); ?>
@@ -24,6 +24,10 @@
                 </div>
                 <p id="idtipo" class="input-error"> <i class="tiny mdi-alert-error"></i>Por favor seleccine un tipo de articulo</p>
             </div>
+            <div class="col s4" style="margin-top: 28px;">
+                <label class="active" for="articulo_nombre">Proveedor</label>
+                <p><?php echo $proveedor?></p>
+            </div>
         </div>
         <div class="row">
             <div class="col s12">
@@ -33,6 +37,14 @@
                 </div>
             </div>
         </div>
+        <?php echo $this->form()->closeTag(); ?>
+        <div class="row">
+    <div class="col s4 offset-s4">
+        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+            <i class="mdi-content-save left"></i>
+        </button>
+    </div>
+</div>
     </fieldset>
 </div>
 <a href="javascript:void(0)" id="new_property" ><i class="mdi-content-add-circle-outline prefix"></i>Agregar propiedad</a>
@@ -104,14 +116,8 @@
     </fieldset>
 </div>
 <p style="color: #9e9e9e">(*) Campos obligatorios</p>
-<div class="row">
-    <div class="col s4 offset-s4">
-        <button style="width: 100%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
-            <i class="mdi-content-save left"></i>
-        </button>
-    </div>
-</div>
-<?php echo $this->form()->closeTag(); ?>
+
+
 <script type="text/javascript">
     $(document).ready(function() {
         //Inicializamos el select de materialize
