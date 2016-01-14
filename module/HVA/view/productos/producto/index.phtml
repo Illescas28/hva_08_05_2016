@@ -127,6 +127,7 @@ $this->headTitle($title);
                             tr.append('<td class="collapse" title="' + this.articulo_nombre + '">' + this.articulo_nombre + '</td>');
                             tr.append('<td id="descripcion" class="collapse" title="' + this.descripcion + '">' + this.descripcion + '</td>');
                             tr.append('<td style="padding-left: 0">' + this.articulovariante_codigobarras + '</td>')
+                           
                             tr.append('<td class="number">' + accounting.formatMoney(this.articulovariante_precio) + '</td>')
                             $.each(lugares, function () {
                                 var lugar_nombre = this.nombre;

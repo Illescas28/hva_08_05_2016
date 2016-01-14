@@ -304,29 +304,29 @@ return array(
                     ),
                 ),
             ),
-            'productos-precios' => array(
-                'type'    => 'segment',
-                'options' => array(
-                    'route'    => '/productos/precios',
-                    'defaults' => array(
-                        'controller' => 'Productos\Precios\Controller\Precios',
-                        'action'     => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'productos-precios-comprasbyarticulovariante'=>array(
-                        'type'    => 'segment',
-                        'options' => array(
-                            'route'    => '/comprasbyarticulovariante',
-                            'defaults' => array(
-                                'controller' => 'Productos\Precios\Controller\Precios',
-                                'action'     => 'comprasbyarticulovariante',
-                            ),
-                        ),
-                    ),
-                ),
-            ),
+//            'productos-precios' => array(
+//                'type'    => 'segment',
+//                'options' => array(
+//                    'route'    => '/productos/precios',
+//                    'defaults' => array(
+//                        'controller' => 'Productos\Precios\Controller\Precios',
+//                        'action'     => 'index',
+//                    ),
+//                ),
+//                'may_terminate' => true,
+//                'child_routes' => array(
+//                    'productos-precios-comprasbyarticulovariante'=>array(
+//                        'type'    => 'segment',
+//                        'options' => array(
+//                            'route'    => '/comprasbyarticulovariante',
+//                            'defaults' => array(
+//                                'controller' => 'Productos\Precios\Controller\Precios',
+//                                'action'     => 'comprasbyarticulovariante',
+//                            ),
+//                        ),
+//                    ),
+//                ),
+//            ),
             'productos-producto' => array(
                 'type'    => 'segment',
                 'options' => array(

@@ -98,12 +98,12 @@ class RegistroController extends AbstractActionController
                     }
                 }
                 // END DESCRIPCION
-
+                
                 array_push($productos, $tmp);
 
             }
             
-
+          
             //El arreglo que regresamos
             $json_data = array(
                 "draw"            => (int)$post_data['draw'],

@@ -25,6 +25,7 @@ class ProductoController extends AbstractActionController
             
             //JOIN
             $query->joinArticulo()->withColumn('articulo_nombre');
+            $query->addAscendingOrderByColumn('articulo_nombre');
   
             //SEARCH
             if(!empty($post_data['search']['value'])){

@@ -38,8 +38,8 @@ $this->headTitle($title);
             <!--columnas fijas-->
             <th style="width: 180px">Nombre</th>
             <th style="width: 300px">Descripcion</th>
-            <th>Codigo de barras</th>
-            <th class="number">Precio</th>
+            <th>Proveedor</th>
+            <!--<th class="number">Precio</th>-->
             <!--columnas dinamicas-->
             <?php foreach($lugares as $lugar) :?>
             <th class="two-columns">
@@ -66,8 +66,8 @@ $this->headTitle($title);
             <tr id="<?php echo $producto['id'] ?>">
                 <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
                 <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
-                <td style="padding-left: 0"><?php echo $producto['codigo_barras'] ?></td>
-                <td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>
+                <td style="padding-left: 0"><?php echo $producto['proveedor'] ?></td>
+                <!--<td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>-->
                 <?php foreach($lugares as $lugar) :?>
                     <?php $lugarNombre = $lugar['nombre']?>
                     <td class="two-columns">

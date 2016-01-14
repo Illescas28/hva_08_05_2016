@@ -77,14 +77,14 @@ $this->headTitle($title);
                             $table.clear();
                         }
                         
-                        
+                   
                         var thead = $('<tr>');
                         thead.append('<th style="width: 180px">Nombre</th>');
                         thead.append('<th style="width: 300px">Descripción</th>');
                         thead.append('<th>Codigo de barras</th>');
                         thead.append('<th class="number">Costo</th>');
                         thead.append('<th class="number">Precio</th>');
-                        //thead.append('<th class="number">IVA</th>');
+                        thead.append('<th class="number">IVA</th>');
                         thead.append('<th style="text-align:center">Opciones</th>');
                         
                          $('table#tabla-articulos thead').append(thead);
@@ -94,28 +94,48 @@ $this->headTitle($title);
                         //Tbody
            
                         $.each(productos, function () {
-                            console.log(this);
+                    
                             var producto = this;
                             var tr = $('<tr>').attr('id', this.idarticulovariante);
                             tr.append('<td class="collapse" title="' + this.articulo_nombre + '">' + this.articulo_nombre + '</td>');
                             tr.append('<td id="descripcion" class="collapse" title="' + this.descripcion + '">' + this.descripcion + '</td>');
                             this.articulovariante_codigobarras = this.articulovariante_codigobarras != null ? this.articulovariante_codigobarras : '';
                             tr.append('<td id="articulovariante_codigobarras" style="padding-left: 0; padding-bottom: 10px;" class="input-table"><span style="visibility: hidden">'+this.articulovariante_codigobarras+'</span><input style="margin-top: 24px;" id="codigo_barras-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[codigobarras]" type="text" value="'+this.articulovariante_codigobarras+'"></td>');
-                            tr.append('<td id="articulovariante_costo" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_costo+'</span><input  id="costo-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[costo]" type="text" value="'+parseFloat(this.articulovariante_costo)+'"></td>');
-                            tr.append('<td id="articulovariante_precio" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_precio+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[precio]" type="text" value="'+parseFloat(this.articulovariante_precio)+'"></td>');
+                            if(this.articulovariante_costo == null){
+                               
+                                tr.append('<td id="articulovariante_costo" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_costo+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[costo]" type="text" value="0"></td>');
+                                
+                            }else{
+                                tr.append('<td id="articulovariante_costo" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_costo+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[costo]" type="text" value="'+parseFloat(this.articulovariante_costo)+'"></td>');
+                            }
+                            if(this.articulovariante_precio == null){
+                               
+                                tr.append('<td id="articulovariante_precio" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_precio+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[precio]" type="text" value="0"></td>');
+                                
+                            }else{
+                                tr.append('<td id="articulovariante_precio" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_precio+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[precio]" type="text" value="'+parseFloat(this.articulovariante_precio)+'"></td>');
+                            }
+               
+                            
                             //IVA
                             var td = $('<td>',{id:'iva',class:'number',style:"padding-bottom: 0"});
                             td.append('<span style="visibility: hidden" style="margin-top: 50px;"></span>');
                             td.append('<select id="iva-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[iva]"> style="display:block"');
                             td.find('select').append('<option value="0">0%</option><option value="16">16%</option>');
-                            td.find('select').val(this.articulovariante_iva);
-                            //tr.append(td);
+                            if(this.articulovariante_iva==null){
+                                td.find('select').val(0);
+                            }else{
+                                td.find('select').val(this.articulovariante_iva);
+                            }
+                            
+                            
+                            tr.append(td);
                             //OPTIONS
                             td = $('<td>',{id:'iva',class:'number',style:"padding-left: 50px; padding-right: 50px"});
                             td.append('<a style="padding-left: 30%" data-position="left" data-tooltip="Visualizar" href="#view-modal-articulo-'+this.idarticulovariante+'"><i class="tiny mdi-image-remove-red-eye"></i></a>&nbsp;&nbsp;');
                             td.append('<a class="tooltipped" data-position="left" data-tooltip="Detalles" href="#modal-producto-'+this.idarticulovariante+'-compras"><i class="tiny mdi-action-assignment"></i></a>');
                             td.append('<a class="tooltipped " data-position="right" data-tooltip="Eliminar" href="#delete-modal-articulo-'+this.idarticulovariante+'"><i class="tiny mdi-action-delete"></i></a>');
-                            td.append('<a id="productosRegistros" style="width: 10%; height: 15px; margin-top: 15px"class="registrar_producto btn waves-effect waves-light">Guardar<i class="mdi-content-save left"></i></a>')
+                            td.append('<a id="productosRegistros" style="width: 50%; height: 30px; margin-top: 15px"class="registrar_producto btn waves-effect waves-light">Guardar<i class="mdi-content-save left"></i></a>')
                             tr.append(td);
                             
                             

@@ -178,17 +178,22 @@ class ReordenController extends AbstractActionController
 
         //De cada articulo obtenemos sus variaciones (articulovariante)
         $productos = array();
-        
+        $articulo = new \Articulo();
         foreach ($articuloCollection as $ka => $av){
             
              $tmp = array();
              $tmp['nombre'] = $av->getArticuloNombre();
+             $tmp['proveedor'] = 'N/D';
+             if(!is_null($av->getIdProveedor)){
+                 $tmp['proveedor'] = $av->getProveedor()->getProveedorNombre();
+             }
              $articulovarianteCollection = $av->getArticulovariantes();
              
              foreach ($articulovarianteCollection as $kav => $vav){
                  
                  $tmp['id'] = $vav->getIdarticulovariante();
                  $tmp['codigo_barras'] = $vav->getArticulovarianteCodigoBarras();
+                 
                  $tmp['precio'] = $vav->getArticulovariantePrecio();
                  $tmp['imagen'] = $vav->getArticuloVarianteImagen();
                  
