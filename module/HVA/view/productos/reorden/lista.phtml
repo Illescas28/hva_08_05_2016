@@ -19,6 +19,11 @@ $this->headTitle($title);
         text-align: center;
     }
     
+    [type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
+    
 </style>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 <div class="row" id="table-header">
@@ -32,6 +37,24 @@ $this->headTitle($title);
         </div>
     </form>
 </div>
+<div class="row" style="margin-bottom: -50px;" id="filter-container">
+    <div class="col s6" style="top: -26px;">
+        <fieldset>
+        <legend>Filtros</legend>
+        <div class="row">
+            <div class="col s12">
+                <input type="hidden" name="idproveedor">
+                <label>Almacen</label>
+                <select multiple="multiple" class="browser-default" id="almacen_filter">
+                    <?php foreach($lugares as $lugar) :?>
+                    <option value="<?php echo $lugar['id'] ?>"><?php echo $lugar['nombre']?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        </fieldset>
+    </div>
+</div>
 <table id="tabla-reorden" class="striped">
     <thead>
         <tr>
@@ -42,7 +65,7 @@ $this->headTitle($title);
             <!--<th class="number">Precio</th>-->
             <!--columnas dinamicas-->
             <?php foreach($lugares as $lugar) :?>
-            <th class="two-columns">
+            <th class="two-columns almacen-<?php echo $lugar['id']?>" style="display: none">
                 <div class="row">
                     <div style="text-align: center"class="col s12">
                         <?php echo $lugar['nombre']?>
@@ -70,7 +93,7 @@ $this->headTitle($title);
                 <!--<td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>-->
                 <?php foreach($lugares as $lugar) :?>
                     <?php $lugarNombre = $lugar['nombre']?>
-                    <td class="two-columns">
+                    <td class="two-columns almacen-<?php echo $lugar['id']?>" style="display: none">
                         <div class="row">
                             <div class="col s6">
                                 <?php if($producto['reorden'][$lugarNombre]['reorden'] >= $producto['reorden'][$lugarNombre]['existencias']) :?>
@@ -143,5 +166,29 @@ $this->headTitle($title);
         $('.modal-trigger').leanModal();
         
     });
+    
+    $("select#almacen_filter").multipleSelect({
+        selectAll:true,
+        allSelected:'Todos los almacenes',
+        selectAllText:'Todos los almacenes',
+        onClick : filter,
+        onCheckAll:filter,
+        onUncheckAll:filter,
+
+    });
+    
+    function filter(){
+        
+        $('th.two-columns, td.two-columns').hide();
+        
+        var selected = $("select#almacen_filter").multipleSelect('getSelects');
+        
+        $.each(selected,function(){
+            var str = 'almacen-'+this;
+            $('th.'+str+',td.'+str).show();
+
+        });
+        
+    }
         
 </script>

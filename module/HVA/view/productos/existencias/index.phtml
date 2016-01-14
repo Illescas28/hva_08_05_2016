@@ -11,7 +11,7 @@
 $title = 'Definir existencias';
 $this->headTitle($title);
 ?>
-<h3><?php echo $this->escapeHtml($title); ?></h3>
+<h3><?php echo $this->escapeHtml($title);?></h3>
 <div class="row" id="table-header">
     <form class="col s12"> 
         <?php if(count($flashMessages)) :?>
@@ -57,7 +57,7 @@ $this->headTitle($title);
             <th class="almacen" id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
             <?php endforeach;?>
         
-            <th>Ver</th>
+            <th>Opciones</th>
         </tr>
     </thead>
     <tbody>
@@ -72,7 +72,10 @@ $this->headTitle($title);
                         <?php $lugarNombre = $lugar['nombre']?>
                 <td class="number"><?php if(!is_null($producto['lugar'][$lugarNombre])) echo $producto['lugar'][$lugarNombre]; else echo 'X'; ?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>
                     <?php endforeach;?>
-                <td><a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a></td>
+                <td>
+                    <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
+                    <a  class="tooltipped modal-trigger add_existencias" data-position="left" data-tooltip="Agregar existencias" href="<?php echo "#add-modal-articulo-".$producto['id']?>">Definir existencias</a>
+                </td>
             </tr>
             <!-- View Modal Structure -->
                 <?php
@@ -156,6 +159,24 @@ $this->headTitle($title);
 
         }); 
         
+        
+        $('a.add_existencias').on('click',function(){
+            var idarticulovariante = $(this).closest('tr').attr('id');
+            var modalName = '#add-modal-articulo-'+idarticulovariante;
+            $.ajax({
+                url:window.location.pathname+'/addexistencias',
+                method:'GET',
+                data:{idarticulovariante:idarticulovariante},
+                success:function(modal){
+                    var modal = $('<div>'+modal+'</div>');
+                    $('table').after(modal);
+                    $(modalName).openModal();
+                }
+            });
+        });
+        
+        
+        
         var filterByAlmacen = function(){
             $('th.almacen').show();
             $('tbody td').show();
@@ -170,7 +191,7 @@ $this->headTitle($title);
                     //Escondemos todas los td correpsondientes a dicha columna
                     $('tbody').children('tr').filter(function(){
                         $(this).find('td').eq(col_index).hide();
-                    });
+                    }); 
                     
                 }
             });

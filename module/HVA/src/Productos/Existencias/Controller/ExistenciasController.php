@@ -9,7 +9,90 @@ use Zend\View\Model\ViewModel;
 
 class ExistenciasController extends AbstractActionController
 {   
+    
+    public function addexistenciasAction(){
+        
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+        
+               $post_data = $request->getPost();
+              
+               //CREAMOS UNA COMPRA CON EL PROVEEDOR 1
+               $ordecompra = new \Ordencompra();
+               $ordecompra->setIdproveedor(1);
+               $ordecompra->setOrdencompraFecha(new \DateTime());
+               $ordecompra->setOrdencompraStatus('pagada');
+               $ordecompra->save();
+               
+               //Empezamos a itinerar sobre nuestro arreglos
+               foreach ($post_data as $key => $value){
+                   if(is_array($value)){
+                      if(!empty($value['cantidad']) && $value['cantidad'] > 0){
+                          //Creamos un item a nuestra orden
+                          $orden_detalle = new \Ordencompradetalle();
+                          $orden_detalle->setIdordencompra($ordecompra->getIdordencompra())
+                                        ->setOrdencompradetalleCantidad($value['cantidad'])
+                                        ->setIdarticulovariante($post_data['idarticulovariante']);
+                          if(!empty($value['caducidad'])){
+                            $newCaducidad = new \DateTime();
+                            $newCaducidad = $newCaducidad->createFromFormat('d/m/y', '01/'.$value['caducidad']);
+                            $orden_detalle->setOrdencompradetalleCaducidad($newCaducidad);
+                            
+                          }
+                          $orden_detalle->save();
+                          //Movemos a lugar inventario
+                          $lugar_inventario = new \Lugarinventario();
+                          $lugar_inventario->setIdLugar($value['idlugar'])
+                                           ->setIdordencompradetalle($orden_detalle->getIdordencompradetalle())
+                                           ->setLugarinventarioCantidad($value['cantidad'])
 
+                                           ->save();
+                                  
+                      }
+                   }
+               }
+               
+               //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Existencias guardadas exitosamente!');
+            
+            //Redireccionamos
+            return $this->redirect()->toUrl('/productos/existencias');
+
+        }
+        
+        $lugares = \LugarQuery::create()->find();
+        $idarticulovariante = $this->params()->fromQuery('idarticulovariante');
+        $articulovariante = \ArticulovarianteQuery::create()->findPk($idarticulovariante);
+        
+        $nombre = $articulovariante->getArticulo()->getArticuloNombre();
+        $descripcion = '';
+        $articulovariantevalors = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($idarticulovariante)->find();
+        //$articulovariantevalor = new \Articulovariantevalor();
+        $count = 0;
+        $length = $articulovariantevalors->count();
+        foreach ($articulovariantevalors as $articulovariantevalor){
+            $descripcion.= $articulovariantevalor->getPropiedad()->getPropiedadNombre().': '.$articulovariantevalor->getPropiedadvalor()->getPropiedadvalorNombre();
+            $count++;
+            if($count<$length){
+                $descripcion.=' - ';
+            }
+        }
+
+        $viewModel = new ViewModel();
+        $viewModel->setTerminal(true);
+        $viewModel->setVariables(array(
+            'nombre' => $nombre,
+            'descripcion' => $descripcion,
+            'lugares' => $lugares,
+            'idarticulovariante' => $idarticulovariante,
+            'articulovariante' => $articulovariante
+        ));
+            
+        return $viewModel;
+        
+    }
+    
     public function indexAction()
     {
 

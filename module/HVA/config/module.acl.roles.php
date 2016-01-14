@@ -43,6 +43,7 @@ return array(
         'productos-reorden/productos-reorden-definir',
         'productos-producto/productos-producto-serverside',
         'productos/registro/eliminar',
+        'productos-existencias/addexistencias',
         //pacientes
         'pacientes',
         'cargoconsulta',
@@ -73,6 +74,7 @@ return array(
         'productos-existencias',
         'productos-producto/productos-producto-serverside',
         'productos-precios/productos-precios-comprasbyarticulovariante',
+        'productos-existencias/addexistencias',
         //pacientes
         'pacientes',
         'cargoconsulta',
@@ -87,6 +89,7 @@ return array(
         'facturacion-facturar',
         //notas de remision
         'notasremision',
+        
     ),
     'Enfermeria' => array(
         'auth',
@@ -97,6 +100,7 @@ return array(
         'productos-producto',
         'productos-producto/productos-producto-serverside',
         'productos-precios/productos-precios-comprasbyarticulovariante',
+        'productos-existencias/addexistencias',
         //pacientes
         'cargoconsulta',
         //venta
@@ -108,6 +112,7 @@ return array(
         //pacientes
         'pacientes',
         'citas-agendar',
+        'productos-existencias/addexistencias',
         'citas',
     ),
     'Quirofano' => array(
@@ -115,12 +120,14 @@ return array(
         'home',
         //Almacen
         'almacen-transferencias',
+        'productos-existencias/addexistencias',
     ),
     'Farmacia' => array(
         'auth',
         'home',
         //Almacen
         'almacen-transferencias',
+        'productos-existencias/addexistencias',
         //venta
         'venta',
     ),
@@ -134,5 +141,6 @@ return array(
         'productos-producto/productos-producto-serverside',
         'productos-reorden',
         'productos-precios/productos-precios-comprasbyarticulovariante',
+        'productos-existencias/addexistencias',
     ),
 );

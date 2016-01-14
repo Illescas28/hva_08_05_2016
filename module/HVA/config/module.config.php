@@ -302,6 +302,16 @@ return array(
                             ),
                         ),
                     ),
+                    'addexistencias'=>array(
+                        'type'    => 'segment',
+                        'options' => array(
+                            'route'    => '/addexistencias',
+                            'defaults' => array(
+                                'controller' => 'Productos\Existencias\Controller\Existencias',
+                                'action'     => 'addexistencias',
+                            ),
+                        ),
+                    ),
                 ),
             ),
 //            'productos-precios' => array(

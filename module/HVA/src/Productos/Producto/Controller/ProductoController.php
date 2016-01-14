@@ -128,84 +128,13 @@ class ProductoController extends AbstractActionController
         }
         
         return new ViewModel(array(
+            'flashMessages' => $this->flashMessenger()->getSuccessMessages(),
             'lugares' => $lugarCollectionArray,
             //'productos' => $productos,
             
         ));
 
-//        //Obtenemos nuestros productos
-//        $articuloCollection = \ArticuloQuery::create()->find();
-//        
-//        //obtenemos nuestros almacenes
-//        $lugarCollection = \LugarQuery::create()->find();
-//        $lugarCollectionArray = array();
-//        foreach ($lugarCollection as $kl => $vl){
-//            $lugarCollectionArray[] = array('nombre' => $vl->getLugarNombre(),'id' => $vl->getIdLugar());
-//        }
-//
-//        //De cada articulo obtenemos sus variaciones (articulovariante)
-//        $productos = array();
-//        foreach ($articuloCollection as $ka => $av){    
-//            $tmp['nombre'] = $av->getArticuloNombre();
-//            $articulovarianteCollection = $av->getArticulovariantes();
-//            //Comenzamos a itinerar sobre las variaciones
-//            foreach ($articulovarianteCollection as $kav => $vav){
-//                $tmp['id'] = $vav->getIdarticulovariante();
-//                $tmp['codigo_barras'] = !is_null($vav->getArticuloVarianteCodigobarras()) ? $vav->getArticuloVarianteCodigobarras() : '';
-//                $tmp['precio'] = !is_null($vav->getArticuloVariantePrecio()) ? $vav->getArticuloVariantePrecio() : 0.00;      
-//                $tmp['imagen'] = $vav->getArticuloVarianteImagen();
-//                
-//                //Comenzamos a itinerar sobre los lugares disponibles
-//                foreach ($lugarCollection as $kl => $vl){
-//                    //Los agregamos a nuestro arreglo
-//                    $tmp['lugar'][$vl->getLugarNombre()] =NULL;
-//                }
 
-                       
-//                //Obtenemos las compras que se han realizado del articulo variante
-//                $compraDetalleCollection = \OrdencompradetalleQuery::create()->findByIdarticulovariante($vav->getIdArticuloVariante());
-//                
-//                //Itineramos en la coleccion de compras
-//                foreach ($compraDetalleCollection as $kcd => $vcd){
-//                    
-//                    $idCompraDetalle = $vcd->getIdOrdenCompraDetalle();
-//                    
-//                    //por cada compra detalle la buscamos en lugar inventario
-//                    $lugarInventarioCollection = \LugarinventarioQuery::create()->findByIdordencompradetalle($idCompraDetalle);
-//                    //empezamos a itinerar en los registros para irlos sumando a nuestro lugar
-//                    foreach ($lugarInventarioCollection as $kli => $vli){
-//                         
-//                        $lugarNombre = $vli->getLugar()->getLugarNombre();
-//                        $cantidad = $vli->getLugarinventarioCantidad();
-//                        $tmp['lugar'][$lugarNombre] += $cantidad;
-//
-//                    }
-//                    
-//                }
-
-//                //Por cada valor obtenemos su variaciones
-//                $articuloVarianteValorCollection = \ArticulovariantevalorQuery::create()->filterByIdarticulovariante($vav->getIdarticulovariante())->find();
-//                //Comenzamos a itinerar sobre articulovariantevalor para obtener sus resultado
-//                $tmp['descripcion'] = '';
-//                $propiedadCount = 0;
-//                foreach ($articuloVarianteValorCollection as $kavv => $vavv){
-//                    $propiedadCount ++;
-//                    $tmp['descripcion'].= \PropiedadQuery::create()->findOneByIdpropiedad($vavv->getIdpropiedad())->getPropiedadNombre(); //Propiedad
-//                    $tmp['descripcion'].= ':'.\PropiedadvalorQuery::create()->findOneByIdpropiedadvalor($vavv->getIdpropiedadvalor())->getPropiedadvalorNombre(); //PropiedadValor
-//                    if($propiedadCount<$articuloVarianteValorCollection->count()){
-//                        $tmp['descripcion'].=' - ';
-//                    }
-//                }
-//               
-//                array_push($productos, $tmp);
-//            }  
-//        }
-//
-//        //var_dump($this->flashMessenger()->getMessages());
-//        return new ViewModel(array(
-//            'lugares' => $lugarCollectionArray,
-//            'productos' => $productos,
-//        ));
         
     }
     
