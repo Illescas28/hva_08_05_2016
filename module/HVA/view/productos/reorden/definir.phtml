@@ -3,7 +3,10 @@ $title = 'Definir punto de reorden';
 $this->headTitle($title);
 ?>
 <style>
-    
+   #filter-container [type="checkbox"]:not(:checked), #filter-container [type="checkbox"]:checked {
+        left: initial;
+        position: initial;
+    }
 </style>
 <h3><?php echo $this->escapeHtml($title); ?></h3>
 
@@ -23,6 +26,24 @@ $this->headTitle($title);
         </div>
     </form>
 </div>
+<div class="row" style="margin-bottom: -50px;" id="filter-container">
+    <div class="col s6" style="top: -26px;">
+        <fieldset>
+        <legend>Filtros</legend>
+        <div class="row">
+            <div class="col s12">
+                <input type="hidden" name="idproveedor">
+                <label>Almacen</label>
+                <select multiple="multiple" class="browser-default" id="almacen_filter" >
+                    <?php foreach($lugares as $lugar) :?>
+                    <option value="<?php echo $lugar['id'] ?>"><?php echo $lugar['nombre']?></option>
+                    <?php endforeach;?>
+                </select>
+            </div>
+        </div>
+        </fieldset>
+    </div>
+</div>
 <form action="/productos/reorden/definir" method="POST">
    <table id="tabla-articulosreorden" class="table-inputs striped"> 
        <thead>
@@ -32,7 +53,7 @@ $this->headTitle($title);
                 <th  style="width:70px">Opciones</th>
                 <th class="checkbox">Aplicar a todos</th>
                 <?php foreach($lugares as $lugar) :?>
-                    <th  style="width: 100px" id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
+                    <th  class="almacen-<?php echo $lugar['id']?>"style="width: 100px;display:none" id="<?php echo $lugar['id']?>"><?php echo $lugar['nombre']?></th>
                 <?php endforeach;?>
                 <th class="checkbox">Opciones</th>
             </tr>
@@ -56,7 +77,7 @@ $this->headTitle($title);
                     </td>
                     <?php foreach ($lugares as $lugar) : ?>
                         <?php $lugarName = $lugar['nombre']; ?>
-                        <td  almacen_name="<?php echo $lugarName ?>" almacen_id="<?php echo $lugar['id']?>" class="list-inputs">
+                    <td  style="display: none"almacen_name="<?php echo $lugarName ?>" almacen_id="<?php echo $lugar['id']?>" class="list-inputs almacen-<?php echo $lugar['id']?>">
                         <li><input name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'?>[id]" type="hidden" value="<?php echo $lugar['id']?>"></li>
                             <!--<li><input value="<?php if(!is_null($producto['reorden'][$lugarName]['min'])) echo $producto['reorden'][$lugarName]['min']; else echo "X"?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']' ?>[min]" type="text"></li>-->
                             <li><input value="<?php if(!is_null($producto['reorden'][$lugarName]['reorden'])) echo $producto['reorden'][$lugarName]['reorden']; else echo "X"?>" name="producto-<?php echo $producto['id'].'[lugar]['.$lugar['nombre'].']'  ?>[reorden]" type="text" value=""></li>
@@ -76,7 +97,7 @@ $this->headTitle($title);
 <script type="text/javascript">
 
     $(document).ready(function(){
-        $('input[type=checkbox]').on('click',function(){
+        $('table input[type=checkbox]').on('click',function(){
             var tr = $(this).closest('tr');
             var activeTd  = tr.children('td.list-inputs').first();
             var disabledTd = activeTd.siblings('.list-inputs');
@@ -89,7 +110,7 @@ $this->headTitle($title);
             
         });
         
-        $('input[type=checkbox]').trigger('click');
+        $('table input[type=checkbox]').trigger('click');
         
         $("#tabla-articulosreorden").filterTable({inputSelector: '#search-container input',minRows:2}); 
         
@@ -153,6 +174,34 @@ $this->headTitle($title);
         });
             
     });
+    
+    $("select#almacen_filter").multipleSelect({
+        selectAll:true,
+        allSelected:'Todos los almacenes',
+        selectAllText:'Todos los almacenes',
+        onClick : filter,
+        onCheckAll:filter,
+        onUncheckAll:filter,
+
+    });
+    
+    
+    
+    
+    
+    function filter(){
+        
+        $('th[class*=almacen], td[class*=almacen]').hide();
+        
+        var selected = $("select#almacen_filter").multipleSelect('getSelects');
+        
+        $.each(selected,function(){
+            var str = 'almacen-'+this;
+            $('th.'+str+',td.'+str).show();
+
+        });
+        
+    }
 
 
 </script>
