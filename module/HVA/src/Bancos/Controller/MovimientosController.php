@@ -45,8 +45,8 @@ class MovimientosController extends AbstractActionController
         $conceptos_autcomplete = array();
         
         foreach ($collection as $entity){
-            $tmp['value'] = $entity["idbancotransaccion"];
-            $tmp['label'] = $entity["bancotransaccion_nombre"];
+            $tmp['value'] = $entity['idbancotransaccion'];
+            $tmp['label'] = $entity['bancotransaccion_nombre'];
             $conceptos_autcomplete[] = $tmp;
         }
         return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
@@ -127,7 +127,7 @@ class MovimientosController extends AbstractActionController
 
             foreach ($comprobantes as $comprobante){
                 $archivo = $comprobante->getReferenciaabonoArchivo();
-                unlink($_SERVER["DOCUMENT_ROOT"].$archivo);
+                unlink($_SERVER['DOCUMENT_ROOT'].$archivo);
             }
             
             $movmiento = \BancoQuery::create()->findPk($id);
@@ -144,7 +144,7 @@ class MovimientosController extends AbstractActionController
                 $movmiento->delete();
                 if(\BancoQuery::create()->exists()){
                     $first_row = \BancoQuery::create()->orderByIdbanco('asc')->findOne();
-                    $first_row->setBancoBalance($first_row_array["BancoBalance"]);
+                    $first_row->setBancoBalance($first_row_array['BancoBalance']);
                     $first_row->save();
                     
                 }
@@ -160,7 +160,7 @@ class MovimientosController extends AbstractActionController
                 
                  $current_balance = $first_row->getBancoBalance();
                  
-                if($movmiento_array["banco_tipomovimiento"] == 'cargo'){
+                if($movmiento_array['banco_tipomovimiento'] == 'cargo'){
                    
                     $new_balance = $current_balance - $movmiento_array['banco_cantidad'];
 
@@ -202,7 +202,7 @@ class MovimientosController extends AbstractActionController
 
              $banco->setIdconceptobanco($post_data['idconcepto'])
                    ->setBancoFecha($banco_fecha->format('Y-m-d'))
-                   ->setBancoTipomovimiento($post_data["banco_tipomoviento"])
+                   ->setBancoTipomovimiento($post_data['banco_tipomoviento'])
                    ->setBancoCantidad($post_data['banco_cantidad'])
                    ->setBancoComprobante($post_data['banco_comprobante'])
                    ->setBancoNota($post_data['banco_nota']);
@@ -284,7 +284,7 @@ class MovimientosController extends AbstractActionController
             $nombre_archivo = 'comprbante-banco-'.$post_data['idbanco'].'-'.microtime().'.'.$tipo_archivo;
             $tmp_archivo = $_FILES['myfile']['tmp_name'];
             $archivador = $upload_folder.$nombre_archivo;
-            if(!move_uploaded_file($tmp_archivo, $_SERVER["DOCUMENT_ROOT"].$archivador)) {
+            if(!move_uploaded_file($tmp_archivo, $_SERVER['DOCUMENT_ROOT'].$archivador)) {
                 return $this->getResponse()->setContent(\Zend\Json\Json::encode(array('response' => false, 'msg' => 'Ocurrio un error al subir el archivo. No pudo guardarse.', 'status' => 'error')));
             }
             
@@ -333,7 +333,7 @@ class MovimientosController extends AbstractActionController
              $comprobante = \ReferenciaabonoQuery::create()->filterByReferenciaabonoArchivo($imagen)->findOne();
              $archivo = $comprobante->getReferenciaabonoArchivo();
              //Eliminamos del sistema de archivos
-             unlink($_SERVER["DOCUMENT_ROOT"].$archivo);
+             unlink($_SERVER['DOCUMENT_ROOT'].$archivo);
              //Eliminamos de la base de datos
              $comprobante->delete();
              
