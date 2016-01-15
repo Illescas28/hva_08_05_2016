@@ -184,7 +184,7 @@ class ReordenController extends AbstractActionController
              $tmp = array();
              $tmp['nombre'] = $av->getArticuloNombre();
              $tmp['proveedor'] = 'N/D';
-             if(!is_null($av->getIdProveedor)){
+             if(!is_null($av->getIdProveedor())){
                  $tmp['proveedor'] = $av->getProveedor()->getProveedorNombre();
              }
              $articulovarianteCollection = $av->getArticulovariantes();
