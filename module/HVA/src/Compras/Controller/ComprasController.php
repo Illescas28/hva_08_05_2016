@@ -334,7 +334,7 @@ class ComprasController extends AbstractActionController {
                         
             //Guaradamos nuestra variable de orden
             $orden = $request->getPost('orden');
-           
+            
             
             $idorden = $orden['idorden'];
             $orden_compra = \OrdencompraQuery::create()->findPk($idorden);
@@ -374,8 +374,8 @@ class ComprasController extends AbstractActionController {
             if(isset($ordencompra_fechapagar)){
                 $orden_compra->setOrdencompraFechaapagar($ordencompra_fechapagar->format('Y-m-d'));
             }
-            
-            if(!is_null($orden['orden_facturapdf'])){
+
+            if(!empty($orden['orden_facturapdf'])){
                 $orden_compra->setOrdencompraFacturapdf($orden['orden_facturapdf']);
             }
             

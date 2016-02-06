@@ -458,6 +458,13 @@
             //Valida los campos requeridos
             var isValid = true;
             
+            //VALIDAMOS QUE AL MENOS TENGA UN ITEM LA ORDEN DE COMPRA
+            if($('#order-items tbody tr').length == 0){
+                isValid = false;
+                alert('La orden debe de tener por lo menos 1 registro');
+                return;
+            }
+            
             if($('#proveedor_autocomplete').val() == ''){
                 isValid = false;
                 $('p#orden_proveedor').show();
@@ -471,6 +478,9 @@
             }else{
                 $('p#orden_folio').hide();
             }
+            
+            
+            
             
             if(isValid){
               //Verificamos que almenos se tenga un item
