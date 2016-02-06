@@ -191,8 +191,8 @@ class ConceptoController extends AbstractActionController
         $conceptos_autcomplete = array();
         
         foreach ($collection as $entity){
-            $tmp['value'] = $entity["idconceptocajachica"];
-            $tmp['label'] = $entity["conceptocajachica_nombre"];
+            $tmp['value'] = $entity['idconceptocajachica'];
+            $tmp['label'] = $entity['conceptocajachica_nombre'];
             $conceptos_autcomplete[] = $tmp;
         }
         return $this->getResponse()->setContent(\Zend\Json\Json::encode($conceptos_autcomplete));
@@ -279,7 +279,7 @@ class ConceptoController extends AbstractActionController
                 $movmiento->delete();
                 if(\CajachicaQuery::create()->exists()){
                     $first_row = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
-                    $first_row->setCajachicaBalance($first_row_array["CajachicaBalance"]);
+                    $first_row->setCajachicaBalance($first_row_array['CajachicaBalance']);
                     $first_row->save();
                     
                 }
@@ -295,7 +295,7 @@ class ConceptoController extends AbstractActionController
                 
                  $current_balance = $first_row->getCajachicaBalance();
                  
-                if($movmiento_array["cajachica_tipomovimiento"] == 'cargo'){
+                if($movmiento_array['cajachica_tipomovimiento'] == 'cargo'){
                    
                     $new_balance = $current_balance - $movmiento_array['cajachica_cantidad'];
 
@@ -336,7 +336,7 @@ class ConceptoController extends AbstractActionController
 
              $caja->setIdconceptocajachica($post_data['idconcepto'])
                   ->setCajachicaFecha($caja_fecha->format('Y-m-d'))
-                  ->setCajachicaTipomovimiento($post_data["cajachica_tipomoviento"])
+                  ->setCajachicaTipomovimiento($post_data['cajachica_tipomoviento'])
                   ->setCajachicaCantidad($post_data['cajachica_cantidad'])
                   ->setCajachicaComprobante($post_data['cajachica_comprobante'])
                   ->setCajachicaPacientedoctor($post_data['cajachica_pacientedoctor'])
