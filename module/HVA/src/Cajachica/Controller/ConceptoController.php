@@ -244,7 +244,7 @@ class ConceptoController extends AbstractActionController
                    $cajachica->setCajachicaBalance($new_balance);
               }
           }
-          
+         
           $cajachica->save();
 
           if(!$cajachica->isPrimaryKeyNull()){
@@ -346,26 +346,26 @@ class ConceptoController extends AbstractActionController
 
              //Actualizamos nustro balance
              $first_row = \CajachicaQuery::create()->orderByIdcajachica('asc')->findOne();
-             $current_balance = (int)$first_row->getCajachicaBalance();
+             $current_balance = (float)$first_row->getCajachicaBalance();
               
               //RETORNAMOS EL MOVIMIENTO
              if($caja_old['cajachica_tipomovimiento'] == 'cargo'){
                  
-                    $reset_balance =  $current_balance - (int)$caja_old['cajachica_cantidad'];
+                    $reset_balance =  $current_balance - (float)$caja_old['cajachica_cantidad'];
                    
                     
              }else{
    
-                 $reset_balance =  $current_balance + (int)$caja_old['cajachica_cantidad'];      
+                 $reset_balance =  $current_balance + (float)$caja_old['cajachica_cantidad'];      
                 
                  
              }
              
               //NUEVO BALANCE
               if($post_data['cajachica_tipomoviento'] == 'cargo'){
-                  $new_balance = $reset_balance + (int)$post_data['cajachica_cantidad'];
+                  $new_balance = $reset_balance + (float)$post_data['cajachica_cantidad'];
               }else{
-                  $new_balance = $reset_balance - (int)$post_data['cajachica_cantidad'];
+                  $new_balance = $reset_balance - (float)$post_data['cajachica_cantidad'];
               }
              
            
