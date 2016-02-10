@@ -213,9 +213,9 @@
 <script>
     $(document).ready(function(){
         
-        var idlugar = <?php echo $orden['idlugar']?>;
-        
-        $('select#idlugar').val(idlugar);
+//        var idlugar = <?php echo $orden['idlugar']?>;
+//        
+//        $('select#idlugar').val(idlugar);
         
          
          
@@ -746,7 +746,7 @@
   
                  }
               
-              if(rowCount >= 1){
+              if(rowCount >= 0){
                   //Guardamos la informacion de la orden en un objeto
                   var orden = {
                       orden_facturapdf:orden_facturapdf,

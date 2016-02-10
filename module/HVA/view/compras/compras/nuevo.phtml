@@ -459,11 +459,11 @@
             var isValid = true;
             
             //VALIDAMOS QUE AL MENOS TENGA UN ITEM LA ORDEN DE COMPRA
-            if($('#order-items tbody tr').length == 0){
-                isValid = false;
-                alert('La orden debe de tener por lo menos 1 registro');
-                return;
-            }
+//            if($('#order-items tbody tr').length == 0){
+//                isValid = false;
+//                alert('La orden debe de tener por lo menos 1 registro');
+//                return;
+//            }
             
             if($('#proveedor_autocomplete').val() == ''){
                 isValid = false;
@@ -485,8 +485,8 @@
             if(isValid){
               //Verificamos que almenos se tenga un item
               var rowCount = $('tbody').children().length;
-              
-              if(rowCount >= 1){
+              //PERMITIMOS CREAR CON 0 ITEMS
+              if(rowCount >= 0){
                   
                   //PDF
                   var orden_facturapdf = null;
@@ -558,8 +558,6 @@
                     }
                 );
            
-              }else{
-                  alert('Debe tener por lo menos un item en su factura para guardarla');
               }
             }else{
                 e.preventDefault();
