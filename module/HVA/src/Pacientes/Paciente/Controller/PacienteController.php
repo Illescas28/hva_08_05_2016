@@ -749,7 +749,7 @@ class PacienteController extends AbstractActionController
     $pdf->MultiCell(50, 5, utf8_decode('DEUDOR'), 0, 'C');
     $pdf->SetXY(125, 235);
     $pdf->MultiCell(50, 5, utf8_decode('AVAL'), 0, 'C');
-    
+    echo '<pre>';var_dump($pdf); echo '</pre>';exit();
     $pdf->Output(); //Salida al navegador
     $ruta=$_SERVER['DOCUMENT_ROOT']."/tmp/admisionformato/".$fechaadmision.$nombrepaciente.".pdf";
     $pdf->Output($ruta,"F"); //Salida al navegador
