@@ -159,8 +159,6 @@ class Finkok {
                 break;
         }
 
-        // var_dump($response);
-
         return $ret;
     }
 
