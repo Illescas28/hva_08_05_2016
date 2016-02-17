@@ -214,7 +214,7 @@ class ArticuloController extends AbstractActionController
             
             //Le ponemos los datos de nuestro articulo a nuestro formulario
             $articuloForm->setData($articulo->toArray(BasePeer::TYPE_FIELDNAME));
-            
+            echo '<pre>';var_dump($articulo->toArray()); echo '</pre>';exit();
             $proveedor = 'N/D';
             if(!is_null($articulo->getIdproveedor())){
                 $proveedor = $articulo->getProveedor()->getProveedorNombre();
