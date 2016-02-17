@@ -219,7 +219,7 @@ class ArticuloController extends AbstractActionController
             if(!is_null($articulo->getIdproveedor())){
                 $proveedor = $articulo->getProveedor()->getProveedorNombre();
             }
-             echo '<pre>';var_dump($proveedor); echo '</pre>';exit();
+             
             if ($request->isPost()) { //Si hicieron POST
                 
                 //Instanciamos nuestro filtro de articulo
