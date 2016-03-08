@@ -62,8 +62,18 @@ $this->headTitle($title);
     </thead>
     <tbody>
         <?php foreach ($productos as $producto) : ?>
-        
-            <tr id="<?php echo $producto['id'] ?>">
+            <?php $display = 'none'; ?>
+            <?php $class = "sinregistros"?>
+            <?php foreach ($lugares as $lugar) : ?>
+                <?php $lugarNombre = $lugar['nombre']?>
+                <?php 
+                    if(!is_null($producto['lugar'][$lugarNombre])){
+                        $display = 'table-row';
+                        $class = '';
+                    }   
+                ?>
+            <?php endforeach;?>
+            <tr class="<?php echo $class?>"id="<?php echo $producto['id'] ?>" style="display: <?php echo $display?>">
                 <td class="collapse" title="<?php echo $producto['nombre'] ?>"><?php echo $producto['nombre'] ?></td>
                 <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
                 <td style="padding-left: 0"><?php echo $producto['codigo_barras'] ?></td>
@@ -142,7 +152,7 @@ $this->headTitle($title);
         $('td i.mdi-action-assignment').on('click',function(){
             
             var idarticulovariante = $(this).closest('tr').attr('id');
-            var index = $(this).closest('td').index() + 1;
+            var index = $(this).closest('td').index() + 1;  
             var descripcion = $(this).closest('td').siblings('#descripcion').text();
             var idlugar = $('th:nth-child('+index+')').attr('id');
             var modalName = '#modal-producto-'+idarticulovariante+'-lugar-'+idlugar;
@@ -182,6 +192,7 @@ $this->headTitle($title);
             $('tbody td').show();
             
             var selected =  $("#almacen_filter").multipleSelect('getSelects');
+            var count = selected.length
             $('th.almacen:visible').filter(function(index,element){
                 if($.inArray($(this).attr('id'),selected) == -1){
                     //Obtenemos el index de la columna
@@ -189,12 +200,17 @@ $this->headTitle($title);
                     //Escondemos el th;
                     $(this).hide();
                     //Escondemos todas los td correpsondientes a dicha columna
-                    $('tbody').children('tr').filter(function(){
+                    $('tbody').children('tr').filter(function(){ 
                         $(this).find('td').eq(col_index).hide();
                     }); 
                     
                 }
             });
+            if(count == 1){
+                $('tbody').children('tr.sinregistros').show();
+            }else{
+                $('tbody').children('tr.sinregistros').hide();
+            }
             
         }
         //Inicializamos el filtro por almacenes
@@ -220,7 +236,7 @@ $this->headTitle($title);
         });
         
        
-
+            
         
         
 

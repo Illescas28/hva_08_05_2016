@@ -95,7 +95,7 @@ class ExistenciasController extends AbstractActionController
     
     public function indexAction()
     {
-
+        
         //Obtenemos nuestros productos
         $articuloCollection = \ArticuloQuery::create()->find();
         
@@ -163,7 +163,7 @@ class ExistenciasController extends AbstractActionController
                 array_push($productos, $tmp);
             }  
         }
-
+       
         //var_dump($this->flashMessenger()->getMessages());
         return new ViewModel(array(
             'flashMessages' => $this->flashMessenger()->getMessages(),
