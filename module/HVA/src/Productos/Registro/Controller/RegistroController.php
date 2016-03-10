@@ -60,7 +60,7 @@ class RegistroController extends AbstractActionController
             $query = new \ArticulovarianteQuery();
             
             //JOIN
-            $query->joinArticulo()->withColumn('articulo_nombre');
+            $query->useArticuloQuery()->orderByArticuloNombre(\Criteria::ASC)->endUse()->withColumn('articulo_nombre');
   
             //SEARCH
             if(!empty($post_data['search']['value'])){

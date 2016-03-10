@@ -34,6 +34,30 @@
        
        
        plugin.init = function(){
+           
+           /*EVENTO COLLAPSE DE LAS ROWS*/
+           $container.find('tr.master a.collapse').on('click',function(){
+               var tr_master = $(this).closest('tr');
+               if(tr_master.hasClass('active')){
+                    tr_master.nextUntil('tr.master').slideUp();
+                    tr_master.removeClass('active');
+                    
+                    tr_master.find('a.collapse i').removeClass('mdi-navigation-expand-less');
+                    tr_master.find('a.collapse i').addClass('mdi-navigation-expand-more');
+                    
+               }else{
+                    tr_master.nextUntil('tr.master').slideDown();
+                    tr_master.addClass('active');
+                    
+                    
+                    tr_master.find('a.collapse i').removeClass('mdi-navigation-expand-more');
+                    tr_master.find('a.collapse i').addClass('mdi-navigation-expand-less');
+               }
+               
+           });
+           
+           
+           
            //Inicialiazamos la fecha
            var Objfecha = new Date();
            var fecha = Objfecha.getDate() + '/' + (Objfecha.getMonth() + 1) +'/' + Objfecha.getFullYear();
@@ -103,8 +127,8 @@
                                                           onUncheckAll:filterByDate
                                                           });
            
-           $container.find("#tipo_filter").multipleSelect("checkAll");
-           $container.find("#concepto_filter").multipleSelect("checkAll");
+           //$container.find("#tipo_filter").multipleSelect("checkAll");
+           //$container.find("#concepto_filter").multipleSelect("checkAll");
            
            }
            );

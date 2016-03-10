@@ -225,7 +225,7 @@ $this->headTitle($title);
 
                                 $.ajax({
                                     type: "POST",
-                                    url: "<?php $this->url('productos-registro', array('id' => $producto['id'])); ?>",
+                                    //url: "<?php $this->url('productos-registro'); ?>",
                                     contentType: false,
                                     processData: false,
                                     data: formData,

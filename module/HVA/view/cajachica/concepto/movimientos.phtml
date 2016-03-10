@@ -149,7 +149,13 @@
                     </div>
                 </div>
             </div>
-
+            <div class="col s6">
+              <div class="row">
+                <div class="col s12 ordertotal-container">
+                    <p style="font-size: 16px; float: left; padding-right: 24px;">Balance: <span id="balance"><?php echo '$' . number_format($current_balance, 2);?></span>
+                </div>
+                </div>  
+            </div>
         </fieldset>
     </div>
 
@@ -173,13 +179,26 @@
                 <th>Opciones</th>
             </thead>
             <tbody>
+            <?php $count = 0;?>
+            <?php 
+                $collapse_array = array(0);
+                foreach ($collection as $key => $value){
+                    if($value['conceptocajachica_nombre'] == 'REPOSICION CAJA CHICA'){
+                        $collapse_array[]=$key + 1;
+                    }
+                }
+            ?>  
             <?php foreach ($collection as $entity) :?>
             <?php 
                 $fechaObj = new DateTime($entity['cajachica_fecha']);
                 $fecha = $fechaObj->format('d-m-Y');
                 $fechaJS = $fechaObj->format('m/d/Y');
             ?>
-            <tr id="<?php echo $entity['idcajachica']?>">
+            <?php if(!in_array($count, $collapse_array)) :?>
+                <tr id="<?php echo $entity['idcajachica']?>" style="display: none" class="slave">
+            <?php else:?> 
+                <tr id="<?php echo $entity['idcajachica']?>" class="master">
+            <?php endif;?>
                 <td data-time="<?php echo $fechaJS ?>"><?php echo $fecha?></td>
                 <td class="caja_concepto" id="<?php echo $entity['idconceptocajachica'] ?>"><?php echo $entity['conceptocajachica_nombre']?></td>
                 <?php  if($entity['cajachica_tipomovimiento'] == 'cargo') :  ?>
@@ -197,16 +216,15 @@
                     <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "#edit-modal-".$entity['idconceptocajachica']?>'><i class="tiny mdi-action-assignment"></i></a>
                     &nbsp;&nbsp;    
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idcajachica']?>'><i class="tiny mdi-action-delete"></i></a>
+                    <?php if(in_array($count, $collapse_array)) :?>
+                    <a class="collapse" style="float: right" href='javascript:;'><i class="tiny mdi-navigation-expand-more"></i></a>
+                    <?php endif;?>
                 </td>
             </tr>
+            <?php $count ++;?>
             <?php endforeach;?>
             </tbody>
         </table>
-        <div class="row">
-            <div class="col s12 ordertotal-container">
-                <p style="font-size: 16px; float: right; padding-right: 24px;">Balance: <span id="balance"><?php echo '$' . number_format($current_balance, 2);?></span>
-            </div>
-        </div>
     </div>
 </div>
 </div>        
@@ -219,11 +237,11 @@ $(document).ready(function() {
     $("#fecha_movimiento").datepicker();
 
 });
-$("#fecha_movimiento").datepicker({
-                                  
-                                  dateFormat: 'dd/mm/yy',
-                                  changeMonth: true,
-                                  changeYear: true
-                                  
-                                  });
+    $("#fecha_movimiento").datepicker({
+
+        dateFormat: 'dd/mm/yy',
+        changeMonth: true,
+        changeYear: true
+
+    });
 </script>
