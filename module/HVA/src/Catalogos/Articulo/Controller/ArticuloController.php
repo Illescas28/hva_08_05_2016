@@ -384,4 +384,31 @@ class ArticuloController extends AbstractActionController
 
     }
     
+    public function individualAction(){
+        
+        $request = $this->getRequest();
+        
+        if($request->isPost()){
+            
+            $post_data = $request->getPost();
+            //El nombre de la propiedad
+            $propiedad = \PropiedadQuery::create()->findPk($post_data['idpropiedad']);
+            $propiedad->setPropiedadNombre($post_data['propiedad_nombre'])->save();
+            
+            foreach ($post_data['propiedadvalor'] as $key => $value){
+                $propiedad_valor = \PropiedadvalorQuery::create()->findPk($key);
+                $propiedad_valor->setPropiedadvalorNombre($value);
+                $propiedad_valor->save();
+
+            }
+            
+            //Agregamos un mensaje
+            $this->flashMessenger()->addMessage('Articulo guardado exitosamente!');
+                
+            //Redireccionamos a nuestro list
+            $this->redirect()->toRoute('articulo');
+
+        }
+    }
+    
 }

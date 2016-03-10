@@ -91,7 +91,7 @@ class ReordenController extends AbstractActionController
     
         
         //Obtenemos nuestros productos
-        $articuloCollection = \ArticuloQuery::create()->find();
+        $articuloCollection = \ArticuloQuery::create()->orderByArticuloNombre(\Criteria::ASC)->find();
 
         //De cada articulo obtenemos sus variaciones (articulovariante)
         $productos = array();
@@ -174,7 +174,7 @@ class ReordenController extends AbstractActionController
         }
         
         //Obtenemos nuestros productos
-        $articuloCollection = \ArticuloQuery::create()->find();
+        $articuloCollection = \ArticuloQuery::create()->orderByArticuloNombre(\Criteria::ASC)->find();
 
         //De cada articulo obtenemos sus variaciones (articulovariante)
         $productos = array();

@@ -78,10 +78,10 @@ $this->headTitle($title);
                 <td id="descripcion" class="collapse" title="<?php echo $producto['descripcion'] ?>"><?php echo $producto['descripcion'] ?></td>
                 <td style="padding-left: 0"><?php echo $producto['codigo_barras'] ?></td>
                 <td class="number"><?php echo number_format((float)$producto['precio'], 2, '.', '') ?></td>
-                    <?php foreach ($lugares as $lugar) : ?>
-                        <?php $lugarNombre = $lugar['nombre']?>
-                <td class="number"><?php if(!is_null($producto['lugar'][$lugarNombre])) echo $producto['lugar'][$lugarNombre]; else echo 'X'; ?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a></td>
-                    <?php endforeach;?>
+                <?php foreach ($lugares as $lugar) : ?>
+                    <?php $lugarNombre = $lugar['nombre']?>
+                <td class="number"><?php if(!is_null($producto['lugar'][$lugarNombre])) echo $producto['lugar'][$lugarNombre]; else echo 'X'; ?><a href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-assignment"></i></a><a class="null_existencias" href="javascript:void(0)"style="padding-left: 6px;"><i class="tiny mdi-action-delete"></i></a></td>
+                <?php endforeach;?>
                 <td>
                     <a class="tooltipped modal-trigger" data-position="left" data-tooltip="Visualizar" href="<?php echo "#view-modal-articulo-".$producto['id']?>"><i class="tiny mdi-image-remove-red-eye"></i></a>
                     <a  class="tooltipped modal-trigger add_existencias" data-position="left" data-tooltip="Agregar existencias" href="<?php echo "#add-modal-articulo-".$producto['id']?>">Definir existencias</a>
@@ -129,6 +129,11 @@ $this->headTitle($title);
 
 <script>
     $(document).ready(function(){
+        
+        $('a.null_existencias').on('click',function(){
+            console.log('entro');
+        });
+        
         var lastIndex= $('thead tr th').last().index();
         var nextToLastIndex= lastIndex - 1;
 
@@ -138,7 +143,7 @@ $this->headTitle($title);
         myHeaders[lastIndex] = {sorter: false };
         myHeaders[nextToLastIndex] = {sorter: false };
 
-        $("#tabla-productos").tablesorter({headers:myHeaders});
+         $("#tabla-productos").tablesorter({headers:myHeaders});
         $('select').material_select();
         $('.tooltipped').tooltip({delay: 50});
         $("#tabla-productos").filterTable({inputSelector: '#search-container input',minRows:2});

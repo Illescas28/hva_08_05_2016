@@ -55,22 +55,25 @@
             <?php if($propiedades->count()) :?>
                 <?php $propiedadCount = count($propiedades); $countP = 1;?>
                 <?php foreach ($propiedades as $propiedad) :?>
+                     <form method="POST" action="/catalogos/articulo/individual">
+                     <input name="idpropiedad" type="hidden" value="<?php echo $propiedad->getIdpropiedad()?>">
                     <div class="row" id="propiedad-<?php echo $countP?>">
                         <div class="col s4">
                             <div class="input-field" id="property_name">
                                 <label for="propiedad_nombre">Nombre</label>
-                                <input type="text" name="propiedad-<?php echo $countP?>[nombre]" value="<?php echo $propiedad->getPropiedadNombre()?>">                       
+                                <input type="text" name="propiedad_nombre" value="<?php echo $propiedad->getPropiedadNombre()?>">                       
                             </div>
                         </div>
                         <!--Ahora las variantes-->
                         <?php $valores = PropiedadvalorQuery::create()->filterByIdpropiedad($propiedad->getIdPropiedad())->find()?>
                             <?php $valoresCount = count($valores); $countV = 1;?>
                             <?php foreach ($valores as $valor) :?>
+                            
                                 <?php if($countV==1) :?>
                                     <div class="col s4 offset-s4" id="valores-<?php echo $countP?>">
                                         <div class="input-field" id="property_values">
                                             <label for="propiedad">Valor</label>
-                                            <input type="text" name="propiedad-<?php echo $countP?>[]" value="<?php echo $valor->getPropiedadvalorNombre()?>">
+                                            <input type="text" name="propiedadvalor[<?php echo $valor->getIdpropiedadvalor()?>]" value="<?php echo $valor->getPropiedadvalorNombre()?>">
                                             <a href="javascript:void(0)"><i style="bottom: 0;"class="tiny <?php if($countV<$valoresCount) echo 'mdi-action-delete';else echo 'mdi-content-add-circle-outline'?> prefix"></i></a>
                                         </div>
                                     </div>
@@ -78,21 +81,28 @@
                                     <div class="col s4 offset-s8" id="valores-<?php echo $countP?>">
                                         <div class="input-field" id="property_values">
                                             <label for="propiedad">Valor</label>
-                                            <input type="text" name="propiedad-<?php echo $countP?>[]" value="<?php echo $valor->getPropiedadvalorNombre()?>">
+                                            <input type="text" name="propiedadvalor[<?php echo $valor->getIdpropiedadvalor()?>]" value="<?php echo $valor->getPropiedadvalorNombre()?>">
                                             <a href="javascript:void(0)"><i style="bottom: 0;"class="tiny <?php if($countV<$valoresCount) echo 'mdi-action-delete';else echo 'mdi-content-add-circle-outline'?> prefix"></i></a>
                                         </div>
                                     </div>
                                 <?php endif;?>
                                 <?php $countV++?>
+                            
                             <?php endforeach; ?>
                         <?php if($countP>1) :?>
                             <a href="javascript:void(0)"><i class="tiny mdi-navigation-cancel"></i></a>
                         <?php endif;?>
                     </div>
+                     
+                    <button style="width: 25%; height: 45px;"class="btn waves-effect waves-light" type="submit" name="action">Guardar
+                        <i class="mdi-content-save left"></i>
+                    </button>
+                    </form> 
                     <?php if($countP<$propiedadCount) :?>
                         <hr id="<?php echo $countP+1?>">
                     <?php endif;?>
                     <?php $countP ++;?>
+                    
                 <?php endforeach; ?>
             <?php else :?>
                 <div class="row" id="propiedad-1">

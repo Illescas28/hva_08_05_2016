@@ -219,6 +219,16 @@ return array(
                     ),
                 ),
             ),
+            'tipo' => array(
+                'type'    => 'segment',
+                'options' => array(
+                    'route'    => '/catalogos/tipo[/:action][/:id][/]',
+                    'defaults' => array(
+                        'controller' => 'Catalogos\Tipo\Controller\Tipo',
+                        'action'     => 'listar',
+                    ),
+                ),
+            ),
             'medico' => array(
                 'type'    => 'segment',
                 'options' => array(

@@ -23,7 +23,7 @@ class TipoController extends AbstractActionController
         $request = $this->getRequest();
         
         //Intanciamos nuestro formulario
-        $tipoForm = new TipoForm($especialidadArray);
+        $tipoForm = new TipoForm();
         
         if ($request->isPost()) { //Si hicieron POST
             
@@ -74,7 +74,7 @@ class TipoController extends AbstractActionController
 
         $tipoQuery = new TipoQuery();
 
-        $result = $tipoQuery->paginate($page,$limit);
+        $result = $tipoQuery->paginate(0,0);
 
         $dataCollection = $result->getResults();
 

@@ -97,7 +97,7 @@ class ExistenciasController extends AbstractActionController
     {
         
         //Obtenemos nuestros productos
-        $articuloCollection = \ArticuloQuery::create()->find();
+        $articuloCollection = \ArticuloQuery::create()->orderByArticuloNombre(\Criteria::ASC)->find();
         
         //obtenemos nuestros almacenes
         $lugarCollection = \LugarQuery::create()->find();
@@ -131,17 +131,20 @@ class ExistenciasController extends AbstractActionController
                 //Itineramos en la coleccion de compras
                 foreach ($compraDetalleCollection as $kcd => $vcd){
                     
+
+                    $tmp['idlugarinventariooo'] = $vcd->getIdordencompra();
                     $idCompraDetalle = $vcd->getIdOrdenCompraDetalle();
-                    
+                   
                     //por cada compra detalle la buscamos en lugar inventario
                     $lugarInventarioCollection = \LugarinventarioQuery::create()->findByIdordencompradetalle($idCompraDetalle);
                     //empezamos a itinerar en los registros para irlos sumando a nuestro lugar
                     foreach ($lugarInventarioCollection as $kli => $vli){
-                         
+                       
                         $lugarNombre = $vli->getLugar()->getLugarNombre();
                         $cantidad = $vli->getLugarinventarioCantidad();
+                       
                         $tmp['lugar'][$lugarNombre] += $cantidad;
-
+                        
                     }
                     
                 }
@@ -163,7 +166,8 @@ class ExistenciasController extends AbstractActionController
                 array_push($productos, $tmp);
             }  
         }
-       
+        
+     
         //var_dump($this->flashMessenger()->getMessages());
         return new ViewModel(array(
             'flashMessages' => $this->flashMessenger()->getMessages(),

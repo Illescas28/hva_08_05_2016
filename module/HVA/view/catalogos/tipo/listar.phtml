@@ -15,7 +15,7 @@
         <?php endif;?>    
         <div class="row" style="position: relative">
             <div class="col s6" id="new-container">
-                <a href="/catalogos/articulo/tipo/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Tipo</a>
+                <a href="/catalogos/tipo/nuevo"><i class="mdi-content-add-circle-outline prefix"></i>Nuevo Tipo</a>
             </div>
               <div class="input-field col s4 offset-s2" id="search-container">
               <i class="mdi-action-search prefix"></i>
@@ -39,7 +39,7 @@
             <td><?php echo $tipo->getTipoNombre() ?></td>
             <td><?php echo $tipo->getTipoDescripcion() ?></td>
             <td>
-                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/articulo/tipo/editar/".$tipo->getIdTipo()?>'><i class="tiny mdi-action-assignment"></i></a>
+                <a class="tooltipped" data-position="right" data-tooltip="Editar" href='<?php echo "/catalogos/tipo/editar/".$tipo->getIdTipo()?>'><i class="tiny mdi-action-assignment"></i></a>
                 &nbsp;&nbsp;    
                 <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-tipo-".$tipo->getIdTipo()?>'><i class="tiny mdi-action-delete"></i></a>
             </td>
@@ -61,7 +61,7 @@
             </div>
             <div class="modal-footer">
                 <a href='#!' class="waves-effect waves-light btn cerrar modal-close"><i class="mdi-navigation-close left"></i>Cerrar</a>
-                <a href="/catalogos/articulo/tipo/eliminar/<?php echo $tipo->getIdtipo()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
+                <a href="/catalogos/tipo/eliminar/<?php echo $tipo->getIdtipo()?>" class="waves-effect waves-light btn eliminar"><i class="mdi-action-delete left"></i>Eliminar</a>
               
             </div>
         </div>

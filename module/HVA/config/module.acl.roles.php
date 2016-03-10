@@ -61,6 +61,7 @@ return array(
         'facturacion-canceladas',
         //notas de remision
         'notasremision',
+        'tipo',
     ),
     'Caja' => array(
         'auth',
