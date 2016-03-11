@@ -195,9 +195,9 @@
                 $fechaJS = $fechaObj->format('m/d/Y');
             ?>
             <?php if(!in_array($count, $collapse_array)) :?>
-                <tr id="<?php echo $entity['idcajachica']?>" style="display: none" class="slave">
+                <tr id="<?php echo $entity['idcajachica']?>" class="slave">
             <?php else:?> 
-                <tr id="<?php echo $entity['idcajachica']?>" class="master">
+                <tr id="<?php echo $entity['idcajachica']?>" class="master active">
             <?php endif;?>
                 <td data-time="<?php echo $fechaJS ?>"><?php echo $fecha?></td>
                 <td class="caja_concepto" id="<?php echo $entity['idconceptocajachica'] ?>"><?php echo $entity['conceptocajachica_nombre']?></td>
@@ -208,7 +208,7 @@
                      <td class="movmiento_vacio"> ---- </td>
                     <td class="egreso"><?php echo '$' . number_format( $entity['cajachica_cantidad'], 2); ?></td>
                 <?php endif;?>
-                <!--<td><?php //echo $entity['cajachica_balance']?></td>-->   
+                <!--<td><?php //echo $entity['cajachica_balance']?></td>-->     
                 <td><?php echo $entity['cajachica_comprobante']?></td>        
                 <td><?php echo $entity['cajachica_pacientedoctor']?></td>
                 <td><?php echo $entity['cajachica_nota']?></td>
@@ -217,7 +217,7 @@
                     &nbsp;&nbsp;    
                     <a class="tooltipped modal-trigger" data-position="right" data-tooltip="Eliminar" href='<?php echo "#delete-modal-".$entity['idcajachica']?>'><i class="tiny mdi-action-delete"></i></a>
                     <?php if(in_array($count, $collapse_array)) :?>
-                    <a class="collapse" style="float: right" href='javascript:;'><i class="tiny mdi-navigation-expand-more"></i></a>
+                    <a class="collapse" style="float: right" href='javascript:;'><i class="tiny mdi-navigation-expand-less"></i></a>
                     <?php endif;?>
                 </td>
             </tr>

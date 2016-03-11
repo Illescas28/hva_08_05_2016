@@ -104,8 +104,8 @@
                                                           onUncheckAll:filterByDate
                                                           });
            
-           //$container.find("#tipo_filter").multipleSelect("checkAll");
-           //$container.find("#concepto_filter").multipleSelect("checkAll");
+           $container.find("#tipo_filter").multipleSelect("checkAll");
+           $container.find("#concepto_filter").multipleSelect("checkAll");
            
            }
            );
@@ -263,8 +263,24 @@
                     tr_master.find('a.collapse i').removeClass('mdi-navigation-expand-more');
                     tr_master.find('a.collapse i').addClass('mdi-navigation-expand-less');
                }
-               calcularTotalIngresosEgresos();
            });
+           
+           
+           /*Evento Creacion de filas reposicion */
+           $container.find('tr.master').filter(function(){
+               
+               var sum = accounting.unformat($(this).find('td').eq(3).text());
+               $.each($($(this).nextUntil('tr.master')),function(){
+                   sum+= accounting.unformat($(this).find('td').eq(3).text());
+               });
+               if(  $(this).nextUntil('tr.master').last().length > 0){
+                    $(this).nextUntil('tr.master').last().after('<tr style="background:#FFBF00"><td colspan="3"></td><td>'+accounting.formatMoney(sum)+'</td><td colspan="4"></td></tr>');
+               }else{
+                   $($(this)).after('<tr style="background:#FFBF00"><td colspan="3"></td><td>'+accounting.formatMoney(sum)+'</td><td colspan="4"></td></tr>');
+               }
+           });
+           
+           
        }
 
        /* 
