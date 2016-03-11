@@ -35,29 +35,6 @@
        
        plugin.init = function(){
            
-           /*EVENTO COLLAPSE DE LAS ROWS*/
-           $container.find('tr.master a.collapse').on('click',function(){
-               var tr_master = $(this).closest('tr');
-               if(tr_master.hasClass('active')){
-                    tr_master.nextUntil('tr.master').slideUp();
-                    tr_master.removeClass('active');
-                    
-                    tr_master.find('a.collapse i').removeClass('mdi-navigation-expand-less');
-                    tr_master.find('a.collapse i').addClass('mdi-navigation-expand-more');
-                    
-               }else{
-                    tr_master.nextUntil('tr.master').slideDown();
-                    tr_master.addClass('active');
-                    
-                    
-                    tr_master.find('a.collapse i').removeClass('mdi-navigation-expand-more');
-                    tr_master.find('a.collapse i').addClass('mdi-navigation-expand-less');
-               }
-               
-           });
-           
-           
-           
            //Inicialiazamos la fecha
            var Objfecha = new Date();
            var fecha = Objfecha.getDate() + '/' + (Objfecha.getMonth() + 1) +'/' + Objfecha.getFullYear();
@@ -65,7 +42,7 @@
            $container.find('input[name=cajachica_fecha]').val(fecha);
            
            //Inicializamos el componente autcomplete de conceptos
- $.getJSON(
+            $.getJSON(
            '/cajachica/movimientos/getconceptos',
            function(data){
            conceptos = data;
@@ -265,6 +242,29 @@
                 var id = $(this).closest('tr').attr('id');
                 editarMovimiento(id);
             });
+            
+            calcularTotalIngresosEgresos();
+            
+            /*EVENTO COLLAPSE DE LAS ROWS*/
+           $container.find('tr.master a.collapse').on('click',function(){
+               var tr_master = $(this).closest('tr');
+               if(tr_master.hasClass('active')){
+                    tr_master.nextUntil('tr.master').slideUp();
+                    tr_master.removeClass('active');
+                    
+                    tr_master.find('a.collapse i').removeClass('mdi-navigation-expand-less');
+                    tr_master.find('a.collapse i').addClass('mdi-navigation-expand-more');
+                    
+               }else{
+                    tr_master.nextUntil('tr.master').slideDown();
+                    tr_master.addClass('active');
+                    
+                    
+                    tr_master.find('a.collapse i').removeClass('mdi-navigation-expand-more');
+                    tr_master.find('a.collapse i').addClass('mdi-navigation-expand-less');
+               }
+               calcularTotalIngresosEgresos();
+           });
        }
 
        /* 
