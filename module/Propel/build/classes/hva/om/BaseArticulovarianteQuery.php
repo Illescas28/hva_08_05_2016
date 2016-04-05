@@ -10,6 +10,7 @@
  * @method ArticulovarianteQuery orderByIdarticulo($order = Criteria::ASC) Order by the idarticulo column
  * @method ArticulovarianteQuery orderByArticulovarianteCodigobarras($order = Criteria::ASC) Order by the articulovariante_codigobarras column
  * @method ArticulovarianteQuery orderByArticulovarianteCosto($order = Criteria::ASC) Order by the articulovariante_costo column
+ * @method ArticulovarianteQuery orderByArticulovarianteCostocaja($order = Criteria::ASC) Order by the articulovariante_costocaja column
  * @method ArticulovarianteQuery orderByArticulovariantePrecio($order = Criteria::ASC) Order by the articulovariante_precio column
  * @method ArticulovarianteQuery orderByArticulovarianteIva($order = Criteria::ASC) Order by the articulovariante_iva column
  * @method ArticulovarianteQuery orderByArticulovarianteImagen($order = Criteria::ASC) Order by the articulovariante_imagen column
@@ -18,6 +19,7 @@
  * @method ArticulovarianteQuery groupByIdarticulo() Group by the idarticulo column
  * @method ArticulovarianteQuery groupByArticulovarianteCodigobarras() Group by the articulovariante_codigobarras column
  * @method ArticulovarianteQuery groupByArticulovarianteCosto() Group by the articulovariante_costo column
+ * @method ArticulovarianteQuery groupByArticulovarianteCostocaja() Group by the articulovariante_costocaja column
  * @method ArticulovarianteQuery groupByArticulovariantePrecio() Group by the articulovariante_precio column
  * @method ArticulovarianteQuery groupByArticulovarianteIva() Group by the articulovariante_iva column
  * @method ArticulovarianteQuery groupByArticulovarianteImagen() Group by the articulovariante_imagen column
@@ -48,6 +50,7 @@
  * @method Articulovariante findOneByIdarticulo(int $idarticulo) Return the first Articulovariante filtered by the idarticulo column
  * @method Articulovariante findOneByArticulovarianteCodigobarras(string $articulovariante_codigobarras) Return the first Articulovariante filtered by the articulovariante_codigobarras column
  * @method Articulovariante findOneByArticulovarianteCosto(string $articulovariante_costo) Return the first Articulovariante filtered by the articulovariante_costo column
+ * @method Articulovariante findOneByArticulovarianteCostocaja(string $articulovariante_costocaja) Return the first Articulovariante filtered by the articulovariante_costocaja column
  * @method Articulovariante findOneByArticulovariantePrecio(string $articulovariante_precio) Return the first Articulovariante filtered by the articulovariante_precio column
  * @method Articulovariante findOneByArticulovarianteIva(string $articulovariante_iva) Return the first Articulovariante filtered by the articulovariante_iva column
  * @method Articulovariante findOneByArticulovarianteImagen(string $articulovariante_imagen) Return the first Articulovariante filtered by the articulovariante_imagen column
@@ -56,6 +59,7 @@
  * @method array findByIdarticulo(int $idarticulo) Return Articulovariante objects filtered by the idarticulo column
  * @method array findByArticulovarianteCodigobarras(string $articulovariante_codigobarras) Return Articulovariante objects filtered by the articulovariante_codigobarras column
  * @method array findByArticulovarianteCosto(string $articulovariante_costo) Return Articulovariante objects filtered by the articulovariante_costo column
+ * @method array findByArticulovarianteCostocaja(string $articulovariante_costocaja) Return Articulovariante objects filtered by the articulovariante_costocaja column
  * @method array findByArticulovariantePrecio(string $articulovariante_precio) Return Articulovariante objects filtered by the articulovariante_precio column
  * @method array findByArticulovarianteIva(string $articulovariante_iva) Return Articulovariante objects filtered by the articulovariante_iva column
  * @method array findByArticulovarianteImagen(string $articulovariante_imagen) Return Articulovariante objects filtered by the articulovariante_imagen column
@@ -166,7 +170,7 @@ abstract class BaseArticulovarianteQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idarticulovariante`, `idarticulo`, `articulovariante_codigobarras`, `articulovariante_costo`, `articulovariante_precio`, `articulovariante_iva`, `articulovariante_imagen` FROM `articulovariante` WHERE `idarticulovariante` = :p0';
+        $sql = 'SELECT `idarticulovariante`, `idarticulo`, `articulovariante_codigobarras`, `articulovariante_costo`, `articulovariante_costocaja`, `articulovariante_precio`, `articulovariante_iva`, `articulovariante_imagen` FROM `articulovariante` WHERE `idarticulovariante` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -410,6 +414,48 @@ abstract class BaseArticulovarianteQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_COSTO, $articulovarianteCosto, $comparison);
+    }
+
+    /**
+     * Filter the query on the articulovariante_costocaja column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByArticulovarianteCostocaja(1234); // WHERE articulovariante_costocaja = 1234
+     * $query->filterByArticulovarianteCostocaja(array(12, 34)); // WHERE articulovariante_costocaja IN (12, 34)
+     * $query->filterByArticulovarianteCostocaja(array('min' => 12)); // WHERE articulovariante_costocaja >= 12
+     * $query->filterByArticulovarianteCostocaja(array('max' => 12)); // WHERE articulovariante_costocaja <= 12
+     * </code>
+     *
+     * @param     mixed $articulovarianteCostocaja The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ArticulovarianteQuery The current query, for fluid interface
+     */
+    public function filterByArticulovarianteCostocaja($articulovarianteCostocaja = null, $comparison = null)
+    {
+        if (is_array($articulovarianteCostocaja)) {
+            $useMinMax = false;
+            if (isset($articulovarianteCostocaja['min'])) {
+                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA, $articulovarianteCostocaja['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($articulovarianteCostocaja['max'])) {
+                $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA, $articulovarianteCostocaja['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA, $articulovarianteCostocaja, $comparison);
     }
 
     /**

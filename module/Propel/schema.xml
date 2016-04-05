@@ -82,6 +82,7 @@
     <column name="idarticulo" phpName="Idarticulo" type="INTEGER" required="true"/>
     <column name="articulovariante_codigobarras" phpName="ArticulovarianteCodigobarras" type="VARCHAR" size="100" required="false"/>
     <column name="articulovariante_costo" phpName="ArticulovarianteCosto" type="DECIMAL" size="10" scale="2" required="false"/>
+    <column name="articulovariante_costocaja" phpName="ArticulovarianteCostocaja" type="DECIMAL" size="10" scale="2" required="false"/>
     <column name="articulovariante_precio" phpName="ArticulovariantePrecio" type="DECIMAL" size="10" scale="2" required="false"/>
     <column name="articulovariante_iva" phpName="ArticulovarianteIva" type="CHAR" sqlType="enum('exento','0','16')" required="false"/>
     <column name="articulovariante_imagen" phpName="ArticulovarianteImagen" type="LONGVARCHAR" required="false"/>

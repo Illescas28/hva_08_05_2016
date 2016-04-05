@@ -281,6 +281,7 @@ class ComprasController extends AbstractActionController {
                 $articulo_variante = \ArticulovarianteQuery::create()->findPk($item['idarticulovariante']);
                 $articulo_variante->setArticulovariantePrecio($item['ordencompradetalle_preciocaja']);
                 $articulo_variante->setArticulovarianteCosto($item['ordencompradetalle_costo']);
+                $articulo_variante->setArticulovarianteCostocaja($item['ordencompradetalle_costocaja']);
                 $articulo_variante->save();
                 
                 //Los insertamos en nuestro almacen general

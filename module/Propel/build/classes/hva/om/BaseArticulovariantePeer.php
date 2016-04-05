@@ -24,13 +24,13 @@ abstract class BaseArticulovariantePeer
     const TM_CLASS = 'ArticulovarianteTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 8;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 8;
 
     /** the column name for the idarticulovariante field */
     const IDARTICULOVARIANTE = 'articulovariante.idarticulovariante';
@@ -43,6 +43,9 @@ abstract class BaseArticulovariantePeer
 
     /** the column name for the articulovariante_costo field */
     const ARTICULOVARIANTE_COSTO = 'articulovariante.articulovariante_costo';
+
+    /** the column name for the articulovariante_costocaja field */
+    const ARTICULOVARIANTE_COSTOCAJA = 'articulovariante.articulovariante_costocaja';
 
     /** the column name for the articulovariante_precio field */
     const ARTICULOVARIANTE_PRECIO = 'articulovariante.articulovariante_precio';
@@ -77,12 +80,12 @@ abstract class BaseArticulovariantePeer
      * e.g. ArticulovariantePeer::$fieldNames[ArticulovariantePeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('Idarticulovariante', 'Idarticulo', 'ArticulovarianteCodigobarras', 'ArticulovarianteCosto', 'ArticulovariantePrecio', 'ArticulovarianteIva', 'ArticulovarianteImagen', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulovariante', 'idarticulo', 'articulovarianteCodigobarras', 'articulovarianteCosto', 'articulovariantePrecio', 'articulovarianteIva', 'articulovarianteImagen', ),
-        BasePeer::TYPE_COLNAME => array (ArticulovariantePeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULO, ArticulovariantePeer::ARTICULOVARIANTE_CODIGOBARRAS, ArticulovariantePeer::ARTICULOVARIANTE_COSTO, ArticulovariantePeer::ARTICULOVARIANTE_PRECIO, ArticulovariantePeer::ARTICULOVARIANTE_IVA, ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULOVARIANTE', 'IDARTICULO', 'ARTICULOVARIANTE_CODIGOBARRAS', 'ARTICULOVARIANTE_COSTO', 'ARTICULOVARIANTE_PRECIO', 'ARTICULOVARIANTE_IVA', 'ARTICULOVARIANTE_IMAGEN', ),
-        BasePeer::TYPE_FIELDNAME => array ('idarticulovariante', 'idarticulo', 'articulovariante_codigobarras', 'articulovariante_costo', 'articulovariante_precio', 'articulovariante_iva', 'articulovariante_imagen', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idarticulovariante', 'Idarticulo', 'ArticulovarianteCodigobarras', 'ArticulovarianteCosto', 'ArticulovarianteCostocaja', 'ArticulovariantePrecio', 'ArticulovarianteIva', 'ArticulovarianteImagen', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulovariante', 'idarticulo', 'articulovarianteCodigobarras', 'articulovarianteCosto', 'articulovarianteCostocaja', 'articulovariantePrecio', 'articulovarianteIva', 'articulovarianteImagen', ),
+        BasePeer::TYPE_COLNAME => array (ArticulovariantePeer::IDARTICULOVARIANTE, ArticulovariantePeer::IDARTICULO, ArticulovariantePeer::ARTICULOVARIANTE_CODIGOBARRAS, ArticulovariantePeer::ARTICULOVARIANTE_COSTO, ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA, ArticulovariantePeer::ARTICULOVARIANTE_PRECIO, ArticulovariantePeer::ARTICULOVARIANTE_IVA, ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULOVARIANTE', 'IDARTICULO', 'ARTICULOVARIANTE_CODIGOBARRAS', 'ARTICULOVARIANTE_COSTO', 'ARTICULOVARIANTE_COSTOCAJA', 'ARTICULOVARIANTE_PRECIO', 'ARTICULOVARIANTE_IVA', 'ARTICULOVARIANTE_IMAGEN', ),
+        BasePeer::TYPE_FIELDNAME => array ('idarticulovariante', 'idarticulo', 'articulovariante_codigobarras', 'articulovariante_costo', 'articulovariante_costocaja', 'articulovariante_precio', 'articulovariante_iva', 'articulovariante_imagen', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /**
@@ -92,12 +95,12 @@ abstract class BaseArticulovariantePeer
      * e.g. ArticulovariantePeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('Idarticulovariante' => 0, 'Idarticulo' => 1, 'ArticulovarianteCodigobarras' => 2, 'ArticulovarianteCosto' => 3, 'ArticulovariantePrecio' => 4, 'ArticulovarianteIva' => 5, 'ArticulovarianteImagen' => 6, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulovariante' => 0, 'idarticulo' => 1, 'articulovarianteCodigobarras' => 2, 'articulovarianteCosto' => 3, 'articulovariantePrecio' => 4, 'articulovarianteIva' => 5, 'articulovarianteImagen' => 6, ),
-        BasePeer::TYPE_COLNAME => array (ArticulovariantePeer::IDARTICULOVARIANTE => 0, ArticulovariantePeer::IDARTICULO => 1, ArticulovariantePeer::ARTICULOVARIANTE_CODIGOBARRAS => 2, ArticulovariantePeer::ARTICULOVARIANTE_COSTO => 3, ArticulovariantePeer::ARTICULOVARIANTE_PRECIO => 4, ArticulovariantePeer::ARTICULOVARIANTE_IVA => 5, ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN => 6, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULOVARIANTE' => 0, 'IDARTICULO' => 1, 'ARTICULOVARIANTE_CODIGOBARRAS' => 2, 'ARTICULOVARIANTE_COSTO' => 3, 'ARTICULOVARIANTE_PRECIO' => 4, 'ARTICULOVARIANTE_IVA' => 5, 'ARTICULOVARIANTE_IMAGEN' => 6, ),
-        BasePeer::TYPE_FIELDNAME => array ('idarticulovariante' => 0, 'idarticulo' => 1, 'articulovariante_codigobarras' => 2, 'articulovariante_costo' => 3, 'articulovariante_precio' => 4, 'articulovariante_iva' => 5, 'articulovariante_imagen' => 6, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, )
+        BasePeer::TYPE_PHPNAME => array ('Idarticulovariante' => 0, 'Idarticulo' => 1, 'ArticulovarianteCodigobarras' => 2, 'ArticulovarianteCosto' => 3, 'ArticulovarianteCostocaja' => 4, 'ArticulovariantePrecio' => 5, 'ArticulovarianteIva' => 6, 'ArticulovarianteImagen' => 7, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('idarticulovariante' => 0, 'idarticulo' => 1, 'articulovarianteCodigobarras' => 2, 'articulovarianteCosto' => 3, 'articulovarianteCostocaja' => 4, 'articulovariantePrecio' => 5, 'articulovarianteIva' => 6, 'articulovarianteImagen' => 7, ),
+        BasePeer::TYPE_COLNAME => array (ArticulovariantePeer::IDARTICULOVARIANTE => 0, ArticulovariantePeer::IDARTICULO => 1, ArticulovariantePeer::ARTICULOVARIANTE_CODIGOBARRAS => 2, ArticulovariantePeer::ARTICULOVARIANTE_COSTO => 3, ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA => 4, ArticulovariantePeer::ARTICULOVARIANTE_PRECIO => 5, ArticulovariantePeer::ARTICULOVARIANTE_IVA => 6, ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN => 7, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('IDARTICULOVARIANTE' => 0, 'IDARTICULO' => 1, 'ARTICULOVARIANTE_CODIGOBARRAS' => 2, 'ARTICULOVARIANTE_COSTO' => 3, 'ARTICULOVARIANTE_COSTOCAJA' => 4, 'ARTICULOVARIANTE_PRECIO' => 5, 'ARTICULOVARIANTE_IVA' => 6, 'ARTICULOVARIANTE_IMAGEN' => 7, ),
+        BasePeer::TYPE_FIELDNAME => array ('idarticulovariante' => 0, 'idarticulo' => 1, 'articulovariante_codigobarras' => 2, 'articulovariante_costo' => 3, 'articulovariante_costocaja' => 4, 'articulovariante_precio' => 5, 'articulovariante_iva' => 6, 'articulovariante_imagen' => 7, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, )
     );
 
     /** The enumerated values for this table */
@@ -229,6 +232,7 @@ abstract class BaseArticulovariantePeer
             $criteria->addSelectColumn(ArticulovariantePeer::IDARTICULO);
             $criteria->addSelectColumn(ArticulovariantePeer::ARTICULOVARIANTE_CODIGOBARRAS);
             $criteria->addSelectColumn(ArticulovariantePeer::ARTICULOVARIANTE_COSTO);
+            $criteria->addSelectColumn(ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA);
             $criteria->addSelectColumn(ArticulovariantePeer::ARTICULOVARIANTE_PRECIO);
             $criteria->addSelectColumn(ArticulovariantePeer::ARTICULOVARIANTE_IVA);
             $criteria->addSelectColumn(ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN);
@@ -237,6 +241,7 @@ abstract class BaseArticulovariantePeer
             $criteria->addSelectColumn($alias . '.idarticulo');
             $criteria->addSelectColumn($alias . '.articulovariante_codigobarras');
             $criteria->addSelectColumn($alias . '.articulovariante_costo');
+            $criteria->addSelectColumn($alias . '.articulovariante_costocaja');
             $criteria->addSelectColumn($alias . '.articulovariante_precio');
             $criteria->addSelectColumn($alias . '.articulovariante_iva');
             $criteria->addSelectColumn($alias . '.articulovariante_imagen');

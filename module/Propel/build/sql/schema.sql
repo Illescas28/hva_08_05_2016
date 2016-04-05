@@ -107,6 +107,7 @@ CREATE TABLE `articulovariante`
     `idarticulo` INTEGER NOT NULL,
     `articulovariante_codigobarras` VARCHAR(100),
     `articulovariante_costo` DECIMAL(10,2),
+    `articulovariante_costocaja` DECIMAL(10,2),
     `articulovariante_precio` DECIMAL(10,2),
     `articulovariante_iva` enum('exento','0','16'),
     `articulovariante_imagen` TEXT,

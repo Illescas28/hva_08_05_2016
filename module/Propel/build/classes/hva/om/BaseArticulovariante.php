@@ -54,6 +54,12 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
     protected $articulovariante_costo;
 
     /**
+     * The value for the articulovariante_costocaja field.
+     * @var        string
+     */
+    protected $articulovariante_costocaja;
+
+    /**
      * The value for the articulovariante_precio field.
      * @var        string
      */
@@ -174,6 +180,17 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
     {
 
         return $this->articulovariante_costo;
+    }
+
+    /**
+     * Get the [articulovariante_costocaja] column value.
+     *
+     * @return string
+     */
+    public function getArticulovarianteCostocaja()
+    {
+
+        return $this->articulovariante_costocaja;
     }
 
     /**
@@ -298,6 +315,27 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
     } // setArticulovarianteCosto()
 
     /**
+     * Set the value of [articulovariante_costocaja] column.
+     *
+     * @param  string $v new value
+     * @return Articulovariante The current object (for fluent API support)
+     */
+    public function setArticulovarianteCostocaja($v)
+    {
+        if ($v !== null && is_numeric($v)) {
+            $v = (string) $v;
+        }
+
+        if ($this->articulovariante_costocaja !== $v) {
+            $this->articulovariante_costocaja = $v;
+            $this->modifiedColumns[] = ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA;
+        }
+
+
+        return $this;
+    } // setArticulovarianteCostocaja()
+
+    /**
      * Set the value of [articulovariante_precio] column.
      *
      * @param  string $v new value
@@ -396,9 +434,10 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             $this->idarticulo = ($row[$startcol + 1] !== null) ? (int) $row[$startcol + 1] : null;
             $this->articulovariante_codigobarras = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->articulovariante_costo = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->articulovariante_precio = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->articulovariante_iva = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
-            $this->articulovariante_imagen = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->articulovariante_costocaja = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->articulovariante_precio = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->articulovariante_iva = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
+            $this->articulovariante_imagen = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -408,7 +447,7 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             }
             $this->postHydrate($row, $startcol, $rehydrate);
 
-            return $startcol + 7; // 7 = ArticulovariantePeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 8; // 8 = ArticulovariantePeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating Articulovariante object", $e);
@@ -705,6 +744,9 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_COSTO)) {
             $modifiedColumns[':p' . $index++]  = '`articulovariante_costo`';
         }
+        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA)) {
+            $modifiedColumns[':p' . $index++]  = '`articulovariante_costocaja`';
+        }
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_PRECIO)) {
             $modifiedColumns[':p' . $index++]  = '`articulovariante_precio`';
         }
@@ -736,6 +778,9 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
                         break;
                     case '`articulovariante_costo`':
                         $stmt->bindValue($identifier, $this->articulovariante_costo, PDO::PARAM_STR);
+                        break;
+                    case '`articulovariante_costocaja`':
+                        $stmt->bindValue($identifier, $this->articulovariante_costocaja, PDO::PARAM_STR);
                         break;
                     case '`articulovariante_precio`':
                         $stmt->bindValue($identifier, $this->articulovariante_precio, PDO::PARAM_STR);
@@ -929,12 +974,15 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
                 return $this->getArticulovarianteCosto();
                 break;
             case 4:
-                return $this->getArticulovariantePrecio();
+                return $this->getArticulovarianteCostocaja();
                 break;
             case 5:
-                return $this->getArticulovarianteIva();
+                return $this->getArticulovariantePrecio();
                 break;
             case 6:
+                return $this->getArticulovarianteIva();
+                break;
+            case 7:
                 return $this->getArticulovarianteImagen();
                 break;
             default:
@@ -970,9 +1018,10 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
             $keys[1] => $this->getIdarticulo(),
             $keys[2] => $this->getArticulovarianteCodigobarras(),
             $keys[3] => $this->getArticulovarianteCosto(),
-            $keys[4] => $this->getArticulovariantePrecio(),
-            $keys[5] => $this->getArticulovarianteIva(),
-            $keys[6] => $this->getArticulovarianteImagen(),
+            $keys[4] => $this->getArticulovarianteCostocaja(),
+            $keys[5] => $this->getArticulovariantePrecio(),
+            $keys[6] => $this->getArticulovarianteIva(),
+            $keys[7] => $this->getArticulovarianteImagen(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1039,12 +1088,15 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
                 $this->setArticulovarianteCosto($value);
                 break;
             case 4:
-                $this->setArticulovariantePrecio($value);
+                $this->setArticulovarianteCostocaja($value);
                 break;
             case 5:
-                $this->setArticulovarianteIva($value);
+                $this->setArticulovariantePrecio($value);
                 break;
             case 6:
+                $this->setArticulovarianteIva($value);
+                break;
+            case 7:
                 $this->setArticulovarianteImagen($value);
                 break;
         } // switch()
@@ -1075,9 +1127,10 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setIdarticulo($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setArticulovarianteCodigobarras($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setArticulovarianteCosto($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setArticulovariantePrecio($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setArticulovarianteIva($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setArticulovarianteImagen($arr[$keys[6]]);
+        if (array_key_exists($keys[4], $arr)) $this->setArticulovarianteCostocaja($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setArticulovariantePrecio($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setArticulovarianteIva($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setArticulovarianteImagen($arr[$keys[7]]);
     }
 
     /**
@@ -1093,6 +1146,7 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         if ($this->isColumnModified(ArticulovariantePeer::IDARTICULO)) $criteria->add(ArticulovariantePeer::IDARTICULO, $this->idarticulo);
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_CODIGOBARRAS)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_CODIGOBARRAS, $this->articulovariante_codigobarras);
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_COSTO)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_COSTO, $this->articulovariante_costo);
+        if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_COSTOCAJA, $this->articulovariante_costocaja);
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_PRECIO)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_PRECIO, $this->articulovariante_precio);
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_IVA)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_IVA, $this->articulovariante_iva);
         if ($this->isColumnModified(ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN)) $criteria->add(ArticulovariantePeer::ARTICULOVARIANTE_IMAGEN, $this->articulovariante_imagen);
@@ -1162,6 +1216,7 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         $copyObj->setIdarticulo($this->getIdarticulo());
         $copyObj->setArticulovarianteCodigobarras($this->getArticulovarianteCodigobarras());
         $copyObj->setArticulovarianteCosto($this->getArticulovarianteCosto());
+        $copyObj->setArticulovarianteCostocaja($this->getArticulovarianteCostocaja());
         $copyObj->setArticulovariantePrecio($this->getArticulovariantePrecio());
         $copyObj->setArticulovarianteIva($this->getArticulovarianteIva());
         $copyObj->setArticulovarianteImagen($this->getArticulovarianteImagen());
@@ -2124,6 +2179,7 @@ abstract class BaseArticulovariante extends BaseObject implements Persistent
         $this->idarticulo = null;
         $this->articulovariante_codigobarras = null;
         $this->articulovariante_costo = null;
+        $this->articulovariante_costocaja = null;
         $this->articulovariante_precio = null;
         $this->articulovariante_iva = null;
         $this->articulovariante_imagen = null;

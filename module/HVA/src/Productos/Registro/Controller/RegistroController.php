@@ -135,6 +135,7 @@ class RegistroController extends AbstractActionController
                 $articuloVariante = \ArticulovarianteQuery::create()->findOneByIdarticulovariante($id);
                 $articuloVariante->setArticulovarianteCodigobarras($request->getPost()->articulovariante_codigobarras);
                 $articuloVariante->setArticulovarianteCosto($request->getPost()->articulovariante_costo);
+                $articuloVariante->setArticulovarianteCostocaja($request->getPost()->articulovariante_costocaja);
                 $articuloVariante->setArticulovariantePrecio($request->getPost()->articulovariante_precio);
                 $articuloVariante->setArticulovarianteIva($request->getPost()->articulovariante_iva);
                 if($articuloVariante->isModified()){

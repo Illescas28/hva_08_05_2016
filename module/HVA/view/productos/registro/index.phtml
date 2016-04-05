@@ -83,6 +83,7 @@ $this->headTitle($title);
                         thead.append('<th style="width: 300px">Descripción</th>');
                         thead.append('<th>Codigo de barras</th>');
                         thead.append('<th class="number">Costo</th>');
+                        thead.append('<th class="number">Costo caja</th>');
                         thead.append('<th class="number">Precio</th>');
                         thead.append('<th class="number">IVA</th>');
                         thead.append('<th style="text-align:center">Opciones</th>');
@@ -107,6 +108,13 @@ $this->headTitle($title);
                                 
                             }else{
                                 tr.append('<td id="articulovariante_costo" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_costo+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[costo]" type="text" value="'+parseFloat(this.articulovariante_costo)+'"></td>');
+                            }
+                            if(this.articulovariante_costocaja == null){
+                               
+                                tr.append('<td id="articulovariante_costocaja" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_costocaja+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[costocaja]" type="text" value="0"></td>');
+                                
+                            }else{
+                                tr.append('<td id="articulovariante_costocaja" class="input-table number"><span style="visibility: hidden">'+this.articulovariante_costocaja+'</span><input  id="precio-'+this.idarticulovariante+'" name="producto-'+this.idarticulovariante+'[costocaja]" type="text" value="'+parseFloat(this.articulovariante_costocaja)+'"></td>');
                             }
                             if(this.articulovariante_precio == null){
                                
@@ -207,14 +215,16 @@ $this->headTitle($title);
                                 var idproducto = $(tr).attr('id');
                                 var codigo_barras = $(tr).find('td').eq(2).find('input').val();
                                 var costo = $(tr).find('td').eq(3).find('input').val();
-                                var precio = $(tr).find('td').eq(4).find('input').val();
-                                var iva = $(tr).find('td').eq(5).find('select').val();
+                                var costocaja = $(tr).find('td').eq(4).find('input').val();
+                                var precio = $(tr).find('td').eq(5).find('input').val();
+                                var iva = $(tr).find('td').eq(6).find('select').val();
 
                                 var formData = new FormData();
 
                                 formData.append('idproducto',idproducto);
                                 formData.append('articulovariante_codigobarras', codigo_barras);
                                 formData.append('articulovariante_costo', costo);
+                                formData.append('articulovariante_costocaja', costocaja);
                                 formData.append('articulovariante_precio', precio);
                                 formData.append('articulovariante_iva', iva);
                                 if ($(tr).find('input[type=file]').length > 0) {
