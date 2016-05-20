@@ -8,11 +8,13 @@
  *
  * @method ReferenciaabonoQuery orderByIdreferenciaabono($order = Criteria::ASC) Order by the idreferenciaabono column
  * @method ReferenciaabonoQuery orderByIdbanco($order = Criteria::ASC) Order by the idbanco column
+ * @method ReferenciaabonoQuery orderByReferenciaabonoArchivo($order = Criteria::ASC) Order by the referenciaabono_archivo column
  * @method ReferenciaabonoQuery orderByReferenciaabonoTipo($order = Criteria::ASC) Order by the referenciaabono_tipo column
  * @method ReferenciaabonoQuery orderByReferenciaabonoReferencia($order = Criteria::ASC) Order by the referenciaabono_referencia column
  *
  * @method ReferenciaabonoQuery groupByIdreferenciaabono() Group by the idreferenciaabono column
  * @method ReferenciaabonoQuery groupByIdbanco() Group by the idbanco column
+ * @method ReferenciaabonoQuery groupByReferenciaabonoArchivo() Group by the referenciaabono_archivo column
  * @method ReferenciaabonoQuery groupByReferenciaabonoTipo() Group by the referenciaabono_tipo column
  * @method ReferenciaabonoQuery groupByReferenciaabonoReferencia() Group by the referenciaabono_referencia column
  *
@@ -28,11 +30,13 @@
  * @method Referenciaabono findOneOrCreate(PropelPDO $con = null) Return the first Referenciaabono matching the query, or a new Referenciaabono object populated from the query conditions when no match is found
  *
  * @method Referenciaabono findOneByIdbanco(int $idbanco) Return the first Referenciaabono filtered by the idbanco column
+ * @method Referenciaabono findOneByReferenciaabonoArchivo(string $referenciaabono_archivo) Return the first Referenciaabono filtered by the referenciaabono_archivo column
  * @method Referenciaabono findOneByReferenciaabonoTipo(string $referenciaabono_tipo) Return the first Referenciaabono filtered by the referenciaabono_tipo column
  * @method Referenciaabono findOneByReferenciaabonoReferencia(int $referenciaabono_referencia) Return the first Referenciaabono filtered by the referenciaabono_referencia column
  *
  * @method array findByIdreferenciaabono(int $idreferenciaabono) Return Referenciaabono objects filtered by the idreferenciaabono column
  * @method array findByIdbanco(int $idbanco) Return Referenciaabono objects filtered by the idbanco column
+ * @method array findByReferenciaabonoArchivo(string $referenciaabono_archivo) Return Referenciaabono objects filtered by the referenciaabono_archivo column
  * @method array findByReferenciaabonoTipo(string $referenciaabono_tipo) Return Referenciaabono objects filtered by the referenciaabono_tipo column
  * @method array findByReferenciaabonoReferencia(int $referenciaabono_referencia) Return Referenciaabono objects filtered by the referenciaabono_referencia column
  *
@@ -142,7 +146,7 @@ abstract class BaseReferenciaabonoQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idreferenciaabono`, `idbanco`, `referenciaabono_tipo`, `referenciaabono_referencia` FROM `referenciaabono` WHERE `idreferenciaabono` = :p0';
+        $sql = 'SELECT `idreferenciaabono`, `idbanco`, `referenciaabono_archivo`, `referenciaabono_tipo`, `referenciaabono_referencia` FROM `referenciaabono` WHERE `idreferenciaabono` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -315,6 +319,35 @@ abstract class BaseReferenciaabonoQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ReferenciaabonoPeer::IDBANCO, $idbanco, $comparison);
+    }
+
+    /**
+     * Filter the query on the referenciaabono_archivo column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByReferenciaabonoArchivo('fooValue');   // WHERE referenciaabono_archivo = 'fooValue'
+     * $query->filterByReferenciaabonoArchivo('%fooValue%'); // WHERE referenciaabono_archivo LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $referenciaabonoArchivo The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ReferenciaabonoQuery The current query, for fluid interface
+     */
+    public function filterByReferenciaabonoArchivo($referenciaabonoArchivo = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($referenciaabonoArchivo)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $referenciaabonoArchivo)) {
+                $referenciaabonoArchivo = str_replace('*', '%', $referenciaabonoArchivo);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ReferenciaabonoPeer::REFERENCIAABONO_ARCHIVO, $referenciaabonoArchivo, $comparison);
     }
 
     /**

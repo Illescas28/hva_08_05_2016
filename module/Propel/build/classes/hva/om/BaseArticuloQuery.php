@@ -7,24 +7,20 @@
  *
  *
  * @method ArticuloQuery orderByIdarticulo($order = Criteria::ASC) Order by the idarticulo column
+ * @method ArticuloQuery orderByIdproveedor($order = Criteria::ASC) Order by the idproveedor column
  * @method ArticuloQuery orderByIdtipo($order = Criteria::ASC) Order by the idtipo column
  * @method ArticuloQuery orderByArticuloNombre($order = Criteria::ASC) Order by the articulo_nombre column
  * @method ArticuloQuery orderByArticuloDescripcion($order = Criteria::ASC) Order by the articulo_descripcion column
- * @method ArticuloQuery orderByIdproveedor($order = Criteria::ASC) Order by the idproveedor column
  *
  * @method ArticuloQuery groupByIdarticulo() Group by the idarticulo column
+ * @method ArticuloQuery groupByIdproveedor() Group by the idproveedor column
  * @method ArticuloQuery groupByIdtipo() Group by the idtipo column
  * @method ArticuloQuery groupByArticuloNombre() Group by the articulo_nombre column
  * @method ArticuloQuery groupByArticuloDescripcion() Group by the articulo_descripcion column
- * @method ArticuloQuery groupByIdproveedor() Group by the idproveedor column
  *
  * @method ArticuloQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method ArticuloQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method ArticuloQuery innerJoin($relation) Adds a INNER JOIN clause to the query
- *
- * @method ArticuloQuery leftJoinProveedor($relationAlias = null) Adds a LEFT JOIN clause to the query using the Proveedor relation
- * @method ArticuloQuery rightJoinProveedor($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Proveedor relation
- * @method ArticuloQuery innerJoinProveedor($relationAlias = null) Adds a INNER JOIN clause to the query using the Proveedor relation
  *
  * @method ArticuloQuery leftJoinTipo($relationAlias = null) Adds a LEFT JOIN clause to the query using the Tipo relation
  * @method ArticuloQuery rightJoinTipo($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Tipo relation
@@ -49,16 +45,16 @@
  * @method Articulo findOne(PropelPDO $con = null) Return the first Articulo matching the query
  * @method Articulo findOneOrCreate(PropelPDO $con = null) Return the first Articulo matching the query, or a new Articulo object populated from the query conditions when no match is found
  *
+ * @method Articulo findOneByIdproveedor(int $idproveedor) Return the first Articulo filtered by the idproveedor column
  * @method Articulo findOneByIdtipo(int $idtipo) Return the first Articulo filtered by the idtipo column
  * @method Articulo findOneByArticuloNombre(string $articulo_nombre) Return the first Articulo filtered by the articulo_nombre column
  * @method Articulo findOneByArticuloDescripcion(string $articulo_descripcion) Return the first Articulo filtered by the articulo_descripcion column
- * @method Articulo findOneByIdproveedor(int $idproveedor) Return the first Articulo filtered by the idproveedor column
  *
  * @method array findByIdarticulo(int $idarticulo) Return Articulo objects filtered by the idarticulo column
+ * @method array findByIdproveedor(int $idproveedor) Return Articulo objects filtered by the idproveedor column
  * @method array findByIdtipo(int $idtipo) Return Articulo objects filtered by the idtipo column
  * @method array findByArticuloNombre(string $articulo_nombre) Return Articulo objects filtered by the articulo_nombre column
  * @method array findByArticuloDescripcion(string $articulo_descripcion) Return Articulo objects filtered by the articulo_descripcion column
- * @method array findByIdproveedor(int $idproveedor) Return Articulo objects filtered by the idproveedor column
  *
  * @package    propel.generator.hva.om
  */
@@ -166,7 +162,7 @@ abstract class BaseArticuloQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idarticulo`, `idtipo`, `articulo_nombre`, `articulo_descripcion`, `idproveedor` FROM `articulo` WHERE `idarticulo` = :p0';
+        $sql = 'SELECT `idarticulo`, `idproveedor`, `idtipo`, `articulo_nombre`, `articulo_descripcion` FROM `articulo` WHERE `idarticulo` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -298,6 +294,48 @@ abstract class BaseArticuloQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the idproveedor column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByIdproveedor(1234); // WHERE idproveedor = 1234
+     * $query->filterByIdproveedor(array(12, 34)); // WHERE idproveedor IN (12, 34)
+     * $query->filterByIdproveedor(array('min' => 12)); // WHERE idproveedor >= 12
+     * $query->filterByIdproveedor(array('max' => 12)); // WHERE idproveedor <= 12
+     * </code>
+     *
+     * @param     mixed $idproveedor The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ArticuloQuery The current query, for fluid interface
+     */
+    public function filterByIdproveedor($idproveedor = null, $comparison = null)
+    {
+        if (is_array($idproveedor)) {
+            $useMinMax = false;
+            if (isset($idproveedor['min'])) {
+                $this->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $idproveedor['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($idproveedor['max'])) {
+                $this->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $idproveedor['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $idproveedor, $comparison);
+    }
+
+    /**
      * Filter the query on the idtipo column
      *
      * Example usage:
@@ -397,126 +435,6 @@ abstract class BaseArticuloQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ArticuloPeer::ARTICULO_DESCRIPCION, $articuloDescripcion, $comparison);
-    }
-
-    /**
-     * Filter the query on the idproveedor column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByIdproveedor(1234); // WHERE idproveedor = 1234
-     * $query->filterByIdproveedor(array(12, 34)); // WHERE idproveedor IN (12, 34)
-     * $query->filterByIdproveedor(array('min' => 12)); // WHERE idproveedor >= 12
-     * $query->filterByIdproveedor(array('max' => 12)); // WHERE idproveedor <= 12
-     * </code>
-     *
-     * @see       filterByProveedor()
-     *
-     * @param     mixed $idproveedor The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ArticuloQuery The current query, for fluid interface
-     */
-    public function filterByIdproveedor($idproveedor = null, $comparison = null)
-    {
-        if (is_array($idproveedor)) {
-            $useMinMax = false;
-            if (isset($idproveedor['min'])) {
-                $this->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $idproveedor['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($idproveedor['max'])) {
-                $this->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $idproveedor['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $idproveedor, $comparison);
-    }
-
-    /**
-     * Filter the query by a related Proveedor object
-     *
-     * @param   Proveedor|PropelObjectCollection $proveedor The related object(s) to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return                 ArticuloQuery The current query, for fluid interface
-     * @throws PropelException - if the provided filter is invalid.
-     */
-    public function filterByProveedor($proveedor, $comparison = null)
-    {
-        if ($proveedor instanceof Proveedor) {
-            return $this
-                ->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $proveedor->getIdproveedor(), $comparison);
-        } elseif ($proveedor instanceof PropelObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(ArticuloPeer::IDPROVEEDOR, $proveedor->toKeyValue('PrimaryKey', 'Idproveedor'), $comparison);
-        } else {
-            throw new PropelException('filterByProveedor() only accepts arguments of type Proveedor or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the Proveedor relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return ArticuloQuery The current query, for fluid interface
-     */
-    public function joinProveedor($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('Proveedor');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'Proveedor');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the Proveedor relation Proveedor object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   ProveedorQuery A secondary query class using the current class as primary query
-     */
-    public function useProveedorQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinProveedor($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Proveedor', 'ProveedorQuery');
     }
 
     /**

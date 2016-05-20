@@ -14,6 +14,7 @@
  * @method CargoadmisionQuery orderByCargoadmisionFecha($order = Criteria::ASC) Order by the cargoadmision_fecha column
  * @method CargoadmisionQuery orderByCargoadmisionCantidad($order = Criteria::ASC) Order by the cargoadmision_cantidad column
  * @method CargoadmisionQuery orderByCargoadmisionMonto($order = Criteria::ASC) Order by the cargoadmision_monto column
+ * @method CargoadmisionQuery orderByCargoadmisionDestino($order = Criteria::ASC) Order by the cargoadmision_destino column
  *
  * @method CargoadmisionQuery groupByIdcargoadmision() Group by the idcargoadmision column
  * @method CargoadmisionQuery groupByIdadmision() Group by the idadmision column
@@ -23,6 +24,7 @@
  * @method CargoadmisionQuery groupByCargoadmisionFecha() Group by the cargoadmision_fecha column
  * @method CargoadmisionQuery groupByCargoadmisionCantidad() Group by the cargoadmision_cantidad column
  * @method CargoadmisionQuery groupByCargoadmisionMonto() Group by the cargoadmision_monto column
+ * @method CargoadmisionQuery groupByCargoadmisionDestino() Group by the cargoadmision_destino column
  *
  * @method CargoadmisionQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method CargoadmisionQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -50,6 +52,7 @@
  * @method Cargoadmision findOneByCargoadmisionFecha(string $cargoadmision_fecha) Return the first Cargoadmision filtered by the cargoadmision_fecha column
  * @method Cargoadmision findOneByCargoadmisionCantidad(string $cargoadmision_cantidad) Return the first Cargoadmision filtered by the cargoadmision_cantidad column
  * @method Cargoadmision findOneByCargoadmisionMonto(string $cargoadmision_monto) Return the first Cargoadmision filtered by the cargoadmision_monto column
+ * @method Cargoadmision findOneByCargoadmisionDestino(string $cargoadmision_destino) Return the first Cargoadmision filtered by the cargoadmision_destino column
  *
  * @method array findByIdcargoadmision(int $idcargoadmision) Return Cargoadmision objects filtered by the idcargoadmision column
  * @method array findByIdadmision(int $idadmision) Return Cargoadmision objects filtered by the idadmision column
@@ -59,6 +62,7 @@
  * @method array findByCargoadmisionFecha(string $cargoadmision_fecha) Return Cargoadmision objects filtered by the cargoadmision_fecha column
  * @method array findByCargoadmisionCantidad(string $cargoadmision_cantidad) Return Cargoadmision objects filtered by the cargoadmision_cantidad column
  * @method array findByCargoadmisionMonto(string $cargoadmision_monto) Return Cargoadmision objects filtered by the cargoadmision_monto column
+ * @method array findByCargoadmisionDestino(string $cargoadmision_destino) Return Cargoadmision objects filtered by the cargoadmision_destino column
  *
  * @package    propel.generator.hva.om
  */
@@ -166,7 +170,7 @@ abstract class BaseCargoadmisionQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idcargoadmision`, `idadmision`, `idlugarinventario`, `idservicio`, `cargoadmision_tipo`, `cargoadmision_fecha`, `cargoadmision_cantidad`, `cargoadmision_monto` FROM `cargoadmision` WHERE `idcargoadmision` = :p0';
+        $sql = 'SELECT `idcargoadmision`, `idadmision`, `idlugarinventario`, `idservicio`, `cargoadmision_tipo`, `cargoadmision_fecha`, `cargoadmision_cantidad`, `cargoadmision_monto`, `cargoadmision_destino` FROM `cargoadmision` WHERE `idcargoadmision` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -583,6 +587,35 @@ abstract class BaseCargoadmisionQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CargoadmisionPeer::CARGOADMISION_MONTO, $cargoadmisionMonto, $comparison);
+    }
+
+    /**
+     * Filter the query on the cargoadmision_destino column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCargoadmisionDestino('fooValue');   // WHERE cargoadmision_destino = 'fooValue'
+     * $query->filterByCargoadmisionDestino('%fooValue%'); // WHERE cargoadmision_destino LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $cargoadmisionDestino The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return CargoadmisionQuery The current query, for fluid interface
+     */
+    public function filterByCargoadmisionDestino($cargoadmisionDestino = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($cargoadmisionDestino)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $cargoadmisionDestino)) {
+                $cargoadmisionDestino = str_replace('*', '%', $cargoadmisionDestino);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(CargoadmisionPeer::CARGOADMISION_DESTINO, $cargoadmisionDestino, $comparison);
     }
 
     /**

@@ -457,6 +457,9 @@ abstract class BaseOrdencompraPeer
         // Invalidate objects in OrdencompradetallePeer instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
         OrdencompradetallePeer::clearInstancePool();
+        // Invalidate objects in TraspasoPeer instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+        TraspasoPeer::clearInstancePool();
     }
 
     /**
@@ -1034,6 +1037,12 @@ abstract class BaseOrdencompraPeer
 
             $criteria->add(OrdencompradetallePeer::IDORDENCOMPRA, $obj->getIdordencompra());
             $affectedRows += OrdencompradetallePeer::doDelete($criteria, $con);
+
+            // delete related Traspaso objects
+            $criteria = new Criteria(TraspasoPeer::DATABASE_NAME);
+
+            $criteria->add(TraspasoPeer::IDORDENCOMPRA, $obj->getIdordencompra());
+            $affectedRows += TraspasoPeer::doDelete($criteria, $con);
         }
 
         return $affectedRows;

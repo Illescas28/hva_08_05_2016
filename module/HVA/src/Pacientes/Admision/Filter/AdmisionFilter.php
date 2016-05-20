@@ -53,6 +53,14 @@ class AdmisionFilter implements InputFilterAwareInterface
                 ),
             ));
             $inputFilter->add(array(
+                'name'     => 'admision_hora',
+                'required' => true,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
+            $inputFilter->add(array(
                 'name'     => 'admision_fechasalida',
                 'required' => false,
                 'filters'  => array(

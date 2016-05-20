@@ -50,6 +50,12 @@ class CargoconsultaTableMap extends TableMap
         $this->addColumn('cargoconsulta_fecha', 'CargoconsultaFecha', 'TIMESTAMP', true, null, null);
         $this->addColumn('cantidad', 'Cantidad', 'DECIMAL', true, 10, null);
         $this->addColumn('monto', 'Monto', 'DECIMAL', true, 10, null);
+        $this->addColumn('cargoconsulta_destino', 'CargoconsultaDestino', 'CHAR', true, null, null);
+        $this->getColumn('cargoconsulta_destino', false)->setValueSet(array (
+  0 => 'piso',
+  1 => 'quirofano',
+  2 => 'farmacia',
+));
         // validators
     } // initialize()
 

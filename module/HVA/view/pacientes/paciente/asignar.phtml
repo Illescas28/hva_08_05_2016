@@ -226,7 +226,7 @@ $this->headTitle($title);
             <?php  endif;?>
         </div>
     </div>
-    <div class="col s12">
+    <div class="col s6">
         <div class="input-field">
             <?php echo $this->formText($admisionForm->get('admision_fechaadmision')); ?>
             <?php echo $this->formLabel($admisionForm->get('admision_fechaadmision')); ?>
@@ -243,6 +243,37 @@ $this->headTitle($title);
                     ?>
                 </div>
             <?php  endif;?>
+        </div>
+    </div>
+    <!--
+    <div class="row">
+        <div class="col s6">
+            <div class="input-field">
+                <input id='admision_hora' type="text" name="admision_hora">
+                <label>Hora de consulta</label>
+            </div>
+        </div>
+    </div>
+    -->
+    <div class="row">
+        <div class="col s6">
+            <div class="input-field">
+                <?php echo $this->formText($admisionForm->get('admision_hora')); ?>
+                <?php echo $this->formLabel($admisionForm->get('admision_hora')); ?>
+                <span class="red-text hidden" for="admision_hora" id="fecha_error">Debe selecionar una fecha.</span><br><br>
+                <?php $showError=$this->formElementErrors($admisionForm->get('admision_hora'));
+                if(!empty($showError)):
+                    ?>
+                    <div class="center-align col" style="color: #e57373">
+                        <i class="mdi-content-report prefix"></i>
+                    </div>
+                    <div class="center-align col s11 offset-s1" style="color: #e57373">
+                        <?php
+                        echo $showError;
+                        ?>
+                    </div>
+                <?php  endif;?>
+            </div>
         </div>
     </div>
     <div class="col s6">
@@ -322,6 +353,7 @@ $this->headTitle($title);
             <th>Articulo</th>
             <th>Descripción</th>
             <th>Salida</th>
+            <th>Destino</th>
             <th>Fecha/hora</th>
             <th>Precio</th>
             <th>Subtotal</th>
@@ -344,7 +376,7 @@ $this->headTitle($title);
                 <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
             </div>
             <div id="modalCargoconsultaArticulo" class="row">
-                <div id="busquedaCargoconsultaArticulo" class="col s5">
+                <div id="busquedaCargoconsultaArticulo" class="col s12">
                     <div class="input-field col s4 left" id="search-container">
                         <i class="mdi-action-search prefix"></i>
                         <?php echo $this->formText($cargoconsultaForm->get('busquedaArticulo')); ?>
@@ -390,7 +422,7 @@ $this->headTitle($title);
                         </table>
                     </div>
                 </div>
-                <div id="tablaCargoconsultaArticuloAgregado" class="col s7">
+                <div id="tablaCargoconsultaArticuloAgregado" class="col s7 hide-on-med-and-down hide-on-med-and-up">
                     <table>
                         <thead>
                         <tr>
@@ -398,6 +430,7 @@ $this->headTitle($title);
                             <th>Articulo</th>
                             <th>Descripción</th>
                             <th>Salida</th>
+                            <th>Destino</th>
                             <th>Fecha/hora</th>
                             <th>Precio</th>
                             <th>Subtotal</th>
@@ -429,7 +462,7 @@ $this->headTitle($title);
                 <?php echo $this->formHidden($cargoconsultaForm->get('idconsulta')); ?>
             </div>
             <div id="modalCargoconsultaServicio" class="row">
-                <div id="busquedaCargoconsultaServicio" class="col s6">
+                <div id="busquedaCargoconsultaServicio" class="col s12">
                     <div class="input-field col s4 left" id="search-container">
                         <i class="mdi-action-search prefix"></i>
                         <?php echo $this->formText($cargoconsultaForm->get('busquedaServicio')); ?>
@@ -472,7 +505,7 @@ $this->headTitle($title);
                         </table>
                     </div>
                 </div>
-                <div id="tablaCargoconsultaServicioAgregado" class="col s6">
+                <div id="tablaCargoconsultaServicioAgregado" class="col s6 hide-on-med-and-down hide-on-med-and-up">
                     <table>
                         <thead>
                         <tr>
@@ -599,7 +632,7 @@ $this->headTitle($title);
                 <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
             </div>
             <div id="modalCargoadmisionArticulo" class="row">
-                <div id="busquedaCargoadmisionArticulo" class="col s5">
+                <div id="busquedaCargoadmisionArticulo" class="col s12">
                     <div class="input-field col s4 left" id="search-container">
                         <i class="mdi-action-search prefix"></i>
                         <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionArticulo')); ?>
@@ -645,7 +678,7 @@ $this->headTitle($title);
                         </table>
                     </div>
                 </div>
-                <div id="tablaCargoadmisionArticuloAgregado" class="col s7">
+                <div id="tablaCargoadmisionArticuloAgregado" class="col s7 hide-on-med-and-down hide-on-med-and-up">
                     <table>
                         <thead>
                         <tr>
@@ -653,6 +686,7 @@ $this->headTitle($title);
                             <th>Articulo</th>
                             <th>Descripción</th>
                             <th>Salida</th>
+                            <th>Destino</th>
                             <th>Fecha/hora</th>
                             <th>Precio</th>
                             <th>Subtotal</th>
@@ -677,6 +711,8 @@ $this->headTitle($title);
             <th>Cantidad</th>
             <th>Articulo</th>
             <th>Descripción</th>
+            <th>Salida</th>
+            <th>Destino</th>
             <th>Fecha/hora</th>
             <th>Precio</th>
             <th>Subtotal</th>
@@ -704,7 +740,7 @@ $this->headTitle($title);
                 <?php echo $this->formHidden($cargoadmisionForm->get('idadmision')); ?>
             </div>
             <div id="modalCargoadmisionServicio" class="row">
-                <div id="busquedaCargoadmisionServicio" class="col s6">
+                <div id="busquedaCargoadmisionServicio" class="col s12">
                     <div class="input-field col s4 left" id="search-container">
                         <i class="mdi-action-search prefix"></i>
                         <?php echo $this->formText($cargoadmisionForm->get('busquedaAdmisionServicio')); ?>
@@ -747,7 +783,7 @@ $this->headTitle($title);
                         </table>
                     </div>
                 </div>
-                <div id="tablaCargoadmisionServicioAgregado" class="col s6">
+                <div id="tablaCargoadmisionServicioAgregado" class="col s6 hide-on-med-and-down hide-on-med-and-up">
                     <table>
                         <thead>
                         <tr>
@@ -861,6 +897,7 @@ $(document).ready(function() {
     //$('#consulta_hora').timepicki();
     // lolliclock
     $('#consulta_hora').lolliclock({autoclose:true});
+    $('#admision_hora').lolliclock({autoclose:true}); // input sin campo en db, solo en Form y en Filter.
 
     //Cargoconsulta
     $("#tablaCargoconsultaArticulo").tablesorter({headers:{5:{sorter:false}}});
@@ -1066,6 +1103,7 @@ $("#buscarCargoconsultaArticulo").click(function() {
                     var br3   = document.createElement("br");
                     var br4   = document.createElement("br");
                     var br5   = document.createElement("br");
+                    var br6   = document.createElement("br");
                     // Creamos el input de cantidad de tipo select
                     var divinputCantidad = document.createElement('div');
                     divinputCantidad.className = "input-field";
@@ -1083,6 +1121,24 @@ $("#buscarCargoconsultaArticulo").click(function() {
                     // agregamos las options en nuestro select
                     divinputCantidad.appendChild(select);
 
+                    // Creamos el input de cantidad de tipo select
+                    var divinputDestino = document.createElement('div');
+                    divinputDestino.className = "input-field";
+                    divinputDestino.setAttribute ( 'id', 'divinputDestino' );
+                    var selectDestino = document.createElement('select');
+                    selectDestino.style.display = "inline";
+                    selectDestino.style.width = "auto";
+                    selectDestino.style.height = "auto";
+                    selectDestino.setAttribute ( 'id', 'cargoconsulta_destino' );
+                    var destinosArray = ["SERVICIO", "ENFERMERIA", "QUIROFANO", "CUNERO", "PSICOPROFILACTICO", "CONSULTORIO"];
+                    // agregamos los valores <option> a seleccionar
+                    for($i=0; $i<=destinosArray.length; $i++){
+                        var selectOption = new Option(destinosArray[$i],destinosArray[$i]);
+                        selectDestino.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputDestino.appendChild(selectDestino);
+
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
                     div.innerHTML = div.dir;
@@ -1090,6 +1146,7 @@ $("#buscarCargoconsultaArticulo").click(function() {
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
                     var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoDestino = document.createTextNode("Destino: ");
                     var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoArticulo);
@@ -1100,8 +1157,11 @@ $("#buscarCargoconsultaArticulo").click(function() {
                     div.appendChild(br3);
                     div.appendChild(textoDisponibleEn);
                     div.appendChild(br4);
-                    div.appendChild(textoExistencia);
+                    div.appendChild(textoDestino);
+                    div.appendChild(selectDestino);
                     div.appendChild(br5);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br6);
                     div.appendChild(textoCantidad);
                     div.appendChild(select);
 
@@ -1532,8 +1592,11 @@ $("#guardarCargoconsultaArticulo").click(function() {
         return false;
     }
 
+    //Obtenemos el valor del campo cargoconsulta_tipo
+    var cargoconsulta_destino = $("select#cargoconsulta_destino").val();
+
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'idconsulta=' + idconsulta + '&idlugarinventario=' + idlugarinventario + '&cargoconsulta_tipo=' + cargoconsulta_tipo + '&cargoconsulta_fecha=' + cargoconsulta_fecha + '&cantidad=' + cantidad;
+    var dataString = 'idconsulta=' + idconsulta + '&idlugarinventario=' + idlugarinventario + '&cargoconsulta_tipo=' + cargoconsulta_tipo + '&cargoconsulta_fecha=' + cargoconsulta_fecha + '&cantidad=' + cantidad + '&cargoconsulta_destino=' + cargoconsulta_destino;
 
     $.ajax({
         type: "POST",
@@ -1544,7 +1607,7 @@ $("#guardarCargoconsultaArticulo").click(function() {
         success: function(data) {
             //$('#cargosConsulta').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
             //$('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
-            alert("Cargo agregado exitosamente");
+            //alert("Cargo agregado exitosamente");
 
             //console.log(data.cargoconsultaArray);
             cargoconsultaArray = []
@@ -1558,6 +1621,7 @@ $("#guardarCargoconsultaArticulo").click(function() {
                     "articulo" : value.articulo,
                     "descripcion" : value.descripcion,
                     "salida" : value.salida,
+                    "destino" : value.destino,
                     "fechahora" : value.fechahora,
                     "precio" : value.precio,
                     "subtotal" : value.subtotal
@@ -1609,7 +1673,7 @@ $("#guardarCargoconsultaServicio").click(function() {
         success: function(data) {
             //$('#cargosConsulta').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
             //$('#modalCargoconsultaArticulo').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
-            alert("Cargo agregado exitosamente");
+            //alert("Cargo agregado exitosamente");
 
             //console.log(data.cargoconsultaArray);
             cargoconsultaArray = []
@@ -1663,7 +1727,7 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -1719,16 +1783,21 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 4){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["destino"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 6){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
                 var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
@@ -1903,6 +1972,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     var br3   = document.createElement("br");
                     var br4   = document.createElement("br");
                     var br5   = document.createElement("br");
+                    var br6   = document.createElement("br");
                     // Creamos el input de cantidad de tipo select
                     var divinputCantidad = document.createElement('div');
                     divinputCantidad.className = "input-field";
@@ -1920,6 +1990,24 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     // agregamos las options en nuestro select
                     divinputCantidad.appendChild(select);
 
+                    // Creamos el input de cantidad de tipo select
+                    var divinputDestino = document.createElement('div');
+                    divinputDestino.className = "input-field";
+                    divinputDestino.setAttribute ( 'id', 'divinputDestino' );
+                    var selectDestino = document.createElement('select');
+                    selectDestino.style.display = "inline";
+                    selectDestino.style.width = "auto";
+                    selectDestino.style.height = "auto";
+                    selectDestino.setAttribute ( 'id', 'cargoconsulta_destino' );
+                    var destinosArray = ["SERVICIO", "ENFERMERIA", "QUIROFANO", "CUNERO", "PSICOPROFILACTICO", "CONSULTORIO"];
+                    // agregamos los valores <option> a seleccionar
+                    for($i=0; $i<=destinosArray.length; $i++){
+                        var selectOption = new Option(destinosArray[$i],destinosArray[$i]);
+                        selectDestino.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputDestino.appendChild(selectDestino);
+
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
                     div.innerHTML = div.dir;
@@ -1927,6 +2015,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
                     var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoDestino = document.createTextNode("Destino: ");
                     var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoArticulo);
@@ -1937,8 +2026,11 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     div.appendChild(br3);
                     div.appendChild(textoDisponibleEn);
                     div.appendChild(br4);
-                    div.appendChild(textoExistencia);
+                    div.appendChild(textoDestino);
+                    div.appendChild(selectDestino);
                     div.appendChild(br5);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br6);
                     div.appendChild(textoCantidad);
                     div.appendChild(select);
 
@@ -2029,6 +2121,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     var br3   = document.createElement("br");
                     var br4   = document.createElement("br");
                     var br5   = document.createElement("br");
+                    var br6   = document.createElement("br");
                     // Creamos el input de cantidad de tipo select
                     var divinputCantidad = document.createElement('div');
                     divinputCantidad.className = "input-field";
@@ -2046,6 +2139,24 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     // agregamos las options en nuestro select
                     divinputCantidad.appendChild(select);
 
+                    // Creamos el input de cantidad de tipo select
+                    var divinputDestino = document.createElement('div');
+                    divinputDestino.className = "input-field";
+                    divinputDestino.setAttribute ( 'id', 'divinputDestino' );
+                    var selectDestino = document.createElement('select');
+                    selectDestino.style.display = "inline";
+                    selectDestino.style.width = "auto";
+                    selectDestino.style.height = "auto";
+                    selectDestino.setAttribute ( 'id', 'cargoconsulta_destino' );
+                    var destinosArray = ["SERVICIO", "ENFERMERIA", "QUIROFANO", "CUNERO", "PSICOPROFILACTICO", "CONSULTORIO"];
+                    // agregamos los valores <option> a seleccionar
+                    for($i=0; $i<=destinosArray.length; $i++){
+                        var selectOption = new Option(destinosArray[$i],destinosArray[$i]);
+                        selectDestino.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputDestino.appendChild(selectDestino);
+
                     // Creamos la entidad textual lista para agregar al cargoconsulta
                     var div = document.getElementById("fieldsetCargoconsultaArticuloEntity");
                     div.innerHTML = div.dir;
@@ -2053,6 +2164,7 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
                     var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoDestino = document.createTextNode("Destino: ");
                     var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoArticulo);
@@ -2063,8 +2175,11 @@ function buscarCargoconsultaArticulo(idordencompradetalle){
                     div.appendChild(br3);
                     div.appendChild(textoDisponibleEn);
                     div.appendChild(br4);
-                    div.appendChild(textoExistencia);
+                    div.appendChild(textoDestino);
+                    div.appendChild(selectDestino);
                     div.appendChild(br5);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br6);
                     div.appendChild(textoCantidad);
                     div.appendChild(select);
 
@@ -2415,7 +2530,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -2475,21 +2590,26 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 4){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["destino"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 6){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 7){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
@@ -2858,6 +2978,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                             "articulo" : value.articulo,
                             "descripcion" : value.descripcion,
                             "salida" : value.salida,
+                            "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal
@@ -2879,6 +3000,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                             "articulo" : value.articulo,
                             "descripcion" : value.descripcion,
                             "salida" : value.salida,
+                            "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal
@@ -2910,7 +3032,7 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -2967,21 +3089,26 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 4){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["destino"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 6){
-                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 7){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
@@ -3076,10 +3203,10 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 var divLabelContainer5 = document.createElement('div')
                 divLabelContainer5.className = "label-container";
                 var label5 = document.createElement('label')
-                var textlabel5 = document.createTextNode("Fecha/Hora:");
+                var textlabel5 = document.createTextNode("Destino:");
                 label5.appendChild(textlabel5);
                 var p5 = document.createElement('p')
-                var textp5 = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                var textp5 = document.createTextNode(cargoconsultaArray[i]["destino"]);
                 p5.appendChild(textp5);
                 divLabelContainer5.appendChild(label5);
                 divLabelContainer5.appendChild(p5);
@@ -3089,27 +3216,40 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 var divLabelContainer6 = document.createElement('div')
                 divLabelContainer6.className = "label-container";
                 var label6 = document.createElement('label')
-                var textlabel6 = document.createTextNode("Precio:");
+                var textlabel6 = document.createTextNode("Fecha/Hora:");
                 label6.appendChild(textlabel6);
                 var p6 = document.createElement('p')
-                var textp6 = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                var textp6 = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
                 p6.appendChild(textp6);
                 divLabelContainer6.appendChild(label6);
                 divLabelContainer6.appendChild(p6);
                 divCol6.appendChild(divLabelContainer6);
                 var divCol7 = document.createElement('div')
-                divCol7.className = "col s12";
+                divCol7.className = "col s4";
                 var divLabelContainer7 = document.createElement('div')
                 divLabelContainer7.className = "label-container";
                 var label7 = document.createElement('label')
-                var textlabel7 = document.createTextNode("Subtotal:");
+                var textlabel7 = document.createTextNode("Precio:");
                 label7.appendChild(textlabel7);
                 var p7 = document.createElement('p')
-                var textp7 = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                var textp7 = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 p7.appendChild(textp7);
                 divLabelContainer7.appendChild(label7);
                 divLabelContainer7.appendChild(p7);
                 divCol7.appendChild(divLabelContainer7);
+                var divCol8 = document.createElement('div')
+                divCol8.className = "col s12";
+                var divLabelContainer8 = document.createElement('div')
+                divLabelContainer8.className = "label-container";
+                var label8 = document.createElement('label')
+                var textlabel8 = document.createTextNode("Subtotal:");
+                label8.appendChild(textlabel8);
+                var p8 = document.createElement('p')
+                var textp8 = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                p8.appendChild(textp8);
+                divLabelContainer8.appendChild(label8);
+                divLabelContainer8.appendChild(p8);
+                divCol8.appendChild(divLabelContainer8);
                 fieldset.appendChild(divCol1);
                 fieldset.appendChild(divCol2);
                 fieldset.appendChild(divCol3);
@@ -3117,6 +3257,7 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 fieldset.appendChild(divCol5);
                 fieldset.appendChild(divCol6);
                 fieldset.appendChild(divCol7);
+                fieldset.appendChild(divCol8);
                 fieldset.appendChild(legend);
                 divRow.appendChild(fieldset);
                 var divViewModalFooter = document.createElement('div')
@@ -3223,10 +3364,10 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 var divLabelContainer5Delete = document.createElement('div')
                 divLabelContainer5Delete.className = "label-container";
                 var label5Delete = document.createElement('label')
-                var textlabel5Delete = document.createTextNode("Fecha/Hora:");
+                var textlabel5Delete = document.createTextNode("Destino:");
                 label5Delete.appendChild(textlabel5Delete);
                 var p5Delete = document.createElement('p')
-                var textp5Delete = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
+                var textp5Delete = document.createTextNode(cargoconsultaArray[i]["destino"]);
                 p5Delete.appendChild(textp5Delete);
                 divLabelContainer5Delete.appendChild(label5Delete);
                 divLabelContainer5Delete.appendChild(p5Delete);
@@ -3236,27 +3377,40 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 var divLabelContainer6Delete = document.createElement('div')
                 divLabelContainer6Delete.className = "label-container";
                 var label6Delete = document.createElement('label')
-                var textlabel6Delete = document.createTextNode("Precio:");
+                var textlabel6Delete = document.createTextNode("Fecha/Hora:");
                 label6Delete.appendChild(textlabel6Delete);
                 var p6Delete = document.createElement('p')
-                var textp6Delete = document.createTextNode(cargoconsultaArray[i]["precio"]);
+                var textp6Delete = document.createTextNode(cargoconsultaArray[i]["fechahora"]);
                 p6Delete.appendChild(textp6Delete);
                 divLabelContainer6Delete.appendChild(label6Delete);
                 divLabelContainer6Delete.appendChild(p6Delete);
                 divCol6Delete.appendChild(divLabelContainer6Delete);
                 var divCol7Delete = document.createElement('div')
-                divCol7Delete.className = "col s12";
+                divCol7Delete.className = "col s4";
                 var divLabelContainer7Delete = document.createElement('div')
                 divLabelContainer7Delete.className = "label-container";
                 var label7Delete = document.createElement('label')
-                var textlabel7Delete = document.createTextNode("Subtotal:");
+                var textlabel7Delete = document.createTextNode("Precio:");
                 label7Delete.appendChild(textlabel7Delete);
                 var p7Delete = document.createElement('p')
-                var textp7Delete = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                var textp7Delete = document.createTextNode(cargoconsultaArray[i]["precio"]);
                 p7Delete.appendChild(textp7Delete);
                 divLabelContainer7Delete.appendChild(label7Delete);
                 divLabelContainer7Delete.appendChild(p7Delete);
                 divCol7Delete.appendChild(divLabelContainer7Delete);
+                var divCol8Delete = document.createElement('div')
+                divCol8Delete.className = "col s12";
+                var divLabelContainer8Delete = document.createElement('div')
+                divLabelContainer8Delete.className = "label-container";
+                var label8Delete = document.createElement('label')
+                var textlabel8Delete = document.createTextNode("Subtotal:");
+                label8Delete.appendChild(textlabel8Delete);
+                var p8Delete = document.createElement('p')
+                var textp8Delete = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                p8Delete.appendChild(textp8Delete);
+                divLabelContainer8Delete.appendChild(label8Delete);
+                divLabelContainer8Delete.appendChild(p8Delete);
+                divCol8Delete.appendChild(divLabelContainer8Delete);
                 fieldsetDelete.appendChild(divCol1Delete);
                 fieldsetDelete.appendChild(divCol2Delete);
                 fieldsetDelete.appendChild(divCol3Delete);
@@ -3264,6 +3418,7 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 fieldsetDelete.appendChild(divCol5Delete);
                 fieldsetDelete.appendChild(divCol6Delete);
                 fieldsetDelete.appendChild(divCol7Delete);
+                fieldsetDelete.appendChild(divCol8Delete);
                 fieldsetDelete.appendChild(legendDelete);
                 divRow2Delete.appendChild(fieldsetDelete);
                 divDeleteModalContentCargoconsultaDelete.appendChild(divRow2Delete)
@@ -4220,6 +4375,22 @@ $("#guardarAdmision").click(function() {
         $("span#fechaadmision_error").hide();
     }
 
+    //Obtenemos el valor del campo fechaadmision
+    var admision_hora = $("input#admision_hora").val();
+
+    //Validamos el campo fechaadmision, simplemente miramos que no esté vacío
+    if (admision_hora == "") {
+        if ($('span#fecha_error').hasClass('hidden')){
+            $('span#fecha_error').removeClass('hidden');
+            $("span#fecha_error").show();
+            $("span#admision_hora").focus();
+        }
+        return false;
+    }else{
+        $("span#fecha_error").hide();
+    }
+
+
     //Obtenemos el valor del campo idpaciente
     var idpaciente = $("input#idpacienteadmision").val();
     //Obtenemos el valor del campo admision_diagnostico
@@ -4228,7 +4399,7 @@ $("#guardarAdmision").click(function() {
     var admision_observaciones = $("input#admision_observaciones").val();
 
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'idmedico=' + idmedico + '&idcuarto=' + idcuarto + '&idpaciente=' + idpaciente + '&admision_fechaadmision=' + admision_fechaadmision + '&admision_diagnostico=' + admision_diagnostico + '&admision_observaciones=' + admision_observaciones;
+    var dataString = 'idmedico=' + idmedico + '&idcuarto=' + idcuarto + '&idpaciente=' + idpaciente + '&admision_fechaadmision=' + admision_fechaadmision + '&admision_hora=' + admision_hora + '&admision_diagnostico=' + admision_diagnostico + '&admision_observaciones=' + admision_observaciones;
 
     $.ajax({
         type: "POST",
@@ -4294,6 +4465,7 @@ $("#buscarCargoadmisionArticulo").click(function() {
                     "descripcion" : value.descripcion,
                     "precio" : value.precio,
                     "salida" : value.salida
+                    //"destino" : value.destino
                 });
             });
 
@@ -4312,6 +4484,7 @@ $("#buscarCargoadmisionArticulo").click(function() {
                     var br3   = document.createElement("br");
                     var br4   = document.createElement("br");
                     var br5   = document.createElement("br");
+                    var br6   = document.createElement("br");
                     // Creamos el input de cantidad de tipo select
                     var divinputCantidad = document.createElement('div');
                     divinputCantidad.className = "input-field";
@@ -4329,6 +4502,24 @@ $("#buscarCargoadmisionArticulo").click(function() {
                     // agregamos las options en nuestro select
                     divinputCantidad.appendChild(select);
 
+                    // Creamos el input de cantidad de tipo select
+                    var divinputDestino = document.createElement('div');
+                    divinputDestino.className = "input-field";
+                    divinputDestino.setAttribute ( 'id', 'divinputDestino' );
+                    var selectDestino = document.createElement('select');
+                    selectDestino.style.display = "inline";
+                    selectDestino.style.width = "auto";
+                    selectDestino.style.height = "auto";
+                    selectDestino.setAttribute ( 'id', 'cargoadmision_destino' );
+                    var destinosArray = ["SERVICIO", "ENFERMERIA", "QUIROFANO", "CUNERO", "PSICOPROFILACTICO", "CONSULTORIO"];
+                    // agregamos los valores <option> a seleccionar
+                    for($i=0; $i<=destinosArray.length; $i++){
+                        var selectOption = new Option(destinosArray[$i],destinosArray[$i]);
+                        selectDestino.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputDestino.appendChild(selectDestino);
+
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionArticuloEntity");
                     div.innerHTML = div.dir;
@@ -4336,6 +4527,7 @@ $("#buscarCargoadmisionArticulo").click(function() {
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
                     var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoDestino = document.createTextNode("Destino: ");
                     var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoArticulo);
@@ -4346,8 +4538,11 @@ $("#buscarCargoadmisionArticulo").click(function() {
                     div.appendChild(br3);
                     div.appendChild(textoDisponibleEn);
                     div.appendChild(br4);
-                    div.appendChild(textoExistencia);
+                    div.appendChild(textoDestino);
+                    div.appendChild(selectDestino);
                     div.appendChild(br5);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br6);
                     div.appendChild(textoCantidad);
                     div.appendChild(select);
 
@@ -4601,7 +4796,7 @@ function generaTablaBuscarAdmisionArticulo(ordencompradetalleArray) {
     tabla.className = "hoverable striped";
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
-    var thArray = ['Existencias', 'Articulo', 'Descripción', 'Precio', 'Salida']
+    var thArray = ['Existencias', 'Articulo', 'Descripción', 'Precio', 'Salida' /*'Destino' No le veo sentido*/]
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -4665,6 +4860,13 @@ function generaTablaBuscarAdmisionArticulo(ordencompradetalleArray) {
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
+            /*
+            if(j == 5){
+                var textoCelda = document.createTextNode(ordencompradetalleArray[i]["destino"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            */
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -4779,8 +4981,11 @@ $("#guardarCargoadmisionArticulo").click(function() {
         return false;
     }
 
+    //Obtenemos el valor del campo cargoconsulta_tipo
+    var cargoadmision_destino = $("select#cargoadmision_destino").val();
+
     //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-    var dataString = 'idadmision=' + idadmision + '&idlugarinventario=' + idlugarinventario + '&cargoadmision_tipo=' + cargoadmision_tipo + '&cargoadmision_fecha=' + cargoadmision_fecha + '&cargoadmision_cantidad=' + cargoadmision_cantidad;
+    var dataString = 'idadmision=' + idadmision + '&idlugarinventario=' + idlugarinventario + '&cargoadmision_tipo=' + cargoadmision_tipo + '&cargoadmision_fecha=' + cargoadmision_fecha + '&cargoadmision_cantidad=' + cargoadmision_cantidad + '&cargoadmision_destino=' + cargoadmision_destino;
 
     $.ajax({
         type: "POST",
@@ -4791,7 +4996,7 @@ $("#guardarCargoadmisionArticulo").click(function() {
         success: function(data) {
             //$('#cargosAdmision').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
             //$('#modalCargoadmisionArticulo').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
-            alert("Cargo agregado exitosamente");
+            //alert("Cargo agregado exitosamente");
 
             //console.log(data.cargoadmisionArray);
             cargoadmisionArray = []
@@ -4805,6 +5010,7 @@ $("#guardarCargoadmisionArticulo").click(function() {
                     "articulo" : value.articulo,
                     "descripcion" : value.descripcion,
                     "salida" : value.salida,
+                    "destino" : value.destino,
                     "fechahora" : value.fechahora,
                     "precio" : value.precio,
                     "subtotal" : value.subtotal
@@ -4856,7 +5062,7 @@ $("#guardarCargoadmisionServicio").click(function() {
         success: function(data) {
             //$('#cargosAdmision').prepend('<div class="card-panel #00086E-text green accent-2 guardado-ajax"">Cargo guardada exitosamente</div>')
             //$('#modalCargoadmisionArticulo').prepend('<div class="card-panel #00086E-text green accent-2 guardado-modal-ajax"">Cargo agregado exitosamente</div>')
-            alert("Cargo agregado exitosamente");
+            //alert("Cargo agregado exitosamente");
 
             //console.log(data.cargoadmisionArray);
             cargoadmisionArray = []
@@ -4910,7 +5116,7 @@ function tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray) {
     var tblBody = document.createElement("tbody");
 
     // Creamos un array con las columnas de nuestra tabla
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -4967,16 +5173,21 @@ function tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray) {
                 hilera.appendChild(celda);
             }
             if(j == 4){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["destino"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 6){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
                 var textoCelda = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
@@ -5132,6 +5343,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     "descripcion" : value.descripcion,
                     "precio" : value.precio,
                     "salida" : value.salida
+                    //"destino" : value.destino
                 });
             });
 
@@ -5151,6 +5363,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     var br3   = document.createElement("br");
                     var br4   = document.createElement("br");
                     var br5   = document.createElement("br");
+                    var br6   = document.createElement("br");
                     // Creamos el input de cantidad de tipo select
                     var divinputCantidad = document.createElement('div');
                     divinputCantidad.className = "input-field";
@@ -5168,6 +5381,24 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     // agregamos las options en nuestro select
                     divinputCantidad.appendChild(select);
 
+                    // Creamos el input de cantidad de tipo select
+                    var divinputDestino = document.createElement('div');
+                    divinputDestino.className = "input-field";
+                    divinputDestino.setAttribute ( 'id', 'divinputDestino' );
+                    var selectDestino = document.createElement('select');
+                    selectDestino.style.display = "inline";
+                    selectDestino.style.width = "auto";
+                    selectDestino.style.height = "auto";
+                    selectDestino.setAttribute ( 'id', 'cargoadmision_destino' );
+                    var destinosArray = ["SERVICIO", "ENFERMERIA", "QUIROFANO", "CUNERO", "PSICOPROFILACTICO", "CONSULTORIO"];
+                    // agregamos los valores <option> a seleccionar
+                    for($i=0; $i<=destinosArray.length; $i++){
+                        var selectOption = new Option(destinosArray[$i],destinosArray[$i]);
+                        selectDestino.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputDestino.appendChild(selectDestino);
+
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionArticuloEntity");
                     div.innerHTML = div.dir;
@@ -5175,6 +5406,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
                     var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoDestino = document.createTextNode("Destino: ");
                     var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoArticulo);
@@ -5185,8 +5417,11 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     div.appendChild(br3);
                     div.appendChild(textoDisponibleEn);
                     div.appendChild(br4);
-                    div.appendChild(textoExistencia);
+                    div.appendChild(textoDestino);
+                    div.appendChild(selectDestino);
                     div.appendChild(br5);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br6);
                     div.appendChild(textoCantidad);
                     div.appendChild(select);
 
@@ -5277,6 +5512,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     var br3   = document.createElement("br");
                     var br4   = document.createElement("br");
                     var br5   = document.createElement("br");
+                    var br6   = document.createElement("br");
                     // Creamos el input de cantidad de tipo select
                     var divinputCantidad = document.createElement('div');
                     divinputCantidad.className = "input-field";
@@ -5294,6 +5530,24 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     // agregamos las options en nuestro select
                     divinputCantidad.appendChild(select);
 
+                    // Creamos el input de cantidad de tipo select
+                    var divinputDestino = document.createElement('div');
+                    divinputDestino.className = "input-field";
+                    divinputDestino.setAttribute ( 'id', 'divinputDestino' );
+                    var selectDestino = document.createElement('select');
+                    selectDestino.style.display = "inline";
+                    selectDestino.style.width = "auto";
+                    selectDestino.style.height = "auto";
+                    selectDestino.setAttribute ( 'id', 'cargoadmision_destino' );
+                    var destinosArray = ["SERVICIO", "ENFERMERIA", "QUIROFANO", "CUNERO", "PSICOPROFILACTICO", "CONSULTORIO"];
+                    // agregamos los valores <option> a seleccionar
+                    for($i=0; $i<=destinosArray.length; $i++){
+                        var selectOption = new Option(destinosArray[$i],destinosArray[$i]);
+                        selectDestino.appendChild(selectOption);
+                    }
+                    // agregamos las options en nuestro select
+                    divinputDestino.appendChild(selectDestino);
+
                     // Creamos la entidad textual lista para agregar al cargoadmision
                     var div = document.getElementById("fieldsetCargoadmisionArticuloEntity");
                     div.innerHTML = div.dir;
@@ -5301,6 +5555,7 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     var textoDescripcion = document.createTextNode("Descrpción: "+values.descripcion);
                     var textoCaducidad = document.createTextNode("Caducidad: "+values.caducidad);
                     var textoDisponibleEn = document.createTextNode("Disponible en: "+values.salida);
+                    var textoDestino = document.createTextNode("Destino: ");
                     var textoExistencia = document.createTextNode("Existencias: "+values.existencia);
                     var textoCantidad = document.createTextNode("Cantidad: ");
                     div.appendChild(textoArticulo);
@@ -5311,8 +5566,11 @@ function buscarCargoadmisionArticulo(idordencompradetalle){
                     div.appendChild(br3);
                     div.appendChild(textoDisponibleEn);
                     div.appendChild(br4);
-                    div.appendChild(textoExistencia);
+                    div.appendChild(textoDestino);
+                    div.appendChild(selectDestino);
                     div.appendChild(br5);
+                    div.appendChild(textoExistencia);
+                    div.appendChild(br6);
                     div.appendChild(textoCantidad);
                     div.appendChild(select);
 
@@ -5662,7 +5920,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -5722,21 +5980,26 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 hilera.appendChild(celda);
             }
             if(j == 4){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["destino"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 6){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 7){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
@@ -5831,10 +6094,10 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 var divLabelContainer5 = document.createElement('div')
                 divLabelContainer5.className = "label-container";
                 var label5 = document.createElement('label')
-                var textlabel5 = document.createTextNode("Fecha/Hora:");
+                var textlabel5 = document.createTextNode("Destino:");
                 label5.appendChild(textlabel5);
                 var p5 = document.createElement('p')
-                var textp5 = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
+                var textp5 = document.createTextNode(cargoadmisionArray[i]["destino"]);
                 p5.appendChild(textp5);
                 divLabelContainer5.appendChild(label5);
                 divLabelContainer5.appendChild(p5);
@@ -5844,27 +6107,40 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 var divLabelContainer6 = document.createElement('div')
                 divLabelContainer6.className = "label-container";
                 var label6 = document.createElement('label')
-                var textlabel6 = document.createTextNode("Precio:");
+                var textlabel6 = document.createTextNode("Fecha/Hora:");
                 label6.appendChild(textlabel6);
                 var p6 = document.createElement('p')
-                var textp6 = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                var textp6 = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
                 p6.appendChild(textp6);
                 divLabelContainer6.appendChild(label6);
                 divLabelContainer6.appendChild(p6);
                 divCol6.appendChild(divLabelContainer6);
                 var divCol7 = document.createElement('div')
-                divCol7.className = "col s12";
+                divCol7.className = "col s4";
                 var divLabelContainer7 = document.createElement('div')
                 divLabelContainer7.className = "label-container";
                 var label7 = document.createElement('label')
-                var textlabel7 = document.createTextNode("Subtotal:");
+                var textlabel7 = document.createTextNode("Precio:");
                 label7.appendChild(textlabel7);
                 var p7 = document.createElement('p')
-                var textp7 = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                var textp7 = document.createTextNode(cargoadmisionArray[i]["precio"]);
                 p7.appendChild(textp7);
                 divLabelContainer7.appendChild(label7);
                 divLabelContainer7.appendChild(p7);
                 divCol7.appendChild(divLabelContainer7);
+                var divCol8 = document.createElement('div')
+                divCol8.className = "col s12";
+                var divLabelContainer8 = document.createElement('div')
+                divLabelContainer8.className = "label-container";
+                var label8 = document.createElement('label')
+                var textlabel8 = document.createTextNode("Subtotal:");
+                label8.appendChild(textlabel8);
+                var p8 = document.createElement('p')
+                var textp8 = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                p7.appendChild(textp8);
+                divLabelContainer8.appendChild(label8);
+                divLabelContainer8.appendChild(p8);
+                divCol8.appendChild(divLabelContainer8);
                 fieldset.appendChild(divCol1);
                 fieldset.appendChild(divCol2);
                 fieldset.appendChild(divCol3);
@@ -5872,6 +6148,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 fieldset.appendChild(divCol5);
                 fieldset.appendChild(divCol6);
                 fieldset.appendChild(divCol7);
+                fieldset.appendChild(divCol8);
                 fieldset.appendChild(legend);
                 divRow.appendChild(fieldset);
                 var divViewModalFooter = document.createElement('div')
@@ -5978,10 +6255,10 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 var divLabelContainer5Delete = document.createElement('div')
                 divLabelContainer5Delete.className = "label-container";
                 var label5Delete = document.createElement('label')
-                var textlabel5Delete = document.createTextNode("Fecha/Hora:");
+                var textlabel5Delete = document.createTextNode("Destino:");
                 label5Delete.appendChild(textlabel5Delete);
                 var p5Delete = document.createElement('p')
-                var textp5Delete = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
+                var textp5Delete = document.createTextNode(cargoadmisionArray[i]["destino"]);
                 p5Delete.appendChild(textp5Delete);
                 divLabelContainer5Delete.appendChild(label5Delete);
                 divLabelContainer5Delete.appendChild(p5Delete);
@@ -5991,27 +6268,40 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 var divLabelContainer6Delete = document.createElement('div')
                 divLabelContainer6Delete.className = "label-container";
                 var label6Delete = document.createElement('label')
-                var textlabel6Delete = document.createTextNode("Precio:");
+                var textlabel6Delete = document.createTextNode("Fecha/Hora:");
                 label6Delete.appendChild(textlabel6Delete);
                 var p6Delete = document.createElement('p')
-                var textp6Delete = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                var textp6Delete = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
                 p6Delete.appendChild(textp6Delete);
                 divLabelContainer6Delete.appendChild(label6Delete);
                 divLabelContainer6Delete.appendChild(p6Delete);
                 divCol6Delete.appendChild(divLabelContainer6Delete);
                 var divCol7Delete = document.createElement('div')
-                divCol7Delete.className = "col s12";
+                divCol7Delete.className = "col s4";
                 var divLabelContainer7Delete = document.createElement('div')
                 divLabelContainer7Delete.className = "label-container";
                 var label7Delete = document.createElement('label')
-                var textlabel7Delete = document.createTextNode("Subtotal:");
+                var textlabel7Delete = document.createTextNode("Precio:");
                 label7Delete.appendChild(textlabel7Delete);
                 var p7Delete = document.createElement('p')
-                var textp7Delete = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                var textp7Delete = document.createTextNode(cargoadmisionArray[i]["precio"]);
                 p7Delete.appendChild(textp7Delete);
                 divLabelContainer7Delete.appendChild(label7Delete);
                 divLabelContainer7Delete.appendChild(p7Delete);
                 divCol7Delete.appendChild(divLabelContainer7Delete);
+                var divCol8Delete = document.createElement('div')
+                divCol8Delete.className = "col s12";
+                var divLabelContainer8Delete = document.createElement('div')
+                divLabelContainer8Delete.className = "label-container";
+                var label8Delete = document.createElement('label')
+                var textlabel8Delete = document.createTextNode("Subtotal:");
+                label8Delete.appendChild(textlabel8Delete);
+                var p8Delete = document.createElement('p')
+                var textp8Delete = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                p8Delete.appendChild(textp8Delete);
+                divLabelContainer8Delete.appendChild(label8Delete);
+                divLabelContainer8Delete.appendChild(p8Delete);
+                divCol8Delete.appendChild(divLabelContainer8Delete);
                 fieldsetDelete.appendChild(divCol1Delete);
                 fieldsetDelete.appendChild(divCol2Delete);
                 fieldsetDelete.appendChild(divCol3Delete);
@@ -6019,6 +6309,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 fieldsetDelete.appendChild(divCol5Delete);
                 fieldsetDelete.appendChild(divCol6Delete);
                 fieldsetDelete.appendChild(divCol7Delete);
+                fieldsetDelete.appendChild(divCol8Delete);
                 fieldsetDelete.appendChild(legendDelete);
                 divRow2Delete.appendChild(fieldsetDelete);
                 divDeleteModalContentCargoadmisionDelete.appendChild(divRow2Delete)
@@ -6128,6 +6419,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                             "articulo" : value.articulo,
                             "descripcion" : value.descripcion,
                             "salida" : value.salida,
+                            "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal
@@ -6149,6 +6441,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                             "articulo" : value.articulo,
                             "descripcion" : value.descripcion,
                             "salida" : value.salida,
+                            "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal
@@ -6180,7 +6473,7 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -6237,21 +6530,26 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 hilera.appendChild(celda);
             }
             if(j == 4){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["destino"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 5){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 6){
-                var textoCelda = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["precio"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
             if(j == 7){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 <!-- View Modal Structure -->
                 var divcargosAdmision = document.getElementById('cargosAdmision')
@@ -6325,10 +6623,10 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 var divLabelContainer5 = document.createElement('div')
                 divLabelContainer5.className = "label-container";
                 var label5 = document.createElement('label')
-                var textlabel5 = document.createTextNode("Fecha/Hora:");
+                var textlabel5 = document.createTextNode("Destino:");
                 label5.appendChild(textlabel5);
                 var p5 = document.createElement('p')
-                var textp5 = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
+                var textp5 = document.createTextNode(cargoadmisionArray[i]["destino"]);
                 p5.appendChild(textp5);
                 divLabelContainer5.appendChild(label5);
                 divLabelContainer5.appendChild(p5);
@@ -6338,27 +6636,40 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 var divLabelContainer6 = document.createElement('div')
                 divLabelContainer6.className = "label-container";
                 var label6 = document.createElement('label')
-                var textlabel6 = document.createTextNode("Precio:");
+                var textlabel6 = document.createTextNode("Fecha/Hora:");
                 label6.appendChild(textlabel6);
                 var p6 = document.createElement('p')
-                var textp6 = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                var textp6 = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
                 p6.appendChild(textp6);
                 divLabelContainer6.appendChild(label6);
                 divLabelContainer6.appendChild(p6);
                 divCol6.appendChild(divLabelContainer6);
                 var divCol7 = document.createElement('div')
-                divCol7.className = "col s12";
+                divCol7.className = "col s4";
                 var divLabelContainer7 = document.createElement('div')
                 divLabelContainer7.className = "label-container";
                 var label7 = document.createElement('label')
-                var textlabel7 = document.createTextNode("Subtotal:");
+                var textlabel7 = document.createTextNode("Precio:");
                 label7.appendChild(textlabel7);
                 var p7 = document.createElement('p')
-                var textp7 = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
-                p7.appendChild(textp7);
+                var textp7 = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                p6.appendChild(textp7);
                 divLabelContainer7.appendChild(label7);
                 divLabelContainer7.appendChild(p7);
                 divCol7.appendChild(divLabelContainer7);
+                var divCol8 = document.createElement('div')
+                divCol8.className = "col s12";
+                var divLabelContainer8 = document.createElement('div')
+                divLabelContainer8.className = "label-container";
+                var label8 = document.createElement('label')
+                var textlabel8 = document.createTextNode("Subtotal:");
+                label8.appendChild(textlabel8);
+                var p8 = document.createElement('p')
+                var textp8 = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                p8.appendChild(textp8);
+                divLabelContainer8.appendChild(label8);
+                divLabelContainer8.appendChild(p8);
+                divCol8.appendChild(divLabelContainer8);
                 fieldset.appendChild(divCol1);
                 fieldset.appendChild(divCol2);
                 fieldset.appendChild(divCol3);
@@ -6366,6 +6677,7 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 fieldset.appendChild(divCol5);
                 fieldset.appendChild(divCol6);
                 fieldset.appendChild(divCol7);
+                fieldset.appendChild(divCol8);
                 fieldset.appendChild(legend);
                 divRow.appendChild(fieldset);
                 var divViewModalFooter = document.createElement('div')
@@ -6472,10 +6784,10 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 var divLabelContainer5Delete = document.createElement('div')
                 divLabelContainer5Delete.className = "label-container";
                 var label5Delete = document.createElement('label')
-                var textlabel5Delete = document.createTextNode("Fecha/Hora:");
+                var textlabel5Delete = document.createTextNode("Destino:");
                 label5Delete.appendChild(textlabel5Delete);
                 var p5Delete = document.createElement('p')
-                var textp5Delete = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
+                var textp5Delete = document.createTextNode(cargoadmisionArray[i]["destino"]);
                 p5Delete.appendChild(textp5Delete);
                 divLabelContainer5Delete.appendChild(label5Delete);
                 divLabelContainer5Delete.appendChild(p5Delete);
@@ -6485,27 +6797,40 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 var divLabelContainer6Delete = document.createElement('div')
                 divLabelContainer6Delete.className = "label-container";
                 var label6Delete = document.createElement('label')
-                var textlabel6Delete = document.createTextNode("Precio:");
+                var textlabel6Delete = document.createTextNode("Fecha/Hora:");
                 label6Delete.appendChild(textlabel6Delete);
                 var p6Delete = document.createElement('p')
-                var textp6Delete = document.createTextNode(cargoadmisionArray[i]["precio"]);
+                var textp6Delete = document.createTextNode(cargoadmisionArray[i]["fechahora"]);
                 p6Delete.appendChild(textp6Delete);
                 divLabelContainer6Delete.appendChild(label6Delete);
                 divLabelContainer6Delete.appendChild(p6Delete);
                 divCol6Delete.appendChild(divLabelContainer6Delete);
                 var divCol7Delete = document.createElement('div')
-                divCol7Delete.className = "col s12";
+                divCol7Delete.className = "col s4";
                 var divLabelContainer7Delete = document.createElement('div')
                 divLabelContainer7Delete.className = "label-container";
                 var label7Delete = document.createElement('label')
-                var textlabel7Delete = document.createTextNode("Subtotal:");
+                var textlabel7Delete = document.createTextNode("Precio:");
                 label7Delete.appendChild(textlabel7Delete);
                 var p7Delete = document.createElement('p')
-                var textp7Delete = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                var textp7Delete = document.createTextNode(cargoadmisionArray[i]["precio"]);
                 p7Delete.appendChild(textp7Delete);
                 divLabelContainer7Delete.appendChild(label7Delete);
                 divLabelContainer7Delete.appendChild(p7Delete);
                 divCol7Delete.appendChild(divLabelContainer7Delete);
+                var divCol8Delete = document.createElement('div')
+                divCol8Delete.className = "col s12";
+                var divLabelContainer8Delete = document.createElement('div')
+                divLabelContainer8Delete.className = "label-container";
+                var label8Delete = document.createElement('label')
+                var textlabel8Delete = document.createTextNode("Subtotal:");
+                label8Delete.appendChild(textlabel8Delete);
+                var p8Delete = document.createElement('p')
+                var textp8Delete = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                p8Delete.appendChild(textp8Delete);
+                divLabelContainer8Delete.appendChild(label8Delete);
+                divLabelContainer8Delete.appendChild(p8Delete);
+                divCol8Delete.appendChild(divLabelContainer8Delete);
                 fieldsetDelete.appendChild(divCol1Delete);
                 fieldsetDelete.appendChild(divCol2Delete);
                 fieldsetDelete.appendChild(divCol3Delete);
@@ -6513,6 +6838,7 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 fieldsetDelete.appendChild(divCol5Delete);
                 fieldsetDelete.appendChild(divCol6Delete);
                 fieldsetDelete.appendChild(divCol7Delete);
+                fieldsetDelete.appendChild(divCol8Delete);
                 fieldsetDelete.appendChild(legendDelete);
                 divRow2Delete.appendChild(fieldsetDelete);
                 divDeleteModalContentCargoadmisionDelete.appendChild(divRow2Delete)

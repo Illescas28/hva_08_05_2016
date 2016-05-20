@@ -95,6 +95,14 @@ class CargoconsultaFilter implements InputFilterAwareInterface
                     array('name' => 'StringTrim'),
                 ),
             ));
+            $inputFilter->add(array(
+                'name'     => 'cargoconsulta_destino',
+                'required' => false,
+                'filters'  => array(
+                    array('name' => 'StripTags'),
+                    array('name' => 'StringTrim'),
+                ),
+            ));
             $this->inputFilter = $inputFilter;
         }
 

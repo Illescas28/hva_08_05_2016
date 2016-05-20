@@ -216,10 +216,8 @@ class ArticuloController extends AbstractActionController
             $articuloForm->setData($articulo->toArray(BasePeer::TYPE_FIELDNAME));
            
             $proveedor = 'N/D';
-       
             if(!is_null($articulo->getIdproveedor())){
-                $proveedor = \ProveedorQuery::create()->findPk($articulo->getIdproveedor());
-                $proveedor = $proveedor->getProveedorNombre();
+                $proveedor = $articulo->getProveedor()->getProveedorNombre();
             }
              
             if ($request->isPost()) { //Si hicieron POST

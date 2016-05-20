@@ -50,6 +50,12 @@ class CargoadmisionTableMap extends TableMap
         $this->addColumn('cargoadmision_fecha', 'CargoadmisionFecha', 'TIMESTAMP', true, null, null);
         $this->addColumn('cargoadmision_cantidad', 'CargoadmisionCantidad', 'DECIMAL', true, 10, null);
         $this->addColumn('cargoadmision_monto', 'CargoadmisionMonto', 'DECIMAL', true, 10, null);
+        $this->addColumn('cargoadmision_destino', 'CargoadmisionDestino', 'CHAR', true, null, null);
+        $this->getColumn('cargoadmision_destino', false)->setValueSet(array (
+  0 => 'piso',
+  1 => 'quirofano',
+  2 => 'farmacia',
+));
         // validators
     } // initialize()
 

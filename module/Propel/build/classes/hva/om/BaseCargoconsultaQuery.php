@@ -14,6 +14,7 @@
  * @method CargoconsultaQuery orderByCargoconsultaFecha($order = Criteria::ASC) Order by the cargoconsulta_fecha column
  * @method CargoconsultaQuery orderByCantidad($order = Criteria::ASC) Order by the cantidad column
  * @method CargoconsultaQuery orderByMonto($order = Criteria::ASC) Order by the monto column
+ * @method CargoconsultaQuery orderByCargoconsultaDestino($order = Criteria::ASC) Order by the cargoconsulta_destino column
  *
  * @method CargoconsultaQuery groupByIdcargoconsulta() Group by the idcargoconsulta column
  * @method CargoconsultaQuery groupByIdconsulta() Group by the idconsulta column
@@ -23,6 +24,7 @@
  * @method CargoconsultaQuery groupByCargoconsultaFecha() Group by the cargoconsulta_fecha column
  * @method CargoconsultaQuery groupByCantidad() Group by the cantidad column
  * @method CargoconsultaQuery groupByMonto() Group by the monto column
+ * @method CargoconsultaQuery groupByCargoconsultaDestino() Group by the cargoconsulta_destino column
  *
  * @method CargoconsultaQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method CargoconsultaQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -50,6 +52,7 @@
  * @method Cargoconsulta findOneByCargoconsultaFecha(string $cargoconsulta_fecha) Return the first Cargoconsulta filtered by the cargoconsulta_fecha column
  * @method Cargoconsulta findOneByCantidad(string $cantidad) Return the first Cargoconsulta filtered by the cantidad column
  * @method Cargoconsulta findOneByMonto(string $monto) Return the first Cargoconsulta filtered by the monto column
+ * @method Cargoconsulta findOneByCargoconsultaDestino(string $cargoconsulta_destino) Return the first Cargoconsulta filtered by the cargoconsulta_destino column
  *
  * @method array findByIdcargoconsulta(int $idcargoconsulta) Return Cargoconsulta objects filtered by the idcargoconsulta column
  * @method array findByIdconsulta(int $idconsulta) Return Cargoconsulta objects filtered by the idconsulta column
@@ -59,6 +62,7 @@
  * @method array findByCargoconsultaFecha(string $cargoconsulta_fecha) Return Cargoconsulta objects filtered by the cargoconsulta_fecha column
  * @method array findByCantidad(string $cantidad) Return Cargoconsulta objects filtered by the cantidad column
  * @method array findByMonto(string $monto) Return Cargoconsulta objects filtered by the monto column
+ * @method array findByCargoconsultaDestino(string $cargoconsulta_destino) Return Cargoconsulta objects filtered by the cargoconsulta_destino column
  *
  * @package    propel.generator.hva.om
  */
@@ -166,7 +170,7 @@ abstract class BaseCargoconsultaQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `idcargoconsulta`, `idconsulta`, `idlugarinventario`, `idservicio`, `cargoconsulta_tipo`, `cargoconsulta_fecha`, `cantidad`, `monto` FROM `cargoconsulta` WHERE `idcargoconsulta` = :p0';
+        $sql = 'SELECT `idcargoconsulta`, `idconsulta`, `idlugarinventario`, `idservicio`, `cargoconsulta_tipo`, `cargoconsulta_fecha`, `cantidad`, `monto`, `cargoconsulta_destino` FROM `cargoconsulta` WHERE `idcargoconsulta` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -583,6 +587,35 @@ abstract class BaseCargoconsultaQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(CargoconsultaPeer::MONTO, $monto, $comparison);
+    }
+
+    /**
+     * Filter the query on the cargoconsulta_destino column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCargoconsultaDestino('fooValue');   // WHERE cargoconsulta_destino = 'fooValue'
+     * $query->filterByCargoconsultaDestino('%fooValue%'); // WHERE cargoconsulta_destino LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $cargoconsultaDestino The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return CargoconsultaQuery The current query, for fluid interface
+     */
+    public function filterByCargoconsultaDestino($cargoconsultaDestino = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($cargoconsultaDestino)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $cargoconsultaDestino)) {
+                $cargoconsultaDestino = str_replace('*', '%', $cargoconsultaDestino);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(CargoconsultaPeer::CARGOCONSULTA_DESTINO, $cargoconsultaDestino, $comparison);
     }
 
     /**

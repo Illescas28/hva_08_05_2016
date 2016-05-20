@@ -165,5 +165,26 @@ class CargoconsultaForm extends Form
                 'id' => 'monto'
             )
         ));
+        /*
+        $this->add(array(
+            'name' => 'cargoconsulta_destino',
+            'type' => 'Zend\Form\Element\Select',
+            'options' => array(
+                'label' => 'Tipo',
+                'empty_option' => 'Seleccione el destino',
+                'value_options' => array('piso' => 'piso', 'farmacia' => 'farmacia', 'quirofano' => 'quirofano'),
+            ),
+            'attributes' => array(
+                'id' => 'cargoconsulta_destino'
+            )
+        ));
+        */
+        $this->add(array(
+            'name' => 'cargoconsulta_destino',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Destino',
+            ),
+        ));
     }
 }

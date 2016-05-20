@@ -57,6 +57,16 @@ class AdmisionForm extends Form
             )
         ));
         $this->add(array(
+            'name' => 'admision_hora',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Hora de admisión',
+            ),
+            'attributes' => array(
+                'id' => 'admision_hora'
+            )
+        ));
+        $this->add(array(
             'name' => 'admision_fechasalida',
             'type' => 'Text',
             'options' => array(

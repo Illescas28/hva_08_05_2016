@@ -1,1 +1,13 @@
+# PHPStorm
+.idea/
+# Mac OS X
+.DS_Store
 /nbproject/private/
+nbproject/
+#sublimetext
+.phpintel/
+
+#archivos de salida de los cronjobs
+/public/cron_log/
+
+

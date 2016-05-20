@@ -120,12 +120,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
     protected $proveedor_rfc;
 
     /**
-     * @var        PropelObjectCollection|Articulo[] Collection to store aggregation of Articulo objects.
-     */
-    protected $collArticulos;
-    protected $collArticulosPartial;
-
-    /**
      * @var        PropelObjectCollection|Ordencompra[] Collection to store aggregation of Ordencompra objects.
      */
     protected $collOrdencompras;
@@ -150,12 +144,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
      * @var        boolean
      */
     protected $alreadyInClearAllReferencesDeep = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var		PropelObjectCollection
-     */
-    protected $articulosScheduledForDeletion = null;
 
     /**
      * An array of objects scheduled for deletion.
@@ -761,8 +749,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->collArticulos = null;
-
             $this->collOrdencompras = null;
 
         } // if (deep)
@@ -887,24 +873,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
                 }
                 $affectedRows += 1;
                 $this->resetModified();
-            }
-
-            if ($this->articulosScheduledForDeletion !== null) {
-                if (!$this->articulosScheduledForDeletion->isEmpty()) {
-                    foreach ($this->articulosScheduledForDeletion as $articulo) {
-                        // need to save related object because we set the relation to null
-                        $articulo->save($con);
-                    }
-                    $this->articulosScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collArticulos !== null) {
-                foreach ($this->collArticulos as $referrerFK) {
-                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
             }
 
             if ($this->ordencomprasScheduledForDeletion !== null) {
@@ -1150,14 +1118,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             }
 
 
-                if ($this->collArticulos !== null) {
-                    foreach ($this->collArticulos as $referrerFK) {
-                        if (!$referrerFK->validate($columns)) {
-                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-                        }
-                    }
-                }
-
                 if ($this->collOrdencompras !== null) {
                     foreach ($this->collOrdencompras as $referrerFK) {
                         if (!$referrerFK->validate($columns)) {
@@ -1297,9 +1257,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->collArticulos) {
-                $result['Articulos'] = $this->collArticulos->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
             if (null !== $this->collOrdencompras) {
                 $result['Ordencompras'] = $this->collOrdencompras->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -1532,12 +1489,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             // store object hash to prevent cycle
             $this->startCopy = true;
 
-            foreach ($this->getArticulos() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addArticulo($relObj->copy($deepCopy));
-                }
-            }
-
             foreach ($this->getOrdencompras() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
                     $copyObj->addOrdencompra($relObj->copy($deepCopy));
@@ -1605,262 +1556,9 @@ abstract class BaseProveedor extends BaseObject implements Persistent
      */
     public function initRelation($relationName)
     {
-        if ('Articulo' == $relationName) {
-            $this->initArticulos();
-        }
         if ('Ordencompra' == $relationName) {
             $this->initOrdencompras();
         }
-    }
-
-    /**
-     * Clears out the collArticulos collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return Proveedor The current object (for fluent API support)
-     * @see        addArticulos()
-     */
-    public function clearArticulos()
-    {
-        $this->collArticulos = null; // important to set this to null since that means it is uninitialized
-        $this->collArticulosPartial = null;
-
-        return $this;
-    }
-
-    /**
-     * reset is the collArticulos collection loaded partially
-     *
-     * @return void
-     */
-    public function resetPartialArticulos($v = true)
-    {
-        $this->collArticulosPartial = $v;
-    }
-
-    /**
-     * Initializes the collArticulos collection.
-     *
-     * By default this just sets the collArticulos collection to an empty array (like clearcollArticulos());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initArticulos($overrideExisting = true)
-    {
-        if (null !== $this->collArticulos && !$overrideExisting) {
-            return;
-        }
-        $this->collArticulos = new PropelObjectCollection();
-        $this->collArticulos->setModel('Articulo');
-    }
-
-    /**
-     * Gets an array of Articulo objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this Proveedor is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|Articulo[] List of Articulo objects
-     * @throws PropelException
-     */
-    public function getArticulos($criteria = null, PropelPDO $con = null)
-    {
-        $partial = $this->collArticulosPartial && !$this->isNew();
-        if (null === $this->collArticulos || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collArticulos) {
-                // return empty collection
-                $this->initArticulos();
-            } else {
-                $collArticulos = ArticuloQuery::create(null, $criteria)
-                    ->filterByProveedor($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    if (false !== $this->collArticulosPartial && count($collArticulos)) {
-                      $this->initArticulos(false);
-
-                      foreach ($collArticulos as $obj) {
-                        if (false == $this->collArticulos->contains($obj)) {
-                          $this->collArticulos->append($obj);
-                        }
-                      }
-
-                      $this->collArticulosPartial = true;
-                    }
-
-                    $collArticulos->getInternalIterator()->rewind();
-
-                    return $collArticulos;
-                }
-
-                if ($partial && $this->collArticulos) {
-                    foreach ($this->collArticulos as $obj) {
-                        if ($obj->isNew()) {
-                            $collArticulos[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collArticulos = $collArticulos;
-                $this->collArticulosPartial = false;
-            }
-        }
-
-        return $this->collArticulos;
-    }
-
-    /**
-     * Sets a collection of Articulo objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param PropelCollection $articulos A Propel collection.
-     * @param PropelPDO $con Optional connection object
-     * @return Proveedor The current object (for fluent API support)
-     */
-    public function setArticulos(PropelCollection $articulos, PropelPDO $con = null)
-    {
-        $articulosToDelete = $this->getArticulos(new Criteria(), $con)->diff($articulos);
-
-
-        $this->articulosScheduledForDeletion = $articulosToDelete;
-
-        foreach ($articulosToDelete as $articuloRemoved) {
-            $articuloRemoved->setProveedor(null);
-        }
-
-        $this->collArticulos = null;
-        foreach ($articulos as $articulo) {
-            $this->addArticulo($articulo);
-        }
-
-        $this->collArticulos = $articulos;
-        $this->collArticulosPartial = false;
-
-        return $this;
-    }
-
-    /**
-     * Returns the number of related Articulo objects.
-     *
-     * @param Criteria $criteria
-     * @param boolean $distinct
-     * @param PropelPDO $con
-     * @return int             Count of related Articulo objects.
-     * @throws PropelException
-     */
-    public function countArticulos(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-    {
-        $partial = $this->collArticulosPartial && !$this->isNew();
-        if (null === $this->collArticulos || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collArticulos) {
-                return 0;
-            }
-
-            if ($partial && !$criteria) {
-                return count($this->getArticulos());
-            }
-            $query = ArticuloQuery::create(null, $criteria);
-            if ($distinct) {
-                $query->distinct();
-            }
-
-            return $query
-                ->filterByProveedor($this)
-                ->count($con);
-        }
-
-        return count($this->collArticulos);
-    }
-
-    /**
-     * Method called to associate a Articulo object to this object
-     * through the Articulo foreign key attribute.
-     *
-     * @param    Articulo $l Articulo
-     * @return Proveedor The current object (for fluent API support)
-     */
-    public function addArticulo(Articulo $l)
-    {
-        if ($this->collArticulos === null) {
-            $this->initArticulos();
-            $this->collArticulosPartial = true;
-        }
-
-        if (!in_array($l, $this->collArticulos->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
-            $this->doAddArticulo($l);
-
-            if ($this->articulosScheduledForDeletion and $this->articulosScheduledForDeletion->contains($l)) {
-                $this->articulosScheduledForDeletion->remove($this->articulosScheduledForDeletion->search($l));
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param	Articulo $articulo The articulo object to add.
-     */
-    protected function doAddArticulo($articulo)
-    {
-        $this->collArticulos[]= $articulo;
-        $articulo->setProveedor($this);
-    }
-
-    /**
-     * @param	Articulo $articulo The articulo object to remove.
-     * @return Proveedor The current object (for fluent API support)
-     */
-    public function removeArticulo($articulo)
-    {
-        if ($this->getArticulos()->contains($articulo)) {
-            $this->collArticulos->remove($this->collArticulos->search($articulo));
-            if (null === $this->articulosScheduledForDeletion) {
-                $this->articulosScheduledForDeletion = clone $this->collArticulos;
-                $this->articulosScheduledForDeletion->clear();
-            }
-            $this->articulosScheduledForDeletion[]= $articulo;
-            $articulo->setProveedor(null);
-        }
-
-        return $this;
-    }
-
-
-    /**
-     * If this collection has already been initialized with
-     * an identical criteria, it returns the collection.
-     * Otherwise if this Proveedor is new, it will return
-     * an empty collection; or if this Proveedor has previously
-     * been saved, it will retrieve related Articulos from storage.
-     *
-     * This method is protected by default in order to keep the public
-     * api reasonable.  You can provide public methods for those you
-     * actually need in Proveedor.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @param string $join_behavior optional join type to use (defaults to Criteria::LEFT_JOIN)
-     * @return PropelObjectCollection|Articulo[] List of Articulo objects
-     */
-    public function getArticulosJoinTipo($criteria = null, $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        $query = ArticuloQuery::create(null, $criteria);
-        $query->joinWith('Tipo', $join_behavior);
-
-        return $this->getArticulos($query, $con);
     }
 
     /**
@@ -2130,11 +1828,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
     {
         if ($deep && !$this->alreadyInClearAllReferencesDeep) {
             $this->alreadyInClearAllReferencesDeep = true;
-            if ($this->collArticulos) {
-                foreach ($this->collArticulos as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
             if ($this->collOrdencompras) {
                 foreach ($this->collOrdencompras as $o) {
                     $o->clearAllReferences($deep);
@@ -2144,10 +1837,6 @@ abstract class BaseProveedor extends BaseObject implements Persistent
             $this->alreadyInClearAllReferencesDeep = false;
         } // if ($deep)
 
-        if ($this->collArticulos instanceof PropelCollection) {
-            $this->collArticulos->clearIterator();
-        }
-        $this->collArticulos = null;
         if ($this->collOrdencompras instanceof PropelCollection) {
             $this->collOrdencompras->clearIterator();
         }
