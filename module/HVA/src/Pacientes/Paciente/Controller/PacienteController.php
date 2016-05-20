@@ -2076,8 +2076,8 @@ class PacienteController extends AbstractActionController
                                         'precio' => $ordencompradetalleEntity->getArticulovariante()->getArticulovariantePrecio(),
                                         'salida' => $lugarNombre,
                                     );
+                                    array_push($ordencompradetalleArray, $ordencompradetalle);
                                 }
-                                array_push($ordencompradetalleArray, $ordencompradetalle);
                             }else{
                                 $ordencompradetalle = array(
                                     'idordencompradetalle' => $ordencompradetalleEntity->getIdordencompradetalle(),
