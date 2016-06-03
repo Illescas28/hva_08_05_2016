@@ -357,6 +357,8 @@ $this->headTitle($title);
             <th>Fecha/hora</th>
             <th>Precio</th>
             <th>Subtotal</th>
+            <th>IVA</th>
+            <th>Total</th>
             <th>Opciones</th>
         </tr>
         </thead>
@@ -538,6 +540,8 @@ $this->headTitle($title);
             <th>Fecha/hora</th>
             <th>Precio</th>
             <th>Subtotal</th>
+            <th>IVA</th>
+            <th>Total</th>
             <th>Opciones</th>
         </tr>
         </thead>
@@ -1624,7 +1628,9 @@ $("#guardarCargoconsultaArticulo").click(function() {
                     "destino" : value.destino,
                     "fechahora" : value.fechahora,
                     "precio" : value.precio,
-                    "subtotal" : value.subtotal
+                    "subtotal" : value.subtotal,
+                    "iva" : value.iva,
+                    "total" : value.total
                 });
             });
 
@@ -1688,6 +1694,8 @@ $("#guardarCargoconsultaServicio").click(function() {
                     "descripcion" : value.descripcion,
                     "precio" : value.precio,
                     "subtotal" : value.subtotal,
+                    "iva" : value.iva,
+                    "total" : value.total,
                     "fechahora" : value.fechahora
                 });
             });
@@ -1802,6 +1810,16 @@ function tablaCargoconsultaArticuloAgregadoModal(cargoconsultaArray) {
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
+            if(j == 8){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 9){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -1894,6 +1912,16 @@ function tablaCargoconsultaServicioAgregadoModal(cargoconsultaArray) {
             }
             if(j == 4){
                 var textoCelda = document.createTextNode(cargoconsultaArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 5){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 6){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["total"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
@@ -2530,7 +2558,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -2557,7 +2585,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
     // Crea las celdas
     for (var i = 0; i < cargoconsultaArray.length; i++) {
 
-        var subTotalArticulo = parseFloat(cargoconsultaArray[i]["subtotal"]);
+        var totalArticulo = parseFloat(cargoconsultaArray[i]["total"]);
         var status = cargoconsultaArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -2610,6 +2638,16 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 8){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 9){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 10){
 
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
@@ -2981,7 +3019,9 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                             "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
-                            "subtotal" : value.subtotal
+                            "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total
                         });
                     });
                 }
@@ -3003,11 +3043,13 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                             "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
-                            "subtotal" : value.subtotal
+                            "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total
                         });
                     });
                 }
-                subTotalResponse(status, -(cargoconsultaEliminadoArray[0]['subtotal']), null, 'consulta')
+                subTotalResponse(status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoconsulta")
@@ -3017,7 +3059,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
     });
 
-    subTotalResponse(status, subTotalArticulo, null, 'consulta')
+    subTotalResponse(status, totalArticulo, null, 'consulta')
 
 }
 
@@ -3032,7 +3074,7 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Artículo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -3109,6 +3151,16 @@ function tablaCargoconsultaArticuloEliminado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 8){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 9){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 10){
 
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
@@ -3485,7 +3537,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -3512,7 +3564,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
     // Crea las celdas
     for (var i = 0; i < cargoconsultaArray.length; i++) {
 
-        var subTotalServicio = parseFloat(cargoconsultaArray[i]["subtotal"]);
+        var totalServicio = parseFloat(cargoconsultaArray[i]["total"]);
         var status = cargoconsultaArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -3555,6 +3607,16 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 6){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 <!-- Start View Modal Structure -->
                 var divcargosConsulta = document.getElementById('cargosConsulta')
@@ -3895,6 +3957,8 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                             "descripcion" : value.descripcion,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total,
                             "fechahora" : value.fechahora
                         });
                     });
@@ -3915,11 +3979,13 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                             "descripcion" : value.descripcion,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total,
                             "fechahora" : value.fechahora
                         });
                     });
                 }
-                subTotalResponse(status, null, -(cargoconsultaEliminadoArray[0]['subtotal']), 'consulta')
+                subTotalResponse(status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
             },
             error: function(){
                 alert("Error al intentar eliminar cargo de un servicio")
@@ -3929,7 +3995,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
 
     });
 
-    subTotalResponse(status, null, subTotalServicio, 'consulta')
+    subTotalResponse(status, null, totalServicio, 'consulta')
 }
 
 function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
@@ -3943,7 +4009,7 @@ function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -3970,7 +4036,7 @@ function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
     // Crea las celdas
     for (var i = 0; i < cargoconsultaArray.length; i++) {
 
-        var subTotalServicio = parseFloat(cargoconsultaArray[i]["subtotal"]);
+        var totalServicio = parseFloat(cargoconsultaArray[i]["total"]);
         var status = cargoconsultaArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -4013,6 +4079,16 @@ function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
                 hilera.appendChild(celda);
             }
             if(j == 6){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
+                var textoCelda = document.createTextNode(cargoconsultaArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 <!-- View Modal Structure -->
                 var divcargosConsulta = document.getElementById('cargosConsulta')
@@ -5013,7 +5089,9 @@ $("#guardarCargoadmisionArticulo").click(function() {
                     "destino" : value.destino,
                     "fechahora" : value.fechahora,
                     "precio" : value.precio,
-                    "subtotal" : value.subtotal
+                    "subtotal" : value.subtotal,
+                    "iva" : value.iva,
+                    "total" : value.total
                 });
             });
 
@@ -5077,6 +5155,8 @@ $("#guardarCargoadmisionServicio").click(function() {
                     "descripcion" : value.descripcion,
                     "precio" : value.precio,
                     "subtotal" : value.subtotal,
+                    "iva" : value.iva,
+                    "total" : value.total,
                     "fechahora" : value.fechahora
                 });
             });
@@ -5192,6 +5272,16 @@ function tablaCargoadmisionArticuloAgregadoModal(cargoadmisionArray) {
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
+            if(j == 8){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 9){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -5284,6 +5374,16 @@ function tablaCargoadmisionServicioAgregadoModal(cargoadmisionArray) {
             }
             if(j == 4){
                 var textoCelda = document.createTextNode(cargoadmisionArray[i]["subtotal"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 5){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 6){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["total"]);
                 celda.appendChild(textoCelda);
                 hilera.appendChild(celda);
             }
@@ -5920,7 +6020,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -5947,7 +6047,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
     // Crea las celdas
     for (var i = 0; i < cargoadmisionArray.length; i++) {
 
-        var subTotalArticulo = parseFloat(cargoadmisionArray[i]["subtotal"]);
+        var totalArticulo = parseFloat(cargoadmisionArray[i]["total"]);
         var status = cargoadmisionArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -6000,6 +6100,16 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                 hilera.appendChild(celda);
             }
             if(j == 8){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 9){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 10){
 
                 var link1 = document.createElement("a");
                 link1.className = "modal-trigger";
@@ -6422,7 +6532,9 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                             "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
-                            "subtotal" : value.subtotal
+                            "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total
                         });
                     });
                 }
@@ -6444,11 +6556,13 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                             "destino" : value.destino,
                             "fechahora" : value.fechahora,
                             "precio" : value.precio,
-                            "subtotal" : value.subtotal
+                            "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total
                         });
                     });
                 }
-                subTotalResponse(status, -(cargoadmisionEliminadoArray[0]['subtotal']), null, 'admision')
+                subTotalResponse(status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoadmision")
@@ -6458,7 +6572,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
 
     });
 
-    subTotalResponse(status, subTotalArticulo, null, 'admision')
+    subTotalResponse(status, totalArticulo, null, 'admision')
 
 }
 
@@ -6473,7 +6587,7 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Articulo', 'Descripción', 'Salida', 'Destino', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -6550,6 +6664,16 @@ function tablaCargoadmisionArticuloEliminado(cargoadmisionArray) {
                 hilera.appendChild(celda);
             }
             if(j == 8){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 9){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 10){
 
                 <!-- View Modal Structure -->
                 var divcargosAdmision = document.getElementById('cargosAdmision')
@@ -6944,7 +7068,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -6971,7 +7095,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
     // Crea las celdas
     for (var i = 0; i < cargoadmisionArray.length; i++) {
 
-        var subTotalServicio = parseFloat(cargoadmisionArray[i]["subtotal"]);
+        var totalServicio = parseFloat(cargoadmisionArray[i]["total"]);
         var status = cargoadmisionArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -7014,6 +7138,16 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
                 hilera.appendChild(celda);
             }
             if(j == 6){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 <!-- View Modal Structure -->
                 var divcargosAdmision = document.getElementById('cargosAdmision')
@@ -7358,6 +7492,8 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
                             "descripcion" : value.descripcion,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total,
                             "fechahora" : value.fechahora
                         });
                     });
@@ -7378,12 +7514,14 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
                             "descripcion" : value.descripcion,
                             "precio" : value.precio,
                             "subtotal" : value.subtotal,
+                            "iva" : value.iva,
+                            "total" : value.total,
                             "fechahora" : value.fechahora
                         });
                     });
                 }
 
-                subTotalResponse(status, null, -(cargoadmisionEliminadoArray[0]['subtotal']), 'admision')
+                subTotalResponse(status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoadmision")
@@ -7393,7 +7531,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
 
     });
 
-    subTotalResponse(status, null, subTotalServicio, 'admision')
+    subTotalResponse(status, null, totalServicio, 'admision')
 }
 
 function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
@@ -7407,7 +7545,7 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
     var tblHead = document.createElement("thead");
     var tblBody = document.createElement("tbody");
 
-    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'Opciones']
+    var thArray = ['Cantidad', 'Servicio', 'Descripción', 'Fecha/hora', 'Precio', 'Subtotal', 'IVA', 'Total', 'Opciones']
 
     // Crea las celdas
     for (var i = 0; i < 1; i++) {
@@ -7434,7 +7572,7 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
     // Crea las celdas
     for (var i = 0; i < cargoadmisionArray.length; i++) {
 
-        var subTotalServicio = parseFloat(cargoadmisionArray[i]["subtotal"]);
+        var totalServicio = parseFloat(cargoadmisionArray[i]["total"]);
         var status = cargoadmisionArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -7477,6 +7615,16 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
                 hilera.appendChild(celda);
             }
             if(j == 6){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["iva"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 7){
+                var textoCelda = document.createTextNode(cargoadmisionArray[i]["total"]);
+                celda.appendChild(textoCelda);
+                hilera.appendChild(celda);
+            }
+            if(j == 8){
 
                 <!-- View Modal Structure -->
                 var divcargosAdmision = document.getElementById('cargosAdmision')
@@ -7791,11 +7939,15 @@ var subTotal = 0;
 var anticipoCantidad = 0;
 var admision_tipodepago = "no identificado";
 var cuentaPagada = false;
-function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
+function subTotalResponse(status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
 
-    // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
+    subTotal += totalArticulo+totalServicio; // Total con iva
+    var iva = 16;
+    var realSubTotal = subTotal / 1.16; // SubTotal sin iva
+    var ivaCantidad = subTotal - realSubTotal;
+    ivaCantidad = ivaCantidad.toFixed(5); // Limitamos decimales a 5
+    realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
 
-    subTotal += subTotalArticulo+subTotalServicio;
     if (isNaN(subTotal)) subTotal = 0;
 
     anticipoCantidad += Number(AnticipoCantidad);
@@ -7895,10 +8047,25 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         var divTotalInferior = document.getElementById("totalInferior");
         divTotalInferior.innerHTML = divTotalInferior.dir;
+        var h5 = document.createElement('h5')
+        h5.className = "right-align";
+        var textoServicioTotal = document.createTextNode("Sub-Total: $"+realSubTotal+" MXN");
+        h5.appendChild(textoServicioTotal)
+        divTotalInferior.appendChild(h5)
+        var h5 = document.createElement('h5')
+        h5.className = "right-align";
+        var textoServicioIva = document.createTextNode("Valor de IVA: "+iva+" %");
+        h5.appendChild(textoServicioIva)
+        divTotalInferior.appendChild(h5)
+        var h5 = document.createElement('h5')
+        h5.className = "right-align";
+        var textoServicioIvaCantidad = document.createTextNode("IVA: $"+ivaCantidad+" MXN");
+        h5.appendChild(textoServicioIvaCantidad)
+        divTotalInferior.appendChild(h5)
         var h4 = document.createElement('h4')
         h4.className = "right-align";
-        var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
-        h4.appendChild(textoServicioTotal)
+        var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
+        h4.appendChild(textoServicioSubTotal)
         divTotalInferior.appendChild(h4)
 
         var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoConsulta");
@@ -7929,7 +8096,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonGenerarFactura = document.createTextNode("Generar Factura");
         buttonGenerarFactura.appendChild(textoButtonGenerarFactura)
         divbotonGenerarFactura.appendChild(buttonGenerarFactura)
-         * 
+         *
          */?>
 
         <?php /*
@@ -7946,7 +8113,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonGenerarNota = document.createTextNode("Generar Nota");
         buttonGenerarNota.appendChild(textoButtonGenerarNota)
         divbotonGenerarNota.appendChild(buttonGenerarNota)
-         * 
+         *
          */?>
 
         <?php /*
@@ -7961,7 +8128,7 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
         var textoButtonVerFactura = document.createTextNode("Ver Factura");
         buttonVerFactura.appendChild(textoButtonVerFactura)
         divbotoVerFactura.appendChild(buttonVerFactura)
-         * 
+         *
          */?>
     }
 
@@ -8163,10 +8330,25 @@ function subTotalResponse(status, subTotalArticulo=null, subTotalServicio=null, 
 
         var divTotalInferior = document.getElementById("totalInferiorAdmision");
         divTotalInferior.innerHTML = divTotalInferior.dir;
+        var h5 = document.createElement('h5')
+        h5.className = "right-align";
+        var textoServicioTotal = document.createTextNode("Sub-Total: $"+realSubTotal+" MXN");
+        h5.appendChild(textoServicioTotal)
+        divTotalInferior.appendChild(h5)
+        var h5 = document.createElement('h5')
+        h5.className = "right-align";
+        var textoServicioIva = document.createTextNode("Valor de IVA: "+iva+" %");
+        h5.appendChild(textoServicioIva)
+        divTotalInferior.appendChild(h5)
+        var h5 = document.createElement('h5')
+        h5.className = "right-align";
+        var textoServicioIvaCantidad = document.createTextNode("IVA: $"+ivaCantidad+" MXN");
+        h5.appendChild(textoServicioIvaCantidad)
+        divTotalInferior.appendChild(h5)
         var h4 = document.createElement('h4')
         h4.className = "right-align";
-        var textoServicioTotal = document.createTextNode("Total: $"+subTotal+" MXN");
-        h4.appendChild(textoServicioTotal)
+        var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
+        h4.appendChild(textoServicioSubTotal)
         divTotalInferior.appendChild(h4)
 
         var divbotonPagarAnticipo = document.getElementById("botonPagarAnticipoAdmision");

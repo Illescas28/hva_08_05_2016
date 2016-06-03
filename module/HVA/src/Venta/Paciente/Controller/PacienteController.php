@@ -169,6 +169,11 @@ class PacienteController extends AbstractActionController
                             $propiedadvalorEliminadoQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEliminado->getIdpropiedadvalor())->findOne();
                             $propiedadvalorNombreEliminado .= $propiedadEliminadoQuery->getPropiedadNombre() . " " . $propiedadvalorEliminadoQuery->getPropiedadvalorNombre(). " ";
                         }
+
+                        $subtotal = $cargoventaEliminado->getMonto();
+                        $iva = $articulovarianteEliminado->getArticulovarianteIva();
+                        $total = $subtotal * "1.$iva";
+
                         $cargoventaEliminado = array(
                             'idcargoventa' => $cargoventaEliminado->getIdcargoventa(),
                             'idventa' => $cargoventaEliminado->getIdventa(),
@@ -180,6 +185,8 @@ class PacienteController extends AbstractActionController
                             'fechahora' => $cargoventaEliminado->getCargoventaFecha(),
                             'precio' => $cargoventaEliminado->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
                             'subtotal' => $cargoventaEliminado->getMonto(),
+                            'iva' => $iva,
+                            'total' => $total,
                         );
                         array_push($cargoventaEliminadoArray, $cargoventaEliminado);
                     }
@@ -199,6 +206,11 @@ class PacienteController extends AbstractActionController
                                     $propiedadvalorQuery = \PropiedadvalorQuery::create()->filterByIdpropiedadvalor($articulovariantevalorEntity->getIdpropiedadvalor())->findOne();
                                     $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
                                 }
+
+                                $subtotal = $cargoventaEntity->getMonto();
+                                $iva = $articulovarianteEntity->getArticulovarianteIva();
+                                $total = $subtotal * "1.$iva";
+
                                 $cargoventa = array(
                                     'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
                                     'idventa' => $cargoventaEntity->getIdventa(),
@@ -210,6 +222,8 @@ class PacienteController extends AbstractActionController
                                     'fechahora' => $cargoventaEntity->getCargoventaFecha(),
                                     'precio' => $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
                                     'subtotal' => $cargoventaEntity->getMonto(),
+                                    'iva' => $iva,
+                                    'total' => $total,
                                 );
                                 array_push($cargoventaArray, $cargoventa);
                             }
@@ -227,6 +241,9 @@ class PacienteController extends AbstractActionController
                     $cargoventaEliminado = \CargoventaQuery::create()->filterByIdcargoventa($request->getPost()->idcargoventa)->findOne();
                     $cargoventaEliminadoArray = array();
                     if($cargoventaEliminado->getIdservicio() != null){
+                        $subtotal = $cargoventaEliminado->getMonto();
+                        $iva = $cargoventaEliminado->getServicio()->getServicioIva();
+                        $total = $subtotal * "1.$iva";
                         $cargoventaEliminado = array(
                             'idcargoventa' => $cargoventaEliminado->getIdcargoventa(),
                             'idventa' => $cargoventaEliminado->getIdventa(),
@@ -236,6 +253,8 @@ class PacienteController extends AbstractActionController
                             'descripcion' => $cargoventaEliminado->getServicio()->getServicioDescripcion(),
                             'precio' => $cargoventaEliminado->getServicio()->getServicioPrecio(),
                             'subtotal' => $cargoventaEliminado->getMonto(),
+                            'iva' => $iva,
+                            'total' => $total,
                             'fechahora' => $cargoventaEliminado->getCargoventaFecha(),
                         );
                         array_push($cargoventaEliminadoArray, $cargoventaEliminado);
@@ -247,6 +266,9 @@ class PacienteController extends AbstractActionController
                         $cargoventaArray = array();
                         foreach($cargoventaQuery as $cargoventaEntity){
                             if($cargoventaEntity->getIdservicio() != null){
+                                $subtotal = $cargoventaEntity->getMonto();
+                                $iva = $cargoventaEntity->getServicio()->getServicioIva();
+                                $total = $subtotal * "1.$iva";
                                 $cargoventa = array(
                                     'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
                                     'idventa' => $cargoventaEntity->getIdventa(),
@@ -256,6 +278,8 @@ class PacienteController extends AbstractActionController
                                     'descripcion' => $cargoventaEntity->getServicio()->getServicioDescripcion(),
                                     'precio' => $cargoventaEntity->getServicio()->getServicioPrecio(),
                                     'subtotal' => $cargoventaEntity->getMonto(),
+                                    'iva' => $iva,
+                                    'total' => $total,
                                     'fechahora' => date('Y-m-d H:i:s'),
                                 );
                                 array_push($cargoventaArray, $cargoventa);
@@ -517,6 +541,10 @@ class PacienteController extends AbstractActionController
                                         $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
                                     }
 
+                                    $subtotal = $cargoventaEntity->getMonto();
+                                    $iva = $articulovarianteEntity->getArticulovarianteIva();
+                                    $total = $subtotal * "1.$iva";
+
                                     $cargoventa = array(
                                         'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
                                         'idventa' => $cargoventaEntity->getIdventa(),
@@ -528,6 +556,8 @@ class PacienteController extends AbstractActionController
                                         'fechahora' => $cargoventaEntity->getCargoventaFecha(),
                                         'precio' => $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
                                         'subtotal' => $cargoventaEntity->getMonto(),
+                                        'iva' => $iva,
+                                        'total' => $total,
                                     );
                                     array_push($cargoventaArray, $cargoventa);
                                 }
@@ -555,6 +585,11 @@ class PacienteController extends AbstractActionController
                         if($cargoventaQuery->getArrayCopy()){
                             foreach($cargoventaQuery as $cargoventaEntity){
                                 if($cargoventaEntity->getIdservicio() != null){
+
+                                    $subtotal = $cargoventaEntity->getMonto();
+                                    $iva = $cargoventaEntity->getServicio()->getServicioIva();
+                                    $total = $subtotal * "1.$iva";
+
                                     $cargoventa = array(
                                         'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
                                         'idventa' => $cargoventaEntity->getIdventa(),
@@ -564,6 +599,8 @@ class PacienteController extends AbstractActionController
                                         'descripcion' => $cargoventaEntity->getServicio()->getServicioDescripcion(),
                                         'precio' => $cargoventaEntity->getServicio()->getServicioPrecio(),
                                         'subtotal' => $cargoventaEntity->getMonto(),
+                                        'iva' => $iva,
+                                        'total' => $total,
                                         'fechahora' => $cargoventaEntity->getCargoventaFecha(),
                                     );
                                     array_push($cargoventaArray, $cargoventa);
@@ -624,6 +661,10 @@ class PacienteController extends AbstractActionController
                                 $propiedadvalorNombre .= $propiedadQuery->getPropiedadNombre() . " " . $propiedadvalorQuery->getPropiedadvalorNombre(). " ";
                             }
 
+                            $subtotal = $cargoventaEntity->getMonto();
+                            $iva = $articulovarianteEntity->getArticulovarianteIva();
+                            $total = $subtotal * "1.$iva";
+
                             $cargoventaArticulo = array(
                                 'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
                                 'idventa' => $cargoventaEntity->getIdventa(),
@@ -635,11 +676,18 @@ class PacienteController extends AbstractActionController
                                 'fechahora' => $cargoventaEntity->getCargoventaFecha(),
                                 'precio' => $cargoventaEntity->getLugarinventario()->getOrdencompradetalle()->getArticulovariante()->getArticulovariantePrecio(),
                                 'subtotal' => $cargoventaEntity->getMonto(),
+                                'iva' => $iva,
+                                'total' => $total,
                             );
                             array_push($cargoventaArticuloArray, $cargoventaArticulo);
                         }
 
                         if($cargoventaEntity->getIdservicio() != null){
+
+                            $subtotal = $cargoventaEntity->getMonto();
+                            $iva = $cargoventaEntity->getServicio()->getServicioIva();
+                            $total = $subtotal * "1.$iva";
+
                             $cargoventaServicio = array(
                                 'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
                                 'idventa' => $cargoventaEntity->getIdventa(),
@@ -649,6 +697,8 @@ class PacienteController extends AbstractActionController
                                 'descripcion' => $cargoventaEntity->getServicio()->getServicioDescripcion(),
                                 'precio' => $cargoventaEntity->getServicio()->getServicioPrecio(),
                                 'subtotal' => $cargoventaEntity->getMonto(),
+                                'iva' => $iva,
+                                'total' => $total,
                                 'fechahora' => $cargoventaEntity->getCargoventaFecha(),
                             );
                             array_push($cargoventaServicioArray, $cargoventaServicio);

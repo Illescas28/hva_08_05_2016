@@ -48,6 +48,8 @@ $this->headTitle($title);
                 <th>Fecha/hora</th>
                 <th>Precio</th>
                 <th>Subtotal</th>
+                <th>IVA</th>
+                <th>Total</th>
             </tr>
             </thead>
             <tbody>
@@ -60,6 +62,8 @@ $this->headTitle($title);
                         <td><?php echo $cargoventaArticuloEntity["fechahora"] ?></td>
                         <td><?php echo $cargoventaArticuloEntity["precio"] ?></td>
                         <td><?php echo $cargoventaArticuloEntity["subtotal"] ?></td>
+                        <td><?php echo $cargoventaArticuloEntity["iva"] ?></td>
+                        <td><?php echo $cargoventaArticuloEntity["total"] ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
@@ -80,6 +84,8 @@ $this->headTitle($title);
                 <th>Fecha/hora</th>
                 <th>Precio</th>
                 <th>Subtotal</th>
+                <th>IVA</th>
+                <th>Total</th>
             </tr>
             </thead>
             <tbody>
@@ -91,6 +97,8 @@ $this->headTitle($title);
                     <td><?php echo $cargoventaServicioEntity["fechahora"] ?></td>
                     <td><?php echo $cargoventaServicioEntity["precio"] ?></td>
                     <td><?php echo $cargoventaServicioEntity["subtotal"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["iva"] ?></td>
+                    <td><?php echo $cargoventaServicioEntity["total"] ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
