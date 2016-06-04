@@ -33,7 +33,7 @@ use PacienteQuery;
 use BasePeer;
 
 //// PDF ////
-use Pacientes\Paciente\Controller\PDF; 
+use Pacientes\Paciente\Controller\PDF;
 
 class PacienteController extends AbstractActionController
 {
@@ -50,15 +50,15 @@ class PacienteController extends AbstractActionController
         return $edad;
     }
     */
-        
+
     public function contratofinalAction(){
-        
+
         $request = $this->getRequest();
-        
+
         if($request->isPost()){
 
             $admisionQuery = \AdmisionQuery::create()->filterByIdadmision($request->getPost()->idadmision)->findOne();
-            
+
             $nombrepaciente = $admisionQuery->getPaciente()->getPacienteNombre()." ".$admisionQuery->getPaciente()->getPacienteAp(). " " . $admisionQuery->getPaciente()->getPacienteAm();
             $nombremedico = $admisionQuery->getMedico()->getMedicoNombre(). " ". $admisionQuery->getMedico()->getMedicoApellidopaterno(). " " . $admisionQuery->getMedico()->getMedicoApellidomaterno();
             $nombreresponsable = $admisionQuery->getPaciente()->getPacienteResponsable();
@@ -88,10 +88,10 @@ class PacienteController extends AbstractActionController
             $ciudad = $admisionQuery->getPaciente()->getPacienteCiudad();
             $estado = $admisionQuery->getPaciente()->getPacienteEstado();
             $anticipo="";
-        
+
             $pdf = new PDF();
-           // $pdf->ChapterBody($nombrepaciente, $nombreresponsable, $nombremedico);
-           // $pdf->PrintChapter($nombrepaciente, $nombreresponsable, $nombremedico);
+            // $pdf->ChapterBody($nombrepaciente, $nombreresponsable, $nombremedico);
+            // $pdf->PrintChapter($nombrepaciente, $nombreresponsable, $nombremedico);
 
             $pdf->settextcolor(0,0,128);
             $pdf->AddPage();
@@ -103,7 +103,7 @@ class PacienteController extends AbstractActionController
             $pdf->Image($_SERVER['DOCUMENT_ROOT'].'/img/logo_login.png', 25, 18, 17, 25, 'PNG');
 
             //Imagen derecha
-           // $pdf->Image('image.png', 155, 27, 25, 22, 'PNG');
+            // $pdf->Image('image.png', 155, 27, 25, 22, 'PNG');
 
             //Texto de Título
             $pdf->SetXY(57, 25);
@@ -229,8 +229,8 @@ class PacienteController extends AbstractActionController
             //date_default_timezone_set('UTC');
             setlocale(LC_ALL,"es_MX");
 
-            
-             $mes=strftime("%m");
+
+            $mes=strftime("%m");
             $mes=strftime("%m");
             if($mes=="01")
                 $mes="Enero";
@@ -261,34 +261,34 @@ class PacienteController extends AbstractActionController
             $txt3= "Fecha ".date("d")." de ".$mes." de ".date("Y");
             $pdf->MultiCell(200, 5, utf8_decode($txt3), 0, 'C');
             $dias=date("d");
-            
+
             $anio=date("Y");
 
 
             //Creamos objeto de myDBC y se llama al método
             //que traerá el arreglo con la información de
             //una persona, y se guarda en $datosConsulta
-           // $seleccion = new myDBC();
-          //  $datosConsulta = $seleccion->seleccionar_datos();
+            // $seleccion = new myDBC();
+            //  $datosConsulta = $seleccion->seleccionar_datos();
 
             //Arreglo de coordenadas
             //Basadas en la primera coordenada de Line
             $misCoordenadas = array(
-                                    array('x' => 30, 'y' => 55.5), //Fecha
-                                    array('x' => 25, 'y' => 60.5), //Nombre
-                                    array('x' => 45, 'y' => 60.5), //Apellidos
-                                    array('x' => 105, 'y' => 60.5), //DNI
-                                    array('x' => 145, 'y' => 60.5), //Teléfono
-                                    array('x' => 35, 'y' => 65.5), //Licenciatura
-                                    array('x' => 62, 'y' => 70.5), //Cargo
-                                    array('x' => 45, 'y' => 75.5), //Código postal
-                                    array('x' => 45, 'y' => 80.5), //Código postal
-                                    array('x' => 45, 'y' => 85.5), //Código postal
-                                    array('x' => 45, 'y' => 90.5), //Código postal
-                                    array('x' => 60, 'y' => 95.5), //Código postal
-                                    array('x' => 55, 'y' => 100.5), //Código postal
-                                    array('x' => 55, 'y' => 105.5), //Código postal
-                                    );
+                array('x' => 30, 'y' => 55.5), //Fecha
+                array('x' => 25, 'y' => 60.5), //Nombre
+                array('x' => 45, 'y' => 60.5), //Apellidos
+                array('x' => 105, 'y' => 60.5), //DNI
+                array('x' => 145, 'y' => 60.5), //Teléfono
+                array('x' => 35, 'y' => 65.5), //Licenciatura
+                array('x' => 62, 'y' => 70.5), //Cargo
+                array('x' => 45, 'y' => 75.5), //Código postal
+                array('x' => 45, 'y' => 80.5), //Código postal
+                array('x' => 45, 'y' => 85.5), //Código postal
+                array('x' => 45, 'y' => 90.5), //Código postal
+                array('x' => 60, 'y' => 95.5), //Código postal
+                array('x' => 55, 'y' => 100.5), //Código postal
+                array('x' => 55, 'y' => 105.5), //Código postal
+            );
 
             //Este paso es un "truco" para poder iterar el arreglo
             //de la consulta y recorrer uno a uno cada elemento.
@@ -355,10 +355,10 @@ class PacienteController extends AbstractActionController
             $pdf->MultiCell(200, 25, utf8_decode('-AVISO DE PRIVACIDAD-'), 0, 'C');
 
 
-           // $pdf->Line(10, 50, 200, 50);
+            // $pdf->Line(10, 50, 200, 50);
             $txt="RESPONSABLE DEL TRATAMIENTO DE DATOS PERSONALES \nHOSPITAL DEL VALLE DE ATEMAJAC S.A. DE C.V. ('Hospital del Valle de Atemajac') con domicilio en Ramón Corona # 55 Colonia Atemajac del Valle, Zapopan Jalisco México CP 44510, es responsable de tratamiento de sus datos personales conforme a este aviso de privacidad. \n\nFINALIDAD DEL TRATAMIENTO DE LOS DATOS PERSONALES \nLos Datos Personales en posesión de Hospital del Valle de Atemajac serán utilizados para: \n\n-Prestación de servicios médico-hospitalarios, incluyendo sin limitar hospitalización, cirugía, estudios diagnósticos, atención de enfermería, servicios farmaceúticos, análisis de laboratorio, radiología e imagen, estudios y análisis patológicos, terapia, rehabilitación, dieta y nutrición y demás fines relacionados con servicios de salud. \n-Creación, estudio, análisis, actualización, y conservación del expediente clínico. \n-Facturación y cobranza por servicios. \n-Estudios, registros, estadísticas y análisis de información de salud. \n-Conservación de registros para seguimiento a servicios, prestación de servicios en el futuro y en general para dar seguimiento a cualquier relación contractual. \n-Análisis estadístico y de mercado. \n-Promoción y mercadeo de productos y servicios de Hospital del Valle de Atemajac. \n\nDATOS SENSIBLES \nHospital del Valle de Atemajac recabará y tratará datos sensibles, relacionados con el estado de salud, antecedentes e historial clínico, información sobre modo de vida y otros datos necesarios o convenientes para los fines arriba señalados. Los datos personales sensibles serán mantenidos y tratados con estricta seguridad y confidencialidad para fines relacionados con la prestación de servicios de salud y conforme a este aviso de privacidad y la legislación, reglamentos y normativa aplicable. \n\nTRANSFERENCIA \nPara la prestación de servicios Hospital del Valle de Atemajac puede transferir dentro y fuera del país, los datos personales en su posesión a terceros subcontratados para fines relacionados con los señalados en este aviso de privacidad. Dentro de los terceros a los que se transferirán dichos datos se incluyen sin limitar laboratorios, hospitales, centros de investigación, aseguradoras, así como a autoridades que considere necesario o conveniente comunicar datos personales. \n\nLIMITACION DE USO Y DIVULGACIÓN DE DATOS PERSONALES \nPara limitar el uso de sus datos personales, favor de enviar un correo electrónico a contacto@hva.mx o notificación por escrito a Ramón Corona # 55 Colonia Atejamac del Valle, Zapopan Jalisco México CP 44510 dirigida al Departamento de Administración en el que señale la limitación al uso de sus datos deseada. \n\nMEDIOS PARA EJERCER DERECHOS ARCO (ACCESO, RECTIFICACIÓN, CANCELACIÓN Y OPOSICIÓN) \nPara tener acceso a los datos personales que Hospital del Valle de Atemajac posee, así como para rectificarlos en caso de que éstos sean inexactos o incompletos, o para cancelarlos u oponerse a su tratamiento para ciertos fines, favor de presentar una solicitud por escrito dirigida a nuestro departamento de Administración en contacto@hva.mx o notificación por escrito a ";
 
-           // $pdf->SetXY(10, 50);
+            // $pdf->SetXY(10, 50);
             $pdf->MultiCell(180, 5, utf8_decode($txt), 0, 'J');
             $pdf->AddPage();
 
@@ -410,10 +410,10 @@ class PacienteController extends AbstractActionController
             $pdf->Line(105, 185, 180, 185);
 
             $pdf->SetXY(10, 195);
-           $pdf->MultiCell(180, 5, utf8_decode("Zapopan, Jalisco, México a ".$dias." días del mes de ".$mes." del año ".$anio), 0, 'J');
+            $pdf->MultiCell(180, 5, utf8_decode("Zapopan, Jalisco, México a ".$dias." días del mes de ".$mes." del año ".$anio), 0, 'J');
             $pdf->Line(75, 170, 150, 170);
-            
-        ///////////////////////
+
+            ///////////////////////
             $pdf->AddPage();
             $pdf->SetFont('Arial','B', 12);
             //Margen decorativo iniciando en 0, 0
@@ -448,7 +448,7 @@ class PacienteController extends AbstractActionController
 
 
             //////    $pdf->SetXY(10, 55);
-             $pdf->SetXY(10, 50);
+            $pdf->SetXY(10, 50);
             $pdf->Cell(20, 8, 'NO PACIENTE:', 0, 'L','R');
             $pdf->Line(30, 55, 105, 55);
             $pdf->SetXY(30, 50);
@@ -474,7 +474,7 @@ class PacienteController extends AbstractActionController
             //Nombre //Apellidos //DNI //TELEFONO
             $pdf->SetXY(10, 55);
             $pdf->Cell(20, 8, 'NOMBRE:', 0, 'R','R');
-             $pdf->Line(30, 60, 125, 60);
+            $pdf->Line(30, 60, 125, 60);
             $pdf->SetXY(30, 55);
             $pdf->Cell(20, 8, utf8_decode($nombrepaciente), 0, 'L','L');
             //*****
@@ -497,7 +497,7 @@ class PacienteController extends AbstractActionController
             //sexo
             $pdf->SetXY(130, 60);
             $pdf->Cell(20, 8, 'SEXO:', 0, 'R','R');
-             $pdf->Line(150, 65, 200, 65);
+            $pdf->Line(150, 65, 200, 65);
             $pdf->SetXY(150, 60);
             $pdf->Cell(20, 8, $sexo, 0, 'L','L');
 
@@ -514,7 +514,7 @@ class PacienteController extends AbstractActionController
             //estado civil
             $pdf->SetXY(130, 65);
             $pdf->Cell(20, 8, 'ESTADO CIVIL:', 0, 'R','R');
-             $pdf->Line(150, 70, 200, 70);
+            $pdf->Line(150, 70, 200, 70);
             $pdf->SetXY(150, 65);
             $pdf->Cell(20, 8, $estadocivil, 0, 'L','L');
 
@@ -530,7 +530,7 @@ class PacienteController extends AbstractActionController
             //estado civil
             $pdf->SetXY(130, 70);
             $pdf->Cell(20, 8, utf8_decode('OCUPACIÓN:'), 0, 'R','R');
-             $pdf->Line(150, 75, 200, 75);
+            $pdf->Line(150, 75, 200, 75);
             $pdf->SetXY(150, 70);
             $pdf->Cell(20, 8, utf8_decode($ocupacion), 0, 'L','L');
 
@@ -539,7 +539,7 @@ class PacienteController extends AbstractActionController
 
             $pdf->SetXY(10, 75);
             $pdf->Cell(20, 8, utf8_decode('CIUDAD:'), 0, 'R','R');
-              $pdf->Line(30, 80, 145, 80);
+            $pdf->Line(30, 80, 145, 80);
             $pdf->SetXY(30, 75);
             $pdf->Cell(20, 8, utf8_decode($ciudad), 0, 'L','L');
 
@@ -652,7 +652,7 @@ class PacienteController extends AbstractActionController
             $pdf->SetXY(56, 155);
             $pdf->Cell(20, 8, utf8_decode($nombremedico), 0, 'L','L');
 
-             $pdf->Line(10, 165, 200, 165);
+            $pdf->Line(10, 165, 200, 165);
 
             //////////
 
@@ -661,7 +661,7 @@ class PacienteController extends AbstractActionController
             $pdf->SetXY(40, 170);
             $pdf->Cell(20, 8, utf8_decode($observaciones), 0, 'L','L');
 
-             $pdf->Line(10, 180, 200, 180);
+            $pdf->Line(10, 180, 200, 180);
             ////
 
             $pdf->SetXY(10, 185);
@@ -679,80 +679,80 @@ class PacienteController extends AbstractActionController
 
 
             $pdf->Line(10, 115, 200, 115);
-            
+
             $pdf->AddPage();
-    $pdf->SetFont('Arial','B', 12);
-    //Margen decorativo iniciando en 0, 0
-    //$pdf->Image('logo_login2.png', 0,0, 210, 295, 'PNG');
-    
-    //Imagen izquierd
-    $pdf->Image($_SERVER['DOCUMENT_ROOT'].'/img/logo_login.png', 25, 18, 17, 25, 'PNG');
-    
-    //Imagen derecha
-    // $pdf->Image('image.png', 155, 27, 25, 22, 'PNG');
-    
-    //Texto de Título
-    $pdf->SetXY(57, 25);
-    $pdf->MultiCell(150, 5, utf8_decode('HOSPITAL DEL VALLE DE ATEMAJAC S.A. DE C.V. '), 0, 'L');
-    
-    $pdf->SetFont('Arial','', 9);
-    $pdf->SetXY(40, 30);
-    $pdf->MultiCell(150, 5, utf8_decode('RAMÓN CORONA NO. 55 TELS.: 3853-1041, 3853-1048, 3853-1064, 3853-1074'), 0, 'C');
-    
-    $pdf->SetXY(40, 35);
-    $pdf->MultiCell(150, 5, utf8_decode('ATEMAJAC DEL VALLE, ZAPOPAN, JALISCO'), 0, 'C');
-    
-    $pdf->SetXY(40, 40);
-    $pdf->MultiCell(150, 5, utf8_decode('R.F.C. HVA-890913-1LO'), 0, 'C');
-    
-    
-    $pdf->SetXY(40, 55);
-    $pdf->MultiCell(150, 5, utf8_decode('PAGARÉ'), 0, 'C');
-    
-    
-    $pdf->SetXY(40, 50);
-    $textfecha="Zapopan, Jalisco a ".$fechaadmision;
-    $pdf->MultiCell(150, 5, utf8_decode($textfecha), 0, 'R');
-    
-    $pdf->SetXY(80, 65);
-    $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'L');
-    
-    $pdf->SetXY(10, 65);
-    $textopagare="Por medio del presente pagaré, el suscrito(a) _________________________________, reconozco que debo y prometo que pagaré incondicionalmente el día _____________________, a la orden del HOSPITAL DEL VALLE DE ATEMAJAC, S.A. de C.V. en el domicilio ubicado en CALLE RAMÓN CORONA NUMERO 55, COLONIA ATEMAJAC DEL VALLE, ZAPOPAN, JALISCO, la cantidad de _____________________________________________________M.N., por el valor de los servicios médicos y hospitalarios recibidos a mi entera satisfacción.";
-    
-    $pdf->MultiCell(190, 5, utf8_decode($textopagare), 0, 'J');
-    
-    $pdf->SetXY(45, 115);
-    $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'L');
-    $pdf->SetXY(25, 120);
-    $pdf->MultiCell(150, 5, utf8_decode($direccion), 0, 'L');
-    $pdf->SetXY(45, 145);
-    $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'L');
-    $pdf->SetXY(10, 210);
-    $pdf->MultiCell(150, 5, $fechaadmision, 0, 'L');
+            $pdf->SetFont('Arial','B', 12);
+            //Margen decorativo iniciando en 0, 0
+            //$pdf->Image('logo_login2.png', 0,0, 210, 295, 'PNG');
 
-    
-    $textpagare2="Si no fuere puntualmente cubierto a su vencimiento la totalidad del importe que debo pagar al HOSPITAL DEL VALLE DE ATEMAJAC S.A. DE C.V., conforme a este pagaré, los suscritos prometemos pagar incondicionalmente un interés mensual moratorio equivalente a la tasa que publique mensualmente el Banco de México por concepto de Certificados de Tesorería (CETES) con vencimiento a 28 (veintiocho) días, más 5 (cinco) puntos aplicando adicionalmente a la cantidad que resulte el 1.5% (uno punto cinco por ciento), hasta la total liquidación del adeudo. \nNombre del Suscrito: _____________________________ \nDomicilio: _________________________________________ \nQuien cuenta con facultades suficientes para suscribir el presente título por su propio derecho. \nEl suscriptor conviene en hacer todos los pagos respecto del principal e intereses ordinarios y moratorios de este PAGARÉ, libres, exentos y sin deducción alguna por concepto o a cuenta de cualquier impuesto, contribución, tributo, deducción, carga o retención o cualquier otra responsabilidad fiscal que grave dichas cantidades en la actualidad o en lo futuro, pagadera en cualquier jurisdicción. \nAsí mismo, el suscrito ____________________________________________, por medio del presente pagaré, acepto constituirme como aval del señor(a) ____________________________, por lo que reconozco y prometo que pagaré incondicionalmente el día ___________________________, a la orden del HOSPITAL DEL VALLE DE ATEMAJAC, S.A. de C.V. en la ciudad de Zapopan, Jalisco, la cantidad de _____________________________________ M.N., por el valor de los servicios médicos y hospitalarios recibidos a su entera satisfacción en caso de que dicha persona no realice el pago.\nNombre del aval: _________________________________________ \nDirección: _______________________________________________ \nPoblación: _____________________________\nPara todo lo relativo a la interpretación y cumplimiento de este PAGARÉ, los suscriptores  señalan y se someten expresamente a la jurisdicción y competencia de los Juzgados y Tribunales del Primer Partido Judicial del Estado de Jalisco con residencia en la ciudad de Zapopan, Jalisco, renunciando clara y terminantemente a cualquier otro fuero que pudiere corresponderle por razón de su domicilio presente o futuro. \nEl presente PAGARÉ consta de una página y se suscribe en la ciudad de Zapopan, Jalisco, el día ______________________________";
-   $pdf->SetXY(10, 90);
-   $pdf->MultiCell(190, 5, utf8_decode($textpagare2), 0, 'J');
-    
-    
-    $pdf->Line(25, 230, 75, 230);
-    $pdf->Line(25, 235, 75, 235);
-    
-    $pdf->Line(125, 230, 175, 230);
-    $pdf->Line(125, 235, 175, 235);
-    $pdf->SetXY(25, 230);
-    $pdf->MultiCell(100, 5, utf8_decode($nombrepaciente), 0, 'L');
-    
-    $pdf->SetXY(25, 235);
-    $pdf->MultiCell(50, 5, utf8_decode('DEUDOR'), 0, 'C');
-    $pdf->SetXY(125, 235);
-    $pdf->MultiCell(50, 5, utf8_decode('AVAL'), 0, 'C');
+            //Imagen izquierd
+            $pdf->Image($_SERVER['DOCUMENT_ROOT'].'/img/logo_login.png', 25, 18, 17, 25, 'PNG');
 
-    $pdf->Output(); //Salida al navegador
-    $ruta=$_SERVER['DOCUMENT_ROOT']."/tmp/admisionformato/".$fechaadmision.$nombrepaciente.".pdf";
-    $pdf->Output($ruta,"F"); //Salida al navegador
+            //Imagen derecha
+            // $pdf->Image('image.png', 155, 27, 25, 22, 'PNG');
+
+            //Texto de Título
+            $pdf->SetXY(57, 25);
+            $pdf->MultiCell(150, 5, utf8_decode('HOSPITAL DEL VALLE DE ATEMAJAC S.A. DE C.V. '), 0, 'L');
+
+            $pdf->SetFont('Arial','', 9);
+            $pdf->SetXY(40, 30);
+            $pdf->MultiCell(150, 5, utf8_decode('RAMÓN CORONA NO. 55 TELS.: 3853-1041, 3853-1048, 3853-1064, 3853-1074'), 0, 'C');
+
+            $pdf->SetXY(40, 35);
+            $pdf->MultiCell(150, 5, utf8_decode('ATEMAJAC DEL VALLE, ZAPOPAN, JALISCO'), 0, 'C');
+
+            $pdf->SetXY(40, 40);
+            $pdf->MultiCell(150, 5, utf8_decode('R.F.C. HVA-890913-1LO'), 0, 'C');
+
+
+            $pdf->SetXY(40, 55);
+            $pdf->MultiCell(150, 5, utf8_decode('PAGARÉ'), 0, 'C');
+
+
+            $pdf->SetXY(40, 50);
+            $textfecha="Zapopan, Jalisco a ".$fechaadmision;
+            $pdf->MultiCell(150, 5, utf8_decode($textfecha), 0, 'R');
+
+            $pdf->SetXY(80, 65);
+            $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'L');
+
+            $pdf->SetXY(10, 65);
+            $textopagare="Por medio del presente pagaré, el suscrito(a) _________________________________, reconozco que debo y prometo que pagaré incondicionalmente el día _____________________, a la orden del HOSPITAL DEL VALLE DE ATEMAJAC, S.A. de C.V. en el domicilio ubicado en CALLE RAMÓN CORONA NUMERO 55, COLONIA ATEMAJAC DEL VALLE, ZAPOPAN, JALISCO, la cantidad de _____________________________________________________M.N., por el valor de los servicios médicos y hospitalarios recibidos a mi entera satisfacción.";
+
+            $pdf->MultiCell(190, 5, utf8_decode($textopagare), 0, 'J');
+
+            $pdf->SetXY(45, 115);
+            $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'L');
+            $pdf->SetXY(25, 120);
+            $pdf->MultiCell(150, 5, utf8_decode($direccion), 0, 'L');
+            $pdf->SetXY(45, 145);
+            $pdf->MultiCell(150, 5, utf8_decode($nombrepaciente), 0, 'L');
+            $pdf->SetXY(10, 210);
+            $pdf->MultiCell(150, 5, $fechaadmision, 0, 'L');
+
+
+            $textpagare2="Si no fuere puntualmente cubierto a su vencimiento la totalidad del importe que debo pagar al HOSPITAL DEL VALLE DE ATEMAJAC S.A. DE C.V., conforme a este pagaré, los suscritos prometemos pagar incondicionalmente un interés mensual moratorio equivalente a la tasa que publique mensualmente el Banco de México por concepto de Certificados de Tesorería (CETES) con vencimiento a 28 (veintiocho) días, más 5 (cinco) puntos aplicando adicionalmente a la cantidad que resulte el 1.5% (uno punto cinco por ciento), hasta la total liquidación del adeudo. \nNombre del Suscrito: _____________________________ \nDomicilio: _________________________________________ \nQuien cuenta con facultades suficientes para suscribir el presente título por su propio derecho. \nEl suscriptor conviene en hacer todos los pagos respecto del principal e intereses ordinarios y moratorios de este PAGARÉ, libres, exentos y sin deducción alguna por concepto o a cuenta de cualquier impuesto, contribución, tributo, deducción, carga o retención o cualquier otra responsabilidad fiscal que grave dichas cantidades en la actualidad o en lo futuro, pagadera en cualquier jurisdicción. \nAsí mismo, el suscrito ____________________________________________, por medio del presente pagaré, acepto constituirme como aval del señor(a) ____________________________, por lo que reconozco y prometo que pagaré incondicionalmente el día ___________________________, a la orden del HOSPITAL DEL VALLE DE ATEMAJAC, S.A. de C.V. en la ciudad de Zapopan, Jalisco, la cantidad de _____________________________________ M.N., por el valor de los servicios médicos y hospitalarios recibidos a su entera satisfacción en caso de que dicha persona no realice el pago.\nNombre del aval: _________________________________________ \nDirección: _______________________________________________ \nPoblación: _____________________________\nPara todo lo relativo a la interpretación y cumplimiento de este PAGARÉ, los suscriptores  señalan y se someten expresamente a la jurisdicción y competencia de los Juzgados y Tribunales del Primer Partido Judicial del Estado de Jalisco con residencia en la ciudad de Zapopan, Jalisco, renunciando clara y terminantemente a cualquier otro fuero que pudiere corresponderle por razón de su domicilio presente o futuro. \nEl presente PAGARÉ consta de una página y se suscribe en la ciudad de Zapopan, Jalisco, el día ______________________________";
+            $pdf->SetXY(10, 90);
+            $pdf->MultiCell(190, 5, utf8_decode($textpagare2), 0, 'J');
+
+
+            $pdf->Line(25, 230, 75, 230);
+            $pdf->Line(25, 235, 75, 235);
+
+            $pdf->Line(125, 230, 175, 230);
+            $pdf->Line(125, 235, 175, 235);
+            $pdf->SetXY(25, 230);
+            $pdf->MultiCell(100, 5, utf8_decode($nombrepaciente), 0, 'L');
+
+            $pdf->SetXY(25, 235);
+            $pdf->MultiCell(50, 5, utf8_decode('DEUDOR'), 0, 'C');
+            $pdf->SetXY(125, 235);
+            $pdf->MultiCell(50, 5, utf8_decode('AVAL'), 0, 'C');
+
+            $pdf->Output(); //Salida al navegador
+            $ruta=$_SERVER['DOCUMENT_ROOT']."/tmp/admisionformato/".$fechaadmision.$nombrepaciente.".pdf";
+            $pdf->Output($ruta,"F"); //Salida al navegador
         }
     }
     public function nuevoAction()
@@ -1008,8 +1008,9 @@ class PacienteController extends AbstractActionController
                         }
 
                         $subtotal = $cargoadmisionEliminado->getCargoadmisionMonto();
-                        $iva = $articulovarianteEliminado->getArticulovarianteIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $articulovarianteEliminado->getArticulovarianteIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoadmisionEliminado = array(
                             'idcargoadmision' => $cargoadmisionEliminado->getIdcargoadmision(),
@@ -1047,8 +1048,9 @@ class PacienteController extends AbstractActionController
                                 }
 
                                 $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoadmision = array(
                                     'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -1083,8 +1085,9 @@ class PacienteController extends AbstractActionController
                     if($cargoadmisionEliminado->getIdservicio() != null){
 
                         $subtotal = $cargoadmisionEliminado->getCargoadmisionMonto();
-                        $iva = $cargoadmisionEliminado->getServicio()->getServicioIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $cargoadmisionEliminado->getServicio()->getServicioIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoadmisionEliminado = array(
                             'idcargoadmision' => $cargoadmisionEliminado->getIdcargoadmision(),
@@ -1109,8 +1112,9 @@ class PacienteController extends AbstractActionController
                         foreach($cargoadmisionQuery as $cargoadmisionEntity){
 
                             $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                            $iva = $cargoadmisionEntity->getServicio()->getServicioIva();
-                            $total = $subtotal * "1.$iva";
+                            $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
+                            $total = $subtotal * "1.$ivaCantidad";
+                            $iva = $total - $subtotal;
 
                             if($cargoadmisionEntity->getIdservicio() != null){
                                 $cargoadmision = array(
@@ -1140,7 +1144,7 @@ class PacienteController extends AbstractActionController
         }
         // End Eliminar cargoadmision
 
-        
+
         // End Ver admisionanticipo
         // Start Eliminar admisionanticipo
         if($request->getPost()->eliminar_admisionanticipo == "true"){
@@ -1179,7 +1183,7 @@ class PacienteController extends AbstractActionController
             }
         }
         // End Eliminar admisionanticipo
-        
+
 //        // Start Ver admisionanticipo
 //        if($request->getPost()->ver_admisionanticipo == "true"){
 //            $admisionanticipoQuery = \AdmisionanticipoQuery::create()->filterByIdadmision($request->getPost()->idadmision)->find();
@@ -1202,7 +1206,7 @@ class PacienteController extends AbstractActionController
 //            ));
 //        }
 //        // End Ver admisionanticipo
-        
+
         // Start Ver admisionanticipo
         if($request->getPost()->ver_admisionanticipo == "true"){
             $existeServicio = false;
@@ -1272,7 +1276,7 @@ class PacienteController extends AbstractActionController
             ));
         }
         // End Ver consultaanticipo
-        
+
         // Start Eliminar cargoconsulta
         if($request->getPost()->idcargoconsulta){
             if($request->getPost()->eliminar_cargoconsulta_tipo == 'articulo'){
@@ -1295,8 +1299,9 @@ class PacienteController extends AbstractActionController
                         }
 
                         $subtotal = $cargoconsultaEliminado->getMonto();
-                        $iva = $articulovarianteEliminado->getArticulovarianteIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $articulovarianteEliminado->getArticulovarianteIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoconsultaEliminado = array(
                             'idcargoconsulta' => $cargoconsultaEliminado->getIdcargoconsulta(),
@@ -1333,8 +1338,9 @@ class PacienteController extends AbstractActionController
                                 }
 
                                 $subtotal = $cargoconsultaEntity->getMonto();
-                                $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoconsulta = array(
                                     'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -1369,8 +1375,9 @@ class PacienteController extends AbstractActionController
                     if($cargoconsultaEliminado->getIdservicio() != null){
 
                         $subtotal =  $cargoconsultaEliminado->getMonto();
-                        $iva = $cargoconsultaEliminado->getServicio()->getServicioIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $cargoconsultaEliminado->getServicio()->getServicioIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoconsultaEliminado = array(
                             'idcargoconsulta' => $cargoconsultaEliminado->getIdcargoconsulta(),
@@ -1396,8 +1403,9 @@ class PacienteController extends AbstractActionController
                             if($cargoconsultaEntity->getIdservicio() != null){
 
                                 $subtotal = $cargoconsultaEntity->getMonto();
-                                $iva = $cargoconsultaEntity->getServicio()->getServicioIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $cargoconsultaEntity->getServicio()->getServicioIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoconsulta = array(
                                     'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -1552,8 +1560,9 @@ class PacienteController extends AbstractActionController
                                 }
 
                                 $subtotal = $cargoconsultaEntity->getMonto();
-                                $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoconsulta = array(
                                     'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -1585,8 +1594,9 @@ class PacienteController extends AbstractActionController
                             if($cargoconsultaEntity->getIdservicio() != null){
 
                                 $subtotal = $cargoconsultaEntity->getMonto();
-                                $iva = $cargoconsultaEntity->getServicio()->getServicioIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $cargoconsultaEntity->getServicio()->getServicioIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoconsulta = array(
                                     'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -1855,8 +1865,9 @@ class PacienteController extends AbstractActionController
                                     }
 
                                     $subtotal = $cargoconsultaEntity->getMonto();
-                                    $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -1901,8 +1912,9 @@ class PacienteController extends AbstractActionController
                                 if($cargoconsultaEntity->getIdservicio() != null){
 
                                     $subtotal = $cargoconsultaEntity->getMonto();
-                                    $iva = $cargoconsultaEntity->getServicio()->getServicioIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $cargoconsultaEntity->getServicio()->getServicioIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -1978,8 +1990,9 @@ class PacienteController extends AbstractActionController
                                 }
 
                                 $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoadmision = array(
                                     'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -2014,8 +2027,10 @@ class PacienteController extends AbstractActionController
                         foreach($cargoadmisionQuery as $cargoadmisionEntity){
                             if($cargoadmisionEntity->getIdservicio() != null){
                                 $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                $iva = $cargoadmisionEntity->getServicio()->getServicioIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
+
                                 $cargoadmision = array(
                                     'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
                                     'idadmision' => $cargoadmisionEntity->getIdadmision(),
@@ -2286,8 +2301,9 @@ class PacienteController extends AbstractActionController
                                     }
 
                                     $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                    $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoadmision = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -2332,8 +2348,9 @@ class PacienteController extends AbstractActionController
                                 if($cargoadmisionEntity->getIdservicio() != null){
 
                                     $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                    $iva = $cargoadmisionEntity->getServicio()->getServicioIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoadmision = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -2492,8 +2509,9 @@ class PacienteController extends AbstractActionController
                         }
 
                         $subtotal = $cargoadmisionEliminado->getCargoadmisionMonto();
-                        $iva = $articulovarianteEliminado->getArticulovarianteIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $articulovarianteEliminado->getArticulovarianteIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoadmisionEliminado = array(
                             'idcargoadmision' => $cargoadmisionEliminado->getIdcargoadmision(),
@@ -2531,8 +2549,9 @@ class PacienteController extends AbstractActionController
                                 }
 
                                 $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoadmision = array(
                                     'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -2567,8 +2586,9 @@ class PacienteController extends AbstractActionController
                     if($cargoadmisionEliminado->getIdservicio() != null){
 
                         $subtotal = $cargoadmisionEliminado->getCargoadmisionMonto();
-                        $iva = $cargoadmisionEliminado->getServicio()->getServicioIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $cargoadmisionEliminado->getServicio()->getServicioIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoadmisionEliminado = array(
                             'idcargoadmision' => $cargoadmisionEliminado->getIdcargoadmision(),
@@ -2594,8 +2614,9 @@ class PacienteController extends AbstractActionController
                             if($cargoadmisionEntity->getIdservicio() != null){
 
                                 $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                $iva = $cargoadmisionEntity->getServicio()->getServicioIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoadmision = array(
                                     'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -2706,8 +2727,9 @@ class PacienteController extends AbstractActionController
                         }
 
                         $subtotal = $cargoconsultaEliminado->getMonto();
-                        $iva = $articulovarianteEliminado->getArticulovarianteIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $articulovarianteEliminado->getArticulovarianteIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoconsultaEliminado = array(
                             'idcargoconsulta' => $cargoconsultaEliminado->getIdcargoconsulta(),
@@ -2744,8 +2766,9 @@ class PacienteController extends AbstractActionController
                                 }
 
                                 $subtotal = $cargoconsultaEntity->getMonto();
-                                $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoconsulta = array(
                                     'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -2780,8 +2803,9 @@ class PacienteController extends AbstractActionController
                     if($cargoconsultaEliminado->getIdservicio() != null){
 
                         $subtotal = $cargoconsultaEliminado->getMonto();
-                        $iva = $cargoconsultaEliminado->getServicio()->getServicioIva();
-                        $total = $subtotal * "1.$iva";
+                        $ivaCantidad = $cargoconsultaEliminado->getServicio()->getServicioIva();
+                        $total = $subtotal * "1.$ivaCantidad";
+                        $iva = $total - $subtotal;
 
                         $cargoconsultaEliminado = array(
                             'idcargoconsulta' => $cargoconsultaEliminado->getIdcargoconsulta(),
@@ -2807,8 +2831,9 @@ class PacienteController extends AbstractActionController
                             if($cargoconsultaEntity->getIdservicio() != null){
 
                                 $subtotal = $cargoconsultaEntity->getMonto();
-                                $iva = $cargoconsultaEntity->getServicio()->getServicioIva();
-                                $total = $subtotal * "1.$iva";
+                                $ivaCantidad = $cargoconsultaEntity->getServicio()->getServicioIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
 
                                 $cargoconsulta = array(
                                     'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -3434,8 +3459,9 @@ class PacienteController extends AbstractActionController
                                     }
 
                                     $subtotal = $cargoconsultaEntity->getMonto();
-                                    $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -3480,8 +3506,9 @@ class PacienteController extends AbstractActionController
                                 if($cargoconsultaEntity->getIdservicio() != null){
 
                                     $subtotal = $cargoconsultaEntity->getMonto();
-                                    $iva = $cargoconsultaEntity->getServicio()->getServicioIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $cargoconsultaEntity->getServicio()->getServicioIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoconsulta = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -3634,8 +3661,9 @@ class PacienteController extends AbstractActionController
                                     }
 
                                     $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                    $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoadmision = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -3680,8 +3708,9 @@ class PacienteController extends AbstractActionController
                                 if($cargoadmisionEntity->getIdservicio() != null){
 
                                     $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                    $iva = $cargoadmisionEntity->getServicio()->getServicioIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoadmision = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -3742,12 +3771,12 @@ class PacienteController extends AbstractActionController
 
                 $cargoconsultaArticuloArray = array();
                 $cargoconsultaServicioArray = array();
-                
+
                 $cargoadmisionArticuloArray = array();
                 $cargoadmisionServicioArray = array();
-                         
+
                 $admisionanticiposArray = array();
-                
+
                 $pacienteEntity = \PacienteQuery::create()->filterByIdpaciente($id)->findOne();
                 $consultasQuery = $pacienteEntity->getConsultas();
                 $admisionesQuery = $pacienteEntity->getAdmisions();
@@ -3770,8 +3799,9 @@ class PacienteController extends AbstractActionController
                                     }
 
                                     $subtotal = $cargoconsultaEntity->getMonto();
-                                    $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoconsultaArticulo = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -3794,8 +3824,9 @@ class PacienteController extends AbstractActionController
                                 if($cargoconsultaEntity->getIdservicio() != null){
 
                                     $subtotal = $cargoconsultaEntity->getMonto();
-                                    $iva = $cargoconsultaEntity->getServicio()->getServicioIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $cargoconsultaEntity->getServicio()->getServicioIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoconsultaServicio = array(
                                         'idcargoconsulta' => $cargoconsultaEntity->getIdcargoconsulta(),
@@ -3845,9 +3876,9 @@ class PacienteController extends AbstractActionController
                                     }
 
                                     $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                    $iva = $articulovarianteEntity->getArticulovarianteIva();
-                                    $total = $subtotal * "1.$iva";
-
+                                    $ivaCantidad = $articulovarianteEntity->getArticulovarianteIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoadmisionArticulo = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -3870,8 +3901,9 @@ class PacienteController extends AbstractActionController
                                 if($cargoadmisionEntity->getIdservicio() != null){
 
                                     $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                                    $iva = $cargoadmisionEntity->getServicio()->getServicioIva();
-                                    $total = $subtotal * "1.$iva";
+                                    $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
+                                    $total = $subtotal * "1.$ivaCantidad";
+                                    $iva = $total - $subtotal;
 
                                     $cargoadmisionServicio = array(
                                         'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
@@ -3999,12 +4031,12 @@ class PacienteController extends AbstractActionController
 
         }
     }
-    
+
     public  function getpacientesAction(){
         $collection = \PacienteQuery::create()->find()->toArray(null, false, \BasePeer::TYPE_FIELDNAME);
-        
+
         $autcomplete = array();
-        
+
         foreach ($collection as $entity){
             $tmp['value'] = $entity["idpaciente"];
             $tmp['label'] = $entity["paciente_nombre"].' '.$entity['paciente_ap'].' '.$entity['paciente_am'];
