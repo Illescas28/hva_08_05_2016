@@ -9992,9 +9992,6 @@ if($pacienteEntity){
             iva = $('#iva-'+tipo).val()
             //iva = ivaActual
         }
-        //iva = iva.toFixed(5)
-
-        alert(iva);
 
         var realSubTotal = subTotal - iva; // SubTotal sin iva
         realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
@@ -10009,6 +10006,7 @@ if($pacienteEntity){
             subTotal = 0;
         }
         */
+
         if (isNaN(subTotal)) subTotal = 0;
 
         anticipoCantidad += Number(AnticipoCantidad);
