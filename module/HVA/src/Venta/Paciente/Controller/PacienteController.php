@@ -173,6 +173,7 @@ class PacienteController extends AbstractActionController
                         $subtotal = $cargoventaEliminado->getMonto();
                         $iva = $articulovarianteEliminado->getArticulovarianteIva();
                         $total = $subtotal * "1.$iva";
+                        $iva = $total - $subtotal;
 
                         $cargoventaEliminado = array(
                             'idcargoventa' => $cargoventaEliminado->getIdcargoventa(),
@@ -210,6 +211,7 @@ class PacienteController extends AbstractActionController
                                 $subtotal = $cargoventaEntity->getMonto();
                                 $iva = $articulovarianteEntity->getArticulovarianteIva();
                                 $total = $subtotal * "1.$iva";
+                                $iva = $total - $subtotal;
 
                                 $cargoventa = array(
                                     'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
@@ -241,9 +243,12 @@ class PacienteController extends AbstractActionController
                     $cargoventaEliminado = \CargoventaQuery::create()->filterByIdcargoventa($request->getPost()->idcargoventa)->findOne();
                     $cargoventaEliminadoArray = array();
                     if($cargoventaEliminado->getIdservicio() != null){
+
                         $subtotal = $cargoventaEliminado->getMonto();
                         $iva = $cargoventaEliminado->getServicio()->getServicioIva();
                         $total = $subtotal * "1.$iva";
+                        $iva = $total - $subtotal;
+
                         $cargoventaEliminado = array(
                             'idcargoventa' => $cargoventaEliminado->getIdcargoventa(),
                             'idventa' => $cargoventaEliminado->getIdventa(),
@@ -266,9 +271,12 @@ class PacienteController extends AbstractActionController
                         $cargoventaArray = array();
                         foreach($cargoventaQuery as $cargoventaEntity){
                             if($cargoventaEntity->getIdservicio() != null){
+
                                 $subtotal = $cargoventaEntity->getMonto();
                                 $iva = $cargoventaEntity->getServicio()->getServicioIva();
                                 $total = $subtotal * "1.$iva";
+                                $iva = $total - $subtotal;
+
                                 $cargoventa = array(
                                     'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
                                     'idventa' => $cargoventaEntity->getIdventa(),
@@ -544,6 +552,7 @@ class PacienteController extends AbstractActionController
                                     $subtotal = $cargoventaEntity->getMonto();
                                     $iva = $articulovarianteEntity->getArticulovarianteIva();
                                     $total = $subtotal * "1.$iva";
+                                    $iva = $total - $subtotal;
 
                                     $cargoventa = array(
                                         'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
@@ -589,6 +598,7 @@ class PacienteController extends AbstractActionController
                                     $subtotal = $cargoventaEntity->getMonto();
                                     $iva = $cargoventaEntity->getServicio()->getServicioIva();
                                     $total = $subtotal * "1.$iva";
+                                    $iva = $total - $subtotal;
 
                                     $cargoventa = array(
                                         'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
@@ -664,6 +674,7 @@ class PacienteController extends AbstractActionController
                             $subtotal = $cargoventaEntity->getMonto();
                             $iva = $articulovarianteEntity->getArticulovarianteIva();
                             $total = $subtotal * "1.$iva";
+                            $iva = $total - $subtotal;
 
                             $cargoventaArticulo = array(
                                 'idcargoventa' => $cargoventaEntity->getIdcargoventa(),
@@ -687,6 +698,7 @@ class PacienteController extends AbstractActionController
                             $subtotal = $cargoventaEntity->getMonto();
                             $iva = $cargoventaEntity->getServicio()->getServicioIva();
                             $total = $subtotal * "1.$iva";
+                            $iva = $total - $subtotal;
 
                             $cargoventaServicio = array(
                                 'idcargoventa' => $cargoventaEntity->getIdcargoventa(),

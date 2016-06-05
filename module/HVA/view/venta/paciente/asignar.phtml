@@ -1865,6 +1865,7 @@ function tablaCargoventaArticuloAgregado(cargoventaArray) {
     for (var i = 0; i < cargoventaArray.length; i++) {
 
         var totalArticulo = parseFloat(cargoventaArray[i]["total"]);
+        var iva = parseFloat(cargoventaArray[i]["iva"]);
         var status = cargoventaArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -2320,7 +2321,7 @@ function tablaCargoventaArticuloAgregado(cargoventaArray) {
                         });
                     });
                 }
-                subTotalResponse(status, -(cargoventaEliminadoArray[0]['total']), null, 'venta')
+                totalResponse(null, status, -(cargoventaEliminadoArray[0]['total']), null, 'venta')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoventa")
@@ -2330,7 +2331,7 @@ function tablaCargoventaArticuloAgregado(cargoventaArray) {
 
     });
 
-    subTotalResponse(status, totalArticulo, null, 'venta')
+    totalResponse(iva, status, totalArticulo, null, 'venta')
 
 }
 
@@ -2803,6 +2804,7 @@ function tablaCargoventaServicioAgregado(cargoventaArray) {
     for (var i = 0; i < cargoventaArray.length; i++) {
 
         var totalServicio = parseFloat(cargoventaArray[i]["total"]);
+        var iva = parseFloat(cargoventaArray[i]["iva"]);
         var status = cargoventaArray[i]["status"];
 
         // Crea las hileras de la tabla
@@ -3223,7 +3225,7 @@ function tablaCargoventaServicioAgregado(cargoventaArray) {
                         });
                     });
                 }
-                subTotalResponse(status, null, -(cargoventaEliminadoArray[0]['total']), 'venta')
+                totalResponse(null, status, null, -(cargoventaEliminadoArray[0]['total']), 'venta')
             },
             error: function(){
                 alert("Error al intentar eliminar cargo de un servicio")
@@ -3233,7 +3235,7 @@ function tablaCargoventaServicioAgregado(cargoventaArray) {
 
     });
 
-    subTotalResponse(status, null, totalServicio, 'venta')
+    totalResponse(iva, status, null, totalServicio, 'venta')
 }
 
 function tablaCargoventaServicioEliminado(cargoventaArray) {
@@ -3637,17 +3639,23 @@ function tablaCargoventaServicioEliminado(cargoventaArray) {
 }
 
 var subTotal = 0;
+var ivaActual = 0;
 var anticipoCantidad = 0;
 var cuentaPagada = false;
-function subTotalResponse(status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
+function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
-    subTotal += totalArticulo+totalServicio;
-    var iva = 16;
-    var realSubTotal = subTotal / 1.16; // SubTotal sin iva
-    var ivaCantidad = subTotal - realSubTotal;
-    ivaCantidad = ivaCantidad.toFixed(5); // Limitamos decimales a 5
+    subTotal += totalArticulo+totalServicio; // Total con iva
+    if(iva != null){
+        ivaActual += iva
+        iva = ivaActual
+        iva = iva.toFixed(5)
+    }else{
+        iva = $('#iva-'+tipo).val()
+        //iva = ivaActual
+    }
+    var realSubTotal = subTotal - iva; // SubTotal sin iva
     realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
 
     if (isNaN(subTotal)) subTotal = 0;
@@ -3802,14 +3810,14 @@ function subTotalResponse(status, totalArticulo=null, totalServicio=null, tipo=n
         divTotalInferior.appendChild(h5)
         var h5 = document.createElement('h5')
         h5.className = "right-align";
-        var textoServicioIva = document.createTextNode("Valor de IVA: "+iva+" %");
-        h5.appendChild(textoServicioIva)
-        divTotalInferior.appendChild(h5)
-        var h5 = document.createElement('h5')
-        h5.className = "right-align";
-        var textoServicioIvaCantidad = document.createTextNode("IVA: $"+ivaCantidad+" MXN");
+        var textoServicioIvaCantidad = document.createTextNode("IVA: $"+iva+" MXN");
         h5.appendChild(textoServicioIvaCantidad)
         divTotalInferior.appendChild(h5)
+        var inputHiddenIVA = document.createElement('input')
+        inputHiddenIVA.setAttribute ( 'type', 'hidden' );
+        inputHiddenIVA.setAttribute ( 'value', iva );
+        inputHiddenIVA.setAttribute ( 'id', 'iva-venta' );
+        divTotalInferior.appendChild(inputHiddenIVA);
         var h4 = document.createElement('h4')
         h4.className = "right-align";
         var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
@@ -3928,7 +3936,7 @@ function subTotalResponse(status, totalArticulo=null, totalServicio=null, tipo=n
                     });
                 });
 
-                subTotalResponse(status, -(pagoVenta), null, 'venta', pagoVenta, $("#select_metodo_de_pago").val(), venta_referenciapago)
+                totalResponse(status, -(pagoVenta), null, 'venta', pagoVenta, $("#select_metodo_de_pago").val(), venta_referenciapago)
                 */
 
                 /**
@@ -3938,7 +3946,7 @@ function subTotalResponse(status, totalArticulo=null, totalServicio=null, tipo=n
             error: function(data){
 
                 /** Con este paso Liquidamos la cuenta */
-                subTotalResponse(status, -(pagoVenta), null, 'venta', pagoVenta, $("#select_metodo_de_pago").val(), venta_referenciapago)
+                totalResponse(null, status, -(pagoVenta), null, 'venta', pagoVenta, $("#select_metodo_de_pago").val(), venta_referenciapago)
             }
         });
 

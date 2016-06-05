@@ -8074,13 +8074,6 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         divTotalInferior.appendChild(inputHiddenIVA);
         var h5 = document.createElement('h5')
         h5.className = "right-align";
-        var textoServicioIvaCantidad = document.createTextNode("IVA: $"+iva+" MXN");
-        h5.appendChild(textoServicioIvaCantidad)
-        divTotalInferior.appendChild(h5)
-        var inputHiddenIVA = document.createElement('input')
-        inputHiddenIVA.setAttribute ( 'type', 'hidden' );
-        inputHiddenIVA.setAttribute ( 'value', iva );
-        inputHiddenIVA.setAttribute ( 'id', 'iva-admision' );
         divTotalInferior.appendChild(inputHiddenIVA);
         var h4 = document.createElement('h4')
         h4.className = "right-align";
@@ -8360,6 +8353,11 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         var textoServicioIvaCantidad = document.createTextNode("IVA: $"+iva+" MXN");
         h5.appendChild(textoServicioIvaCantidad)
         divTotalInferior.appendChild(h5)
+        var inputHiddenIVA = document.createElement('input')
+        inputHiddenIVA.setAttribute ( 'type', 'hidden' );
+        inputHiddenIVA.setAttribute ( 'value', iva );
+        inputHiddenIVA.setAttribute ( 'id', 'iva-admision' );
+        divTotalInferior.appendChild(inputHiddenIVA);
         var h4 = document.createElement('h4')
         h4.className = "right-align";
         var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
