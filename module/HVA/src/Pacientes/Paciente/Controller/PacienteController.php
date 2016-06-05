@@ -1111,12 +1111,13 @@ class PacienteController extends AbstractActionController
                         $cargoadmisionArray = array();
                         foreach($cargoadmisionQuery as $cargoadmisionEntity){
 
-                            $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
-                            $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
-                            $total = $subtotal * "1.$ivaCantidad";
-                            $iva = $total - $subtotal;
-
                             if($cargoadmisionEntity->getIdservicio() != null){
+
+                                $subtotal = $cargoadmisionEntity->getCargoadmisionMonto();
+                                $ivaCantidad = $cargoadmisionEntity->getServicio()->getServicioIva();
+                                $total = $subtotal * "1.$ivaCantidad";
+                                $iva = $total - $subtotal;
+
                                 $cargoadmision = array(
                                     'idcargoadmision' => $cargoadmisionEntity->getIdcargoadmision(),
                                     'idadmision' => $cargoadmisionEntity->getIdadmision(),

@@ -7452,7 +7452,7 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse(cargoadmisionEliminadoArray[0]['iva'], status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -8062,7 +8062,7 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse(cargoadmisionEliminadoArray[0]['iva'], status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9030,7 +9030,7 @@ if($pacienteEntity){
                             });
                         }
 
-                        totalResponse(cargoadmisionEliminadoArray[0]['iva'], status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9489,7 +9489,7 @@ if($pacienteEntity){
             // Si dan clic en eliminarCargoadmisionServicio--id
             $("#eliminarCargoadmisionServicio-"+idcargoadmision).click({idcargoadmision:idcargoadmision, idadmision:idadmision},function() {
 
-                var split = $(this).attr(ìd).split('-');
+                var split = $(this).attr('id').split('-');
                 idcargoadmision = split[1]
 
                 /*
@@ -9552,7 +9552,7 @@ if($pacienteEntity){
                             });
                         }
 
-                        totalResponse(cargoadmisionEliminadoArray[0]['iva'], status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9985,20 +9985,30 @@ if($pacienteEntity){
 
         subTotal += totalArticulo+totalServicio; // Total con iva
         if(iva != null){
-            ivaActual = iva
-        }else{
+            ivaActual += iva
             iva = ivaActual
+            iva = iva.toFixed(5)
+        }else{
+            iva = $('#iva-'+tipo).val()
+            //iva = ivaActual
         }
+        //iva = iva.toFixed(5)
+
+        alert(iva);
+
         var realSubTotal = subTotal - iva; // SubTotal sin iva
         realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
 
+        /*
         if(realSubTotal < 0){
             realSubTotal = 0;
             iva = 0;
         }
+
         if(subTotal < 0){
             subTotal = 0;
         }
+        */
         if (isNaN(subTotal)) subTotal = 0;
 
         anticipoCantidad += Number(AnticipoCantidad);
@@ -10106,9 +10116,14 @@ if($pacienteEntity){
             var h5 = document.createElement('h5')
             h5.className = "right-align";
             var textoServicioIvaCantidad = document.createTextNode("IVA: $"+iva+" MXN");
-            h5.appendChild(textoServicioIvaCantidad)
-            divTotalInferior.appendChild(h5)
-            var h4 = document.createElement('h4')
+            h5.appendChild(textoServicioIvaCantidad);
+            divTotalInferior.appendChild(h5);
+            var inputHiddenIVA = document.createElement('input')
+            inputHiddenIVA.setAttribute ( 'type', 'hidden' );
+            inputHiddenIVA.setAttribute ( 'value', iva );
+            inputHiddenIVA.setAttribute ( 'id', 'iva-consulta' );
+            divTotalInferior.appendChild(inputHiddenIVA);
+            var h4 = document.createElement('h4');
             h4.className = "right-align";
             var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
             h4.appendChild(textoServicioSubTotal)
@@ -10386,6 +10401,11 @@ if($pacienteEntity){
             var textoServicioIvaCantidad = document.createTextNode("IVA: $"+iva+" MXN");
             h5.appendChild(textoServicioIvaCantidad)
             divTotalInferior.appendChild(h5)
+            var inputHiddenIVA = document.createElement('input')
+            inputHiddenIVA.setAttribute ( 'type', 'hidden' );
+            inputHiddenIVA.setAttribute ( 'value', iva );
+            inputHiddenIVA.setAttribute ( 'id', 'iva-admision' );
+            divTotalInferior.appendChild(inputHiddenIVA);
             var h4 = document.createElement('h4')
             h4.className = "right-align";
             var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
@@ -10737,10 +10757,10 @@ if($pacienteEntity){
             $('#buttonGenerarFacturaAdmision').removeClass('disabled')
             $("#buttonGenerarNotaAdmision").removeClass('disabled')
             //$( "a" ).off();
-            $( "div#totalSuperiorAdmision i" ).off()
+            //$( "div#totalSuperiorAdmision i" ).off() Comentada temporalmente
             $( "div#cargoadmisionArticuloResult a" ).off()
             $( "div#cargoadmisionServicioResult a" ).off()
-            
+
             if(tipo == "consulta"){
 
                 var consulta_tipodepago = Tipodepago;
@@ -10813,7 +10833,7 @@ if($pacienteEntity){
                         $('#buttonGenerarFacturaAdmision').removeClass('disabled')
                         $("#buttonGenerarNotaAdmision").removeClass('disabled')
                         //$( "a" ).off();
-                        $( "div#totalSuperiorAdmision i" ).off()
+                        //$( "div#totalSuperiorAdmision i" ).off() Comentda temporalmente
                         $( "div#cargoadmisionArticuloResult a" ).off()
                         $( "div#cargoadmisionServicioResult a" ).off()
 
