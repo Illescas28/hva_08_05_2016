@@ -323,7 +323,7 @@ $this->headTitle($title);
             <i class="mdi-action-accessibility left"></i>
         </button>
     </div>
-    
+
 </div>
 </fieldset>
 </div>
@@ -3050,7 +3050,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                         });
                     });
                 }
-                totalResponse(cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoconsulta")
@@ -3060,7 +3060,7 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
 
     });
 
-    totalResponse(iva, status, totalArticulo, null, 'consulta')
+    totalResponse('igual',iva, status, totalArticulo, null, 'consulta')
 
 }
 
@@ -3987,7 +3987,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                         });
                     });
                 }
-                totalResponse(null, status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                totalResponse('eliminar', null, status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
             },
             error: function(){
                 alert("Error al intentar eliminar cargo de un servicio")
@@ -3997,7 +3997,7 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
 
     });
 
-    totalResponse(iva, status, null, totalServicio, 'consulta')
+    totalResponse('igual', iva, status, null, totalServicio, 'consulta')
 }
 
 function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
@@ -4407,7 +4407,7 @@ $("#guardarAdmision").click(function() {
         $('#botonFormatoAdmision').removeClass('disabled')
 
         // Aquí agregaremos el codigo de Jorge para rellenarlo con los datos del paciente actual
-        
+
     }
 
     //Obtenemos el valor del selector de medicos
@@ -4939,12 +4939,12 @@ function generaTablaBuscarAdmisionArticulo(ordencompradetalleArray) {
                 hilera.appendChild(celda);
             }
             /*
-            if(j == 5){
-                var textoCelda = document.createTextNode(ordencompradetalleArray[i]["destino"]);
-                celda.appendChild(textoCelda);
-                hilera.appendChild(celda);
-            }
-            */
+             if(j == 5){
+             var textoCelda = document.createTextNode(ordencompradetalleArray[i]["destino"]);
+             celda.appendChild(textoCelda);
+             hilera.appendChild(celda);
+             }
+             */
         }
 
         // agrega la hilera al final de la tabla (al final del elemento tblbody)
@@ -6565,7 +6565,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                         });
                     });
                 }
-                totalResponse(null, status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                totalResponse('eliminar', null, status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoadmision")
@@ -6575,7 +6575,7 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
 
     });
 
-    totalResponse(iva, status, totalArticulo, null, 'admision')
+    totalResponse('igual', iva, status, totalArticulo, null, 'admision')
 
 }
 
@@ -7525,7 +7525,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
                     });
                 }
 
-                totalResponse(null, status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                totalResponse('eliminar',  null, status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoadmision")
@@ -7535,7 +7535,7 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
 
     });
 
-    totalResponse(iva, status, null, totalServicio, 'admision')
+    totalResponse('igual', iva, status, null, totalServicio, 'admision')
 }
 
 function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
@@ -7939,24 +7939,64 @@ function tablaCargoadmisionServicioEliminado(cargoadmisionArray) {
     div.appendChild(tabla);
 }
 
+var total = 0;
 var subTotal = 0;
 var ivaActual = 0;
 var anticipoCantidad = 0;
 var admision_tipodepago = "no identificado";
 var cuentaPagada = false;
-function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
+function totalResponse(tipoAccion=null, iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
 
-    subTotal += totalArticulo+totalServicio; // Total con iva
-    if(iva != null){
-        ivaActual += iva
-        iva = ivaActual
-        iva = iva.toFixed(5)
-    }else{
-        iva = $('#iva-'+tipo).val()
-        //iva = ivaActual
+    if(tipoAccion == 'resta') {
+
+        subTotal += totalArticulo + totalServicio; // Adeudo Actual
+
+        if (iva != null) {
+            ivaActual += iva
+            iva = ivaActual
+            total = total + iva
+            iva = iva.toFixed(5)
+        } else {
+            iva = $('#iva-' + tipo).val()
+            //iva = ivaActual
+        }
     }
-    var realSubTotal = subTotal - iva; // SubTotal sin iva
-    realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
+    if(tipoAccion == 'igual'){
+
+        total += totalArticulo + totalServicio; // Total
+        subTotal += totalArticulo+totalServicio; // Adeudo Actual
+        if(iva != null){
+            ivaActual += iva
+            iva = ivaActual
+            iva = iva.toFixed(5)
+        }else{
+            iva = $('#iva-'+tipo).val()
+            //iva = ivaActual
+        }
+    }
+
+    if(tipoAccion == 'eliminar'){
+        subTotal += totalArticulo + totalServicio; // Adeudo Actual
+        alert(subTotal);
+        if (iva != null) {
+            ivaActual += iva
+            iva = ivaActual
+            total = total + iva
+            iva = iva.toFixed(5)
+        } else {
+            iva = $('#iva-' + tipo).val()
+            //iva = ivaActual
+        }
+        var realSubTotal = subTotal - iva; // SubTotal sin iva
+        total = subTotal
+        realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
+    }else{
+        var realSubTotal = total - iva; // SubTotal sin iva
+        realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
+    }
+
+    //var realSubTotal = subTotal - iva; // SubTotal sin iva
+    //realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
 
     if (isNaN(subTotal)) subTotal = 0;
 
@@ -8048,7 +8088,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         divSubTotal.className = "col s3";
         var divStatus = document.createElement('div');
         divStatus.className = "col s3";
-        var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
+        var textoSubTotal = document.createTextNode(" Total: $"+total.toFixed(2)+" MXN");
         var textoStatus = document.createTextNode("Status: "+status);
         divSubTotal.appendChild(textoSubTotal);
         divStatus.appendChild(textoStatus);
@@ -8075,9 +8115,14 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         var h5 = document.createElement('h5')
         h5.className = "right-align";
         divTotalInferior.appendChild(inputHiddenIVA);
+        var h4 = document.createElement('h4');
+        h4.className = "right-align";
+        var textoServicioSubTotal = document.createTextNode("Total: $"+total.toFixed(2)+" MXN");
+        h4.appendChild(textoServicioSubTotal)
+        divTotalInferior.appendChild(h4)
         var h4 = document.createElement('h4')
         h4.className = "right-align";
-        var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
+        var textoServicioSubTotal = document.createTextNode("Adeudo actual: $"+subTotal.toFixed(2)+" MXN");
         h4.appendChild(textoServicioSubTotal)
         divTotalInferior.appendChild(h4)
 
@@ -8199,19 +8244,19 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         anticipoAdmision.appendChild(divMetodoDeAnticipo);
 
         /*
-        var divInputAnticipo = document.createElement('div')
-        divInputAnticipo.className = "col s12";
-        var inputAnticipo = document.createElement('input')
-        inputAnticipo.style.width = "auto";
-        inputAnticipo.setAttribute ( 'id', 'input_anticipo_admision' );
-        inputAnticipo.type = 'number';
-        inputAnticipo.min ="1";
-        inputAnticipo.max = subTotal;
-        inputAnticipo.setAttribute ( 'name', 'anticipo' );
-        inputAnticipo.setAttribute ( 'value', subTotal );
-        divInputAnticipo.appendChild(inputAnticipo);
-        anticipoAdmision.appendChild(divInputAnticipo);
-        */
+         var divInputAnticipo = document.createElement('div')
+         divInputAnticipo.className = "col s12";
+         var inputAnticipo = document.createElement('input')
+         inputAnticipo.style.width = "auto";
+         inputAnticipo.setAttribute ( 'id', 'input_anticipo_admision' );
+         inputAnticipo.type = 'number';
+         inputAnticipo.min ="1";
+         inputAnticipo.max = subTotal;
+         inputAnticipo.setAttribute ( 'name', 'anticipo' );
+         inputAnticipo.setAttribute ( 'value', subTotal );
+         divInputAnticipo.appendChild(inputAnticipo);
+         anticipoAdmision.appendChild(divInputAnticipo);
+         */
 
         var divInputNotaAnticipo = document.createElement('div')
         divInputNotaAnticipo.className = "input-field col s12";
@@ -8327,7 +8372,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         divAnticipo.className = "col s3";
         var divStatus = document.createElement('div');
         divStatus.className = "col s3";
-        var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
+        var textoSubTotal = document.createTextNode(" Total: $"+total.toFixed(2)+" MXN");
         var verAdmisionanticipo = document.createElement("i");
         verAdmisionanticipo.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
         verAdmisionanticipo.setAttribute ( 'id', 'verAdmisionanticipo' );
@@ -8358,9 +8403,14 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         inputHiddenIVA.setAttribute ( 'value', iva );
         inputHiddenIVA.setAttribute ( 'id', 'iva-admision' );
         divTotalInferior.appendChild(inputHiddenIVA);
+        var h4 = document.createElement('h4');
+        h4.className = "right-align";
+        var textoServicioSubTotal = document.createTextNode("Total: $"+total.toFixed(2)+" MXN");
+        h4.appendChild(textoServicioSubTotal)
+        divTotalInferior.appendChild(h4)
         var h4 = document.createElement('h4')
         h4.className = "right-align";
-        var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
+        var textoServicioSubTotal = document.createTextNode("Adeudo actual: $"+subTotal.toFixed(2)+" MXN");
         h4.appendChild(textoServicioSubTotal)
         divTotalInferior.appendChild(h4)
 
@@ -8394,7 +8444,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         divbotonGenerarFactura.appendChild(buttonGenerarFactura)
          * 
          */?>
-        
+
         <?php /*
         var divbotonGenerarNota = document.getElementById("botonGenerarNotaAdmision");
         divbotonGenerarNota.innerHTML = divbotonGenerarNota.dir;
@@ -8469,7 +8519,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
                     });
                 });
 
-                totalResponse(null, status, -(anticipoAdmision), null, 'admision', anticipoAdmision, $("#select_metodo_de_anticipo").val(), admision_referenciapagoAnticipo)
+                totalResponse('resta', null, status, -(anticipoAdmision), null, 'admision', anticipoAdmision, $("#select_metodo_de_anticipo").val(), admision_referenciapagoAnticipo)
 
             },
             error: function(data){
@@ -8523,7 +8573,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
                     });
                 });
 
-                totalResponse(null, status, -(pagoAdmision), null, 'admision', pagoAdmision, $("#select_metodo_de_pago").val(), admision_referenciapago)
+                totalResponse('resta', null, status, -(pagoAdmision), null, 'admision', pagoAdmision, $("#select_metodo_de_pago").val(), admision_referenciapago)
             },
             error: function(data){
                 alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -8575,7 +8625,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
                     });
                 });
 
-                totalResponse(null, status, -(pagoConsulta), null, 'consulta', pagoConsulta, $("#select_metodo_de_pago").val(), consulta_referenciapago)
+                totalResponse('resta', null, status, -(pagoConsulta), null, 'consulta', pagoConsulta, $("#select_metodo_de_pago").val(), consulta_referenciapago)
             },
             error: function(data){
                 alert("Error al intentar guardar consulta-anticipo > "+ data.consultaanticipoArray)
@@ -8877,14 +8927,14 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                 /*
                  * el edit ya no será necesario
                  *
-                var link2 = document.createElement("a");
-                link2.className = "modal-trigger";
-                link2.setAttribute ( 'data-position', 'right' );
-                link2.setAttribute ( 'data-tooltip', 'EditarAdmisionanticipo' );
-                link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
-                var editar = document.createElement("i");
-                editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
-                */
+                 var link2 = document.createElement("a");
+                 link2.className = "modal-trigger";
+                 link2.setAttribute ( 'data-position', 'right' );
+                 link2.setAttribute ( 'data-tooltip', 'EditarAdmisionanticipo' );
+                 link2.setAttribute ( 'href', '#edit-modal-admisionanticipo-'+admisionanticipoArray[i]["idadmisionanticipo"] );
+                 var editar = document.createElement("i");
+                 editar.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
+                 */
 
                 var link3 = document.createElement("a");
                 link3.className = "tooltipped modal-trigger";
@@ -8895,9 +8945,9 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                 var eliminar = document.createElement("i");
                 eliminar.className = "red-text text-darken-2 tiny mdi-action-delete pointer";
                 /*
-                link2.appendChild(editar);
-                celda.appendChild(link2);
-                */
+                 link2.appendChild(editar);
+                 celda.appendChild(link2);
+                 */
                 link3.appendChild(eliminar);
                 celda.appendChild(link3);
                 hilera.appendChild(celda);
@@ -8964,7 +9014,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
                 divEditModalCargoadmision.appendChild(divEditModalFooter);
                 divcargosAdmisionEdit.appendChild(divEditModalCargoadmision);
                 <!-- End Edit Modal Structure -->
-                */
+            */
 
                 <!-- Start Delete Structure -->
                 var divcargosAdmisionDelete = document.getElementById('cargosAdmision')
@@ -9094,7 +9144,7 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
             success: function(data) {
                 alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
 
-                totalResponse(null, 'no pagada', +(cantidad), null, 'admision', -(cantidad))
+                totalResponse('eliminar', null, 'no pagada', +(cantidad), null, 'admision', -(cantidad))
             },
             error: function(){
                 alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")
@@ -9105,13 +9155,13 @@ function generaTablaAdmisionanticipo(admisionanticipoArray) {
     });
 
     /*
-    var href = $(this).attr("href", "#delete-modal-admisionanticipo-"+idadmisionanticipo)
-    // Si dan clic en delete-modal-admisionanticipo-id
-    href.click({idadmisionanticipo:idadmisionanticipo},function() {
-        $('#tabla-admisionanticipo').closeModal();
-        $('#delete-modal-admisionanticipo-'+idadmisionanticipo).openModal();
-    });
-    */
+     var href = $(this).attr("href", "#delete-modal-admisionanticipo-"+idadmisionanticipo)
+     // Si dan clic en delete-modal-admisionanticipo-id
+     href.click({idadmisionanticipo:idadmisionanticipo},function() {
+     $('#tabla-admisionanticipo').closeModal();
+     $('#delete-modal-admisionanticipo-'+idadmisionanticipo).openModal();
+     });
+     */
 
 
 

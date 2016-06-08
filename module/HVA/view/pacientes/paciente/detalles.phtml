@@ -2918,7 +2918,7 @@ if($pacienteEntity){
                             });
                         }
 
-                        totalResponse(cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoconsulta")
@@ -2935,7 +2935,7 @@ if($pacienteEntity){
         // appends <table> into <body>
         div.appendChild(tabla);
 
-        totalResponse(iva, status, totalArticulo, null, 'consulta')
+        totalResponse('igual', iva, status, totalArticulo, null, 'consulta')
 
         var dataStringVerConsultaanticipo = "ver_consultaanticipo=true" + "&idconsulta=" + idconsulta;
         $.ajax({
@@ -2966,7 +2966,7 @@ if($pacienteEntity){
                     var AnticipoCantidad = 0;
                     for(count=0; count<=consultaanticipoArray.length; count++){
                         AnticipoCantidad = Number(consultaanticipoArray[count]["consultaanticipo_cantidad"]);
-                        totalResponse(null, status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
+                        totalResponse('resta', null, status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
                     }
                 }
             },
@@ -3505,7 +3505,7 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse(cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoconsulta")
@@ -3522,7 +3522,7 @@ if($pacienteEntity){
         // appends <table> into <body>
         div.appendChild(tabla);
 
-        totalResponse(iva, status, totalArticulo, null, 'consulta')
+        totalResponse('igual', iva, status, totalArticulo, null, 'consulta')
 
     }
 
@@ -4446,7 +4446,7 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse(cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
                     },
                     error: function(){
                         alert("Error al intentar eliminar cargo de un servicio")
@@ -4467,7 +4467,7 @@ if($pacienteEntity){
         if (typeof(status) === "undefined") {
 
         }else{
-            totalResponse(iva, status, null, totalServicio, 'consulta')
+            totalResponse('igual', iva, status, null, totalServicio, 'consulta')
         }
 
         var dataStringVerConsultaanticipo = "ver_consultaanticipo=true" + "&idconsulta=" + idconsulta;
@@ -4497,7 +4497,7 @@ if($pacienteEntity){
                 var AnticipoCantidad = 0;
                 for(count=0; count<=consultaanticipoArray.length; count++){
                     AnticipoCantidad = Number(consultaanticipoArray[count]["consultaanticipo_cantidad"]);
-                    totalResponse(null, status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
+                    totalResponse('resta', null, status, -AnticipoCantidad, null, 'consulta', AnticipoCantidad)
                 }
 
             },
@@ -4962,7 +4962,7 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse(cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
                     },
                     error: function(){
                         alert("Error al intentar eliminar cargo de un servicio")
@@ -4980,7 +4980,7 @@ if($pacienteEntity){
         // appends <table> into <body>
         div.appendChild(tabla);
 
-        totalResponse(iva, status, null, totalServicio, 'consulta')
+        totalResponse('igual', iva, status, null, totalServicio, 'consulta')
     }
 
     function tablaCargoconsultaServicioEliminado(cargoconsultaArray) {
@@ -7452,7 +7452,7 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -7470,7 +7470,7 @@ if($pacienteEntity){
         // appends <table> into <body>
         div.appendChild(tabla);
 
-        totalResponse(iva, status, totalArticulo, null, 'admision')
+        totalResponse('igual', iva, status, totalArticulo, null, 'admision')
 
         var dataStringVerAdmisionanticipo = "ver_admisionanticipo=true" + "&idadmision=" + idadmision;
         $.ajax({
@@ -7501,7 +7501,7 @@ if($pacienteEntity){
                     var AnticipoCantidad = 0;
                     for(count=0; count<=admisionanticipoArray.length; count++){
                         AnticipoCantidad = Number(admisionanticipoArray[count]["admisionanticipo_cantidad"]);
-                        totalResponse(null, status, -AnticipoCantidad, null, 'admision', AnticipoCantidad)
+                        totalResponse('resta', null, status, -AnticipoCantidad, null, 'admision', AnticipoCantidad)
                     }
                 }
             },
@@ -8062,7 +8062,7 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -8080,7 +8080,7 @@ if($pacienteEntity){
         // appends <table> into <body>
         div.appendChild(tabla);
 
-        totalResponse(iva, status, totalArticulo, null, 'admision')
+        totalResponse('igual', iva, status, totalArticulo, null, 'admision')
 
     }
 
@@ -9030,7 +9030,7 @@ if($pacienteEntity){
                             });
                         }
 
-                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                        totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9050,7 +9050,7 @@ if($pacienteEntity){
         if (typeof(status) === "undefined") {
 
         }else{
-            totalResponse(iva, status, null, totalServicio, 'admision')
+            totalResponse('igual', iva, status, null, totalServicio, 'admision')
         }
 
         var dataStringVerAdmisionanticipo = "ver_admisionanticipo=true" + "&idadmision=" + idadmision;
@@ -9080,7 +9080,7 @@ if($pacienteEntity){
                 var AnticipoCantidad = 0;
                 for(count=0; count<=admisionanticipoArray.length; count++){
                     AnticipoCantidad = Number(admisionanticipoArray[count]["admisionanticipo_cantidad"]);
-                    totalResponse(null, status, -AnticipoCantidad, null, 'admision', AnticipoCantidad)
+                    totalResponse('resta', null, status, -AnticipoCantidad, null, 'admision', AnticipoCantidad)
                 }
 
             },
@@ -9552,7 +9552,7 @@ if($pacienteEntity){
                             });
                         }
 
-                        totalResponse(-(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                        totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9569,7 +9569,7 @@ if($pacienteEntity){
         // appends <table> into <body>
         div.appendChild(tabla);
 
-        totalResponse(iva, status, null, totalServicio, 'admision')
+        totalResponse('igual', iva, status, null, totalServicio, 'admision')
     }
 
 
@@ -9974,37 +9974,66 @@ if($pacienteEntity){
         div.appendChild(tabla);
     }
 
+    var total = 0;
     var subTotal = 0;
     var ivaActual = 0;
     var anticipoCantidad = 0;
     var admision_tipodepago = "no identificado";
     var cuentaPagada = false;
-    function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago='nulo', referenciapago) {
+    function totalResponse(tipoAccion=null, iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago='nulo', referenciapago) {
 
         // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
-        subTotal += totalArticulo+totalServicio; // Total con iva
-        if(iva != null){
-            ivaActual += iva
-            iva = ivaActual
-            iva = iva.toFixed(5)
+        if(tipoAccion == 'resta') {
+
+            subTotal += totalArticulo + totalServicio; // Adeudo Actual
+
+            if (iva != null) {
+                ivaActual += iva
+                iva = ivaActual
+                total = total + iva
+                iva = iva.toFixed(5)
+            } else {
+                iva = $('#iva-' + tipo).val()
+                //iva = ivaActual
+            }
+        }
+        if(tipoAccion == 'igual'){
+
+            total += totalArticulo + totalServicio; // Total
+            subTotal += totalArticulo+totalServicio; // Adeudo Actual
+            if(iva != null){
+                ivaActual += iva
+                iva = ivaActual
+                iva = iva.toFixed(5)
+            }else{
+                iva = $('#iva-'+tipo).val()
+                //iva = ivaActual
+            }
+        }
+
+        if(tipoAccion == 'eliminar'){
+            subTotal += totalArticulo + totalServicio; // Adeudo Actual
+            alert(subTotal);
+            if (iva != null) {
+                ivaActual += iva
+                iva = ivaActual
+                total = total + iva
+                iva = iva.toFixed(5)
+            } else {
+                iva = $('#iva-' + tipo).val()
+                //iva = ivaActual
+            }
+            var realSubTotal = subTotal - iva; // SubTotal sin iva
+            total = subTotal
+            realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
         }else{
-            iva = $('#iva-'+tipo).val()
-            //iva = ivaActual
-        }
-        var realSubTotal = subTotal - iva; // SubTotal sin iva
-        realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
-
-        /*
-        if(realSubTotal < 0){
-            realSubTotal = 0;
-            iva = 0;
+            var realSubTotal = total - iva; // SubTotal sin iva
+            realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
         }
 
-        if(subTotal < 0){
-            subTotal = 0;
-        }
-        */
+        //var realSubTotal = subTotal - iva; // SubTotal sin iva
+        //realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
 
         if (isNaN(subTotal)) subTotal = 0;
 
@@ -10122,7 +10151,12 @@ if($pacienteEntity){
             divTotalInferior.appendChild(inputHiddenIVA);
             var h4 = document.createElement('h4');
             h4.className = "right-align";
-            var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
+            var textoServicioSubTotal = document.createTextNode("Total: $"+total.toFixed(2)+" MXN");
+            h4.appendChild(textoServicioSubTotal)
+            divTotalInferior.appendChild(h4)
+            var h4 = document.createElement('h4');
+            h4.className = "right-align";
+            var textoServicioSubTotal = document.createTextNode("Adeudo actual: $"+subTotal.toFixed(2)+" MXN");
             h4.appendChild(textoServicioSubTotal)
             divTotalInferior.appendChild(h4)
 
@@ -10372,7 +10406,7 @@ if($pacienteEntity){
             divAnticipo.className = "col s3";
             var divStatus = document.createElement('div');
             divStatus.className = "col s3";
-            var textoSubTotal = document.createTextNode(" Total: $"+subTotal.toFixed(2)+" MXN");
+            var textoSubTotal = document.createTextNode(" Total: $"+total.toFixed(2)+" MXN");
             var verAdmisionanticipo = document.createElement("i");
             verAdmisionanticipo.className = "blue-text text-darken-2 tiny mdi-action-assignment pointer";
             verAdmisionanticipo.setAttribute ( 'id', 'verAdmisionanticipo' );
@@ -10403,9 +10437,14 @@ if($pacienteEntity){
             inputHiddenIVA.setAttribute ( 'value', iva );
             inputHiddenIVA.setAttribute ( 'id', 'iva-admision' );
             divTotalInferior.appendChild(inputHiddenIVA);
+            var h4 = document.createElement('h4');
+            h4.className = "right-align";
+            var textoServicioSubTotal = document.createTextNode("Total: $"+total.toFixed(2)+" MXN");
+            h4.appendChild(textoServicioSubTotal)
+            divTotalInferior.appendChild(h4)
             var h4 = document.createElement('h4')
             h4.className = "right-align";
-            var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
+            var textoServicioSubTotal = document.createTextNode("Adeudo actual: $"+subTotal.toFixed(2)+" MXN");
             h4.appendChild(textoServicioSubTotal)
             divTotalInferior.appendChild(h4)
 
@@ -10515,7 +10554,7 @@ if($pacienteEntity){
                         });
                     });
 
-                    totalResponse(null, status, -(anticipoAdmision), null, 'admision', anticipoAdmision, $("#select_metodo_de_anticipo").val(), admision_referenciapagoAnticipo)
+                    totalResponse('resta', null, status, -(anticipoAdmision), null, 'admision', anticipoAdmision, $("#select_metodo_de_anticipo").val(), admision_referenciapagoAnticipo)
 
                 },
                 error: function(data){
@@ -10570,7 +10609,7 @@ if($pacienteEntity){
                         });
                     });
 
-                    totalResponse(null, status, -(pagoAdmision), null, 'admision', pagoAdmision, $("#select_metodo_de_pago").val(), admision_referenciapago)
+                    totalResponse('resta', null, status, -(pagoAdmision), null, 'admision', pagoAdmision, $("#select_metodo_de_pago").val(), admision_referenciapago)
                 },
                 error: function(data){
                     alert("Error al intentar guardar admision-anticipo > "+ data.admisionanticipoArray)
@@ -10623,7 +10662,7 @@ if($pacienteEntity){
                         });
                     });
 
-                    totalResponse(null, status, -(pagoConsulta), null, 'consulta', pagoConsulta, $("#select_metodo_de_pago").val(), consulta_referenciapago)
+                    totalResponse('resta', null, status, -(pagoConsulta), null, 'consulta', pagoConsulta, $("#select_metodo_de_pago").val(), consulta_referenciapago)
                 },
                 error: function(data){
                     alert("Error al intentar guardar consulta-anticipo > "+ data.consultaanticipoArray)
@@ -11168,7 +11207,7 @@ if($pacienteEntity){
                 success: function(data) {
                     alert("Se eliminó exitosamente el anticipo por la cantidad de: "+cantidad+" MXN")
 
-                    totalResponse(null, 'no pagada', +(cantidad), null, 'admision', -(cantidad))
+                    totalResponse('eliminar', null, 'no pagada', +(cantidad), null, 'admision', -(cantidad))
                 },
                 error: function(){
                     alert("Error al intentar eliminar el anticipo por la cantidad de: "+cantidad+" MXN")

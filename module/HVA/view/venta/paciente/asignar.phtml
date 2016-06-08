@@ -2321,7 +2321,7 @@ function tablaCargoventaArticuloAgregado(cargoventaArray) {
                         });
                     });
                 }
-                totalResponse(null, status, -(cargoventaEliminadoArray[0]['total']), null, 'venta')
+                totalResponse('eliminar', null, status, -(cargoventaEliminadoArray[0]['total']), null, 'venta')
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoventa")
@@ -2331,7 +2331,7 @@ function tablaCargoventaArticuloAgregado(cargoventaArray) {
 
     });
 
-    totalResponse(iva, status, totalArticulo, null, 'venta')
+    totalResponse('igual', iva, status, totalArticulo, null, 'venta')
 
 }
 
@@ -3225,7 +3225,7 @@ function tablaCargoventaServicioAgregado(cargoventaArray) {
                         });
                     });
                 }
-                totalResponse(null, status, null, -(cargoventaEliminadoArray[0]['total']), 'venta')
+                totalResponse('eliminar', null, status, null, -(cargoventaEliminadoArray[0]['total']), 'venta')
             },
             error: function(){
                 alert("Error al intentar eliminar cargo de un servicio")
@@ -3235,7 +3235,7 @@ function tablaCargoventaServicioAgregado(cargoventaArray) {
 
     });
 
-    totalResponse(iva, status, null, totalServicio, 'venta')
+    totalResponse('igual', iva, status, null, totalServicio, 'venta')
 }
 
 function tablaCargoventaServicioEliminado(cargoventaArray) {
@@ -3638,25 +3638,65 @@ function tablaCargoventaServicioEliminado(cargoventaArray) {
     div.appendChild(tabla);
 }
 
+var total = 0;
 var subTotal = 0;
 var ivaActual = 0;
 var anticipoCantidad = 0;
 var cuentaPagada = false;
-function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
+function totalResponse(tipoAccion=null, iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago="no identificado", referenciapago) {
 
     // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
-    subTotal += totalArticulo+totalServicio; // Total con iva
-    if(iva != null){
-        ivaActual += iva
-        iva = ivaActual
-        iva = iva.toFixed(5)
-    }else{
-        iva = $('#iva-'+tipo).val()
-        //iva = ivaActual
+    if(tipoAccion == 'resta') {
+
+        subTotal += totalArticulo + totalServicio; // Adeudo Actual
+
+        if (iva != null) {
+            ivaActual += iva
+            iva = ivaActual
+            total = total + iva
+            iva = iva.toFixed(5)
+        } else {
+            iva = $('#iva-' + tipo).val()
+            //iva = ivaActual
+        }
     }
-    var realSubTotal = subTotal - iva; // SubTotal sin iva
-    realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
+    if(tipoAccion == 'igual'){
+
+        total += totalArticulo + totalServicio; // Total
+        subTotal += totalArticulo+totalServicio; // Adeudo Actual
+        if(iva != null){
+            ivaActual += iva
+            iva = ivaActual
+            iva = iva.toFixed(5)
+        }else{
+            iva = $('#iva-'+tipo).val()
+            //iva = ivaActual
+        }
+    }
+
+    if(tipoAccion == 'eliminar'){
+        subTotal += totalArticulo + totalServicio; // Adeudo Actual
+        alert(subTotal);
+        if (iva != null) {
+            ivaActual += iva
+            iva = ivaActual
+            total = total + iva
+            iva = iva.toFixed(5)
+        } else {
+            iva = $('#iva-' + tipo).val()
+            //iva = ivaActual
+        }
+        var realSubTotal = subTotal - iva; // SubTotal sin iva
+        total = subTotal
+        realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
+    }else{
+        var realSubTotal = total - iva; // SubTotal sin iva
+        realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
+    }
+
+    //var realSubTotal = subTotal - iva; // SubTotal sin iva
+    //realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
 
     if (isNaN(subTotal)) subTotal = 0;
 
@@ -3794,7 +3834,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         divSubTotal.className = "col s3";
         var divStatus = document.createElement('div');
         divStatus.className = "col s3";
-        var textoSubTotal = document.createTextNode(" Total: $"+subTotal+" MXN");
+        var textoSubTotal = document.createTextNode(" Total: $"+total.toFixed(2)+" MXN");
         var textoStatus = document.createTextNode("Status: "+status);
         divSubTotal.appendChild(textoSubTotal);
         divStatus.appendChild(textoStatus);
@@ -3818,9 +3858,14 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
         inputHiddenIVA.setAttribute ( 'value', iva );
         inputHiddenIVA.setAttribute ( 'id', 'iva-venta' );
         divTotalInferior.appendChild(inputHiddenIVA);
+        var h4 = document.createElement('h4');
+        h4.className = "right-align";
+        var textoServicioSubTotal = document.createTextNode("Total: $"+total.toFixed(2)+" MXN");
+        h4.appendChild(textoServicioSubTotal)
+        divTotalInferior.appendChild(h4)
         var h4 = document.createElement('h4')
         h4.className = "right-align";
-        var textoServicioSubTotal = document.createTextNode("Total: $"+subTotal.toFixed(2)+" MXN");
+        var textoServicioSubTotal = document.createTextNode("Adeudo actual: $"+subTotal.toFixed(2)+" MXN");
         h4.appendChild(textoServicioSubTotal)
         divTotalInferior.appendChild(h4)
 
@@ -3946,7 +3991,7 @@ function totalResponse(iva, status, totalArticulo=null, totalServicio=null, tipo
             error: function(data){
 
                 /** Con este paso Liquidamos la cuenta */
-                totalResponse(null, status, -(pagoVenta), null, 'venta', pagoVenta, $("#select_metodo_de_pago").val(), venta_referenciapago)
+                totalResponse('resta', null, status, -(pagoVenta), null, 'venta', pagoVenta, $("#select_metodo_de_pago").val(), venta_referenciapago)
             }
         });
 
