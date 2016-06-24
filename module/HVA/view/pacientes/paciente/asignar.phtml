@@ -8736,7 +8736,7 @@ function totalResponse(tipoAccion=null, iva, status, totalArticulo=null, totalSe
         }
     });
 
-    if(subTotal == 0){
+    if(subTotal.toFixed(2) == 0){
 
         status = 'pagada';
 

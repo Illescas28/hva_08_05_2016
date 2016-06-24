@@ -9997,6 +9997,7 @@ if($pacienteEntity){
                 iva = $('#iva-' + tipo).val()
                 //iva = ivaActual
             }
+
         }
         if(tipoAccion == 'igual'){
 
@@ -10010,6 +10011,7 @@ if($pacienteEntity){
                 iva = $('#iva-'+tipo).val()
                 //iva = ivaActual
             }
+
         }
 
         if(tipoAccion == 'eliminar'){
@@ -10027,6 +10029,7 @@ if($pacienteEntity){
             var realSubTotal = subTotal - iva; // SubTotal sin iva
             total = subTotal
             realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
+
         }else{
             var realSubTotal = total - iva; // SubTotal sin iva
             realSubTotal = realSubTotal.toFixed(5); // Limitamos decimales a 5
@@ -10779,105 +10782,134 @@ if($pacienteEntity){
             }
         });
 
-        if(subTotal == 0){
+        if(subTotal.toFixed(2) == 0){
 
-            status = 'pagada';
+            // Si no existen cargos, permitimos agregarlos (no liquidamos la orden
+            var conCargos = true;
+            if(tipo == "admision") {
 
-            // Cerramos modal
-            $("#create-modal-pagar-admision").closeModal()
-            // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
-            $("#nuevoCargoAdmisionArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-            $("#nuevoCargoAdmisionServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-            $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-            $("#botonAltaPacienteAdmision").removeClass('disabled')
-            $('#buttonGenerarFacturaAdmision').removeClass('disabled')
-            $("#buttonGenerarNotaAdmision").removeClass('disabled')
-            //$( "a" ).off();
-            //$( "div#totalSuperiorAdmision i" ).off() Comentada temporalmente
-            $( "div#cargoadmisionArticuloResult a" ).off()
-            $( "div#cargoadmisionServicioResult a" ).off()
+                var countElementOfcargoadmisionArticuloResult = $(document).find("#cargoadmisionArticuloResult").children("table").children('tbody').children('tr').length
+                var countElementOfcargoadmisionServicioResult = $(document).find("#cargoadmisionServicioResult").children("table").children('tbody').children('tr').length
+                if (countElementOfcargoadmisionArticuloResult == 0 && countElementOfcargoadmisionServicioResult == 0) {
+                    conCargos = false
+                    $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                }
+            }
+            if(tipo == "consulta") {
 
-            if(tipo == "consulta"){
-
-                var consulta_tipodepago = Tipodepago;
-
-                var idconsulta = $("input#idconsulta").val();
-
-                //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-                var dataString = 'subTotalConsulta=' + subTotal + '&idconsulta=' + idconsulta + '&consulta_status=' + status + '&consulta_total=' + anticipoCantidad + "&consulta_tipodepago=" + consulta_tipodepago + '&consulta_referenciapago=' + referenciapago;
-
-                $.ajax({
-                    type: "POST",
-                    url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
-                    dataType : 'json',
-                    data: dataString,
-                    async: false,
-                    jsonpCallback: 'callback',
-                    success: function(data) {
-
-                        //alert("Cuenta liquidada.")
-
-                        // Cerramos modal
-                        $("#create-modal-pagar-consulta").closeModal()
-                        // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
-                        $("#nuevoCargoConsultaArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                        $("#nuevoCargoConsultaServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                        $("#butonPagarAnticipoConsulta").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                        $("#botonAltaPacienteConsulta").removeClass('disabled')
-                        $('#buttonGenerarFacturaConsulta').removeClass('disabled')
-                        $("#buttonGenerarNotaConsulta").removeClass('disabled')
-                        //$( "a" ).off();
-                        $( "div#cargoconsultaArticuloResult a" ).off()
-                        $( "div#cargoconsultaServicioResult a" ).off()
-
-                    },
-                    error: function(){
-                        alert("Error al intentar liquidar la cuenta.")
-                    }
-                });
+                var countElementOfcargoconsultaArticuloResult = $(document).find("#cargoconsultaArticuloResult").children("table").children('tbody').children('tr').length
+                var countElementOfcargoconsultaServicioResult = $(document).find("#cargoconsultaServicioResult").children("table").children('tbody').children('tr').length
+                if (countElementOfcargoconsultaArticuloResult == 0 && countElementOfcargoconsultaServicioResult == 0) {
+                    conCargos = false
+                    $("#butonPagarAnticipoConsulta").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                }
             }
 
-            if(tipo == "admision"){
+            if(conCargos) {
+                status = 'pagada';
 
-                if(Tipodepago == 'nulo') return;
+                // Cerramos modal
+                $("#create-modal-pagar-admision").closeModal()
+                // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                $("#nuevoCargoAdmisionArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                $("#nuevoCargoAdmisionServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                $("#botonAltaPacienteAdmision").removeClass('disabled')
+                $('#buttonGenerarFacturaAdmision').removeClass('disabled')
+                $("#buttonGenerarNotaAdmision").removeClass('disabled')
+                //$( "a" ).off();
+                //$( "div#totalSuperiorAdmision i" ).off() Comentada temporalmente
+                $("div#cargoadmisionArticuloResult a").off()
+                $("div#cargoadmisionServicioResult a").off()
 
-                var admision_tipodepago = Tipodepago;
+                if (tipo == "consulta") {
 
-                var idadmision = $("input#idadmision").val();
-
-                //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
-                var dataString = 'subTotalAdmision=' + subTotal + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago + "&admision_referenciapago=" + referenciapago;
-
-                $.ajax({
-                    type: "POST",
-                    url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
-                    dataType : 'json',
-                    data: dataString,
-                    async: false,
-                    jsonpCallback: 'callback',
-                    success: function(data) {
-
-                        alert("Cuenta liquidada.")
-
-                        // Cerramos modal
-                        $("#create-modal-pagar-admision").closeModal()
-                        // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
-                        $("#nuevoCargoAdmisionArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                        $("#nuevoCargoAdmisionServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                        $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off( "click");
-                        $("#botonAltaPacienteAdmision").removeClass('disabled')
-                        $('#buttonGenerarFacturaAdmision').removeClass('disabled')
-                        $("#buttonGenerarNotaAdmision").removeClass('disabled')
-                        //$( "a" ).off();
-                        //$( "div#totalSuperiorAdmision i" ).off() Comentda temporalmente
-                        $( "div#cargoadmisionArticuloResult a" ).off()
-                        $( "div#cargoadmisionServicioResult a" ).off()
-
-                    },
-                    error: function(){
-                        alert("Error al intentar liquidar la cuenta.")
+                    var consulta_tipodepago = Tipodepago;
+                    if (Tipodepago == 'nulo'){
+                        admision_tipodepago = "No identificado";
                     }
-                });
+                    var idconsulta = $("input#idconsulta").val();
+
+                    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+                    var dataString = 'subTotalConsulta=' + subTotal.toFixed(2) + '&idconsulta=' + idconsulta + '&consulta_status=' + status + '&consulta_total=' + anticipoCantidad + "&consulta_tipodepago=" + consulta_tipodepago + '&consulta_referenciapago=' + referenciapago;
+
+                    console.log(dataString);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                        dataType: 'json',
+                        data: dataString,
+                        async: false,
+                        jsonpCallback: 'callback',
+                        success: function (data) {
+
+                            alert("Cuenta liquidada.")
+
+                            // Cerramos modal
+                            $("#create-modal-pagar-consulta").closeModal()
+                            // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                            $("#nuevoCargoConsultaArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                            $("#nuevoCargoConsultaServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                            $("#butonPagarAnticipoConsulta").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                            $("#botonAltaPacienteConsulta").removeClass('disabled')
+                            $('#buttonGenerarFacturaConsulta').removeClass('disabled')
+                            $("#buttonGenerarNotaConsulta").removeClass('disabled')
+                            //$( "a" ).off();
+                            $("div#cargoconsultaArticuloResult a").off()
+                            $("div#cargoconsultaServicioResult a").off()
+
+                        },
+                        error: function () {
+                            alert("Error al intentar liquidar la cuenta.")
+                        }
+                    });
+                }
+
+                if (tipo == "admision") {
+
+                    var admision_tipodepago = Tipodepago;
+                    if (Tipodepago == 'nulo'){
+                        admision_tipodepago = "No identificado";
+                    }
+
+                    var idadmision = $("input#idadmision").val();
+
+                    //Construimos la variable que se guardará en el data del Ajax para pasar a la url que procesará los datos
+                    var dataString = 'subTotalAdmision=' + subTotal.toFixed(2) + '&idadmision=' + idadmision + '&admision_status=' + status + '&admision_total=' + anticipoCantidad + "&admision_tipodepago=" + admision_tipodepago + "&admision_referenciapago=" + referenciapago;
+
+                    console.log(dataString);
+                    $.ajax({
+                        type: "POST",
+                        url: "<?php $this->url('pacientes', array('action'=>'detalles', 'id' => $pacienteEntity->getIdpaciente()));?>",
+                        dataType: 'json',
+                        data: dataString,
+                        async: false,
+                        jsonpCallback: 'callback',
+                        success: function (data) {
+
+                            alert("Cuenta liquidada.")
+
+                            // Cerramos modal
+                            $("#create-modal-pagar-admision").closeModal()
+                            // Deshabilitar el boton de Pago/Anticipo y habilitar los botones de Alta Paciente, Generar Factura y Generar Nota
+                            $("#nuevoCargoAdmisionArticulo").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                            $("#nuevoCargoAdmisionServicio").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                            $("#butonPagarAnticipoAdmision").removeClass('modal-trigger').addClass('disabled').removeAttr('href').off("click");
+                            $("#botonAltaPacienteAdmision").removeClass('disabled')
+                            $('#buttonGenerarFacturaAdmision').removeClass('disabled')
+                            $("#buttonGenerarNotaAdmision").removeClass('disabled')
+                            //$( "a" ).off();
+                            //$( "div#totalSuperiorAdmision i" ).off() Comentda temporalmente
+                            $("div#cargoadmisionArticuloResult a").off()
+                            $("div#cargoadmisionServicioResult a").off()
+
+                        },
+                        error: function () {
+                            alert("Error al intentar liquidar la cuenta.")
+                        }
+                    });
+                }
             }
         }
     }
