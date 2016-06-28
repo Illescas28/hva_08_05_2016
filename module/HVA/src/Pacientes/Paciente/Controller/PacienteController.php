@@ -1129,7 +1129,7 @@ class PacienteController extends AbstractActionController
                                     'subtotal' => $subtotal,
                                     'iva' => $iva,
                                     'total' => $total,
-                                    'fechahora' => date('Y-m-d H:i:s'),
+                                    'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha(),
                                 );
                                 array_push($cargoadmisionArray, $cargoadmision);
                             }
@@ -1419,7 +1419,7 @@ class PacienteController extends AbstractActionController
                                     'subtotal' => $subtotal,
                                     'iva' => $iva,
                                     'total' => $total,
-                                    'fechahora' => date('Y-m-d H:i:s'),
+                                    'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
                                 );
                                 array_push($cargoconsultaArray, $cargoconsulta);
                             }
@@ -1611,7 +1611,7 @@ class PacienteController extends AbstractActionController
                                     'subtotal' => $subtotal,
                                     'iva' => $iva,
                                     'total' => $total,
-                                    'fechahora' => date('Y-m-d H:i:s'),
+                                    'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
                                 );
                                 array_push($cargoconsultaArray, $cargoconsulta);
                             }
@@ -1928,7 +1928,7 @@ class PacienteController extends AbstractActionController
                                         'subtotal' => $subtotal,
                                         'iva' => $iva,
                                         'total' => $total,
-                                        'fechahora' => date('Y-m-d H:i:s'),
+                                        'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
                                     );
                                     array_push($cargoconsultaArray, $cargoconsulta);
                                 }
@@ -2043,7 +2043,7 @@ class PacienteController extends AbstractActionController
                                     'subtotal' => $subtotal,
                                     'iva' => $iva,
                                     'total' => $total,
-                                    'fechahora' => date('Y-m-d H:i:s'),
+                                    'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha()
                                 );
                                 array_push($cargoadmisionArray, $cargoadmision);
                             }
@@ -2364,7 +2364,7 @@ class PacienteController extends AbstractActionController
                                         'subtotal' => $subtotal,
                                         'iva' => $iva,
                                         'total' => $total,
-                                        'fechahora' => date('Y-m-d H:i:s'),
+                                        'fechahora' => $cargoadmisionEntity->getCargoconsultaFecha()
                                     );
                                     array_push($cargoadmisionArray, $cargoadmision);
                                 }
@@ -2630,7 +2630,7 @@ class PacienteController extends AbstractActionController
                                     'subtotal' => $subtotal,
                                     'iva' => $iva,
                                     'total' => $total,
-                                    'fechahora' => date('Y-m-d H:i:s'),
+                                    'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha()
                                 );
                                 array_push($cargoadmisionArray, $cargoadmision);
                             }
@@ -2847,7 +2847,7 @@ class PacienteController extends AbstractActionController
                                     'subtotal' => $subtotal,
                                     'iva' => $iva,
                                     'total' => $total,
-                                    'fechahora' => date('Y-m-d H:i:s'),
+                                    'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha()
                                 );
                                 array_push($cargoconsultaArray, $cargoconsulta);
                             }
@@ -3522,7 +3522,7 @@ class PacienteController extends AbstractActionController
                                         'subtotal' => $subtotal,
                                         'iva' => $iva,
                                         'total' => $total,
-                                        'fechahora' => date('Y-m-d H:i:s'),
+                                        'fechahora' => $cargoconsultaEntity->getCargoconsultaFecha(),
                                     );
                                     array_push($cargoconsultaArray, $cargoconsulta);
                                 }
@@ -3724,7 +3724,7 @@ class PacienteController extends AbstractActionController
                                         'subtotal' => $subtotal,
                                         'iva' => $iva,
                                         'total' => $total,
-                                        'fechahora' => date('Y-m-d H:i:s'),
+                                        'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha(),
                                     );
                                     array_push($cargoadmisionArray, $cargoadmision);
                                 }
