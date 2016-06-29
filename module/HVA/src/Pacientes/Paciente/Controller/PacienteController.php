@@ -2364,7 +2364,7 @@ class PacienteController extends AbstractActionController
                                         'subtotal' => $subtotal,
                                         'iva' => $iva,
                                         'total' => $total,
-                                        'fechahora' => $cargoadmisionEntity->getCargoconsultaFecha()
+                                        'fechahora' => $cargoadmisionEntity->getCargoadmisionFecha()
                                     );
                                     array_push($cargoadmisionArray, $cargoadmision);
                                 }
