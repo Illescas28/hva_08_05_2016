@@ -3050,7 +3050,9 @@ function tablaCargoconsultaArticuloAgregado(cargoconsultaArray) {
                         });
                     });
                 }
-                totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                //totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                var host = location.protocol + "//" + location.host
+                window.location.href = host + "/pacientes/detalles/"+ <?php echo $pacienteEntity->getIdpaciente() ?>
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoconsulta")
@@ -3987,7 +3989,9 @@ function tablaCargoconsultaServicioAgregado(cargoconsultaArray) {
                         });
                     });
                 }
-                totalResponse('eliminar', null, status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                //totalResponse('eliminar', null, status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                var host = location.protocol + "//" + location.host
+                window.location.href = host + "/pacientes/detalles/"+ <?php echo $pacienteEntity->getIdpaciente() ?>
             },
             error: function(){
                 alert("Error al intentar eliminar cargo de un servicio")
@@ -6565,7 +6569,9 @@ function tablaCargoadmisionArticuloAgregado(cargoadmisionArray) {
                         });
                     });
                 }
-                totalResponse('eliminar', null, status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                //totalResponse('eliminar', null, status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                var host = location.protocol + "//" + location.host
+                window.location.href = host + "/pacientes/detalles/"+ <?php echo $pacienteEntity->getIdpaciente() ?>
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoadmision")
@@ -7525,7 +7531,9 @@ function tablaCargoadmisionServicioAgregado(cargoadmisionArray) {
                     });
                 }
 
-                totalResponse('eliminar',  null, status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                //totalResponse('eliminar',  null, status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                var host = location.protocol + "//" + location.host
+                window.location.href = host + "/pacientes/detalles/"+ <?php echo $pacienteEntity->getIdpaciente() ?>
             },
             error: function(){
                 alert("Error al intentar eliminar idcargoadmision")

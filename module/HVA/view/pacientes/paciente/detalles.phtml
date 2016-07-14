@@ -2918,7 +2918,8 @@ if($pacienteEntity){
                             });
                         }
 
-                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                        //totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoconsulta")
@@ -3505,7 +3506,8 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                        //totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, -(cargoconsultaEliminadoArray[0]['total']), null, 'consulta')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoconsulta")
@@ -4446,7 +4448,8 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                        //totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar cargo de un servicio")
@@ -4962,7 +4965,8 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                        //totalResponse('eliminar', cargoconsultaEliminadoArray[0]['iva'], status, null, -(cargoconsultaEliminadoArray[0]['total']), 'consulta')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar cargo de un servicio")
@@ -7452,7 +7456,8 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        //totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -8062,7 +8067,8 @@ if($pacienteEntity){
                                 });
                             });
                         }
-                        totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        //totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, -(cargoadmisionEliminadoArray[0]['total']), null, 'admision')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9030,7 +9036,8 @@ if($pacienteEntity){
                             });
                         }
 
-                        totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                        //totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9553,6 +9560,7 @@ if($pacienteEntity){
                         }
 
                         totalResponse('eliminar', -(cargoadmisionEliminadoArray[0]['iva']), status, null, -(cargoadmisionEliminadoArray[0]['total']), 'admision')
+                        location.reload();
                     },
                     error: function(){
                         alert("Error al intentar eliminar idcargoadmision")
@@ -9981,6 +9989,8 @@ if($pacienteEntity){
     var admision_tipodepago = "no identificado";
     var cuentaPagada = false;
     function totalResponse(tipoAccion=null, iva, status, totalArticulo=null, totalServicio=null, tipo=null, AnticipoCantidad=null, Tipodepago='nulo', referenciapago) {
+
+        // Cuando elimine un item de Servicio... es necesario saber el total de los articulos y viseversa
 
         // restar el anticipo del total de la cuenta y que var anticipoCantidad sea igual a anticipoCantidad
 
